@@ -38,7 +38,7 @@ body {
   display: grid;
   justify-items: center;
   align-items: start;
-  padding: 12px 24px 24px;
+  padding: 8px 24px 24px;
 }
 
 .card {
