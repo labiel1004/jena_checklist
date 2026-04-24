@@ -425,12 +425,85 @@
 
         <section>
           <h2>SECTION 4. 오행 에너지 패턴</h2>
-          <div class="note">
-            오행은 운명을 고정하는 기준이 아니라,<br>
-            반응 구조와 입력 필터를 이해하기 위한 시스템입니다.
-          </div>
-          <p>${escapeHtml(data.energyPattern)}</p>
-        </section>
+        
+  <section>
+  <h2>SECTION 4. 오행 에너지 분포</h2>
+
+  <div class="note">
+    오행은 운명이 아니라, ${escapeHtml(data.clientName)}님의 반응을 만들어내는 ‘에너지 구조’입니다.
+  </div>
+
+  <div style="display:flex; flex-direction:column; align-items:center; gap:20px;">
+
+    <!-- 🔥 원형 그래프 -->
+    <div style="
+      width:220px;
+      height:220px;
+      border-radius:50%;
+      background: conic-gradient(
+        #4CAF50 0% ${data.elementScores?.[0]?.value || 0}%,
+        #F44336 ${data.elementScores?.[0]?.value || 0}% ${(data.elementScores?.[0]?.value || 0) + (data.elementScores?.[1]?.value || 0)}%,
+        #A1887F ${(data.elementScores?.[0]?.value || 0) + (data.elementScores?.[1]?.value || 0)}% ${(data.elementScores?.[0]?.value || 0) + (data.elementScores?.[1]?.value || 0) + (data.elementScores?.[2]?.value || 0)}%,
+        #9E9E9E ${(data.elementScores?.[0]?.value || 0) + (data.elementScores?.[1]?.value || 0) + (data.elementScores?.[2]?.value || 0)}% ${(data.elementScores?.[0]?.value || 0) + (data.elementScores?.[1]?.value || 0) + (data.elementScores?.[2]?.value || 0) + (data.elementScores?.[3]?.value || 0)}%,
+        #2196F3 ${(data.elementScores?.[0]?.value || 0) + (data.elementScores?.[1]?.value || 0) + (data.elementScores?.[2]?.value || 0) + (data.elementScores?.[3]?.value || 0)}% 100%
+      );
+      position:relative;
+    ">
+      <div style="
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%, -50%);
+        width:120px;
+        height:120px;
+        border-radius:50%;
+        background:#fffaf2;
+      "></div>
+    </div>
+
+    <!-- 🔥 범례 -->
+    <div style="width:100%; max-width:320px;">
+
+      <div style="display:flex; justify-content:space-between;">
+        <span style="color:#4CAF50;">목(木) 에너지</span>
+        <span>${data.elementScores?.[0]?.value || 0}</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between;">
+        <span style="color:#F44336;">화(火) 에너지</span>
+        <span>${data.elementScores?.[1]?.value || 0}</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between;">
+        <span style="color:#A1887F;">토(土) 에너지</span>
+        <span>${data.elementScores?.[2]?.value || 0}</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between;">
+        <span style="color:#9E9E9E;">금(金) 에너지</span>
+        <span>${data.elementScores?.[3]?.value || 0}</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between;">
+        <span style="color:#2196F3;">수(水) 에너지</span>
+        <span>${data.elementScores?.[4]?.value || 0}</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 🔥 핵심 에너지 -->
+  <p>
+    ${escapeHtml(data.clientName)}님의 구조에서 가장 강하게 작동하는 에너지는 
+    <strong>${escapeHtml(data.dominantElements || "")}</strong>입니다.
+  </p>
+
+  <!-- 🔥 오행 설명 -->
+  <p>
+    ${escapeHtml(data.energyPattern)}
+  </p>
+
+</section>
 
         <section>
           <h2>SECTION 5. 당신의 의식 구조 (5식~9식 해석)</h2>
