@@ -396,15 +396,16 @@ dominantElements: data.dominantElements || "",
 
   const totalElement = wood + fire + earth + metal + water || 1;
 
-  const p1 = (wood / totalElement) * 100;
-  const p2 = (fire / totalElement) * 100;
-  const p3 = (earth / totalElement) * 100;
-  const p4 = (metal / totalElement) * 100;
+const p1 = (wood / totalElement) * 100;
+const p2 = (fire / totalElement) * 100;
+const p3 = (earth / totalElement) * 100;
+const p4 = (metal / totalElement) * 100;
+const p5 = (water / totalElement) * 100;
 
-  const c1 = p1;
-  const c2 = p1 + p2;
-  const c3 = p1 + p2 + p3;
-  const c4 = p1 + p2 + p3 + p4;
+const c1 = p1;
+const c2 = p1 + p2;
+const c3 = p1 + p2 + p3;
+const c4 = p1 + p2 + p3 + p4;
 
   document.getElementById("report").innerHTML = `
     <div class="cover">
@@ -463,12 +464,12 @@ dominantElements: data.dominantElements || "",
           height:220px;
           border-radius:50%;
           background: conic-gradient(
-            #4CAF50 0% ${c1}%,
-            #F44336 ${c1}% ${c2}%,
-            #A1887F ${c2}% ${c3}%,
-            #9E9E9E ${c3}% ${c4}%,
-            #2196F3 ${c4}% 100%
-          );
+  #4CAF50 0% ${c1}%,
+  #F44336 ${c1}% ${c2}%,
+  #A1887F ${c2}% ${c3}%,
+  #9E9E9E ${c3}% ${c4}%,
+  #2196F3 ${c4}% 100%
+);
           position:relative;
         ">
           <div style="
