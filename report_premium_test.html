@@ -272,7 +272,15 @@
       totalState:"전환 구간형",
       mainMessage:"현재 구조는 자동반응과 선택 가능성이 함께 작동하는 전환 구간입니다.",
       sajuOS:"초기 설정값은 외부 평가와 관계 자극에 민감하게 반응하는 입력 필터를 가지고 있습니다.",
-      energyPattern:"오행 관점에서 이 구조는 화(火)의 인정·표현·평가 민감도와 수(水)의 내면 해석·감정 반복 루프가 결합된 패턴입니다. 화 에너지는 외부에서 내가 어떻게 보이는지를 빠르게 감지하게 만들고, 수 에너지는 그 자극을 오래 붙잡고 의미를 재해석하게 만듭니다. 이 결합은 피드백을 단순 정보가 아니라 자기 위치와 존재감에 대한 신호로 받아들이게 하며, 시간이 지나면 그 신호를 성장 동력으로 다시 전환하려는 흐름을 만듭니다.",
+      energyPattern:"오행 관점에서 홍길동님의 구조는 토(土) 에너지가 중심 축으로 작동하며, 상황을 정리하고 책임을 자기 안으로 가져오려는 힘이 강합니다. 금(金) 에너지는 기준·평가·완성도 민감도로 작동하고, 화(火) 에너지는 인정 욕구와 표현 반응을 활성화합니다. 수(水) 에너지가 약하게 작동할 때는 감정을 충분히 흘려보내기보다 빠르게 정리하거나 해결하려는 압박으로 이어질 수 있습니다.",
+      elementScores:[
+        {label:"목",value:33},
+        {label:"화",value:67},
+        {label:"토",value:100},
+        {label:"금",value:67},
+        {label:"수",value:0}
+      ],
+      dominantElements:"토(土) 에너지와 금(金) 에너지",
       scores:[
         {label:"선택 가능성",value:54},
         {label:"자동반응",value:72},
@@ -336,8 +344,8 @@
         mainMessage:data.mainMessage || data.coreMessage || data.summaryMessage || "현재 작동 중인 의식 구조를 분석했습니다.",
         sajuOS:data.sajuOS || data.saju || data.initialSetting || "사주OS 또는 초기 설정값 분석 내용이 입력되지 않았습니다.",
         energyPattern:data.energyPattern || data.fiveElementPattern || data.ohangPattern || "오행 에너지 패턴 분석 내용이 입력되지 않았습니다.",
-elementScores: arr(data.elementScores),
-dominantElements: data.dominantElements || "",
+        elementScores:arr(data.elementScores),
+        dominantElements:data.dominantElements || "",
         scores:arr(data.scores),
         summary:arr(data.summary),
         osStructure:data.osStructure || {},
@@ -379,242 +387,241 @@ dominantElements: data.dominantElements || "",
 
     function renderReport(raw){
       const data = normalize(raw);
-  const os = data.osStructure;
+      const os = data.osStructure;
+      const e = data.elementScores || [];
 
-  const e = data.elementScores || [];
+      const getElementValue = (name) => {
+        const found = e.find(item => String(item.label || "").includes(name));
+        return Number(found?.value) || 0;
+      };
 
-  const getElementValue = (name) => {
-    const found = e.find(item => String(item.label || "").includes(name));
-    return Number(found?.value) || 0;
-  };
+      const wood = getElementValue("목");
+      const fire = getElementValue("화");
+      const earth = getElementValue("토");
+      const metal = getElementValue("금");
+      const water = getElementValue("수");
 
-  const wood = getElementValue("목");
-  const fire = getElementValue("화");
-  const earth = getElementValue("토");
-  const metal = getElementValue("금");
-  const water = getElementValue("수");
+      const totalElement = wood + fire + earth + metal + water || 1;
 
-  const totalElement = wood + fire + earth + metal + water || 1;
+      const p1 = (wood / totalElement) * 100;
+      const p2 = (fire / totalElement) * 100;
+      const p3 = (earth / totalElement) * 100;
+      const p4 = (metal / totalElement) * 100;
 
-const p1 = (wood / totalElement) * 100;
-const p2 = (fire / totalElement) * 100;
-const p3 = (earth / totalElement) * 100;
-const p4 = (metal / totalElement) * 100;
-const p5 = (water / totalElement) * 100;
+      const c1 = p1;
+      const c2 = p1 + p2;
+      const c3 = p1 + p2 + p3;
+      const c4 = p1 + p2 + p3 + p4;
 
-const c1 = p1;
-const c2 = p1 + p2;
-const c3 = p1 + p2 + p3;
-const c4 = p1 + p2 + p3 + p4;
-
-  document.getElementById("report").innerHTML = `
-    <div class="cover">
-      <div>
-        <div class="label">CONSCIOUSNESS OS PREMIUM REPORT</div>
-        <h1>${escapeHtml(data.reportType)}<br>심화 분석 리포트</h1>
-        <div class="subtitle">반복되는 감정과 선택 패턴을<br>의식 구조의 관점에서 해석합니다.</div>
-        <div class="cover-line"></div>
-        <div class="client">
-          CLIENT NAME : ${escapeHtml(data.clientName)}<br>
-          REPORT DATE : ${escapeHtml(data.reportDate)}<br>
-          STATE : ${escapeHtml(data.totalState)}
-        </div>
-      </div>
-    </div>
-
-    <section>
-      <h2>SECTION 1. 핵심 진단 요약</h2>
-      <p class="summary">${escapeHtml(data.mainMessage)}</p>
-      <div class="grid">
-        ${data.summary.map(item=>`<div class="card">${escapeHtml(item)}</div>`).join("")}
-      </div>
-    </section>
-
-    <section>
-      <h2>SECTION 2. 점수 기반 단계 분석</h2>
-      ${data.scores.map(s=>`
-        <div class="bar-box">
-          <div class="bar-label">
-            <span>${escapeHtml(s.label)}</span>
-            <span>${Number(s.value)||0}%</span>
-          </div>
-          <div class="bar">
-            <span style="width:${Math.max(0,Math.min(100,Number(s.value)||0))}%"></span>
+      document.getElementById("report").innerHTML = `
+        <div class="cover">
+          <div>
+            <div class="label">CONSCIOUSNESS OS PREMIUM REPORT</div>
+            <h1>${escapeHtml(data.reportType)}<br>심화 분석 리포트</h1>
+            <div class="subtitle">반복되는 감정과 선택 패턴을<br>의식 구조의 관점에서 해석합니다.</div>
+            <div class="cover-line"></div>
+            <div class="client">
+              CLIENT NAME : ${escapeHtml(data.clientName)}<br>
+              REPORT DATE : ${escapeHtml(data.reportDate)}<br>
+              STATE : ${escapeHtml(data.totalState)}
+            </div>
           </div>
         </div>
-      `).join("")}
-      <div class="note">점수는 정답이 아니라 방향입니다. 중요한 것은 어떤 상황에서 어떤 구조가 자동 실행되는지 보는 것입니다.</div>
-    </section>
 
-    <section>
-      <h2>SECTION 3. 사주OS / 초기 설정값</h2>
-      <p>${escapeHtml(data.sajuOS)}</p>
-    </section>
-
-    <section>
-      <h2>SECTION 4. 오행 에너지 분포</h2>
-
-      <div class="note">
-        오행은 운명이 아니라, ${escapeHtml(data.clientName)}님의 반응을 만들어내는 ‘에너지 구조’입니다.
-      </div>
-
-      <div style="display:flex; flex-direction:column; align-items:center; gap:20px; margin:24px 0;">
-        <div style="
-          width:220px;
-          height:220px;
-          border-radius:50%;
-          background: conic-gradient(
-  #4CAF50 0% ${c1}%,
-  #F44336 ${c1}% ${c2}%,
-  #A1887F ${c2}% ${c3}%,
-  #9E9E9E ${c3}% ${c4}%,
-  #2196F3 ${c4}% 100%
-);
-          position:relative;
-        ">
-          <div style="
-            position:absolute;
-            top:50%;
-            left:50%;
-            transform:translate(-50%, -50%);
-            width:120px;
-            height:120px;
-            border-radius:50%;
-            background:#fffaf2;
-          "></div>
-        </div>
-
-        <div style="width:100%; max-width:340px; font-weight:700;">
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-            <span style="color:#4CAF50;">목(木) 에너지</span>
-            <span>${wood}</span>
+        <section>
+          <h2>SECTION 1. 핵심 진단 요약</h2>
+          <p class="summary">${escapeHtml(data.mainMessage)}</p>
+          <div class="grid">
+            ${data.summary.map(item=>`<div class="card">${escapeHtml(item)}</div>`).join("")}
           </div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-            <span style="color:#F44336;">화(火) 에너지</span>
-            <span>${fire}</span>
+        </section>
+
+        <section>
+          <h2>SECTION 2. 점수 기반 단계 분석</h2>
+          ${data.scores.map(s=>`
+            <div class="bar-box">
+              <div class="bar-label">
+                <span>${escapeHtml(s.label)}</span>
+                <span>${Number(s.value)||0}%</span>
+              </div>
+              <div class="bar">
+                <span style="width:${Math.max(0,Math.min(100,Number(s.value)||0))}%"></span>
+              </div>
+            </div>
+          `).join("")}
+          <div class="note">점수는 정답이 아니라 방향입니다. 중요한 것은 어떤 상황에서 어떤 구조가 자동 실행되는지 보는 것입니다.</div>
+        </section>
+
+        <section>
+          <h2>SECTION 3. 사주OS / 초기 설정값</h2>
+          <p>${escapeHtml(data.sajuOS)}</p>
+        </section>
+
+        <section>
+          <h2>SECTION 4. 오행 에너지 분포</h2>
+
+          <div class="note">
+            오행은 운명이 아니라, ${escapeHtml(data.clientName)}님의 반응을 만들어내는 ‘에너지 구조’입니다.
           </div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-            <span style="color:#A1887F;">토(土) 에너지</span>
-            <span>${earth}</span>
+
+          <div style="display:flex; flex-direction:column; align-items:center; gap:20px; margin:24px 0;">
+            <div style="
+              width:220px;
+              height:220px;
+              border-radius:50%;
+              background: conic-gradient(
+                #4CAF50 0% ${c1}%,
+                #F44336 ${c1}% ${c2}%,
+                #A1887F ${c2}% ${c3}%,
+                #9E9E9E ${c3}% ${c4}%,
+                #2196F3 ${c4}% 100%
+              );
+              position:relative;
+            ">
+              <div style="
+                position:absolute;
+                top:50%;
+                left:50%;
+                transform:translate(-50%, -50%);
+                width:120px;
+                height:120px;
+                border-radius:50%;
+                background:#fffaf2;
+              "></div>
+            </div>
+
+            <div style="width:100%; max-width:340px; font-weight:700;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span style="color:#4CAF50;">목(木) 에너지</span>
+                <span>${wood}</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span style="color:#F44336;">화(火) 에너지</span>
+                <span>${fire}</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span style="color:#A1887F;">토(土) 에너지</span>
+                <span>${earth}</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span style="color:#9E9E9E;">금(金) 에너지</span>
+                <span>${metal}</span>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <span style="color:#2196F3;">수(水) 에너지</span>
+                <span>${water}</span>
+              </div>
+            </div>
           </div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-            <span style="color:#9E9E9E;">금(金) 에너지</span>
-            <span>${metal}</span>
+
+          <p>
+            ${escapeHtml(data.clientName)}님의 구조에서 가장 강하게 작동하는 에너지는
+            <strong>${escapeHtml(data.dominantElements || "")}</strong>입니다.
+          </p>
+
+          <p>${escapeHtml(data.energyPattern)}</p>
+        </section>
+
+        <section>
+          <h2>SECTION 5. 당신의 의식 구조 (5식~9식 해석)</h2>
+
+          <div class="note">
+            이 구조는 우리가 어떻게 반응하고 선택하는지를 보여주는 내면 시스템입니다.
           </div>
-          <div style="display:flex; justify-content:space-between;">
-            <span style="color:#2196F3;">수(水) 에너지</span>
-            <span>${water}</span>
+
+          <div class="grid">
+            <div class="card">
+              <strong>5식 (입력)</strong>
+              <p class="desc">외부 자극을 받아들이는 단계</p>
+              ${escapeHtml(os.input || os.five || "")}
+            </div>
+
+            <div class="card">
+              <strong>6식 (해석·판단)</strong>
+              <p class="desc">그 자극에 의미를 붙이는 단계</p>
+              ${escapeHtml(os.interpretation || os.six || "")}
+            </div>
+
+            <div class="card">
+              <strong>7식 (동일시)</strong>
+              <p class="desc">그 해석을 ‘나’라고 믿는 단계</p>
+              ${escapeHtml(os.identification || os.seven || "")}
+            </div>
+
+            <div class="card">
+              <strong>8식 (저장 패턴)</strong>
+              <p class="desc">반복된 경험이 쌓여 자동화되는 단계</p>
+              ${escapeHtml(os.storage || os.eight || "")}
+            </div>
+
+            <div class="card">
+              <strong>9식 (의식하는 자아)</strong>
+              <p class="desc">모든 과정을 알아차리고 선택하는 주체</p>
+              ${escapeHtml(os.choice || os.nine || "")}
+            </div>
           </div>
+
+          <div class="note">
+            대부분의 사람은 5식~8식에서 자동으로 반응합니다.<br>
+            하지만 당신은 9식, 즉 ‘선택의 자리’로 돌아올 수 있습니다.
+          </div>
+
+          <div class="note">
+            당신의 변화는 감정을 없애는 것이 아니라,
+            이 구조를 알아차리는 순간 시작됩니다.
+          </div>
+        </section>
+
+        <section>
+          <h2>SECTION 6. 자동반응 루프</h2>
+          <ul class="list">
+            ${data.loop.map(item=>`<li>${escapeHtml(item)}</li>`).join("")}
+          </ul>
+        </section>
+
+        <section>
+          <h2>SECTION 7. 선택의 자리로 돌아오는 전환 질문</h2>
+          <ul class="list">
+            ${data.turningQuestions.map(item=>`<li>${escapeHtml(item)}</li>`).join("")}
+          </ul>
+        </section>
+
+        <section>
+          <h2>SECTION 8. 7일 실천 루틴</h2>
+          <ul class="list">
+            ${data.sevenDays.map(item=>`<li>${escapeHtml(item)}</li>`).join("")}
+          </ul>
+        </section>
+
+        <section>
+          <h2>FINAL MESSAGE</h2>
+
+          <p class="summary">
+            당신은 잘못된 사람이 아니라,<br>
+            자동으로 작동하던 구조 속에 있었던 사람입니다.
+          </p>
+
+          <div class="note">
+            지금 당신은 그 구조를 보았습니다.<br>
+            구조가 보이면, 더 이상 같은 방식으로만 반응할 필요가 없습니다.
+          </div>
+
+          <div class="note">
+            이 리포트의 목적은 당신을 규정하는 것이 아니라,<br>
+            당신이 스스로 선택의 자리로 돌아올 수 있도록 돕는 것입니다.
+          </div>
+        </section>
+
+        <div class="footer">
+          © Consciousness Architecture Lab · JENA CO.<br>
+          Reality isn’t events. It’s structure.
         </div>
-      </div>
+      `;
+    }
 
-      <p>
-        ${escapeHtml(data.clientName)}님의 구조에서 가장 강하게 작동하는 에너지는
-        <strong>${escapeHtml(data.dominantElements || "")}</strong>입니다.
-      </p>
-
-      <p>${escapeHtml(data.energyPattern)}</p>
-    </section>
-
-    <section>
-      <h2>SECTION 5. 당신의 의식 구조 (5식~9식 해석)</h2>
-
-      <div class="note">
-        이 구조는 우리가 어떻게 반응하고 선택하는지를 보여주는 내면 시스템입니다.
-      </div>
-
-      <div class="grid">
-        <div class="card">
-          <strong>5식 (입력)</strong>
-          <p class="desc">외부 자극을 받아들이는 단계</p>
-          ${escapeHtml(os.input || os.five || "")}
-        </div>
-
-        <div class="card">
-          <strong>6식 (해석·판단)</strong>
-          <p class="desc">그 자극에 의미를 붙이는 단계</p>
-          ${escapeHtml(os.interpretation || os.six || "")}
-        </div>
-
-        <div class="card">
-          <strong>7식 (동일시)</strong>
-          <p class="desc">그 해석을 ‘나’라고 믿는 단계</p>
-          ${escapeHtml(os.identification || os.seven || "")}
-        </div>
-
-        <div class="card">
-          <strong>8식 (저장 패턴)</strong>
-          <p class="desc">반복된 경험이 쌓여 자동화되는 단계</p>
-          ${escapeHtml(os.storage || os.eight || "")}
-        </div>
-
-        <div class="card">
-          <strong>9식 (의식하는 자아)</strong>
-          <p class="desc">모든 과정을 알아차리고 선택하는 주체</p>
-          ${escapeHtml(os.choice || os.nine || "")}
-        </div>
-      </div>
-
-      <div class="note">
-        대부분의 사람은 5식~8식에서 자동으로 반응합니다.<br>
-        하지만 당신은 9식, 즉 ‘선택의 자리’로 돌아올 수 있습니다.
-      </div>
-
-      <div class="note">
-        당신의 변화는 감정을 없애는 것이 아니라,
-        이 구조를 알아차리는 순간 시작됩니다.
-      </div>
-    </section>
-
-    <section>
-      <h2>SECTION 6. 자동반응 루프</h2>
-      <ul class="list">
-        ${data.loop.map(item=>`<li>${escapeHtml(item)}</li>`).join("")}
-      </ul>
-    </section>
-
-    <section>
-      <h2>SECTION 7. 선택의 자리로 돌아오는 전환 질문</h2>
-      <ul class="list">
-        ${data.turningQuestions.map(item=>`<li>${escapeHtml(item)}</li>`).join("")}
-      </ul>
-    </section>
-
-    <section>
-      <h2>SECTION 8. 7일 실천 루틴</h2>
-      <ul class="list">
-        ${data.sevenDays.map(item=>`<li>${escapeHtml(item)}</li>`).join("")}
-      </ul>
-    </section>
-
-    <section>
-      <h2>FINAL MESSAGE</h2>
-
-      <p class="summary">
-        당신은 잘못된 사람이 아니라,<br>
-        자동으로 작동하던 구조 속에 있었던 사람입니다.
-      </p>
-
-      <div class="note">
-        지금 당신은 그 구조를 보았습니다.<br>
-        구조가 보이면, 더 이상 같은 방식으로만 반응할 필요가 없습니다.
-      </div>
-
-      <div class="note">
-        이 리포트의 목적은 당신을 규정하는 것이 아니라,<br>
-        당신이 스스로 선택의 자리로 돌아올 수 있도록 돕는 것입니다.
-      </div>
-    </section>
-
-    <div class="footer">
-      © Consciousness Architecture Lab · JENA CO.<br>
-      Reality isn’t events. It’s structure.
-    </div>
-  `;
-} 
-  if (typeof sampleData !== "undefined") {
-  renderReport(sampleData);
-}
-</script>
+    if (typeof sampleData !== "undefined") {
+      renderReport(sampleData);
+    }
+  </script>
 </body>
 </html>
