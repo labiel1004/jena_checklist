@@ -285,8 +285,20 @@
 <body>
   <div class="toolbar">
     <button onclick="window.print()">PDF로 저장</button>
-    <button class="secondary" onclick="renderReport(sampleData)">샘플 리포트 새로고침</button>
+    <button class="secondary" onclick="toggleJsonPanel()">JSON 붙여넣기</button>
+    <button class="secondary" onclick="renderReport(sampleData)">샘플 보기</button>
   </div>
+
+  <section id="jsonPanel" class="json-panel">
+    <h2>커스텀 GPT JSON 붙여넣기</h2>
+    <p>커스텀 GPT가 생성한 JSON 전체를 아래 칸에 붙여넣고 “리포트 생성”을 누르세요.</p>
+    <textarea id="jsonInput" placeholder='{"clientName":"홍길동", "reportType":"의식OS 구조 분석", ...}'></textarea>
+    <div class="json-actions">
+      <button onclick="loadJsonReport()">리포트 생성</button>
+      <button class="secondary" onclick="clearJsonInput()">비우기</button>
+    </div>
+    <p id="jsonError" class="json-error"></p>
+  </section>
 
   <main id="report" class="report"></main>
 
@@ -341,7 +353,7 @@
     };
 
     function escapeHtml(text) {
-      return String(text)
+      return String(text ?? '')
         .replaceAll('&', '&amp;')
         .replaceAll('<', '&lt;')
         .replaceAll('>', '&gt;')
@@ -349,7 +361,59 @@
         .replaceAll("'", '&#039;');
     }
 
-    function renderReport(data) {
+    function safeArray(value, fallback = []) {
+      return Array.isArray(value) ? value : fallback;
+    }
+
+    function normalizeReportData(data) {
+      return {
+        clientName: data.clientName || "고객",
+        reportDate: data.reportDate || new Date().toLocaleDateString('ko-KR'),
+        reportType: data.reportType || "의식OS 구조 분석",
+        totalState: data.totalState || "시스템 상태 분석",
+        mainMessage: data.mainMessage || "현재 작동 중인 의식 구조를 기반으로 리포트를 생성했습니다.",
+        scores: safeArray(data.scores, []),
+        summary: safeArray(data.summary, []),
+        trigger: data.trigger || "자동반응이 활성화되는 주요 상황을 분석합니다.",
+        patterns: safeArray(data.patterns, []),
+        turningPoint: data.turningPoint || "반응이 올라오는 순간을 알아차리는 것이 전환의 시작입니다.",
+        guides: safeArray(data.guides, [])
+      };
+    }
+
+    function toggleJsonPanel() {
+      const panel = document.getElementById('jsonPanel');
+      panel.classList.toggle('open');
+    }
+
+    function clearJsonInput() {
+      document.getElementById('jsonInput').value = '';
+      document.getElementById('jsonError').textContent = '';
+    }
+
+    function loadJsonReport() {
+      const input = document.getElementById('jsonInput').value.trim();
+      const error = document.getElementById('jsonError');
+      error.textContent = '';
+
+      if (!input) {
+        error.textContent = 'JSON 내용을 붙여넣어 주세요.';
+        return;
+      }
+
+      try {
+        const parsed = JSON.parse(input);
+        const normalized = normalizeReportData(parsed);
+        renderReport(normalized);
+        document.getElementById('jsonPanel').classList.remove('open');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (e) {
+        error.textContent = 'JSON 형식에 오류가 있습니다. 따옴표, 쉼표, 중괄호를 확인해 주세요.';
+      }
+    }
+
+    function renderReport(rawData) {
+      const data = normalizeReportData(rawData);
       const report = document.getElementById('report');
       report.innerHTML = `
         <section class="page cover">
@@ -381,8 +445,8 @@
           ${data.scores.map(s => `
             <div class="score-row">
               <div><strong>${escapeHtml(s.label)}</strong></div>
-              <div class="bar" style="--w:${Number(s.value)}%"><span></span></div>
-              <div class="score">${Number(s.value)}</div>
+              <div class="bar" style="--w:${Math.max(0, Math.min(100, Number(s.value) || 0))}%"><span></span></div>
+              <div class="score">${Math.max(0, Math.min(100, Number(s.value) || 0))}</div>
             </div>
           `).join('')}
           <div class="callout">점수는 정답이 아니라 방향입니다. 높고 낮음보다 중요한 것은 어떤 상황에서 어떤 흐름이 자동 실행되는가입니다.</div>
