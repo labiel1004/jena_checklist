@@ -279,7 +279,53 @@
       }
       .page:last-child { page-break-after: auto; }
       @page { size: A4; margin: 0; }
-    }
+    }/* ===== JSON 입력 패널 ===== */
+
+.json-panel {
+  display: none;
+  width: min(920px, 100%);
+  margin: 20px auto 0;
+  padding: 24px 18px;
+}
+
+.json-panel.open {
+  display: block;
+}
+
+.json-panel h2 {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.json-panel p {
+  color: var(--muted);
+}
+
+#jsonInput {
+  width: 100%;
+  min-height: 240px;
+  margin: 14px 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fffaf7;
+  color: var(--ink);
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.json-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.json-error {
+  color: var(--danger);
+  font-weight: 700;
+  margin-top: 10px;
+}
   </style>
 </head>
 <body>
