@@ -272,6 +272,7 @@
       totalState:"전환 구간형",
       mainMessage:"현재 구조는 자동반응과 선택 가능성이 함께 작동하는 전환 구간입니다.",
       sajuOS:"초기 설정값은 외부 평가와 관계 자극에 민감하게 반응하는 입력 필터를 가지고 있습니다.",
+      energyPattern:"오행 관점에서 이 구조는 화(火)의 인정·표현·평가 민감도와 수(水)의 내면 해석·감정 반복 루프가 결합된 패턴입니다. 화 에너지는 외부에서 내가 어떻게 보이는지를 빠르게 감지하게 만들고, 수 에너지는 그 자극을 오래 붙잡고 의미를 재해석하게 만듭니다. 이 결합은 피드백을 단순 정보가 아니라 자기 위치와 존재감에 대한 신호로 받아들이게 하며, 시간이 지나면 그 신호를 성장 동력으로 다시 전환하려는 흐름을 만듭니다.",
       scores:[
         {label:"선택 가능성",value:54},
         {label:"자동반응",value:72},
@@ -334,6 +335,7 @@
         totalState:data.totalState || data.state || "구조 분석 진행",
         mainMessage:data.mainMessage || data.coreMessage || data.summaryMessage || "현재 작동 중인 의식 구조를 분석했습니다.",
         sajuOS:data.sajuOS || data.saju || data.initialSetting || "사주OS 또는 초기 설정값 분석 내용이 입력되지 않았습니다.",
+        energyPattern:data.energyPattern || data.fiveElementPattern || data.ohangPattern || "오행 에너지 패턴 분석 내용이 입력되지 않았습니다.",
         scores:arr(data.scores),
         summary:arr(data.summary),
         osStructure:data.osStructure || {},
@@ -422,7 +424,16 @@
         </section>
 
         <section>
-          <h2>SECTION 4. 당신의 의식 구조 (5식~9식 해석)</h2>
+          <h2>SECTION 4. 오행 에너지 패턴</h2>
+          <div class="note">
+            오행은 운명을 고정하는 기준이 아니라,<br>
+            반응 구조와 입력 필터를 이해하기 위한 시스템입니다.
+          </div>
+          <p>${escapeHtml(data.energyPattern)}</p>
+        </section>
+
+        <section>
+          <h2>SECTION 5. 당신의 의식 구조 (5식~9식 해석)</h2>
 
           <div class="note">
             이 구조는 우리가 어떻게 반응하고 선택하는지를 보여주는 내면 시스템입니다.
@@ -472,21 +483,21 @@
         </section>
 
         <section>
-          <h2>SECTION 5. 자동반응 루프</h2>
+          <h2>SECTION 6. 자동반응 루프</h2>
           <ul class="list">
             ${data.loop.map(item=>`<li>${escapeHtml(item)}</li>`).join("")}
           </ul>
         </section>
 
         <section>
-          <h2>SECTION 6. 선택의 자리로 돌아오는 전환 질문</h2>
+          <h2>SECTION 7. 선택의 자리로 돌아오는 전환 질문</h2>
           <ul class="list">
             ${data.turningQuestions.map(item=>`<li>${escapeHtml(item)}</li>`).join("")}
           </ul>
         </section>
 
         <section>
-          <h2>SECTION 7. 7일 실천 루틴</h2>
+          <h2>SECTION 8. 7일 실천 루틴</h2>
           <ul class="list">
             ${data.sevenDays.map(item=>`<li>${escapeHtml(item)}</li>`).join("")}
           </ul>
