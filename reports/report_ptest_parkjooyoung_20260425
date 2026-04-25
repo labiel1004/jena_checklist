@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>프리미엄 JSON 테스트</title>
+  <style>
+    :root {
+      --bg:#f3eee6;
+      --paper:#fffaf2;
+      --ink:#241f1a;
+      --muted:#7b7064;
+      --gold:#b8944d;
+      --line:#e3d8c8;
+      --deep:#2d261f;
+      --soft:#f7efe1;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin:0;
+      background:var(--bg);
+      font-family:"Noto Sans KR","Apple SD Gothic Neo",sans-serif;
+      color:var(--ink);
+      line-height:1.75;
+    }
+
+    .toolbar {
+      position:sticky;
+      top:0;
+      z-index:20;
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      padding:14px;
+      background:rgba(243,238,230,.94);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+
+    button {
+      border:0;
+      border-radius:999px;
+      padding:11px 18px;
+      background:var(--deep);
+      color:#fffaf2;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    button.secondary {
+      background:#eadfce;
+      color:var(--ink);
+    }
+
+    .json-panel {
+      display:none;
+      max-width:900px;
+      margin:24px auto;
+      padding:0 16px;
+    }
+
+    .json-panel.open { display:block; }
+
+    textarea {
+      width:100%;
+      min-height:280px;
+      padding:18px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#fffaf7;
+      color:var(--ink);
+      font-family:monospace;
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    .error {
+      color:#9b5147;
+      font-weight:800;
+    }
+
+    .wrap {
+      max-width:900px;
+      margin:0 auto;
+      padding:28px 16px 70px;
+    }
+
+    .cover {
+      background:linear-gradient(135deg,#2d261f,#5b4937);
+      color:#fffaf2;
+      border-radius:32px;
+      padding:54px 30px;
+      margin-bottom:26px;
+      box-shadow:0 20px 50px rgba(45,38,31,.25);
+    }
+
+    .label {
+      display:inline-block;
+      border:1px solid rgba(255,255,255,.4);
+      border-radius:999px;
+      padding:6px 14px;
+      font-size:13px;
+      letter-spacing:.08em;
+      color:#ead8b8;
+      margin-bottom:24px;
+    }
+
+    h1 {
+      font-size:38px;
+      line-height:1.25;
+      margin:0 0 18px;
+      letter-spacing:-.05em;
+    }
+
+    h2 {
+      font-size:24px;
+      margin:0 0 18px;
+      letter-spacing:-.04em;
+    }
+
+    h3 {
+      font-size:18px;
+      margin:22px 0 8px;
+    }
+
+    p { margin:0 0 14px; }
+
+    section {
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:26px;
+      padding:32px 26px;
+      margin-bottom:22px;
+      box-shadow:0 8px 28px rgba(80,60,40,.07);
+    }
+
+    .subtitle {
+      font-size:18px;
+      color:#ead8b8;
+      margin-bottom:28px;
+    }
+
+    .cover-line {
+      width:68px;
+      height:3px;
+      background:var(--gold);
+      margin:28px 0;
+    }
+
+    .client {
+      font-size:15px;
+      color:#f5ead8;
+    }
+
+    .note {
+      background:var(--soft);
+      border-left:5px solid var(--gold);
+      padding:18px 20px;
+      border-radius:16px;
+      margin:18px 0;
+      font-weight:600;
+    }
+
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+      margin-top:16px;
+    }
+
+    .card {
+      background:#fffdf8;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+    }
+
+    .card strong {
+      display:block;
+      color:var(--gold);
+      margin-bottom:8px;
+    }
+
+    .desc {
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+
+    .bar-box { margin:16px 0; }
+
+    .bar-label {
+      display:flex;
+      justify-content:space-between;
+      font-size:14px;
+      color:var(--muted);
+      font-weight:800;
+      margin-bottom:7px;
+    }
+
+    .bar {
+      height:12px;
+      background:#e8ddcf;
+      border-radius:999px;
+      overflow:hidden;
+    }
+
+    .bar span {
+      display:block;
+      height:100%;
+      background:linear-gradient(90deg,#b8944d,#6d5532);
+      border-radius:999px;
+    }
+
+    .summary {
+      font-size:20px;
+      font-weight:800;
+      line-height:1.6;
+    }
+
+    .list {
+      padding-left:20px;
+      margin:0;
+    }
+
+    .list li {
+      margin-bottom:10px;
+    }
+
+    .footer {
+      text-align:center;
+      font-size:13px;
+      color:var(--muted);
+      padding:24px 0;
+    }
+
+    @media(max-width:640px) {
+      .wrap { padding:18px 12px 54px; }
+      .cover { padding:42px 22px; border-radius:26px; }
+      h1 { font-size:31px; }
+      section { padding:26px 20px; border-radius:22px; }
+      .grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="toolbar">
+    <button class="secondary" onclick="toggleJsonPanel()">JSON 붙여넣기</button>
+    <button onclick="renderReport(sampleData)">샘플 보기</button>
+  </div>
+
+  <section id="jsonPanel" class="json-panel">
+    <h2>프리미엄 JSON 테스트</h2>
+    <p>커스텀 GPT가 생성한 유료 JSON 전체를 붙여넣고 “리포트 생성”을 누르세요.</p>
+    <textarea id="jsonInput" placeholder='{"clientName":"홍길동", "reportType":"의식OS 프리미엄 리포트", ...}'></textarea>
+    <br><br>
+    <button onclick="loadJsonReport()">리포트 생성</button>
+    <button class="secondary" onclick="clearJsonInput()">비우기</button>
+    <p id="jsonError" class="error"></p>
+  </section>
+
+  <main id="report" class="wrap"></main>
+
+  <script>
+    const sampleData = {
+    "clientName": "박주영",
+"reportDate": "2026. 4. 19",
+"reportType": "의식OS 프리미엄 리포트",
+"totalState": "피드백 상황에서 평가 민감도와 인정 욕구가 강하게 작동하고, 이후 자기분석을 통해 다시 성과 회복 모드로 전환되는 구조",
+"mainMessage": "박주영님은 피드백을 단순 정보로 받기보다 자신의 가치와 능력에 대한 평가로 먼저 감지하는 구조가 작동합니다. 그러나 감정 반응 이후 다시 의미를 재해석하고 회사의 기준을 파악하려는 전환 가능성도 함께 존재합니다.",
+"sajuOS": "박주영님의 사주OS는 병화 일간을 중심으로 신사월의 금(金)·화(火) 에너지가 강하게 작동하는 구조입니다. 사주는 운명이 아니라 입력 필터와 해석 경향으로 보면, 박주영님은 외부 평가를 빠르게 감지하고 그것을 성과, 인정, 기준의 문제로 해석하는 반응 구조를 가지고 있습니다.",
+"energyPattern": "박주영님의 구조에서는 금(金) 에너지가 기준·평가·완성도 민감도로 작동하고, 화(火) 에너지가 인정받고 싶은 욕구와 존재감을 증명하려는 추진력으로 작동합니다. 그래서 업무 피드백을 받으면 처음에는 억울함과 방어감이 올라오지만, 이후에는 그 피드백을 회사의 기준으로 재해석하고 다시 인정받기 위한 성과 회복 모드로 전환됩니다.",
+"elementScores": [
+{
+"label": "목",
+"value": 33
+},
+{
+"label": "화",
+"value": 67
+},
+{
+"label": "토",
+"value": 100
+},
+{
+"label": "금",
+"value": 67
+},
+{
+"label": "수",
+"value": 0
+}
+],
+"dominantElements": "금(金) 에너지와 화(火) 에너지",
+"scores": [
+{
+"label": "선택 가능성",
+"value": 72
+},
+{
+"label": "자동반응",
+"value": 86
+},
+{
+"label": "이원성 반응",
+"value": 81
+},
+{
+"label": "전환 가능성",
+"value": 78
+}
+],
+"summary": [
+"박주영님은 피드백을 받는 순간 정보보다 평가로 먼저 감지하는 구조가 강합니다.",
+"박주영님은 억울함과 방어감 이후 다시 기준을 파악하고 성과로 회복하려는 전환력이 있습니다.",
+"박주영님의 핵심 전환점은 내 탓으로 몰아가는 것이 아니라, 이 반응이 구조임을 인식하는 순간입니다."
+],
+"osStructure": {
+"input": "박주영님에게 5식 입력은 선배의 피드백, 업무 결과물에 대한 아쉬움, 말투와 평가 분위기입니다.",
+"interpretation": "박주영님의 6식 해석은 ‘내가 못했다는 건가’, ‘이 사람이 나를 제대로 아는가’, ‘회사가 중요하게 보는 기준은 무엇인가’로 빠르게 전개됩니다.",
+"identification": "박주영님의 7식 동일시는 피드백을 업무 정보가 아니라 자신의 능력과 인정 가능성에 대한 평가로 붙잡는 방식입니다.",
+"storage": "박주영님의 8식 저장 패턴은 인정받아야 안전하고, 부족함이 드러나면 다시 증명해야 한다는 성과 기반 기억 구조입니다.",
+"choice": "박주영님의 9식 선택 지점은 ‘내가 부족하다’로 몰아가기 전, 이 반응이 구조임을 인식하는 순간입니다. 그때 반응과 선택 사이의 간격이 열립니다."
+},
+"loop": [
+"박주영님이 업무 결과물에 대한 피드백을 받습니다.",
+"박주영님 안에서 ‘나는 잘한 것 같은데 왜?’라는 억울함이 먼저 올라옵니다.",
+"박주영님은 ‘1년차가 뭘 알아’라는 방식으로 평가자의 권위를 방어적으로 해석합니다.",
+"박주영님은 속상함, 답답함, 우울감, 막막함을 신체와 감정으로 경험합니다.",
+"박주영님은 시간이 지나며 피드백의 핵심 기준을 다시 분석하고 받아들입니다.",
+"박주영님은 다시 인정받기 위해 해결해야 한다고 결론 내리지만, 동시에 자신을 탓하는 구조로 이동합니다."
+],
+"turningQuestions": [
+"박주영님, 지금 올라온 감정은 실제 상황인가, 아니면 평가에 반응하는 구조인가?",
+"박주영님, 이 피드백은 박주영님의 가치에 대한 판정인가, 업무 기준에 대한 정보인가?",
+"박주영님, 지금 필요한 것은 자책인가, 아니면 기준을 분리해서 보는 인식인가?"
+],
+"sevenDays": [
+"1일차: 박주영님은 피드백을 받은 순간 떠오른 첫 문장을 그대로 기록합니다.",
+"2일차: 박주영님은 그 문장이 사실인지, 해석인지, 방어인지 세 칸으로 나누어 표시합니다.",
+"3일차: 박주영님은 피드백에서 회사가 중요하게 보는 기준만 따로 추출합니다.",
+"4일차: 박주영님은 ‘내 탓’이라는 문장을 ‘이 구조가 이렇게 반응했다’로 바꿔 적습니다.",
+"5일차: 박주영님은 인정받기 위한 행동과 기준을 반영하기 위한 행동을 구분합니다.",
+"6일차: 박주영님은 피드백을 준 사람의 연차가 아니라 피드백의 구조적 유효성을 기준으로 다시 봅니다.",
+"7일차: 박주영님은 이번 반응에서 자동반응이 멈춘 지점을 한 문장으로 정리합니다."
+],
+"finalMessage": "박주영님은 문제가 아니라 하나의 구조입니다. 박주영님의 구조는 피드백을 평가로 감지하고, 감정 방어를 거친 뒤, 다시 기준을 찾아 성과로 회복하려는 방식으로 작동합니다. 이 구조가 보이는 순간 박주영님은 자책이 아니라 자각의 위치로 이동할 수 있고, 그 자각 안에서 다음 선택이 열립니다."
+    };
+
+    function escapeHtml(text){
+      return String(text ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function arr(v){ return Array.isArray(v) ? v : []; }
+
+    function normalize(data){
+      return {
+        clientName:data.clientName || data.name || "고객",
+        reportDate:data.reportDate || data.date || new Date().toLocaleDateString("ko-KR"),
+        reportType:data.reportType || "의식OS 프리미엄 리포트",
+        totalState:data.totalState || data.state || "구조 분석 진행",
+        mainMessage:data.mainMessage || data.coreMessage || data.summaryMessage || "현재 작동 중인 의식 구조를 분석했습니다.",
+        sajuOS:data.sajuOS || data.saju || data.initialSetting || "사주OS 또는 초기 설정값 분석 내용이 입력되지 않았습니다.",
+        energyPattern:data.energyPattern || data.fiveElementPattern || data.ohangPattern || "오행 에너지 패턴 분석 내용이 입력되지 않았습니다.",
+        elementScores:arr(data.elementScores),
+        dominantElements:data.dominantElements || "",
+        scores:arr(data.scores),
+        summary:arr(data.summary),
+        osStructure:data.osStructure || {},
+        loop:arr(data.loop || data.autoLoop),
+        turningQuestions:arr(data.turningQuestions || data.questions),
+        sevenDays:arr(data.sevenDays || data.practice),
+        finalMessage:data.finalMessage || "구조가 보이면 선택이 열립니다."
+      };
+    }
+
+    function toggleJsonPanel(){
+      document.getElementById("jsonPanel").classList.toggle("open");
+    }
+
+    function clearJsonInput(){
+      document.getElementById("jsonInput").value = "";
+      document.getElementById("jsonError").textContent = "";
+    }
+
+    function loadJsonReport(){
+      const input = document.getElementById("jsonInput").value.trim();
+      const error = document.getElementById("jsonError");
+      error.textContent = "";
+
+      if(!input){
+        error.textContent = "JSON 내용을 붙여넣어 주세요.";
+        return;
+      }
+
+      try{
+        const parsed = JSON.parse(input);
+        renderReport(parsed);
+        document.getElementById("jsonPanel").classList.remove("open");
+        window.scrollTo({top:0,behavior:"smooth"});
+      }catch(e){
+        error.textContent = "JSON 형식 오류입니다. 따옴표, 쉼표, 중괄호를 확인해 주세요.";
+      }
+    }
+
+    function renderReport(raw){
+      const data = normalize(raw);
+      const os = data.osStructure;
+      const e = data.elementScores || [];
+
+      const getElementValue = (name) => {
+        const found = e.find(item => String(item.label || "").includes(name));
+        return Number(found?.value) || 0;
+      };
+
+      const wood = getElementValue("목");
+      const fire = getElementValue("화");
+      const earth = getElementValue("토");
+      const metal = getElementValue("금");
+      const water = getElementValue("수");
+
+      const totalElement = wood + fire + earth + metal + water || 1;
+
+      const p1 = (wood / totalElement) * 100;
+      const p2 = (fire / totalElement) * 100;
+      const p3 = (earth / totalElement) * 100;
+      const p4 = (metal / totalElement) * 100;
+
+      const c1 = p1;
+      const c2 = p1 + p2;
+      const c3 = p1 + p2 + p3;
+      const c4 = p1 + p2 + p3 + p4;
+
+      document.getElementById("report").innerHTML = `
+        <div class="cover">
+          <div>
+            <div class="label">CONSCIOUSNESS OS PREMIUM REPORT</div>
+            <h1>${escapeHtml(data.reportType)}<br>심화 분석 리포트</h1>
+            <div class="subtitle">반복되는 감정과 선택 패턴을<br>의식 구조의 관점에서 해석합니다.</div>
+            <div class="cover-line"></div>
+            <div class="client">
+              CLIENT NAME : ${escapeHtml(data.clientName)}<br>
+              REPORT DATE : ${escapeHtml(data.reportDate)}<br>
+              STATE : ${escapeHtml(data.totalState)}
+            </div>
+          </div>
+        </div>
+
+        <section>
+          <h2>SECTION 1. 핵심 진단 요약</h2>
+          <p class="summary">${escapeHtml(data.mainMessage)}</p>
+          <div class="grid">
+            ${data.summary.map(item=>`<div class="card">${escapeHtml(item)}</div>`).join("")}
+          </div>
+        </section>
+
+        <section>
+          <h2>SECTION 2. 점수 기반 단계 분석</h2>
+          ${data.scores.map(s=>`
+            <div class="bar-box">
+              <div class="bar-label">
+                <span>${escapeHtml(s.label)}</span>
+                <span>${Number(s.value)||0}%</span>
+              </div>
+              <div class="bar">
+                <span style="width:${Math.max(0,Math.min(100,Number(s.value)||0))}%"></span>
+              </div>
+            </div>
+          `).join("")}
+          <div class="note">점수는 정답이 아니라 방향입니다. 중요한 것은 어떤 상황에서 어떤 구조가 자동 실행되는지 보는 것입니다.</div>
+        </section>
+
+        <section>
+          <h2>SECTION 3. 사주OS / 초기 설정값</h2>
+          <p>${escapeHtml(data.sajuOS)}</p>
+        </section>
+
+        <section>
+          <h2>SECTION 4. 오행 에너지 분포</h2>
+
+          <div class="note">
+          오행은 운명이 아니라, 반응을 만들어내는 ‘에너지 구조’입니다.
+</div>
+ <p>
+<strong style="font-size:18px; color:#b38b59;">
+${escapeHtml(data.clientName)}님의 핵심 반응 구조는 
+${escapeHtml(data.dominantElements)} 중심으로 작동합니다.
+</strong>
+</p>
+<div class="note">
+${escapeHtml(data.dominantElements)}는 반복되는 감정, 선택, 관계 패턴을 만들어내는 핵심 축으로 작동합니다.
+</div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:20px; margin:24px 0;">
+            <div style="
+              width:220px;
+              height:220px;
+              border-radius:50%;
+              background: conic-gradient(
+                #4CAF50 0% ${c1}%,
+                #F44336 ${c1}% ${c2}%,
+                #A1887F ${c2}% ${c3}%,
+                #9E9E9E ${c3}% ${c4}%,
+                #2196F3 ${c4}% 100%
+              );
+              position:relative;
+            ">
+              <div style="
+                position:absolute;
+                top:50%;
+                left:50%;
+                transform:translate(-50%, -50%);
+                width:120px;
+                height:120px;
+                border-radius:50%;
+                background:#fffaf2;
+              "></div>
+            </div>
+
+            <div style="width:100%; max-width:340px; font-weight:700;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span style="color:#4CAF50;">목(木) 에너지</span>
+                <span>${wood}</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span style="color:#F44336;">화(火) 에너지</span>
+                <span>${fire}</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span style="color:#A1887F;">토(土) 에너지</span>
+                <span>${earth}</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span style="color:#9E9E9E;">금(金) 에너지</span>
+                <span>${metal}</span>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <span style="color:#2196F3;">수(水) 에너지</span>
+                <span>${water}</span>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            ${escapeHtml(data.clientName)}님의 구조에서 가장 강하게 작동하는 에너지는
+            <strong>${escapeHtml(data.dominantElements || "")}</strong>입니다.
+          </p>
+
+          <p>${escapeHtml(data.energyPattern)}</p>
+        </section>
+
+        <section>
+          <h2>SECTION 5. 당신의 의식 구조 (5식~9식 해석)</h2>
+
+          <div class="note">
+            이 구조는 우리가 어떻게 반응하고 선택하는지를 보여주는 내면 시스템입니다.
+          </div>
+
+          <div class="grid">
+            <div class="card">
+              <strong>5식 (입력)</strong>
+              <p class="desc">외부 자극을 받아들이는 단계</p>
+              ${escapeHtml(os.input || os.five || "")}
+            </div>
+
+            <div class="card">
+              <strong>6식 (해석·판단)</strong>
+              <p class="desc">그 자극에 의미를 붙이는 단계</p>
+              ${escapeHtml(os.interpretation || os.six || "")}
+            </div>
+
+            <div class="card">
+              <strong>7식 (동일시)</strong>
+              <p class="desc">그 해석을 ‘나’라고 믿는 단계</p>
+              ${escapeHtml(os.identification || os.seven || "")}
+            </div>
+
+            <div class="card">
+              <strong>8식 (저장 패턴)</strong>
+              <p class="desc">반복된 경험이 쌓여 자동화되는 단계</p>
+              ${escapeHtml(os.storage || os.eight || "")}
+            </div>
+
+            <div class="card">
+              <strong>9식 (의식하는 자아)</strong>
+              <p class="desc">모든 과정을 알아차리고 선택하는 주체</p>
+              ${escapeHtml(os.choice || os.nine || "")}
+            </div>
+          </div>
+
+          <div class="note">
+            대부분의 사람은 5식~8식에서 자동으로 반응합니다.<br>
+            하지만 당신은 9식, 즉 ‘선택의 자리’로 돌아올 수 있습니다.
+          </div>
+
+          <div class="note">
+            당신의 변화는 감정을 없애는 것이 아니라,
+            이 구조를 알아차리는 순간 시작됩니다.
+          </div>
+        </section>
+
+        <section>
+          <h2>SECTION 6. 자동반응 루프</h2>
+          <ul class="list">
+            ${data.loop.map(item=>`<li>${escapeHtml(item)}</li>`).join("")}
+          </ul>
+        </section>
+
+        <section>
+          <h2>SECTION 7. 선택의 자리로 돌아오는 전환 질문</h2>
+          <ul class="list">
+            ${data.turningQuestions.map(item=>`<li>${escapeHtml(item)}</li>`).join("")}
+          </ul>
+        </section>
+
+        <section>
+          <h2>SECTION 8. 7일 실천 루틴</h2>
+          <ul class="list">
+            ${data.sevenDays.map(item=>`<li>${escapeHtml(item)}</li>`).join("")}
+          </ul>
+        </section>
+
+        <section>
+          <h2>FINAL MESSAGE</h2>
+
+          <p class="summary">
+            당신은 잘못된 사람이 아니라,<br>
+            자동으로 작동하던 구조 속에 있었던 사람입니다.
+          </p>
+
+          <div class="note">
+            지금 당신은 그 구조를 보았습니다.<br>
+            구조가 보이면, 더 이상 같은 방식으로만 반응할 필요가 없습니다.
+          </div>
+
+          <div class="note">
+            이 리포트의 목적은 당신을 규정하는 것이 아니라,<br>
+            당신이 스스로 선택의 자리로 돌아올 수 있도록 돕는 것입니다.
+          </div>
+        </section>
+
+        <div class="footer">
+          © Consciousness Architecture Lab · JENA CO.<br>
+          Reality isn’t events. It’s structure.
+        </div>
+      `;
+    }
+
+    if (typeof sampleData !== "undefined") {
+      renderReport(sampleData);
+    }
+  </script>
+</body>
+</html>
