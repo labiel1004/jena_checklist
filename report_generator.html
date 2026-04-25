@@ -162,6 +162,34 @@
       section{padding:26px 20px;border-radius:22px}
       .grid{grid-template-columns:1fr}
     }
+    .toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px;
+  background: rgba(243,238,230,.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+
+.toolbar button {
+  border: 0;
+  border-radius: 999px;
+  padding: 11px 18px;
+  background: var(--deep);
+  color: #fffaf2;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+@media print {
+  .toolbar {
+    display: none;
+  }
+}
   </style>
 </head>
 
@@ -364,7 +392,13 @@
         </div>
       \`;
     }
+function copyPageLink(){
+  const url = window.location.href.split("?")[0];
 
+  navigator.clipboard.writeText(url)
+    .then(() => alert("리포트 링크가 복사되었습니다."))
+    .catch(() => alert("복사가 안 되면 주소창의 링크를 직접 복사해주세요."));
+}
     renderReport(reportData);
   ${closeScript}
 </body>
