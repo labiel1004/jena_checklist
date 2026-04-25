@@ -1,129 +1,155 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CAL 리포트 생성기</title>
 
   <style>
-    body{margin:0;font-family:Arial,"Noto Sans KR",sans-serif;background:#0f172a;color:#e5e7eb;line-height:1.6}
-    .wrap{max-width:980px;margin:0 auto;padding:32px 18px 80px}
+    body{
+      margin:0;
+      font-family:Arial,"Noto Sans KR",sans-serif;
+      background:#0f172a;
+      color:#e5e7eb;
+    }
+    .wrap{
+      max-width:980px;
+      margin:0 auto;
+      padding:32px 18px 80px;
+    }
     h1{font-size:28px;margin-bottom:8px}
     p{color:#cbd5e1}
-    label{display:block;margin-top:24px;margin-bottom:8px;font-weight:700}
-    input,textarea{width:100%;box-sizing:border-box;border:1px solid #334155;border-radius:12px;background:#020617;color:#e5e7eb;padding:14px;font-size:15px}
-    textarea{min-height:260px;font-family:Consolas,monospace}
-    button{margin-top:20px;margin-right:10px;padding:14px 20px;border:0;border-radius:999px;background:#facc15;color:#111827;font-weight:800;cursor:pointer}
-    .box{margin-top:28px;padding:18px;border-radius:16px;background:#111827;border:1px solid #334155}
+    label{
+      display:block;
+      margin-top:24px;
+      margin-bottom:8px;
+      font-weight:700;
+    }
+    input,textarea{
+      width:100%;
+      box-sizing:border-box;
+      border:1px solid #334155;
+      border-radius:12px;
+      background:#020617;
+      color:#e5e7eb;
+      padding:14px;
+      font-size:15px;
+    }
+    textarea{
+      min-height:260px;
+      font-family:Consolas,monospace;
+    }
+    button{
+      margin-top:20px;
+      margin-right:10px;
+      padding:14px 20px;
+      border:0;
+      border-radius:999px;
+      background:#facc15;
+      color:#111827;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .box{
+      margin-top:28px;
+      padding:18px;
+      border-radius:16px;
+      background:#111827;
+      border:1px solid #334155;
+    }
     .success{color:#86efac;font-weight:700;white-space:pre-wrap}
     .error{color:#fca5a5;font-weight:700;white-space:pre-wrap}
-    .small{font-size:14px;color:#94a3b8;white-space:pre-wrap}
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <h1>CAL 프리미엄 리포트 생성기</h1>
-    <p>프리미엄 JSON을 넣으면 고객용 HTML 파일 전체 코드를 생성합니다.</p>
 
-    <label>파일명</label>
-    <input id="filename" placeholder="예: pjh_20260425_1542.html" />
+<div class="wrap">
+  <h1>CAL 프리미엄 리포트 생성기</h1>
 
-    <label>프리미엄 JSON</label>
-    <textarea id="jsonInput"></textarea>
+  <label>파일명</label>
+  <input id="filename" placeholder="예: pjh_20260425_1542.html">
 
-    <button onclick="generateReport()">HTML 생성하기</button>
-    <button onclick="copyResult()">생성된 HTML 복사하기</button>
+  <label>프리미엄 JSON</label>
+  <textarea id="jsonInput"></textarea>
 
-    <div class="box">
-      <div id="status" class="small">아직 생성 전입니다.</div>
-    </div>
+  <button onclick="generateReport()">HTML 생성하기</button>
+  <button onclick="copyResult()">HTML 복사</button>
 
-    <label>생성된 HTML 코드</label>
-    <textarea id="result" readonly></textarea>
+  <div class="box">
+    <div id="status">아직 생성 전입니다.</div>
   </div>
 
+  <label>생성된 HTML</label>
+  <textarea id="result" readonly></textarea>
+</div>
+
 <script>
+
 function generateReport(){
+
   const filename=document.getElementById("filename").value.trim();
-  const rawJson=document.getElementById("jsonInput").value.trim();
+  const raw=document.getElementById("jsonInput").value.trim();
   const status=document.getElementById("status");
   const result=document.getElementById("result");
 
   if(!filename.endsWith(".html")){
     status.className="error";
-    status.textContent="파일명은 반드시 .html 로 끝나야 합니다.";
+    status.textContent="파일명은 .html로 끝나야 합니다";
     return;
   }
 
   let data;
   try{
-    data=JSON.parse(rawJson);
+    data=JSON.parse(raw);
   }catch(e){
     status.className="error";
     status.textContent="JSON 오류:\n"+e.message;
     return;
   }
 
-  const html=createReportHtml(data);
+  const html=createHtml(data);
   result.value=html;
 
-  const link="https://labiel1004.github.io/jena_checklist/reports/"+filename;
-
   status.className="success";
-  status.textContent=
-    "생성 완료!\n\n"+
-    "파일명:\n"+filename+
-    "\n\n고객 링크:\n"+link;
+  status.textContent="생성 완료!";
 }
 
 async function copyResult(){
   const result=document.getElementById("result");
-  if(!result.value.trim()){
-    alert("먼저 생성하세요");
-    return;
-  }
+  if(!result.value) return alert("먼저 생성하세요");
   await navigator.clipboard.writeText(result.value);
   alert("복사 완료");
 }
 
-function safeJson(obj){
-  return JSON.stringify(obj,null,2)
-    .replace(/</g,"\\u003C")
-    .replace(/>/g,"\\u003E");
-}
-
-function escapeHtml(text){
-  return String(text ?? "")
+function esc(t){
+  return String(t||"")
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+    .replaceAll(">","&gt;");
 }
 
-function createReportHtml(data){
-  const json=safeJson(data);
+function createHtml(d){
 
-  return `<!DOCTYPE html>
+return `<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>${escapeHtml(data.clientName)} 리포트</title>
+<title>${esc(d.clientName)} 리포트</title>
 
-<meta property="og:title" content="${escapeHtml(data.clientName)} 의식OS 리포트">
-<meta property="og:description" content="${escapeHtml(data.mainMessage)}">
+<meta property="og:title" content="${esc(d.clientName)} 리포트">
+<meta property="og:description" content="${esc(d.mainMessage)}">
 <meta property="og:image" content="https://labiel1004.github.io/jena_checklist/cover.jpg">
 
 <style>
-body{margin:0;background:#f3eee6;font-family:"Noto Sans KR";color:#241f1a}
+body{margin:0;background:#f3eee6;font-family:"Noto Sans KR"}
 .wrap{max-width:900px;margin:0 auto;padding:40px}
-.cover{background:linear-gradient(135deg,#2d261f,#5b4937);color:#fff;padding:50px;border-radius:30px}
-h1{font-size:34px}
+.cover{background:#2d261f;color:#fff;padding:40px;border-radius:30px}
 section{background:#fff;padding:30px;margin-top:20px;border-radius:20px}
 </style>
+
 </head>
 
 <body>
@@ -131,24 +157,21 @@ section{background:#fff;padding:30px;margin-top:20px;border-radius:20px}
 <div class="wrap">
 
 <div class="cover">
-<h1>${escapeHtml(data.clientName)} 리포트</h1>
-<p>${escapeHtml(data.mainMessage)}</p>
+<h1>${esc(d.clientName)}</h1>
+<p>${esc(d.mainMessage)}</p>
 </div>
 
 <section>
-<h2>핵심 요약</h2>
-<p>${escapeHtml(data.totalState)}</p>
+<h2>상태</h2>
+<p>${esc(d.totalState)}</p>
 </section>
 
 </div>
 
-<script>
-const data=${json};
-</script>
-
 </body>
 </html>`;
 }
+
 </script>
 
 </body>
