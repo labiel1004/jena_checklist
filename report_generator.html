@@ -69,12 +69,10 @@
 
       const link="https://labiel1004.github.io/jena_checklist/reports/"+filename;
       status.className="success";
-      status.textContent=
-        "생성 완료!\n\n"+
-        "GitHub reports 폴더에 새 파일을 만들고 아래 파일명으로 저장하세요.\n\n"+
-        filename+
-        "\n\n고객 링크:\n"+
-        link;
+status.innerText=
+"✔ 생성 완료!\n\n"+
+"파일명:\n"+filename+
+"\n\n고객 링크:\n"+link;
     }
 
     async function copyResult(){
