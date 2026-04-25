@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAL 리포트 생성기</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      line-height: 1.6;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 18px 80px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #cbd5e1;
+    }
+
+    label {
+      display: block;
+      margin-top: 24px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    input, textarea {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      background: #020617;
+      color: #e5e7eb;
+      padding: 14px;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 260px;
+      font-family: Consolas, monospace;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 14px 20px;
+      border: 0;
+      border-radius: 999px;
+      background: #facc15;
+      color: #111827;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .box {
+      margin-top: 28px;
+      padding: 18px;
+      border-radius: 16px;
+      background: #111827;
+      border: 1px solid #334155;
+    }
+
+    .success {
+      color: #86efac;
+      font-weight: 700;
+    }
+
+    .error {
+      color: #fca5a5;
+      font-weight: 700;
+      white-space: pre-wrap;
+    }
+
+    .small {
+      font-size: 14px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <h1>CAL 프리미엄 리포트 생성기</h1>
+    <p>프리미엄 JSON을 넣으면 고객용 HTML 파일 전체 코드를 생성합니다.</p>
+
+    <label>파일명</label>
+    <input id="filename" placeholder="예: pjy_20260425_1530.html" />
+
+    <label>프리미엄 JSON</label>
+    <textarea id="jsonInput" placeholder='{"clientName":"박주영","reportDate":"2026.04.25"}'></textarea>
+
+    <button onclick="generateReport()">HTML 생성하기</button>
+    <button onclick="copyResult()">생성된 HTML 복사하기</button>
+
+    <div class="box">
+      <div id="status" class="small">아직 생성 전입니다.</div>
+    </div>
+
+    <label>생성된 HTML 코드</label>
+    <textarea id="result" readonly></textarea>
+  </div>
+
+  <script>
+    function generateReport() {
+      const filename = document.getElementById("filename").value.trim();
+      const rawJson = document.getElementById("jsonInput").value.trim();
+      const status = document.getElementById("status");
+      const result = document.getElementById("result");
+
+      if (!filename.endsWith(".html")) {
+        status.className = "error";
+        status.textContent = "파일명은 반드시 .html 로 끝나야 합니다.";
+        return;
+      }
+
+      let data;
+
+      try {
+        data = JSON.parse(rawJson);
+      } catch (e) {
+        status.className = "error";
+        status.textContent = "JSON 형식 오류입니다.\n\n" + e.message;
+        return;
+      }
+
+      const html = createReportHtml(data);
+
+      result.value = html;
+
+      const link = "https://labiel1004.github.io/jena_checklist/reports/" + filename;
+
+      status.className = "success";
+      status.textContent =
+        "생성 완료!\n\n" +
+        "GitHub reports 폴더에 새 파일을 만들고 아래 파일명으로 저장하세요.\n\n" +
+        filename +
+        "\n\n고객 링크:\n" +
+        link;
+    }
+
+    function copyResult() {
+      const result = document.getElementById("result");
+
+      if (!result.value.trim()) {
+        alert("먼저 HTML을 생성해주세요.");
+        return;
+      }
+
+      result.select();
+      document.execCommand("copy");
+      alert("생성된 HTML 코드가 복사되었습니다.");
+    }
+
+    function escapeScriptJson(obj) {
+      return JSON.stringify(obj, null, 2)
+        .replace(/</g, "\\u003C")
+        .replace(/>/g, "\\u003E");
+    }
+
+    function createReportHtml(data) {
+      const json = escapeScriptJson(data);
+
+      return `<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>${data.clientName || "고객"} 의식OS 프리미엄 리포트</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      background: #f8fafc;
+      color: #111827;
+      line-height: 1.75;
+    }
+
+    .wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 36px 18px 80px;
+    }
+
+    .cover {
+      background: linear-gradient(135deg, #111827, #1e293b);
+      color: white;
+      padding: 42px 26px;
+      border-radius: 24px;
+      margin-bottom: 28px;
+    }
+
+    .label {
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      color: #facc15;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin: 14px 0 10px;
+      line-height: 1.25;
+    }
+
+    h2 {
+      margin-top: 34px;
+      font-size: 22px;
+      border-left: 5px solid #111827;
+      padding-left: 12px;
+    }
+
+    h3 {
+      margin-top: 22px;
+      font-size: 18px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      margin: 18px 0;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+      border: 1px solid #e5e7eb;
+    }
+
+    .muted {
+      color: #64748b;
+    }
+
+    .score-row {
+      margin: 14px 0;
+    }
+
+    .score-label {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .bar {
+      height: 12px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      background: #111827;
+      border-radius: 999px;
+    }
+
+    ul {
+      padding-left: 22px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .footer {
+      margin-top: 42px;
+      padding-top: 22px;
+      border-top: 1px solid #e5e7eb;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .card, .cover {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main id="report" class="wrap"></main>
+
+  <script>
+    const reportData = ${json};
+
+    function escapeHtml(text) {
+      return String(text ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function renderScores(scores) {
+      if (!Array.isArray(scores)) return "";
+
+      return scores.map(item => \`
+        <div class="score-row">
+          <div class="score-label">
+            <span>\${escapeHtml(item.label)}</span>
+            <span>\${escapeHtml(item.value)}%</span>
+          </div>
+          <div class="bar"><span style="width:\${Number(item.value) || 0}%"></span></div>
+        </div>
+      \`).join("");
+    }
+
+    function renderList(items) {
+      if (!Array.isArray(items)) return "";
+
+      return "<ul>" + items.map(item => \`
+        <li>\${escapeHtml(item)}</li>
+      \`).join("") + "</ul>";
+    }
+
+    function renderOsStructure(os) {
+      if (!os || typeof os !== "object") return "";
+
+      const labels = {
+        input: "5식 입력",
+        interpretation: "6식 해석",
+        identification: "7식 동일시",
+        storage: "8식 저장 패턴",
+        choice: "9식 선택 지점"
+      };
+
+      return Object.keys(labels).map(key => \`
+        <h3>\${labels[key]}</h3>
+        <p>\${escapeHtml(os[key])}</p>
+      \`).join("");
+    }
+
+    function renderReport(data) {
+      const root = document.getElementById("report");
+
+      root.innerHTML = \`
+        <section class="cover">
+          <div class="label">CONSCIOUSNESS ARCHITECTURE LAB</div>
+          <h1>\${escapeHtml(data.clientName)} 의식OS 프리미엄 리포트</h1>
+          <p>\${escapeHtml(data.reportDate)} · \${escapeHtml(data.reportType)}</p>
+        </section>
+
+        <section class="card">
+          <h2>전체 진단</h2>
+          <p><strong>\${escapeHtml(data.totalState)}</strong></p>
+          <p>\${escapeHtml(data.mainMessage)}</p>
+        </section>
+
+        <section class="card">
+          <h2>사주OS 기반 구조 해석</h2>
+          <p>\${escapeHtml(data.sajuOS)}</p>
+          <p>\${escapeHtml(data.energyPattern)}</p>
+          <p><strong>주요 작동 에너지:</strong> \${escapeHtml(data.dominantElements)}</p>
+        </section>
+
+        <section class="card">
+          <h2>체크리스트 점수</h2>
+          \${renderScores(data.scores)}
+        </section>
+
+        <section class="card">
+          <h2>오행 에너지 점수</h2>
+          \${renderScores(data.elementScores)}
+        </section>
+
+        <section class="card">
+          <h2>핵심 요약</h2>
+          \${renderList(data.summary)}
+        </section>
+
+        <section class="card">
+          <h2>의식OS 작동 구조</h2>
+          \${renderOsStructure(data.osStructure)}
+        </section>
+
+        <section class="card">
+          <h2>반복 루프</h2>
+          \${renderList(data.loop)}
+        </section>
+
+        <section class="card">
+          <h2>전환 질문</h2>
+          \${renderList(data.turningQuestions)}
+        </section>
+
+        <section class="card">
+          <h2>7일 전환 루틴</h2>
+          \${renderList(data.sevenDays)}
+        </section>
+
+        <section class="card">
+          <h2>마무리 메시지</h2>
+          <p>\${escapeHtml(data.finalMessage)}</p>
+        </section>
+
+        <div class="footer">
+          의식 구조 연구소 CAL · 현실은 사건이 아니라 구조입니다. 구조가 보이면 선택이 열립니다.
+        </div>
+      \`;
+    }
+
+    renderReport(reportData);
+  <\\/script>
+</body>
+</html>`;
+    }
+  </script>
+</body>
+</html>
