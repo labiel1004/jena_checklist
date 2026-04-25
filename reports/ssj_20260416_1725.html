@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>성수지 의식OS 프리미엄 리포트</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      background: #f8fafc;
+      color: #111827;
+      line-height: 1.75;
+    }
+
+    .wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 36px 18px 80px;
+    }
+
+    .cover {
+      background: linear-gradient(135deg, #111827, #1e293b);
+      color: white;
+      padding: 42px 26px;
+      border-radius: 24px;
+      margin-bottom: 28px;
+    }
+
+    .label {
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      color: #facc15;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin: 14px 0 10px;
+      line-height: 1.25;
+    }
+
+    h2 {
+      margin-top: 34px;
+      font-size: 22px;
+      border-left: 5px solid #111827;
+      padding-left: 12px;
+    }
+
+    h3 {
+      margin-top: 22px;
+      font-size: 18px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      margin: 18px 0;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+      border: 1px solid #e5e7eb;
+    }
+
+    .muted {
+      color: #64748b;
+    }
+
+    .score-row {
+      margin: 14px 0;
+    }
+
+    .score-label {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .bar {
+      height: 12px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      background: #111827;
+      border-radius: 999px;
+    }
+
+    ul {
+      padding-left: 22px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .footer {
+      margin-top: 42px;
+      padding-top: 22px;
+      border-top: 1px solid #e5e7eb;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .card, .cover {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main id="report" class="wrap"></main>
+
+  <script>
+    const reportData = {
+  "clientName": "성수지",
+  "reportDate": "2026.04.25",
+  "reportType": "의식OS 프리미엄 리포트",
+  "totalState": "내면 감지형 전환 대기 구조",
+  "mainMessage": "성수지님은 문제를 단정하기보다, 겉으로 드러나는 자신과 속내의 차이를 감지하며 ‘왜 이 구조가 작동하는가’를 관찰하는 단계에 있습니다.",
+  "sajuOS": "성수지님의 사주OS는 운명 해석이 아니라 입력 필터입니다. 외부 상황을 단순 사건으로 받기보다, 가슴 중심의 감각과 내면 불일치 신호로 먼저 해석하는 경향이 작동합니다.",
+  "energyPattern": "성수지님에게 현재 강하게 작동하는 에너지는 금(金) 에너지와 수(水) 에너지입니다. 금(金) 에너지는 겉과 속의 기준 차이를 감지하게 만들고, 수(水) 에너지는 그 차이를 안으로 오래 관찰하게 만듭니다. 이 구조는 돈, 안정, 휴식, 여행 같은 현실 주제에서 ‘진짜 원하는 것과 보여지는 선택이 다른가’를 점검하게 합니다.",
+  "elementScores": [
+    {
+      "label": "목",
+      "value": 0
+    },
+    {
+      "label": "화",
+      "value": 0
+    },
+    {
+      "label": "토",
+      "value": 0
+    },
+    {
+      "label": "금",
+      "value": 0
+    },
+    {
+      "label": "수",
+      "value": 0
+    }
+  ],
+  "dominantElements": "금(金) 에너지와 수(水) 에너지",
+  "scores": [
+    {
+      "label": "선택 가능성",
+      "value": 72
+    },
+    {
+      "label": "자동반응",
+      "value": 38
+    },
+    {
+      "label": "이원성 반응",
+      "value": 35
+    },
+    {
+      "label": "전환 가능성",
+      "value": 74
+    }
+  ],
+  "summary": [
+    "성수지님은 감정에 끌려가기보다, 자신의 반응을 관찰하려는 힘이 비교적 살아 있습니다.",
+    "성수지님은 ‘문제다’라고 단정하기보다 겉과 속의 차이를 구조적으로 감지합니다.",
+    "성수지님에게 핵심 전환점은 더 노력하는 것이 아니라, 이 차이가 하나의 반복 구조임을 알아차리는 순간입니다."
+  ],
+  "osStructure": {
+    "input": "성수지님은 돈, 몸의 피로, 관계 속 표현 차이 같은 현실 자극을 가슴 감각으로 먼저 입력합니다.",
+    "interpretation": "성수지님은 그 자극을 ‘겉으로 보이는 나와 실제 속내가 다르다’는 방식으로 해석합니다.",
+    "identification": "성수지님은 그 차이를 곧바로 문제로 동일시하지는 않지만, 왜 이런 간격이 생기는지 오래 바라보는 구조가 있습니다.",
+    "storage": "성수지님의 저장 패턴에는 드러난 모습보다 속마음을 더 신뢰하려는 기억, 그리고 몸을 편히 쉬게 하고 싶은 욕구가 축적되어 있습니다.",
+    "choice": "성수지님의 9식은 이 반응이 구조임을 인식하는 순간입니다. 자동반응을 알아차리는 지점에서 반응과 선택 사이의 간격이 열립니다."
+  },
+  "loop": [
+    "성수지님에게 돈이나 현실 안정과 관련된 자극이 들어옵니다.",
+    "성수지님은 몸과 가슴에서 먼저 긴장 또는 피로 신호를 감지합니다.",
+    "성수지님은 겉으로는 괜찮은 모습과 속으로는 쉬고 싶은 욕구의 차이를 느낍니다.",
+    "성수지님은 이 차이를 문제로 단정하지 않고 ‘왜 이럴까’라고 관찰합니다.",
+    "성수지님은 즉시 행동하기보다 내면에서 의미를 다시 정리하려는 흐름으로 들어갑니다.",
+    "성수지님이 이 흐름을 구조로 인식하는 순간, 선택의 간격이 열립니다."
+  ],
+  "turningQuestions": [
+    "성수지님, 지금 이 반응은 실제 문제인가, 아니면 반복되는 구조인가?",
+    "성수지님, 겉으로 보이는 선택과 속내 사이의 간격은 무엇을 알려주고 있는가?",
+    "성수지님, 지금 필요한 것은 결론인가, 아니면 선택 전의 자각인가?"
+  ],
+  "sevenDays": [
+    "1일차: 성수지님은 오늘 가슴이 반응한 순간을 한 문장으로 기록합니다.",
+    "2일차: 성수지님은 돈과 관련된 생각이 올라올 때 몸의 감각을 먼저 확인합니다.",
+    "3일차: 성수지님은 겉으로 한 말과 속으로 느낀 말을 나란히 적어봅니다.",
+    "4일차: 성수지님은 ‘이것은 문제인가, 구조인가?’라는 질문을 하루 한 번 사용합니다.",
+    "5일차: 성수지님은 육체를 편히 쉬게 하는 행동 하나를 실제로 선택합니다.",
+    "6일차: 성수지님은 자연, 여행, 휴식과 연결된 이미지를 보며 내면 욕구를 확인합니다.",
+    "7일차: 성수지님은 이번 주 반복된 반응 하나를 선택의 자리에서 다시 읽어봅니다."
+  ],
+  "finalMessage": "성수지님은 고쳐야 할 사람이 아니라, 겉과 속의 차이를 섬세하게 감지하는 구조입니다. 그 구조가 보이면 자각이 생기고, 자각이 생기는 순간 선택의 간격이 열립니다."
+};
+
+    function escapeHtml(text) {
+      return String(text ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function renderScores(scores) {
+      if (!Array.isArray(scores)) return "";
+
+      return scores.map(item => `
+        <div class="score-row">
+          <div class="score-label">
+            <span>${escapeHtml(item.label)}</span>
+            <span>${escapeHtml(item.value)}%</span>
+          </div>
+          <div class="bar"><span style="width:${Number(item.value) || 0}%"></span></div>
+        </div>
+      `).join("");
+    }
+
+    function renderList(items) {
+      if (!Array.isArray(items)) return "";
+
+      return "<ul>" + items.map(item => `
+        <li>${escapeHtml(item)}</li>
+      `).join("") + "</ul>";
+    }
+
+    function renderOsStructure(os) {
+      if (!os || typeof os !== "object") return "";
+
+      const labels = {
+        input: "5식 입력",
+        interpretation: "6식 해석",
+        identification: "7식 동일시",
+        storage: "8식 저장 패턴",
+        choice: "9식 선택 지점"
+      };
+
+      return Object.keys(labels).map(key => `
+        <h3>${labels[key]}</h3>
+        <p>${escapeHtml(os[key])}</p>
+      `).join("");
+    }
+
+    function renderReport(data) {
+      const root = document.getElementById("report");
+
+      root.innerHTML = `
+        <section class="cover">
+          <div class="label">CONSCIOUSNESS ARCHITECTURE LAB</div>
+          <h1>${escapeHtml(data.clientName)} 의식OS 프리미엄 리포트</h1>
+          <p>${escapeHtml(data.reportDate)} · ${escapeHtml(data.reportType)}</p>
+        </section>
+
+        <section class="card">
+          <h2>전체 진단</h2>
+          <p><strong>${escapeHtml(data.totalState)}</strong></p>
+          <p>${escapeHtml(data.mainMessage)}</p>
+        </section>
+
+        <section class="card">
+          <h2>사주OS 기반 구조 해석</h2>
+          <p>${escapeHtml(data.sajuOS)}</p>
+          <p>${escapeHtml(data.energyPattern)}</p>
+          <p><strong>주요 작동 에너지:</strong> ${escapeHtml(data.dominantElements)}</p>
+        </section>
+
+        <section class="card">
+          <h2>체크리스트 점수</h2>
+          ${renderScores(data.scores)}
+        </section>
+
+        <section class="card">
+          <h2>오행 에너지 점수</h2>
+          ${renderScores(data.elementScores)}
+        </section>
+
+        <section class="card">
+          <h2>핵심 요약</h2>
+          ${renderList(data.summary)}
+        </section>
+
+        <section class="card">
+          <h2>의식OS 작동 구조</h2>
+          ${renderOsStructure(data.osStructure)}
+        </section>
+
+        <section class="card">
+          <h2>반복 루프</h2>
+          ${renderList(data.loop)}
+        </section>
+
+        <section class="card">
+          <h2>전환 질문</h2>
+          ${renderList(data.turningQuestions)}
+        </section>
+
+        <section class="card">
+          <h2>7일 전환 루틴</h2>
+          ${renderList(data.sevenDays)}
+        </section>
+
+        <section class="card">
+          <h2>마무리 메시지</h2>
+          <p>${escapeHtml(data.finalMessage)}</p>
+        </section>
+
+        <div class="footer">
+          의식 구조 연구소 CAL · 현실은 사건이 아니라 구조입니다. 구조가 보이면 선택이 열립니다.
+        </div>
+      `;
+    }
+
+    renderReport(reportData);
+  <\/script>
+</body>
+</html>
