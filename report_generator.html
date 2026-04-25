@@ -389,20 +389,16 @@
           © Consciousness Architecture Lab · JENA CO.<br>
           Reality isn’t events. It’s structure.
         </div>
-      \`;
-    }
-function copyPageLink(){
-  const url = window.location.href.split("?")[0];
+    \`
+        </div>
 
-  navigator.clipboard.writeText(url)
-    .then(() => alert("리포트 링크가 복사되었습니다."))
-    .catch(() => alert("복사가 안 되면 주소창의 링크를 직접 복사해주세요."));
-}
-    renderReport(reportData);
-  ${closeScript}
+        <div class="footer">
+          © Consciousness Architecture Lab · JENA CO.<br>
+          Reality isn’t events. It’s structure.
+        </div>
+
+       <script>
+  renderReport(reportData);
+</script>
 </body>
-</html>`;
-    }
-  </script>
-</body>
-</html>
+</html>\`;
