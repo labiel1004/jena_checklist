@@ -3,7 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CAL 리포트 생성기</title>
+<meta property="og:title" content="${escapeHtmlText(data.clientName)} 의식OS 프리미엄 리포트">
+  <meta property="og:description" content="${escapeHtmlText(data.mainMessage)}">
+  <meta property="og:image" content="https://labiel1004.github.io/jena_checklist/cover.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://labiel1004.github.io/jena_checklist/">
+
+  <title>${escapeHtmlText(data.clientName || "고객")} 의식OS 프리미엄 리포트</title>
+  
   <style>
     body{margin:0;font-family:Arial,"Noto Sans KR",sans-serif;background:#0f172a;color:#e5e7eb;line-height:1.6}
     .wrap{max-width:980px;margin:0 auto;padding:32px 18px 80px}
