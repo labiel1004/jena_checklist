@@ -8,244 +8,682 @@
   <meta property="og:url" content="https://labiel1004.github.io/jena_checklist/" />
   <meta property="og:type" content="website" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Consciousness OS - 자가 진단</title>
+  <title>나는 지금 반응 중인가, 선택 중인가?</title>
 
-  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-main: #f8f9fb;
-      --navy-deep: #1a1f2c;
-      --navy-light: #2d3446;
-      --gold-point: #c5a368;
-      --gold-soft: #e5d5b7;
-      --white: #ffffff;
-      --text-main: #2c3e50;
-      --text-muted: #64748b;
-      --border-color: #e2e8f0;
+      --bg-1: #f5efe7;
+      --bg-2: #eee4d6;
+      --panel: rgba(255, 250, 244, 0.82);
+      --panel-strong: #fffaf4;
+      --soft: #f7f0e7;
+      --line: rgba(114, 92, 68, 0.14);
+      --line-strong: rgba(91, 73, 54, 0.18);
+      --text: #1f1d1a;
+      --muted: #6a655e;
+      --muted-2: #8a847b;
+      --green: #224f42;
+      --green-deep: #17382f;
+      --gold: #b88a4a;
+      --gold-soft: #e8d4b6;
+      --shadow: 0 24px 70px rgba(74, 56, 39, 0.12);
+      --shadow-soft: 0 12px 30px rgba(74, 56, 39, 0.08);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
     }
 
-    * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
 
     body {
-      margin: 0;
-      background: var(--bg-main);
-      color: var(--text-main);
-      font-family: "Pretendard", sans-serif;
-      line-height: 1.6;
+      min-height: 100vh;
+      font-family: "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 30%),
+        radial-gradient(circle at 85% 12%, rgba(184, 138, 74, 0.10) 0%, rgba(184, 138, 74, 0) 24%),
+        radial-gradient(circle at 20% 80%, rgba(34, 79, 66, 0.08) 0%, rgba(34, 79, 66, 0) 26%),
+        linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+      letter-spacing: -0.02em;
     }
 
-    .wrap {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 40px 20px 80px;
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.06), rgba(255,255,255,0.06)),
+        radial-gradient(rgba(255,255,255,0.18) 0.6px, transparent 0.8px);
+      background-size: auto, 18px 18px;
+      mix-blend-mode: soft-light;
+      opacity: 0.35;
     }
 
-    /* 상단 헤더 */
-    .header-badge {
-      display: inline-block;
-      background: var(--navy-deep);
-      color: var(--gold-soft);
-      padding: 6px 14px;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      font-size: 32px;
-      font-weight: 800;
-      color: var(--navy-deep);
-      line-height: 1.3;
-      margin: 0 0 24px;
-      letter-spacing: -0.04em;
-    }
-
-    .intro-text {
-      font-size: 16px;
-      color: var(--text-muted);
-      margin-bottom: 40px;
-      line-height: 1.8;
-      word-break: keep-all;
-    }
-
-    .intro-text b {
-      color: var(--navy-deep);
-      font-weight: 700;
-    }
-
-    /* 진행 상태 패널 */
-    .progress-panel {
-      background: var(--white);
-      padding: 24px;
-      border-radius: 20px 20px 0 0;
-      border: 1px solid var(--border-color);
-      border-bottom: none;
-    }
-
-    .progress-info {
+    .app-shell {
+      width: 100%;
+      padding: 30px 18px 56px;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
+    }
+
+    .card {
+      width: min(100%, 760px);
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(180deg, rgba(255,255,255,0.82) 0%, rgba(255,250,244,0.9) 100%);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.06) 40%, rgba(255,255,255,0.18) 100%);
+      opacity: 0.8;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 36px;
+      right: 36px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(184, 138, 74, 0.55), transparent);
+      z-index: 1;
+    }
+
+    #app {
+      padding: 34px 24px 24px;
+    }
+
+    .hero,
+    .progress-panel,
+    .question-view {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero {
+      padding: 6px 4px 18px;
+    }
+
+    .eyebrow-wrap {
+      display: flex;
       align-items: center;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 248, 238, 0.86);
+      border: 1px solid rgba(184, 138, 74, 0.22);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      box-shadow: 0 6px 18px rgba(94, 72, 42, 0.06);
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #c79b5d 0%, #9f743a 100%);
+      box-shadow: 0 0 0 4px rgba(184, 138, 74, 0.12);
+    }
+
+    .hero h1 {
+      margin: 0;
+      padding: 28px 28px 26px;
+      border-radius: 28px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(249,242,232,0.95) 100%);
+      border: 1px solid var(--line);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+      color: var(--text);
+      line-height: 1.2;
+      letter-spacing: -0.05em;
+    }
+
+    .headline-kicker {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--muted-2);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .headline-main {
+      display: block;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(34px, 5vw, 54px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--green-deep);
+    }
+
+    .headline-sub {
+      display: block;
+      margin-top: 8px;
+      font-size: clamp(24px, 4vw, 34px);
+      font-weight: 800;
+      line-height: 1.32;
+      letter-spacing: -0.055em;
+    }
+
+    .hero .description {
+      margin: 24px 6px 0;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.95;
+      letter-spacing: -0.03em;
+    }
+
+    .intro-strong {
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    .intro-accent {
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .intro-divider {
+      width: 72px;
+      height: 1px;
+      margin: 22px 0 0 6px;
+      background: linear-gradient(90deg, rgba(184,138,74,0.65), rgba(184,138,74,0.08));
+    }
+
+    .progress-panel {
+      margin-top: 18px;
+      padding: 18px 18px 16px;
+      border-radius: 22px;
+      background: rgba(255, 252, 247, 0.7);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .progress-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .progress-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .progress-step {
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .progress-score {
+      color: var(--muted);
       font-size: 13px;
       font-weight: 700;
-      color: var(--text-muted);
+      letter-spacing: -0.01em;
+    }
+
+    .progress-chip {
+      flex-shrink: 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(34,79,66,0.10) 0%, rgba(34,79,66,0.06) 100%);
+      color: var(--green);
+      border: 1px solid rgba(34,79,66,0.12);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
     }
 
     .progress-track {
-      height: 6px;
-      background: var(--border-color);
-      border-radius: 10px;
+      position: relative;
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
       overflow: hidden;
+      background: linear-gradient(90deg, rgba(224,212,197,0.9) 0%, rgba(239,230,220,0.9) 100%);
+      box-shadow: inset 0 1px 2px rgba(92, 67, 42, 0.06);
     }
 
     .progress-fill {
+      width: 0;
       height: 100%;
-      width: 0%;
-      background: var(--navy-deep);
-      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: inherit;
+      background: linear-gradient(90deg, #214f42 0%, #2f6857 55%, #b88a4a 100%);
+      box-shadow: 0 6px 18px rgba(34, 79, 66, 0.28);
+      transition: width 0.4s ease;
     }
 
-    /* 질문 카드 */
-    .question-card {
-      background: var(--white);
-      padding: 40px 30px;
-      border-radius: 0 0 20px 20px;
-      border: 1px solid var(--border-color);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-      min-height: 280px;
+    .question-view {
+      margin-top: 18px;
+    }
+
+    .question-meta {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      text-align: center;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding: 0 4px;
+      flex-wrap: wrap;
     }
 
     .question-number {
-      font-size: 14px;
+      color: var(--green);
+      font-size: 13px;
       font-weight: 800;
-      color: var(--gold-point);
-      margin-bottom: 20px;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    h2 {
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--navy-deep);
-      line-height: 1.7;
+    .question-category {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 249, 240, 0.88);
+      border: 1px solid rgba(184, 138, 74, 0.22);
+      color: #8a6535;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .question-card {
+      position: relative;
+      overflow: hidden;
+      padding: 30px 24px;
+      border-radius: 28px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.78) 0%, rgba(250,244,236,0.96) 100%);
+      border: 1px solid var(--line-strong);
+      box-shadow: var(--shadow-soft);
+      min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .question-card::before {
+      content: "“";
+      position: absolute;
+      top: 8px;
+      left: 18px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 88px;
+      line-height: 1;
+      color: rgba(184, 138, 74, 0.12);
+    }
+
+    .question-card h2 {
+      position: relative;
       margin: 0;
       white-space: pre-line;
-      word-break: keep-all;
+      color: var(--text);
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 500;
+      line-height: 1.92;
+      letter-spacing: -0.04em;
     }
 
-    /* 답변 버튼 그룹 */
+    .question-subcopy {
+      margin-top: 18px;
+      color: var(--muted-2);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
     .answer-group {
+      margin-top: 16px;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-top: 30px;
     }
 
-    .btn-answer {
-      padding: 24px 20px;
-      border-radius: 16px;
-      font-size: 17px;
-      font-weight: 700;
+    .answer-button {
+      position: relative;
+      overflow: hidden;
+      min-height: 64px;
+      border: 0;
+      border-radius: 20px;
+      padding: 18px 20px;
       cursor: pointer;
-      border: none;
-      transition: all 0.2s ease;
-    }
-
-    .btn-answer.yes {
-      background: var(--navy-deep);
-      color: var(--white);
-      box-shadow: 0 8px 20px rgba(26, 31, 44, 0.15);
-    }
-
-    .btn-answer.no {
-      background: var(--gold-soft);
-      color: var(--navy-deep);
-    }
-
-    .btn-answer:active {
-      transform: scale(0.96);
-    }
-
-    /* 완료 시 결과 버튼 */
-    .btn-result {
-      display: block;
-      background: var(--navy-deep);
-      color: var(--white);
-      padding: 20px;
-      border-radius: 16px;
-      text-align: center;
-      text-decoration: none;
+      font-size: 16px;
       font-weight: 800;
-      font-size: 18px;
-      margin-top: 20px;
-      box-shadow: 0 10px 25px rgba(26, 31, 44, 0.2);
+      letter-spacing: -0.03em;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .answer-button::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.26), rgba(255,255,255,0));
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .answer-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .answer-button:active {
+      transform: translateY(0);
+    }
+
+    .answer-button:focus-visible {
+      outline: 3px solid rgba(184, 138, 74, 0.35);
+      outline-offset: 3px;
+    }
+
+    .answer-button.yes {
+      background: linear-gradient(135deg, #1f4b3f 0%, #295d4f 65%, #376f5f 100%);
+      color: #fff;
+      box-shadow: 0 14px 28px rgba(31, 75, 63, 0.24);
+    }
+
+    .answer-button.no {
+      background: linear-gradient(180deg, #f7efe3 0%, #f0e4d3 100%);
+      color: var(--green-deep);
+      border: 1px solid rgba(130, 104, 73, 0.14);
+      box-shadow: 0 10px 24px rgba(114, 88, 59, 0.08);
+    }
+
+    .answer-caption {
+      display: block;
+      margin-top: 5px;
+      font-size: 12px;
+      font-weight: 700;
+      opacity: 0.82;
+      letter-spacing: -0.01em;
     }
 
     .score-badge {
-      display: inline-block;
-      margin: 20px auto;
-      padding: 8px 20px;
-      background: #f1f5f9;
-      color: var(--navy-deep);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+      padding: 10px 15px;
       border-radius: 999px;
-      font-weight: 800;
+      background: linear-gradient(180deg, rgba(184,138,74,0.14), rgba(184,138,74,0.08));
+      color: #7d5b30;
+      border: 1px solid rgba(184,138,74,0.2);
       font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
     }
 
-    @media (max-width: 520px) {
-      .wrap { padding: 30px 16px; }
-      h1 { font-size: 26px; }
-      .question-card { padding: 35px 20px; }
-      h2 { font-size: 18px; }
+    .result-summary {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.85;
+      font-weight: 500;
+    }
+
+    .breakdown-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .breakdown-card {
+      padding: 16px 14px;
+      border-radius: 20px;
+      background: rgba(255, 251, 246, 0.84);
+      border: 1px solid var(--line);
+      text-align: left;
+    }
+
+    .breakdown-label {
+      display: block;
+      color: var(--muted-2);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+
+    .breakdown-value {
+      display: block;
+      color: var(--green-deep);
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .breakdown-unit {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      margin-left: 3px;
+    }
+
+    .cta-wrap {
+      margin-top: 22px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .cta-button {
+      display: block;
+      width: 100%;
+      padding: 18px 20px;
+      border-radius: 20px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.5;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #1f4b3f 0%, #2c6152 60%, #b88a4a 130%);
+      color: #fff;
+      box-shadow: 0 16px 32px rgba(34, 79, 66, 0.22);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px rgba(34, 79, 66, 0.26);
+    }
+
+    .footer-note {
+      margin-top: 12px;
+      color: var(--muted-2);
+      font-size: 12px;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .fade-up {
+      animation: fadeUp 0.38s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 640px) {
+      #app {
+        padding: 22px 16px 18px;
+      }
+
+      .hero h1 {
+        padding: 22px 20px 20px;
+        border-radius: 24px;
+      }
+
+      .hero .description {
+        margin-top: 20px;
+        font-size: 15px;
+        line-height: 1.88;
+      }
+
+      .progress-panel {
+        padding: 16px 14px 14px;
+        border-radius: 18px;
+      }
+
+      .progress-top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .question-card {
+        padding: 26px 18px;
+        min-height: 220px;
+        border-radius: 24px;
+      }
+
+      .question-card::before {
+        font-size: 70px;
+        top: 10px;
+        left: 14px;
+      }
+
+      .question-card h2 {
+        font-size: 19px;
+        line-height: 1.85;
+      }
+
+      .answer-group {
+        grid-template-columns: 1fr;
+      }
+
+      .breakdown-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="header-badge">Consciousness OS</div>
-    <h1>나는 지금 반응 중인가,<br>선택 중인가?</h1>
+  <main class="app-shell">
+    <section class="card" id="app">
+      <header class="hero">
+        <div class="eyebrow-wrap">
+          <p class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            의식OS 체크리스트
+          </p>
+        </div>
 
-    <p class="intro-text">
-      당신은 지금 <b>선택하며 살고 있습니까</b>, 아니면 반응에 끌려가고 있습니까?
-      생각으로 판단하지 말고, 떠오르는 장면이 있다면 솔직하게 체크해 주세요.
-    </p>
+        <h1>
+          <span class="headline-kicker">Self-awareness Checklist</span>
+          <span class="headline-main">Reaction or Choice</span>
+          <span class="headline-sub">나는 지금 반응 중인가, 선택 중인가?</span>
+        </h1>
 
-    <section class="progress-panel">
-      <div class="progress-info">
-        <span id="progressText">1 / 18</span>
-        <span id="scoreText">반응 발견 0회</span>
-      </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
+        <p class="description">
+          당신은 지금<br>
+          <span class="intro-strong">선택하며 살고 있습니까,</span><br>
+          아니면 <span class="intro-accent">반응에 끌려가고 있습니까.</span><br><br>
+
+          이 체크리스트는 그 차이를<br>
+          조용하지만 선명하게 드러냅니다.<br><br>
+
+          생각으로 분석하기보다,<br>
+          <span class="intro-strong">실제로 떠오르는 장면</span>에 따라 선택해 주세요.
+        </p>
+
+        <div class="intro-divider" aria-hidden="true"></div>
+      </header>
+
+      <section class="progress-panel" aria-label="진행 상태">
+        <div class="progress-top">
+          <div class="progress-copy">
+            <span class="progress-step" id="progressText">01 / 18</span>
+            <span class="progress-score" id="scoreText">반응 포착 0회</span>
+          </div>
+          <span class="progress-chip" id="currentCategoryChip">감정 반응</span>
+        </div>
+
+        <div class="progress-track" aria-hidden="true">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </section>
+
+      <section id="questionView" class="question-view fade-up">
+        <div class="question-meta">
+          <p class="question-number" id="questionNumber">QUESTION 01</p>
+          <span class="question-category" id="questionCategory">감정 반응</span>
+        </div>
+
+        <div class="question-card">
+          <h2 id="questionText"></h2>
+          <p class="question-subcopy">정답은 없습니다. 지금의 패턴을 있는 그대로 확인해 보세요.</p>
+        </div>
+
+        <div class="answer-group">
+          <button class="answer-button yes" id="yesButton" type="button">
+            해당된다
+            <span class="answer-caption">익숙한 자동반응이 보인다</span>
+          </button>
+          <button class="answer-button no" id="noButton" type="button">
+            해당 없음
+            <span class="answer-caption">지금의 나와는 거리가 있다</span>
+          </button>
+        </div>
+      </section>
     </section>
-
-    <section id="questionView">
-      <div class="question-card">
-        <p class="question-number" id="questionNumber">STEP 01</p>
-        <h2 id="questionText">문항을 불러오는 중입니다...</h2>
-      </div>
-
-      <div class="answer-group">
-        <button class="btn-answer no" id="noButton">해당 없음</button>
-        <button class="btn-answer yes" id="yesButton">해당된다</button>
-      </div>
-    </section>
-
-    <div style="text-align: center; margin-top: 40px; color: var(--text-muted); font-size: 12px; letter-spacing: 0.05em;">
-      © Consciousness Architecture Lab · JENA CO.
-    </div>
-  </div>
+  </main>
 
   <script>
     const questions = [
@@ -269,40 +707,89 @@
       { text: "지금 이 순간에도\n내가 선택하고 있는지, 반응하고 있는지 헷갈릴 때가 있다.", category: "choice" }
     ];
 
+    const categoryLabels = {
+      emotion: "감정 반응",
+      relation: "관계 반응",
+      choice: "선택 패턴"
+    };
+
     let currentIndex = 0;
     let totalYes = 0;
-    const categoryScores = { emotion: 0, relation: 0, choice: 0 };
 
-    const qNum = document.getElementById("questionNumber");
-    const qText = document.getElementById("questionText");
-    const progText = document.getElementById("progressText");
+    const categoryScores = {
+      emotion: 0,
+      relation: 0,
+      choice: 0
+    };
+
+    const questionNumber = document.getElementById("questionNumber");
+    const questionText = document.getElementById("questionText");
+    const progressText = document.getElementById("progressText");
     const scoreText = document.getElementById("scoreText");
-    const progFill = document.getElementById("progressFill");
-    const qView = document.getElementById("questionView");
+    const progressFill = document.getElementById("progressFill");
+    const yesButton = document.getElementById("yesButton");
+    const noButton = document.getElementById("noButton");
+    const questionView = document.getElementById("questionView");
+    const questionCategory = document.getElementById("questionCategory");
+    const currentCategoryChip = document.getElementById("currentCategoryChip");
 
-    function render() {
-      const q = questions[currentIndex];
-      qNum.textContent = `STEP ${String(currentIndex + 1).padStart(2, '0')}`;
-      qText.textContent = q.text;
-      progText.textContent = `${currentIndex + 1} / ${questions.length}`;
-      scoreText.textContent = `반응 발견 ${totalYes}회`;
-      progFill.style.width = `${((currentIndex + 1) / questions.length) * 100}%`;
+    function pad(num) {
+      return String(num).padStart(2, "0");
     }
 
-    function handleAnswer(isYes) {
+    function animateView() {
+      questionView.classList.remove("fade-up");
+      void questionView.offsetWidth;
+      questionView.classList.add("fade-up");
+    }
+
+    function renderQuestion() {
+      const current = questions[currentIndex];
+      const ratio = ((currentIndex + 1) / questions.length) * 100;
+      const categoryLabel = categoryLabels[current.category];
+
+      questionNumber.textContent = `QUESTION ${pad(currentIndex + 1)}`;
+      questionText.textContent = current.text;
+      questionCategory.textContent = categoryLabel;
+      currentCategoryChip.textContent = categoryLabel;
+      progressText.textContent = `${pad(currentIndex + 1)} / ${questions.length}`;
+      scoreText.textContent = `반응 포착 ${totalYes}회`;
+      progressFill.style.width = `${ratio}%`;
+
+      animateView();
+    }
+
+    function answer(isYes) {
       if (isYes) {
         totalYes++;
         categoryScores[questions[currentIndex].category]++;
       }
+
       currentIndex++;
+
       if (currentIndex >= questions.length) {
-        showComplete();
+        showResult();
       } else {
-        render();
+        renderQuestion();
       }
     }
 
-    function showComplete() {
+    function getResultMessage(score) {
+      if (score <= 5) {
+        return "현재는 자동반응에 완전히 끌려가기보다, 어느 정도 선택의 감각을 유지하고 있는 상태에 가깝습니다.";
+      }
+      if (score <= 11) {
+        return "선택과 반응이 함께 작동하고 있는 구간입니다. 특정 상황에서는 의식적으로 선택하지만, 익숙한 장면에서는 자동반응이 먼저 나타날 수 있습니다.";
+      }
+      return "지금은 자동반응의 패턴이 비교적 강하게 작동하고 있을 가능성이 큽니다. 특히 감정, 관계, 결정의 순간에 반응이 선택보다 먼저 움직일 수 있습니다.";
+    }
+
+    function showResult() {
+      progressText.textContent = `${questions.length} / ${questions.length}`;
+      scoreText.textContent = `반응 포착 ${totalYes}회`;
+      currentCategoryChip.textContent = "체크 완료";
+      progressFill.style.width = "100%";
+
       const params = new URLSearchParams({
         score: totalYes,
         total: questions.length,
@@ -311,21 +798,54 @@
         choice: categoryScores.choice
       });
 
-      qView.innerHTML = `
-        <div class="question-card" style="min-height: auto;">
+      const summary = getResultMessage(totalYes);
+
+      questionView.innerHTML = `
+        <div class="question-meta">
           <p class="question-number">COMPLETE</p>
-          <h2>모든 문항 체크가 완료되었습니다.</h2>
-          <p style="color: var(--text-muted); margin-top: 15px;">당신의 무의식 속에 숨겨진<br>자동반응 구조를 분석합니다.</p>
-          <div class="score-badge">자동반응 총 ${totalYes}회 발견</div>
+          <span class="question-category">결과 준비 완료</span>
         </div>
-        <a href="report.html?${params.toString()}" class="btn-result">분석 결과 확인하기</a>
+
+        <div class="question-card">
+          <h2>선택 vs 반응 체크가 완료되었습니다.\n이제 당신의 현재 반응 구조를 확인해 보세요.</h2>
+
+          <div class="score-badge">
+            자동반응 포착 ${totalYes}회
+          </div>
+
+          <p class="result-summary">${summary}</p>
+
+          <div class="breakdown-grid">
+            <div class="breakdown-card">
+              <span class="breakdown-label">감정 반응</span>
+              <span class="breakdown-value">${categoryScores.emotion}<span class="breakdown-unit">회</span></span>
+            </div>
+            <div class="breakdown-card">
+              <span class="breakdown-label">관계 반응</span>
+              <span class="breakdown-value">${categoryScores.relation}<span class="breakdown-unit">회</span></span>
+            </div>
+            <div class="breakdown-card">
+              <span class="breakdown-label">선택 패턴</span>
+              <span class="breakdown-value">${categoryScores.choice}<span class="breakdown-unit">회</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cta-wrap">
+          <a href="report.html?${params.toString()}" class="cta-button">
+            기본 결과 확인하기
+          </a>
+          <p class="footer-note">현재 점수와 카테고리별 결과가 함께 전달됩니다.</p>
+        </div>
       `;
+
+      animateView();
     }
 
-    document.getElementById("yesButton").onclick = () => handleAnswer(true);
-    document.getElementById("noButton").onclick = () => handleAnswer(false);
+    yesButton.addEventListener("click", () => answer(true));
+    noButton.addEventListener("click", () => answer(false));
 
-    render();
+    renderQuestion();
   </script>
 </body>
 </html>
