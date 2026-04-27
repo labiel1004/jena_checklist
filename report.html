@@ -113,14 +113,6 @@
       padding: 30px 24px;
     }
 
-    .eyebrow-wrap {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
-
     .eyebrow {
       display: inline-flex;
       align-items: center;
@@ -135,6 +127,7 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
       box-shadow: 0 6px 18px rgba(94, 72, 42, 0.06);
+      white-space: nowrap;
     }
 
     .eyebrow-dot {
@@ -145,120 +138,201 @@
       box-shadow: 0 0 0 4px rgba(184, 138, 74, 0.12);
     }
 
-    .hero-title {
-      margin: 0;
-      padding: 28px 28px 26px;
-      border-radius: 28px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(249,242,232,0.95) 100%);
-      border: 1px solid var(--line);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
-      color: var(--text);
-      line-height: 1.2;
-      letter-spacing: -0.05em;
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 15% 18%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0) 28%),
+        radial-gradient(circle at 85% 20%, rgba(184,138,74,0.10) 0%, rgba(184,138,74,0) 24%),
+        linear-gradient(135deg, rgba(255,255,255,0.88) 0%, rgba(248,241,232,0.95) 55%, rgba(244,235,224,0.98) 100%);
+      border: 1px solid rgba(114, 92, 68, 0.12);
+      box-shadow:
+        0 26px 80px rgba(74, 56, 39, 0.12),
+        inset 0 1px 0 rgba(255,255,255,0.7);
     }
 
-    .headline-kicker {
-      display: block;
-      margin-bottom: 10px;
-      color: var(--muted-2);
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
+    .hero-inner {
+      padding: 34px 30px 28px;
     }
 
-    .headline-main {
-      display: block;
-      font-family: "Cormorant Garamond", serif;
-      font-size: clamp(34px, 5vw, 54px);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      color: var(--green-deep);
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(6px);
+      opacity: 0.7;
     }
 
-    .headline-sub {
-      display: block;
-      margin-top: 8px;
-      font-size: clamp(24px, 4vw, 34px);
-      font-weight: 800;
-      line-height: 1.32;
-      letter-spacing: -0.055em;
+    .hero-orb-1 {
+      width: 240px;
+      height: 240px;
+      top: -70px;
+      right: -40px;
+      background: radial-gradient(circle, rgba(184,138,74,0.14) 0%, rgba(184,138,74,0) 70%);
     }
 
-    .lead {
-      margin: 24px 6px 0;
-      color: var(--muted);
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 1.95;
-      letter-spacing: -0.03em;
+    .hero-orb-2 {
+      width: 220px;
+      height: 220px;
+      bottom: -90px;
+      left: -50px;
+      background: radial-gradient(circle, rgba(34,79,66,0.10) 0%, rgba(34,79,66,0) 70%);
     }
 
-    .intro-divider {
-      width: 72px;
-      height: 1px;
-      margin: 22px 0 0 6px;
-      background: linear-gradient(90deg, rgba(184,138,74,0.65), rgba(184,138,74,0.08));
-    }
-
-    .score-panel {
-      margin-top: 22px;
-      padding: 20px 18px 18px;
-      border-radius: 22px;
-      background: rgba(255, 252, 247, 0.7);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow-soft);
-    }
-
-    .score-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-
-    .score-title {
-      margin: 0;
-      color: var(--green-deep);
-      font-size: 22px;
-      font-weight: 800;
-      line-height: 1.45;
-      letter-spacing: -0.04em;
-    }
-
-    .score-sub {
-      margin: 6px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .score-chip {
-      flex-shrink: 0;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: linear-gradient(180deg, rgba(184,138,74,0.16), rgba(184,138,74,0.08));
-      color: #7d5b30;
-      border: 1px solid rgba(184,138,74,0.2);
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.05em;
-    }
-
-    .bar-wrap {
-      margin-top: 2px;
-    }
-
-    .bar-copy {
+    .hero-topline {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      color: var(--muted);
-      font-size: 13px;
+      margin-bottom: 26px;
+      flex-wrap: wrap;
+    }
+
+    .hero-mini-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(184,138,74,0.16), rgba(184,138,74,0.08));
+      border: 1px solid rgba(184,138,74,0.22);
+      color: #7d5b30;
+      font-size: 12px;
       font-weight: 800;
-      margin-bottom: 9px;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .hero-copy {
+      padding: 6px 2px 0;
+    }
+
+    .hero-kicker {
+      margin: 0 0 10px;
+      color: var(--muted-2);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero-title-impact {
+      margin: 0;
+      line-height: 1.05;
+    }
+
+    .hero-title-en {
+      display: block;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(44px, 6vw, 72px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: var(--green-deep);
+      text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+    }
+
+    .hero-title-ko {
+      display: block;
+      margin-top: 12px;
+      font-size: clamp(26px, 4vw, 42px);
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.06em;
+      color: #1f1d1a;
+    }
+
+    .hero-state-line {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.75;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-state-line strong {
+      color: var(--green-deep);
+      font-weight: 800;
+    }
+
+    .hero-lead {
+      margin: 18px 0 0;
+      max-width: 560px;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.9;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-side-panel {
+      position: relative;
+      padding: 22px 18px 18px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.74) 0%, rgba(249,242,232,0.95) 100%);
+      border: 1px solid rgba(114, 92, 68, 0.12);
+      box-shadow:
+        0 16px 32px rgba(74, 56, 39, 0.08),
+        inset 0 1px 0 rgba(255,255,255,0.65);
+    }
+
+    .hero-side-panel::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 18px;
+      right: 18px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(184,138,74,0.55), transparent);
+    }
+
+    .hero-side-label {
+      color: var(--muted-2);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+
+    .hero-side-score {
+      margin-top: 10px;
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      color: var(--green-deep);
+    }
+
+    .hero-side-score strong {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 54px;
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .hero-side-score span {
+      font-size: 18px;
+      font-weight: 800;
+      transform: translateY(-8px);
+    }
+
+    .hero-side-bar-wrap {
+      margin-top: 18px;
+    }
+
+    .hero-side-bar-copy {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
     }
 
     .bar {
@@ -278,22 +352,52 @@
       transition: width 0.7s ease;
     }
 
-    .breakdown-grid {
+    .hero-side-status {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(114, 92, 68, 0.12);
+    }
+
+    .hero-side-status-label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted-2);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero-side-status strong {
+      color: var(--green-deep);
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-bottom-line {
+      margin-top: 24px;
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(184,138,74,0.75), rgba(184,138,74,0.08));
+    }
+
+    .stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 12px;
-      margin-top: 18px;
+      margin-top: 20px;
     }
 
-    .breakdown-card {
+    .stat-card {
       padding: 16px 14px;
       border-radius: 20px;
-      background: rgba(255, 251, 246, 0.84);
+      background: rgba(255, 251, 246, 0.74);
       border: 1px solid var(--line);
-      text-align: left;
+      box-shadow: var(--shadow-soft);
     }
 
-    .breakdown-label {
+    .stat-label {
       display: block;
       color: var(--muted-2);
       font-size: 12px;
@@ -302,15 +406,16 @@
       margin-bottom: 10px;
     }
 
-    .breakdown-value {
+    .stat-value {
       display: block;
       color: var(--green-deep);
-      font-size: 24px;
+      font-size: 26px;
       font-weight: 800;
       letter-spacing: -0.04em;
+      line-height: 1.1;
     }
 
-    .breakdown-unit {
+    .stat-value span {
       color: var(--muted);
       font-size: 13px;
       font-weight: 700;
@@ -505,7 +610,7 @@
       }
     }
 
-    @media (max-width: 720px) {
+    @media (max-width: 760px) {
       .wrap {
         padding: 22px 12px 48px;
       }
@@ -514,25 +619,29 @@
         padding: 22px 16px;
       }
 
-      .hero-title {
-        padding: 22px 20px 20px;
-        border-radius: 24px;
+      .hero-inner {
+        padding: 24px 18px 20px;
       }
 
-      .lead {
-        margin-top: 20px;
-        font-size: 15px;
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
       }
 
-      .score-panel {
-        padding: 16px 14px 14px;
+      .hero-title-en {
+        font-size: 52px;
       }
 
-      .score-top {
-        flex-direction: column;
+      .hero-title-ko {
+        font-size: 30px;
+        margin-top: 10px;
       }
 
-      .breakdown-grid {
+      .hero-side-panel {
+        padding: 18px 16px 16px;
+      }
+
+      .stats-grid {
         grid-template-columns: 1fr;
       }
 
@@ -558,63 +667,81 @@
 <body>
   <div class="wrap fade-up">
 
-    <section class="card">
-      <div class="card-inner">
-        <div class="eyebrow-wrap">
-          <p class="eyebrow">
+    <section class="card hero-card">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+
+      <div class="card-inner hero-inner">
+        <div class="hero-topline">
+          <div class="eyebrow">
             <span class="eyebrow-dot"></span>
-            Consciousness OS Basic Result
-          </p>
+            Reaction Pattern Analysis
+          </div>
+
+          <div class="hero-mini-chip" id="heroPercentChip">0% 반응률</div>
         </div>
 
-        <h1 class="hero-title">
-          <span class="headline-kicker">Reaction Pattern Analysis</span>
-          <span class="headline-main">Basic Result</span>
-          <span class="headline-sub">선택 vs 반응 기본 결과</span>
-        </h1>
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <p class="hero-kicker">Consciousness OS</p>
 
-        <p class="lead">
-          이 결과는 당신을 평가하기 위한 것이 아닙니다.<br>
-          지금 어떤 자동반응 구조가 더 선명하게 드러나는지 확인하기 위한
-          기본 분석입니다.
-        </p>
+            <h1 class="hero-title-impact">
+              <span class="hero-title-en">Basic Result</span>
+              <span class="hero-title-ko">선택 vs 반응 기본 결과</span>
+            </h1>
 
-        <div class="intro-divider" aria-hidden="true"></div>
+            <p class="hero-state-line">
+              지금 드러난 것은 성격이 아니라,
+              <strong id="statusTitleInline">전환 구간</strong>의 반응 구조입니다.
+            </p>
 
-        <div class="score-panel">
-          <div class="score-top">
-            <div>
-              <p class="score-title">
-                자동반응 발견 <span id="scoreText">0</span>회
-              </p>
-              <p class="score-sub">자동반응이 먼저 실행된 순간</p>
-            </div>
-            <span class="score-chip" id="percentChip">0%</span>
+            <p class="hero-lead">
+              이 결과는 당신을 평가하기 위한 것이 아닙니다.<br>
+              지금 어떤 자동반응 구조가 더 선명하게 드러나는지 확인하기 위한
+              기본 분석입니다.
+            </p>
           </div>
 
-          <div class="bar-wrap">
-            <div class="bar-copy">
-              <span>자동반응이 먼저 실행된 비율</span>
-              <span id="percentText">0%</span>
+          <div class="hero-side-panel">
+            <div class="hero-side-label">현재 포착된 반응</div>
+
+            <div class="hero-side-score">
+              <strong id="heroScoreText">0</strong><span>회</span>
             </div>
-            <div class="bar">
-              <div class="bar-fill" id="barFill"></div>
+
+            <div class="hero-side-bar-wrap">
+              <div class="hero-side-bar-copy">
+                <span>자동반응 실행 비율</span>
+                <span id="heroPercentText">0%</span>
+              </div>
+              <div class="bar">
+                <div class="bar-fill" id="barFill"></div>
+              </div>
+            </div>
+
+            <div class="hero-side-status">
+              <span class="hero-side-status-label">현재 상태</span>
+              <strong id="statusTitleHero">전환 구간</strong>
             </div>
           </div>
+        </div>
 
-          <div class="breakdown-grid">
-            <div class="breakdown-card">
-              <span class="breakdown-label">감정 반응</span>
-              <span class="breakdown-value"><span id="emotionText">0</span><span class="breakdown-unit">회</span></span>
-            </div>
-            <div class="breakdown-card">
-              <span class="breakdown-label">관계 반응</span>
-              <span class="breakdown-value"><span id="relationText">0</span><span class="breakdown-unit">회</span></span>
-            </div>
-            <div class="breakdown-card">
-              <span class="breakdown-label">선택 패턴</span>
-              <span class="breakdown-value"><span id="choiceText">0</span><span class="breakdown-unit">회</span></span>
-            </div>
+        <div class="hero-bottom-line"></div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-label">감정 반응</span>
+            <span class="stat-value"><span id="emotionText">0</span><span>회</span></span>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-label">관계 반응</span>
+            <span class="stat-value"><span id="relationText">0</span><span>회</span></span>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-label">선택 패턴</span>
+            <span class="stat-value"><span id="choiceText">0</span><span>회</span></span>
           </div>
         </div>
       </div>
@@ -779,18 +906,21 @@
     const choice = Number(params.get("choice")) || 0;
     const percent = Math.round((score / total) * 100);
 
-    const scoreText = document.getElementById("scoreText");
-    const percentText = document.getElementById("percentText");
-    const percentChip = document.getElementById("percentChip");
+    const heroScoreText = document.getElementById("heroScoreText");
+    const heroPercentText = document.getElementById("heroPercentText");
+    const heroPercentChip = document.getElementById("heroPercentChip");
     const barFill = document.getElementById("barFill");
 
     const emotionText = document.getElementById("emotionText");
     const relationText = document.getElementById("relationText");
     const choiceText = document.getElementById("choiceText");
 
+    const statusTitleHero = document.getElementById("statusTitleHero");
+    const statusTitleInline = document.getElementById("statusTitleInline");
     const statusTitle = document.getElementById("statusTitle");
     const statusText = document.getElementById("statusText");
     const statusSummary = document.getElementById("statusSummary");
+
     const typeTitle = document.getElementById("typeTitle");
     const typeText = document.getElementById("typeText");
     const typeExample = document.getElementById("typeExample");
@@ -798,9 +928,10 @@
     const basicLink = document.getElementById("basicLink");
     const premiumLink = document.getElementById("premiumLink");
 
-    scoreText.textContent = score;
-    percentText.textContent = percent + "%";
-    percentChip.textContent = percent + "%";
+    heroScoreText.textContent = score;
+    heroPercentText.textContent = percent + "%";
+    heroPercentChip.textContent = percent + "% 반응률";
+
     emotionText.textContent = emotion;
     relationText.textContent = relation;
     choiceText.textContent = choice;
@@ -889,6 +1020,8 @@
     const type = getType();
 
     statusTitle.textContent = status.title;
+    statusTitleHero.textContent = status.title;
+    statusTitleInline.textContent = status.title;
     statusText.textContent = status.text;
     statusSummary.textContent = status.summary;
 
