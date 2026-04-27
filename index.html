@@ -15,234 +15,251 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 
-  <style>
-    body {
-      background:
-        radial-gradient(circle at top left, rgba(205, 224, 210, 0.45), transparent 34%),
-        linear-gradient(180deg, #f5efe5 0%, #ece2d3 100%);
-    }
+ <style>
+  :root {
+    --bg: #f3eee6;
+    --card: #fffdf8;
+    --card-soft: #f8f3ea;
+    --line: #e4d8c8;
+    --text: #20251f;
+    --muted: #5f675f;
+    --green: #1f5f49;
+    --green-dark: #153f32;
+    --brown: #4f3d2e;
+    --brown-soft: #eee5d8;
+  }
 
+  body {
+    background: var(--bg);
+  }
+
+  .app-shell {
+    padding-top: 12px;
+    padding-bottom: 48px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    box-shadow: 0 22px 54px rgba(79, 61, 46, 0.08);
+  }
+
+  .hero {
+    padding-top: 4px;
+  }
+
+  .hero .eyebrow {
+    margin-bottom: 14px;
+    color: var(--green);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+
+  .hero h1 {
+    display: block;
+    padding: 22px 22px;
+    border-radius: 28px;
+    background: var(--card-soft);
+    border: 1px solid var(--line);
+    color: var(--text);
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.38;
+    letter-spacing: -0.055em;
+  }
+
+  .hero .description {
+    margin-top: 26px;
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--muted);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+  }
+
+  .intro-strong {
+    color: var(--text);
+    font-weight: 800;
+  }
+
+  .progress-panel {
+    background: var(--card);
+    border: 1px solid var(--line);
+    box-shadow: none;
+  }
+
+  .progress-copy {
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .progress-track {
+    background: #e8dfd3;
+  }
+
+  .progress-fill {
+    background: var(--green);
+  }
+
+  .question-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    box-shadow: none;
+  }
+
+  .question-number {
+    color: var(--green);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+  }
+
+  .question-card h2 {
+    white-space: pre-line;
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.88;
+    letter-spacing: -0.035em;
+  }
+
+  .answer-button {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  .answer-button.yes {
+    background: var(--green);
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(31, 95, 73, 0.18);
+  }
+
+  .answer-button.no {
+    background: var(--brown-soft);
+    color: var(--brown);
+    border: 1px solid #dfd1c0;
+  }
+
+  .result-box {
+    margin-top: 22px;
+    padding: 28px 24px;
+    border-radius: 28px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    box-shadow: none;
+  }
+
+  .result-box.soft {
+    background: var(--card-soft);
+    border: 1px solid var(--line);
+  }
+
+  .result-title {
+    margin: 0 0 16px;
+    color: var(--text);
+    font-size: 21px;
+    font-weight: 800;
+    line-height: 1.5;
+    letter-spacing: -0.045em;
+  }
+
+  .result-box p {
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.82;
+    letter-spacing: -0.035em;
+  }
+
+  .score-badge {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 9px 15px;
+    border-radius: 999px;
+    background: var(--brown-soft);
+    color: var(--brown);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  .highlight-line {
+    display: block;
+    margin: 8px 0 16px;
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: #eef4ef;
+    border-left: 4px solid var(--green);
+    color: var(--green-dark) !important;
+    font-weight: 800 !important;
+  }
+
+  .cta-wrap {
+    margin-top: 30px;
+    display: grid;
+    gap: 12px;
+  }
+
+  .cta-button {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 18px 18px;
+    border-radius: 18px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.5;
+    letter-spacing: -0.035em;
+  }
+
+  .cta-primary {
+    background: var(--brown);
+    color: #fff;
+    box-shadow: 0 14px 28px rgba(79, 61, 46, 0.22);
+  }
+
+  .cta-secondary {
+    background: var(--card);
+    color: var(--muted);
+    border: 1px solid var(--line);
+  }
+
+  @media (max-width: 520px) {
     .app-shell {
-      padding-top: 14px;
-      padding-bottom: 44px;
-    }
-
-    .card {
-      background: rgba(255, 252, 246, 0.96);
-      border: 1px solid rgba(220, 207, 188, 0.95);
-      box-shadow: 0 18px 46px rgba(67, 52, 34, 0.08);
-    }
-
-    .hero {
-      padding-top: 4px;
-    }
-
-    .hero .eyebrow {
-      margin-bottom: 12px;
-      color: #1f6b50;
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
+      padding-top: 10px;
     }
 
     .hero h1 {
-      display: inline-block;
-      padding: 16px 18px;
-      border-radius: 22px;
-      background: linear-gradient(135deg, #e8f1e9 0%, #f3eadc 100%);
-      border: 1px solid #d7e1d5;
-      color: #17231d;
-      box-shadow: 0 10px 24px rgba(31, 107, 80, 0.08);
-      font-size: 30px;
-      font-weight: 800;
-      line-height: 1.35;
-      letter-spacing: -0.055em;
+      font-size: 28px;
+      padding: 20px 20px;
+      border-radius: 26px;
     }
 
     .hero .description {
-      margin-top: 24px;
-      font-size: 16px;
-      line-height: 1.82;
-      color: #3d4741;
-      font-weight: 500;
-      letter-spacing: -0.035em;
-    }
-
-    .intro-strong {
-      color: #17231d;
-      font-weight: 700;
-    }
-
-    .progress-panel {
-      background: #fffaf3;
-      border: 1px solid #e3d7c7;
-      box-shadow: 0 8px 18px rgba(67, 52, 34, 0.05);
-    }
-
-    .progress-copy {
-      color: #536159;
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-    }
-
-    .progress-fill {
-      background: linear-gradient(90deg, #1f6b50, #8bae9a);
-    }
-
-    .question-card {
-      background: #fffaf3;
-      border: 1px solid #e4d8c8;
-      box-shadow: 0 10px 26px rgba(67, 52, 34, 0.06);
-    }
-
-    .question-number {
-      color: #1f6b50;
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
+      font-size: 15.8px;
     }
 
     .question-card h2 {
-      white-space: pre-line;
-      color: #26312b;
       font-size: 18px;
-      font-weight: 500;
-      line-height: 1.85;
-      letter-spacing: -0.035em;
-    }
-
-    .answer-button {
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-    }
-
-    .answer-button.yes {
-      background: #1f6b50;
-      color: #fff;
-      box-shadow: 0 12px 24px rgba(31, 107, 80, 0.18);
-    }
-
-    .answer-button.no {
-      background: #efe6d8;
-      color: #3d4741;
-      border: 1px solid #dccfbd;
-    }
-
-    .result-box {
-      margin-top: 22px;
-      padding: 28px 24px;
-      border-radius: 28px;
-      background: #fffaf3;
-      border: 1px solid #e1d6c6;
-    }
-
-    .result-box.soft {
-      background: linear-gradient(135deg, #e7efe7 0%, #f3eadc 100%);
-      border: 1px solid #d6dfd4;
     }
 
     .result-title {
-      margin: 0 0 14px;
-      color: #17231d;
-      font-size: 22px;
-      font-weight: 800;
-      line-height: 1.5;
-      letter-spacing: -0.045em;
+      font-size: 20px;
     }
 
     .result-box p {
-      margin: 0 0 13px;
-      color: #26312b;
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 1.78;
-      letter-spacing: -0.035em;
+      font-size: 15.8px;
     }
-
-    .score-badge {
-      display: inline-block;
-      margin-top: 16px;
-      padding: 9px 15px;
-      border-radius: 999px;
-      background: #e8dccb;
-      color: #26312b;
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-    }
-
-    .highlight-line {
-      display: inline-block;
-      margin: 4px 0 8px;
-      padding: 8px 12px;
-      border-radius: 12px;
-      background: rgba(31, 107, 80, 0.09);
-      color: #1f6b50 !important;
-      font-weight: 800 !important;
-    }
-
-    .cta-wrap {
-      margin-top: 28px;
-      display: grid;
-      gap: 12px;
-    }
-
-    .cta-button {
-      display: block;
-      width: 100%;
-      box-sizing: border-box;
-      padding: 17px 18px;
-      border-radius: 17px;
-      text-align: center;
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: 800;
-      line-height: 1.5;
-      letter-spacing: -0.035em;
-    }
-
-    .cta-primary {
-      background: linear-gradient(135deg, #1f6b50, #254f41);
-      color: #fff;
-      box-shadow: 0 14px 28px rgba(31, 107, 80, 0.2);
-    }
-
-    .cta-secondary {
-      background: #efe8dc;
-      color: #26312b;
-      border: 1px solid #ded3c3;
-    }
-
-    @media (max-width: 520px) {
-      .app-shell {
-        padding-top: 10px;
-      }
-
-      .hero h1 {
-        font-size: 29px;
-        padding: 15px 16px;
-        border-radius: 20px;
-      }
-
-      .hero .description {
-        font-size: 15.8px;
-      }
-
-      .question-card h2 {
-        font-size: 18px;
-      }
-
-      .result-title {
-        font-size: 20px;
-      }
-
-      .result-box p {
-        font-size: 15.8px;
-      }
-    }
-  </style>
+  }
+</style>
+  
 </head>
 
 <body>
