@@ -426,101 +426,46 @@
     }
 
     function showResult() {
-      const status = getOverallStatus(totalYes);
-      const dominant = getDominantType();
-
       progressText.textContent = `${questions.length} / ${questions.length}`;
-      scoreText.textContent = `체크 ${totalYes}개`;
-      progressFill.style.width = "100%";
+  scoreText.textContent = `체크 ${totalYes}개`;
+  progressFill.style.width = "100%";
 
-      const params = new URLSearchParams({
-        score: totalYes,
-        total: questions.length,
-        emotion: categoryScores.emotion,
-        relation: categoryScores.relation,
-        choice: categoryScores.choice,
-        status: status.title,
-        type: dominant.title
-      });
+  const status = getOverallStatus(totalYes);
+  const dominant = getDominantType();
 
-      questionView.innerHTML = `
-        <div class="question-card">
-          <p class="question-number">체크 완료</p>
-          <h2>당신의 현재 반응 구조가 확인되었습니다.</h2>
-          <div class="score-badge">총 ${questions.length}개 문항 중 체크 ${totalYes}개</div>
-        </div>
+  const params = new URLSearchParams({
+    score: totalYes,
+    total: questions.length,
+    emotion: categoryScores.emotion,
+    relation: categoryScores.relation,
+    choice: categoryScores.choice,
+    status: status.title,
+    type: dominant.title
+  });
 
-        <div class="result-box">
-          <h3 class="result-title">현재 상태: ${status.title}</h3>
-          <p>${status.text}</p>
-        </div>
+  questionView.innerHTML = `
+    <div class="question-card">
+      <p class="question-number">체크 완료</p>
+      <h2>
+        선택 vs 반응 체크가 완료되었습니다.
 
-        <div class="result-box">
-          <h3 class="result-title">핵심 반응 구조: ${dominant.title}</h3>
-          <p>${dominant.text}</p>
-        </div>
+        이제 당신의 현재 반응 구조를
+        기본 결과에서 확인할 수 있습니다.
+      </h2>
 
-        <div class="result-box soft">
-          <h3 class="result-title">현실은 반복되는 반응으로 만들어집니다.</h3>
+      <div class="score-badge">
+        총 ${questions.length}개 문항 중 체크 ${totalYes}개
+      </div>
+    </div>
 
-          <p>
-            매일, 매순간<br>
-            당신의 자동반응과 선택이<br>
-            지금의 현실을 만들어냅니다.
-          </p>
-
-          <p>
-            당신은 지금의 현실에<br>
-            만족하고 있습니까?
-          </p>
-
-          <p>
-            그렇지 않다면<br>
-            바꿔야 할 것은 상황이 아니라
-          </p>
-
-          <p class="highlight-line">
-            당신 내면에서 작동하는 구조입니다.
-          </p>
-
-          <p>
-            ‘고통’은 문제가 아니라<br>
-            변화가 필요하다는 신호입니다.
-          </p>
-        </div>
-
-        <div class="result-box">
-          <p>
-            사람은<br>
-            자기 얼굴을 직접 볼 수 없습니다.
-          </p>
-
-          <p>
-            거울이 있어야만 보입니다.
-          </p>
-
-          <p class="highlight-line">
-            내면의 구조도 같습니다.
-          </p>
-
-          <p>
-            이 구조는<br>
-            혼자서는 끝까지 보이지 않습니다.
-          </p>
-        </div>
-
-        <div class="cta-wrap">
-          <a href="premium_apply.html?${params.toString()}" class="cta-button cta-primary">
-            내 현실을 만드는 반응 패턴의 근본 구조 확인하기
-          </a>
-
-          <a href="report.html?${params.toString()}" class="cta-button cta-secondary">
-            기본 결과 다시 보기
-          </a>
-        </div>
-      `;
-    }
-
+    <div class="cta-wrap">
+      <a href="report.html?${params.toString()}" class="cta-button cta-primary">
+        기본 결과 확인하기
+      </a>
+    </div>
+  `;
+}
+    
     yesButton.addEventListener("click", () => answer(true));
     noButton.addEventListener("click", () => answer(false));
 
