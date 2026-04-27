@@ -15,251 +15,183 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 
- <style>
-  :root {
-    --bg: #f3eee6;
-    --card: #fffdf8;
-    --card-soft: #f8f3ea;
-    --line: #e4d8c8;
-    --text: #20251f;
-    --muted: #5f675f;
-    --green: #1f5f49;
-    --green-dark: #153f32;
-    --brown: #4f3d2e;
-    --brown-soft: #eee5d8;
-  }
+  <style>
+    :root {
+      --bg: #f3eee6;
+      --card: #fffdf8;
+      --soft: #f8f3ea;
+      --line: #e4d8c8;
+      --text: #20251f;
+      --muted: #60685f;
+      --green: #1f5f49;
+      --green-dark: #153f32;
+      --beige: #eee5d8;
+    }
 
-  body {
-    background: var(--bg);
-  }
+    body {
+      background: var(--bg);
+    }
 
-  .app-shell {
-    padding-top: 12px;
-    padding-bottom: 48px;
-  }
-
-  .card {
-    background: var(--card);
-    border: 1px solid var(--line);
-    box-shadow: 0 22px 54px rgba(79, 61, 46, 0.08);
-  }
-
-  .hero {
-    padding-top: 4px;
-  }
-
-  .hero .eyebrow {
-    margin-bottom: 14px;
-    color: var(--green);
-    font-size: 14px;
-    font-weight: 800;
-    letter-spacing: 0.02em;
-  }
-
-  .hero h1 {
-    display: block;
-    padding: 22px 22px;
-    border-radius: 28px;
-    background: var(--card-soft);
-    border: 1px solid var(--line);
-    color: var(--text);
-    font-size: 30px;
-    font-weight: 800;
-    line-height: 1.38;
-    letter-spacing: -0.055em;
-  }
-
-  .hero .description {
-    margin-top: 26px;
-    font-size: 16px;
-    line-height: 1.85;
-    color: var(--muted);
-    font-weight: 500;
-    letter-spacing: -0.035em;
-  }
-
-  .intro-strong {
-    color: var(--text);
-    font-weight: 800;
-  }
-
-  .progress-panel {
-    background: var(--card);
-    border: 1px solid var(--line);
-    box-shadow: none;
-  }
-
-  .progress-copy {
-    color: var(--muted);
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-  }
-
-  .progress-track {
-    background: #e8dfd3;
-  }
-
-  .progress-fill {
-    background: var(--green);
-  }
-
-  .question-card {
-    background: var(--card);
-    border: 1px solid var(--line);
-    box-shadow: none;
-  }
-
-  .question-number {
-    color: var(--green);
-    font-size: 14px;
-    font-weight: 800;
-    letter-spacing: 0.01em;
-  }
-
-  .question-card h2 {
-    white-space: pre-line;
-    color: var(--text);
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 1.88;
-    letter-spacing: -0.035em;
-  }
-
-  .answer-button {
-    font-size: 16px;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-  }
-
-  .answer-button.yes {
-    background: var(--green);
-    color: #fff;
-    box-shadow: 0 12px 24px rgba(31, 95, 73, 0.18);
-  }
-
-  .answer-button.no {
-    background: var(--brown-soft);
-    color: var(--brown);
-    border: 1px solid #dfd1c0;
-  }
-
-  .result-box {
-    margin-top: 22px;
-    padding: 28px 24px;
-    border-radius: 28px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    box-shadow: none;
-  }
-
-  .result-box.soft {
-    background: var(--card-soft);
-    border: 1px solid var(--line);
-  }
-
-  .result-title {
-    margin: 0 0 16px;
-    color: var(--text);
-    font-size: 21px;
-    font-weight: 800;
-    line-height: 1.5;
-    letter-spacing: -0.045em;
-  }
-
-  .result-box p {
-    margin: 0 0 14px;
-    color: var(--muted);
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.82;
-    letter-spacing: -0.035em;
-  }
-
-  .score-badge {
-    display: inline-block;
-    margin-top: 18px;
-    padding: 9px 15px;
-    border-radius: 999px;
-    background: var(--brown-soft);
-    color: var(--brown);
-    font-size: 14px;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-  }
-
-  .highlight-line {
-    display: block;
-    margin: 8px 0 16px;
-    padding: 14px 16px;
-    border-radius: 18px;
-    background: #eef4ef;
-    border-left: 4px solid var(--green);
-    color: var(--green-dark) !important;
-    font-weight: 800 !important;
-  }
-
-  .cta-wrap {
-    margin-top: 30px;
-    display: grid;
-    gap: 12px;
-  }
-
-  .cta-button {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 18px 18px;
-    border-radius: 18px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 800;
-    line-height: 1.5;
-    letter-spacing: -0.035em;
-  }
-
-  .cta-primary {
-    background: var(--brown);
-    color: #fff;
-    box-shadow: 0 14px 28px rgba(79, 61, 46, 0.22);
-  }
-
-  .cta-secondary {
-    background: var(--card);
-    color: var(--muted);
-    border: 1px solid var(--line);
-  }
-
-  @media (max-width: 520px) {
     .app-shell {
-      padding-top: 10px;
+      padding-top: 12px;
+      padding-bottom: 48px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: 0 22px 54px rgba(79, 61, 46, 0.08);
+    }
+
+    .hero {
+      padding-top: 4px;
+    }
+
+    .hero .eyebrow {
+      margin-bottom: 14px;
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
     }
 
     .hero h1 {
-      font-size: 28px;
-      padding: 20px 20px;
-      border-radius: 26px;
+      display: block;
+      padding: 22px 22px;
+      border-radius: 28px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1.38;
+      letter-spacing: -0.055em;
     }
 
     .hero .description {
-      font-size: 15.8px;
+      margin-top: 26px;
+      font-size: 16px;
+      line-height: 1.85;
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: -0.035em;
+    }
+
+    .intro-strong {
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    .progress-panel,
+    .question-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .progress-copy {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .progress-track {
+      background: #e8dfd3;
+    }
+
+    .progress-fill {
+      background: var(--green);
+    }
+
+    .question-number {
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.01em;
     }
 
     .question-card h2 {
+      white-space: pre-line;
+      color: var(--text);
       font-size: 18px;
+      font-weight: 500;
+      line-height: 1.88;
+      letter-spacing: -0.035em;
     }
 
-    .result-title {
-      font-size: 20px;
+    .answer-button {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
     }
 
-    .result-box p {
-      font-size: 15.8px;
+    .answer-button.yes {
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 12px 24px rgba(31, 95, 73, 0.18);
     }
-  }
-</style>
-  
+
+    .answer-button.no {
+      background: var(--beige);
+      color: var(--green-dark);
+      border: 1px solid var(--line);
+    }
+
+    .score-badge {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 9px 15px;
+      border-radius: 999px;
+      background: var(--beige);
+      color: var(--green-dark);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .cta-wrap {
+      margin-top: 30px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .cta-button {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 18px;
+      border-radius: 18px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.5;
+      letter-spacing: -0.035em;
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 14px 28px rgba(31, 95, 73, 0.18);
+    }
+
+    @media (max-width: 520px) {
+      .app-shell {
+        padding-top: 10px;
+      }
+
+      .hero h1 {
+        font-size: 28px;
+        padding: 20px;
+      }
+
+      .hero .description {
+        font-size: 15.8px;
+      }
+
+      .question-card h2 {
+        font-size: 18px;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -278,14 +210,14 @@
           그 차이를 명확하게 드러냅니다.<br><br>
 
           생각으로 판단하지 말고,<br>
-          떠오르는 장면이 있다면 체크해 주세요.
+          떠오르는 장면이 있다면 선택해 주세요.
         </p>
       </header>
 
       <section class="progress-panel" aria-label="진행 상태">
         <div class="progress-copy">
           <span id="progressText">1 / 18</span>
-          <span id="scoreText">체크 0개</span>
+          <span id="scoreText">반응 발견 0회</span>
         </div>
         <div class="progress-track" aria-hidden="true">
           <div class="progress-fill" id="progressFill"></div>
@@ -299,7 +231,7 @@
         </div>
 
         <div class="answer-group">
-          <button class="answer-button yes" id="yesButton" type="button">체크</button>
+          <button class="answer-button yes" id="yesButton" type="button">해당된다</button>
           <button class="answer-button no" id="noButton" type="button">해당 없음</button>
         </div>
       </section>
@@ -350,64 +282,8 @@
       questionNumber.textContent = `문항 ${currentIndex + 1}`;
       questionText.textContent = questions[currentIndex].text;
       progressText.textContent = `${currentIndex + 1} / ${questions.length}`;
-      scoreText.textContent = `체크 ${totalYes}개`;
+      scoreText.textContent = `반응 발견 ${totalYes}회`;
       progressFill.style.width = `${((currentIndex + 1) / questions.length) * 100}%`;
-    }
-
-    function getOverallStatus(score) {
-      if (score <= 5) {
-        return {
-          title: "부분적 선택 상태",
-          text: "당신은 비교적 자신의 반응을 인식하고 선택할 수 있는 상태에 가까워지고 있습니다. 다만 특정 트리거 상황에서는 여전히 자동반응이 개입할 가능성이 있습니다."
-        };
-      }
-
-      if (score <= 11) {
-        return {
-          title: "전환 구간",
-          text: "당신은 이미 일부 순간에서 자신의 반응을 알아차리고 있습니다. 하지만 중요한 상황에서는 여전히 자동반응이 먼저 작동하는 패턴이 남아 있습니다."
-        };
-      }
-
-      return {
-        title: "자동반응 지배 상태",
-        text: "당신은 현재 여러 영역에서 자동반응이 먼저 작동하고 있는 상태입니다. 선택하고 있다고 느끼는 순간에도 이미 반응이 선행된 뒤일 가능성이 높습니다."
-      };
-    }
-
-    function getDominantType() {
-      const entries = Object.entries(categoryScores);
-      entries.sort((a, b) => b[1] - a[1]);
-
-      const topKey = entries[0][0];
-      const topScore = entries[0][1];
-
-      if (topScore === 0) {
-        return {
-          title: "뚜렷한 자동반응 영역은 낮음",
-          text: "현재 체크 결과만 보면 특정 영역의 자동반응이 강하게 드러나지는 않습니다. 다만 실제 삶에서 반복되는 불편함이 있다면, 그 상황을 기준으로 다시 점검할 필요가 있습니다."
-        };
-      }
-
-      const typeMap = {
-        emotion: {
-          title: "감정 자동반응형",
-          text: "당신의 반응은 주로 감정이 먼저 올라오고, 그 뒤에 인식이 따라오는 구조에서 시작됩니다. 감정을 느끼는 순간이 아니라 이미 반응이 진행된 뒤에야 알아차리는 패턴이 핵심입니다."
-        },
-        relation: {
-          title: "관계 트리거형",
-          text: "당신의 반응은 주로 타인의 말과 행동에 의해 촉발되는 구조입니다. 내 상태보다 상대의 반응이 먼저 기준이 되는 패턴이 반복되고 있습니다."
-        },
-        choice: {
-          title: "선택 착각형",
-          text: "당신은 선택하고 있다고 느끼지만, 실제로는 불안, 회피, 손해 회피, 비난 회피 등의 반응에 의해 결정이 이루어지는 구조가 작동하고 있을 수 있습니다."
-        }
-      };
-
-      return {
-        title: typeMap[topKey].title,
-        text: typeMap[topKey].text
-      };
     }
 
     function answer(isYes) {
@@ -427,45 +303,40 @@
 
     function showResult() {
       progressText.textContent = `${questions.length} / ${questions.length}`;
-  scoreText.textContent = `체크 ${totalYes}개`;
-  progressFill.style.width = "100%";
+      scoreText.textContent = `반응 발견 ${totalYes}회`;
+      progressFill.style.width = "100%";
 
-  const status = getOverallStatus(totalYes);
-  const dominant = getDominantType();
+      const params = new URLSearchParams({
+        score: totalYes,
+        total: questions.length,
+        emotion: categoryScores.emotion,
+        relation: categoryScores.relation,
+        choice: categoryScores.choice
+      });
 
-  const params = new URLSearchParams({
-    score: totalYes,
-    total: questions.length,
-    emotion: categoryScores.emotion,
-    relation: categoryScores.relation,
-    choice: categoryScores.choice,
-    status: status.title,
-    type: dominant.title
-  });
+      questionView.innerHTML = `
+        <div class="question-card">
+          <p class="question-number">체크 완료</p>
+          <h2>
+선택 vs 반응 체크가 완료되었습니다.
 
-  questionView.innerHTML = `
-    <div class="question-card">
-      <p class="question-number">체크 완료</p>
-      <h2>
-        선택 vs 반응 체크가 완료되었습니다.
+이제 당신의 현재 반응 구조를
+기본 결과에서 확인할 수 있습니다.
+          </h2>
 
-        이제 당신의 현재 반응 구조를
-        기본 결과에서 확인할 수 있습니다.
-      </h2>
+          <div class="score-badge">
+            자동반응 발견 ${totalYes}회
+          </div>
+        </div>
 
-      <div class="score-badge">
-        총 ${questions.length}개 문항 중 체크 ${totalYes}개
-      </div>
-    </div>
+        <div class="cta-wrap">
+          <a href="report.html?${params.toString()}" class="cta-button">
+            기본 결과 확인하기
+          </a>
+        </div>
+      `;
+    }
 
-    <div class="cta-wrap">
-      <a href="report.html?${params.toString()}" class="cta-button cta-primary">
-        기본 결과 확인하기
-      </a>
-    </div>
-  `;
-}
-    
     yesButton.addEventListener("click", () => answer(true));
     noButton.addEventListener("click", () => answer(false));
 
