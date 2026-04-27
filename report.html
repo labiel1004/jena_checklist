@@ -5,64 +5,444 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>선택 vs 반응 기본 결과</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --bg: #f3eee6;
-      --paper: #fffdf8;
-      --soft: #f8f3ea;
-      --line: #e4d8c8;
-      --ink: #20251f;
-      --muted: #60685f;
-      --green: #1f5f49;
-      --green-deep: #153f32;
-      --beige: #eee5d8;
+      --bg-1: #f5efe7;
+      --bg-2: #eee4d6;
+      --panel: rgba(255, 250, 244, 0.82);
+      --panel-strong: #fffaf4;
+      --soft: #f7f0e7;
+      --line: rgba(114, 92, 68, 0.14);
+      --line-strong: rgba(91, 73, 54, 0.18);
+      --text: #1f1d1a;
+      --muted: #6a655e;
+      --muted-2: #8a847b;
+      --green: #224f42;
+      --green-deep: #17382f;
+      --gold: #b88a4a;
+      --gold-soft: #e8d4b6;
+      --shadow: 0 24px 70px rgba(74, 56, 39, 0.12);
+      --shadow-soft: 0 12px 30px rgba(74, 56, 39, 0.08);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
 
     body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+      min-height: 100vh;
+      font-family: "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 30%),
+        radial-gradient(circle at 85% 12%, rgba(184, 138, 74, 0.10) 0%, rgba(184, 138, 74, 0) 24%),
+        radial-gradient(circle at 20% 80%, rgba(34, 79, 66, 0.08) 0%, rgba(34, 79, 66, 0) 26%),
+        linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+      letter-spacing: -0.02em;
       line-height: 1.78;
     }
 
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.06), rgba(255,255,255,0.06)),
+        radial-gradient(rgba(255,255,255,0.18) 0.6px, transparent 0.8px);
+      background-size: auto, 18px 18px;
+      mix-blend-mode: soft-light;
+      opacity: 0.35;
+    }
+
     .wrap {
-      max-width: 820px;
+      width: min(100%, 860px);
       margin: 0 auto;
-      padding: 24px 14px 70px;
+      padding: 30px 18px 60px;
     }
 
-    .cover, section {
-      background: var(--paper);
+    .card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(180deg, rgba(255,255,255,0.82) 0%, rgba(255,250,244,0.9) 100%);
       border: 1px solid var(--line);
-      border-radius: 28px;
-      padding: 32px 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       margin-bottom: 22px;
-      box-shadow: 0 18px 44px rgba(79, 61, 46, 0.07);
     }
 
-    .label {
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.06) 40%, rgba(255,255,255,0.18) 100%);
+      opacity: 0.8;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 36px;
+      right: 36px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(184, 138, 74, 0.55), transparent);
+      z-index: 1;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 2;
+      padding: 30px 24px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 248, 238, 0.86);
+      border: 1px solid rgba(184, 138, 74, 0.22);
       color: var(--green);
+      font-size: 12px;
       font-weight: 800;
-      font-size: 14px;
-      letter-spacing: 0.04em;
-      margin-bottom: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      box-shadow: 0 6px 18px rgba(94, 72, 42, 0.06);
+      white-space: nowrap;
     }
 
-    h1 {
-      font-size: 32px;
-      line-height: 1.3;
-      letter-spacing: -0.055em;
-      margin: 0 0 18px;
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #c79b5d 0%, #9f743a 100%);
+      box-shadow: 0 0 0 4px rgba(184, 138, 74, 0.12);
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 15% 18%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0) 28%),
+        radial-gradient(circle at 85% 20%, rgba(184,138,74,0.10) 0%, rgba(184,138,74,0) 24%),
+        linear-gradient(135deg, rgba(255,255,255,0.88) 0%, rgba(248,241,232,0.95) 55%, rgba(244,235,224,0.98) 100%);
+      border: 1px solid rgba(114, 92, 68, 0.12);
+      box-shadow:
+        0 26px 80px rgba(74, 56, 39, 0.12),
+        inset 0 1px 0 rgba(255,255,255,0.7);
+    }
+
+    .hero-inner {
+      padding: 34px 30px 28px;
+    }
+
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(6px);
+      opacity: 0.7;
+    }
+
+    .hero-orb-1 {
+      width: 240px;
+      height: 240px;
+      top: -70px;
+      right: -40px;
+      background: radial-gradient(circle, rgba(184,138,74,0.14) 0%, rgba(184,138,74,0) 70%);
+    }
+
+    .hero-orb-2 {
+      width: 220px;
+      height: 220px;
+      bottom: -90px;
+      left: -50px;
+      background: radial-gradient(circle, rgba(34,79,66,0.10) 0%, rgba(34,79,66,0) 70%);
+    }
+
+    .hero-topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 26px;
+      flex-wrap: wrap;
+    }
+
+    .hero-mini-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(184,138,74,0.16), rgba(184,138,74,0.08));
+      border: 1px solid rgba(184,138,74,0.22);
+      color: #7d5b30;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .hero-copy {
+      padding: 6px 2px 0;
+    }
+
+    .hero-kicker {
+      margin: 0 0 10px;
+      color: var(--muted-2);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero-title-impact {
+      margin: 0;
+      line-height: 1.05;
+    }
+
+    .hero-title-en {
+      display: block;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(44px, 6vw, 72px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: var(--green-deep);
+      text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+    }
+
+    .hero-title-ko {
+      display: block;
+      margin-top: 12px;
+      font-size: clamp(26px, 4vw, 42px);
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.06em;
+      color: #1f1d1a;
+    }
+
+    .hero-state-line {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.75;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-state-line strong {
+      color: var(--green-deep);
+      font-weight: 800;
+    }
+
+    .hero-lead {
+      margin: 18px 0 0;
+      max-width: 560px;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.9;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-side-panel {
+      position: relative;
+      padding: 22px 18px 18px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.74) 0%, rgba(249,242,232,0.95) 100%);
+      border: 1px solid rgba(114, 92, 68, 0.12);
+      box-shadow:
+        0 16px 32px rgba(74, 56, 39, 0.08),
+        inset 0 1px 0 rgba(255,255,255,0.65);
+    }
+
+    .hero-side-panel::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 18px;
+      right: 18px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(184,138,74,0.55), transparent);
+    }
+
+    .hero-side-label {
+      color: var(--muted-2);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+
+    .hero-side-score {
+      margin-top: 10px;
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      color: var(--green-deep);
+    }
+
+    .hero-side-score strong {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 54px;
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .hero-side-score span {
+      font-size: 18px;
+      font-weight: 800;
+      transform: translateY(-8px);
+    }
+
+    .hero-side-bar-wrap {
+      margin-top: 18px;
+    }
+
+    .hero-side-bar-copy {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .bar {
+      height: 10px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: linear-gradient(90deg, rgba(224,212,197,0.9) 0%, rgba(239,230,220,0.9) 100%);
+      box-shadow: inset 0 1px 2px rgba(92, 67, 42, 0.06);
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #214f42 0%, #2f6857 55%, #b88a4a 100%);
+      box-shadow: 0 6px 18px rgba(34, 79, 66, 0.28);
+      transition: width 0.7s ease;
+    }
+
+    .hero-side-status {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(114, 92, 68, 0.12);
+    }
+
+    .hero-side-status-label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted-2);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero-side-status strong {
+      color: var(--green-deep);
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-bottom-line {
+      margin-top: 24px;
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(184,138,74,0.75), rgba(184,138,74,0.08));
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .stat-card {
+      padding: 16px 14px;
+      border-radius: 20px;
+      background: rgba(255, 251, 246, 0.74);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .stat-label {
+      display: block;
+      color: var(--muted-2);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+
+    .stat-value {
+      display: block;
+      color: var(--green-deep);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+    }
+
+    .stat-value span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      margin-left: 3px;
+    }
+
+    .section-heading {
+      margin-bottom: 16px;
+    }
+
+    .section-kicker {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
 
     h2 {
-      font-size: 22px;
-      line-height: 1.48;
-      letter-spacing: -0.045em;
-      margin: 0 0 16px;
+      margin: 0;
+      color: var(--text);
+      font-size: clamp(24px, 3vw, 34px);
+      font-weight: 800;
+      line-height: 1.35;
+      letter-spacing: -0.05em;
     }
 
     p {
@@ -70,63 +450,8 @@
       font-size: 16px;
       font-weight: 500;
       color: var(--muted);
-      letter-spacing: -0.035em;
-    }
-
-    .lead {
-      font-size: 16px;
-      color: var(--muted);
-    }
-
-    .score-line {
-      margin-top: 22px;
-      padding: 18px;
-      border-radius: 20px;
-      background: var(--soft);
-      border: 1px solid var(--line);
-    }
-
-    .score-main {
-      margin: 0;
-      color: var(--green-deep);
-      font-size: 20px;
-      font-weight: 800;
-      line-height: 1.55;
-    }
-
-    .score-sub {
-      margin: 4px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .bar-wrap {
-      margin-top: 18px;
-    }
-
-    .bar-copy {
-      display: flex;
-      justify-content: space-between;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-
-    .bar {
-      height: 12px;
-      background: #e8dfd3;
-      border-radius: 999px;
-      overflow: hidden;
-    }
-
-    .bar-fill {
-      height: 100%;
-      width: 0%;
-      background: var(--green);
-      border-radius: 999px;
-      transition: width 0.6s ease;
+      letter-spacing: -0.03em;
+      line-height: 1.92;
     }
 
     .result-line {
@@ -138,17 +463,18 @@
     .result-kicker {
       margin: 0 0 6px;
       color: var(--green);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 800;
-      letter-spacing: -0.02em;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .result-title {
       margin: 0;
-      color: var(--ink);
-      font-size: 23px;
+      color: var(--text);
+      font-size: clamp(24px, 3vw, 32px);
       font-weight: 800;
-      line-height: 1.45;
+      line-height: 1.42;
       letter-spacing: -0.05em;
     }
 
@@ -156,236 +482,411 @@
       color: var(--green-deep);
     }
 
-    .soft-section {
-      background: var(--soft);
-    }
-
-    .plain-highlight {
+    .highlight-line {
+      margin-top: 10px;
       color: var(--green-deep);
       font-weight: 800;
+      line-height: 1.8;
+    }
+
+    .soft-card {
+      background: linear-gradient(180deg, rgba(248,240,231,0.86) 0%, rgba(244,235,224,0.95) 100%);
     }
 
     .example-box {
       margin-top: 18px;
       padding: 20px 18px;
       border-radius: 22px;
-      background: var(--soft);
+      background: rgba(255, 251, 246, 0.84);
       border: 1px solid var(--line);
     }
 
     .example-label {
       margin: 0 0 8px;
       color: var(--green);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    .cta-question {
-      margin-top: 24px;
-      padding-top: 18px;
-      border-top: 1px solid var(--line);
+    .quote-card {
+      margin-top: 18px;
+      padding: 22px 20px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.68) 0%, rgba(249,242,232,0.96) 100%);
+      border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quote-card::before {
+      content: "“";
+      position: absolute;
+      top: 4px;
+      left: 14px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 76px;
+      line-height: 1;
+      color: rgba(184, 138, 74, 0.12);
+    }
+
+    .quote-text {
+      position: relative;
+      margin: 0;
       color: var(--green-deep);
+      font-size: 20px;
       font-weight: 800;
       line-height: 1.7;
+      letter-spacing: -0.04em;
     }
 
     .button-group {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-top: 26px;
+      margin-top: 24px;
     }
 
     .button {
       display: block;
       text-align: center;
       text-decoration: none;
-      padding: 17px 18px;
-      border-radius: 18px;
+      padding: 18px 18px;
+      border-radius: 20px;
       font-weight: 800;
       font-size: 16px;
-      letter-spacing: -0.035em;
+      letter-spacing: -0.03em;
       line-height: 1.5;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
     }
 
     .button.primary {
-      background: var(--green);
+      background: linear-gradient(135deg, #1f4b3f 0%, #2c6152 60%, #b88a4a 130%);
       color: #fff;
-      box-shadow: 0 14px 28px rgba(31, 95, 73, 0.18);
+      box-shadow: 0 16px 32px rgba(34, 79, 66, 0.22);
     }
 
     .button.secondary {
-      background: var(--beige);
+      background: linear-gradient(180deg, #f7efe3 0%, #f0e4d3 100%);
       color: var(--green-deep);
-      border: 1px solid var(--line);
+      border: 1px solid rgba(130, 104, 73, 0.14);
+      box-shadow: 0 10px 24px rgba(114, 88, 59, 0.08);
     }
 
     .small-note {
-      margin-top: 10px;
-      font-size: 14px;
-      color: var(--muted);
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--muted-2);
       text-align: center;
+      line-height: 1.75;
+      font-weight: 600;
     }
 
     .footer {
       text-align: center;
       color: var(--muted);
       font-size: 13px;
-      padding-top: 18px;
-      line-height: 1.7;
+      padding-top: 8px;
+      line-height: 1.8;
     }
 
-    @media (max-width: 640px) {
-      .wrap { padding: 18px 12px 54px; }
-      .cover, section { padding: 28px 20px; border-radius: 24px; }
-      h1 { font-size: 29px; }
-      h2 { font-size: 20px; }
-      .result-title { font-size: 21px; }
-      .button-group { grid-template-columns: 1fr; }
+    .fade-up {
+      animation: fadeUp 0.45s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .wrap {
+        padding: 22px 12px 48px;
+      }
+
+      .card-inner {
+        padding: 22px 16px;
+      }
+
+      .hero-inner {
+        padding: 24px 18px 20px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .hero-title-en {
+        font-size: 52px;
+      }
+
+      .hero-title-ko {
+        font-size: 30px;
+        margin-top: 10px;
+      }
+
+      .hero-side-panel {
+        padding: 18px 16px 16px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .button-group {
+        grid-template-columns: 1fr;
+      }
+
+      .quote-text {
+        font-size: 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
+  <div class="wrap fade-up">
 
-    <div class="cover">
-      <div class="label">CONSCIOUSNESS OS BASIC RESULT</div>
-      <h1>선택 vs 반응<br>기본 결과</h1>
+    <section class="card hero-card">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
 
-      <p class="lead">
-        이 결과는 당신을 평가하기 위한 것이 아닙니다.
-        지금 어떤 자동반응 구조가 더 선명하게 드러나는지 확인하기 위한 기본 분석입니다.
-      </p>
+      <div class="card-inner hero-inner">
+        <div class="hero-topline">
+          <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            Reaction Pattern Analysis
+          </div>
 
-      <div class="score-line">
-        <p class="score-main">
-          자동반응 발견 <span id="scoreText">0</span>회
-        </p>
-        <p class="score-sub">
-          자동반응이 먼저 실행된 순간
-        </p>
-      </div>
-
-      <div class="bar-wrap">
-        <div class="bar-copy">
-          <span>자동반응이 먼저 실행된 비율</span>
-          <span id="percentText">0%</span>
+          <div class="hero-mini-chip" id="heroPercentChip">0% 반응률</div>
         </div>
-        <div class="bar">
-          <div class="bar-fill" id="barFill"></div>
+
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <p class="hero-kicker">Consciousness OS</p>
+
+            <h1 class="hero-title-impact">
+              <span class="hero-title-en">Basic Result</span>
+              <span class="hero-title-ko">선택 vs 반응 기본 결과</span>
+            </h1>
+
+            <p class="hero-state-line">
+              지금 드러난 것은 성격이 아니라,
+              <strong id="statusTitleInline">전환 구간</strong>의 반응 구조입니다.
+            </p>
+
+            <p class="hero-lead">
+              이 결과는 당신을 평가하기 위한 것이 아닙니다.<br>
+              지금 어떤 자동반응 구조가 더 선명하게 드러나는지 확인하기 위한
+              기본 분석입니다.
+            </p>
+          </div>
+
+          <div class="hero-side-panel">
+            <div class="hero-side-label">현재 포착된 반응</div>
+
+            <div class="hero-side-score">
+              <strong id="heroScoreText">0</strong><span>회</span>
+            </div>
+
+            <div class="hero-side-bar-wrap">
+              <div class="hero-side-bar-copy">
+                <span>자동반응 실행 비율</span>
+                <span id="heroPercentText">0%</span>
+              </div>
+              <div class="bar">
+                <div class="bar-fill" id="barFill"></div>
+              </div>
+            </div>
+
+            <div class="hero-side-status">
+              <span class="hero-side-status-label">현재 상태</span>
+              <strong id="statusTitleHero">전환 구간</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-bottom-line"></div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-label">감정 반응</span>
+            <span class="stat-value"><span id="emotionText">0</span><span>회</span></span>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-label">관계 반응</span>
+            <span class="stat-value"><span id="relationText">0</span><span>회</span></span>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-label">선택 패턴</span>
+            <span class="stat-value"><span id="choiceText">0</span><span>회</span></span>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <section>
-      <h2>지금 드러난 반응 구조</h2>
+    <section class="card">
+      <div class="card-inner">
+        <div class="section-heading">
+          <span class="section-kicker">Current State</span>
+          <h2>지금 드러난 반응 구조</h2>
+        </div>
 
-      <p>
-        지금 당신의 반응 구조는 다음과 같습니다.
-      </p>
+        <p>
+          지금 당신의 반응 구조는 다음과 같습니다.
+        </p>
 
-      <div class="result-line">
-        <p class="result-kicker">현재 상태</p>
-        <p class="result-title">
-          현재 상태: <span id="statusTitle">전환 구간</span>
+        <div class="result-line">
+          <p class="result-kicker">현재 상태</p>
+          <p class="result-title">
+            현재 상태: <span id="statusTitle">전환 구간</span>
+          </p>
+        </div>
+
+        <p id="statusText"></p>
+        <p class="highlight-line" id="statusSummary"></p>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-inner">
+        <div class="section-heading">
+          <span class="section-kicker">Trigger Pattern</span>
+          <h2>당신의 반응이 시작되는 지점</h2>
+        </div>
+
+        <p>
+          그렇다면 이 반응은 어디에서 가장 자주 시작되고 있을까요?
+        </p>
+
+        <div class="result-line">
+          <p class="result-kicker">핵심 반응 구조</p>
+          <p class="result-title">
+            핵심 반응 구조: <span id="typeTitle">감정 자동반응형</span>
+          </p>
+        </div>
+
+        <p id="typeText"></p>
+
+        <div class="example-box">
+          <p class="example-label">짧은 예시</p>
+          <p id="typeExample"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card soft-card">
+      <div class="card-inner">
+        <div class="section-heading">
+          <span class="section-kicker">Projection</span>
+          <h2>이 구조는 현실 전체에 투영됩니다</h2>
+        </div>
+
+        <p>
+          이 구조는 감정에서 끝나지 않습니다.
+        </p>
+
+        <p>
+          당신의 관계, 일, 돈,<br>
+          그리고 반복되는 선택 방식까지<br>
+          모든 현실에 그대로 투영되어 나타납니다.
+        </p>
+
+        <p>
+          매일, 매순간<br>
+          당신의 자동반응과 선택이<br>
+          지금의 현실을 만들어냅니다.
+        </p>
+
+        <p>
+          당신은 지금의 현실에 만족하고 있습니까?
+        </p>
+
+        <p>
+          그렇지 않다면 바꿔야 할 것은 상황이 아니라
+          <span style="color: var(--green-deep); font-weight: 800;">당신 내면에서 작동하는 구조</span>입니다.
+        </p>
+
+        <p>
+          고통은 문제가 아니라,<br>
+          변화가 필요하다는 신호입니다.
         </p>
       </div>
-
-      <p id="statusText"></p>
-      <p class="plain-highlight" id="statusSummary"></p>
     </section>
 
-    <section>
-      <h2>당신의 반응이 시작되는 지점</h2>
+    <section class="card">
+      <div class="card-inner">
+        <div class="section-heading">
+          <span class="section-kicker">Why Structure</span>
+          <h2>왜 구조를 봐야 할까요?</h2>
+        </div>
 
-      <p>
-        그렇다면 이 반응은 어디에서 가장 자주 시작되고 있을까요?
-      </p>
+        <p>
+          사람은 자기 얼굴을 직접 볼 수 없습니다.<br>
+          거울이 있어야만 보입니다.
+        </p>
 
-      <div class="result-line">
-        <p class="result-kicker">핵심 반응 구조</p>
-        <p class="result-title">
-          핵심 반응 구조: <span id="typeTitle">감정 자동반응형</span>
+        <p>
+          내면의 구조도 같습니다.
+        </p>
+
+        <p>
+          이 구조는 혼자서는 끝까지 보이지 않습니다.
+        </p>
+
+        <div class="quote-card">
+          <p class="quote-text">
+            Reality isn’t events.<br>
+            It’s structure.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-inner">
+        <div class="section-heading">
+          <span class="section-kicker">Next Step</span>
+          <h2>다음 단계</h2>
+        </div>
+
+        <p style="color: var(--green-deep); font-weight: 800;">
+          이 반응이 어디에서 시작되는지,<br>
+          그리고 왜 반복되는지까지<br>
+          직접 확인해 보시겠습니까?
+        </p>
+
+        <div class="button-group">
+          <a class="button secondary" id="basicLink" href="#">기본 결과 다시 보기</a>
+          <a class="button primary" id="premiumLink" href="premium_apply.html">내 반응 구조 확인하기</a>
+        </div>
+
+        <p class="small-note">
+          당신의 현재 상태에 맞춰 구조를 분석합니다.
         </p>
       </div>
-
-      <p id="typeText"></p>
-
-      <div class="example-box">
-        <p class="example-label">짧은 예시</p>
-        <p id="typeExample"></p>
-      </div>
-    </section>
-
-    <section class="soft-section">
-      <h2>이 구조는 현실 전체에 투영됩니다</h2>
-
-      <p>
-        이 구조는 감정에서 끝나지 않습니다.
-      </p>
-
-      <p>
-        당신의 관계, 일, 돈,<br>
-        그리고 반복되는 선택 방식까지<br>
-        모든 현실에 그대로 투영되어 나타납니다.
-      </p>
-
-      <p>
-        매일, 매순간<br>
-        당신의 자동반응과 선택이<br>
-        지금의 현실을 만들어냅니다.
-      </p>
-
-      <p>
-        당신은 지금의 현실에 만족하고 있습니까?
-      </p>
-
-      <p>
-        그렇지 않다면 바꿔야 할 것은 상황이 아니라
-        <span class="plain-highlight">당신 내면에서 작동하는 구조</span>입니다.
-      </p>
-
-      <p>
-        고통은 문제가 아니라,
-        변화가 필요하다는 신호입니다.
-      </p>
-    </section>
-
-    <section>
-      <h2>왜 구조를 봐야 할까요?</h2>
-
-      <p>
-        사람은 자기 얼굴을 직접 볼 수 없습니다.
-        거울이 있어야만 보입니다.
-      </p>
-
-      <p>
-        내면의 구조도 같습니다.
-      </p>
-
-      <p>
-        이 구조는 혼자서는 끝까지 보이지 않습니다.
-      </p>
-    </section>
-
-    <section>
-      <h2>다음 단계</h2>
-
-      <p class="cta-question">
-        이 반응이 어디에서 시작되는지,<br>
-        그리고 왜 반복되는지까지<br>
-        직접 확인해 보시겠습니까?
-      </p>
-
-      <div class="button-group">
-        <a class="button secondary" id="basicLink" href="#">기본 결과 다시 보기</a>
-        <a class="button primary" id="premiumLink" href="premium_apply.html">내 반응 구조 확인하기</a>
-      </div>
-
-      <p class="small-note">
-        당신의 현재 상태에 맞춰 구조를 분석합니다.
-      </p>
     </section>
 
     <div class="footer">
@@ -405,13 +906,21 @@
     const choice = Number(params.get("choice")) || 0;
     const percent = Math.round((score / total) * 100);
 
-    const scoreText = document.getElementById("scoreText");
-    const percentText = document.getElementById("percentText");
+    const heroScoreText = document.getElementById("heroScoreText");
+    const heroPercentText = document.getElementById("heroPercentText");
+    const heroPercentChip = document.getElementById("heroPercentChip");
     const barFill = document.getElementById("barFill");
 
+    const emotionText = document.getElementById("emotionText");
+    const relationText = document.getElementById("relationText");
+    const choiceText = document.getElementById("choiceText");
+
+    const statusTitleHero = document.getElementById("statusTitleHero");
+    const statusTitleInline = document.getElementById("statusTitleInline");
     const statusTitle = document.getElementById("statusTitle");
     const statusText = document.getElementById("statusText");
     const statusSummary = document.getElementById("statusSummary");
+
     const typeTitle = document.getElementById("typeTitle");
     const typeText = document.getElementById("typeText");
     const typeExample = document.getElementById("typeExample");
@@ -419,9 +928,17 @@
     const basicLink = document.getElementById("basicLink");
     const premiumLink = document.getElementById("premiumLink");
 
-    scoreText.textContent = score;
-    percentText.textContent = percent + "%";
-    barFill.style.width = percent + "%";
+    heroScoreText.textContent = score;
+    heroPercentText.textContent = percent + "%";
+    heroPercentChip.textContent = percent + "% 반응률";
+
+    emotionText.textContent = emotion;
+    relationText.textContent = relation;
+    choiceText.textContent = choice;
+
+    requestAnimationFrame(() => {
+      barFill.style.width = percent + "%";
+    });
 
     function getStatus(score) {
       if (score <= 5) {
@@ -503,6 +1020,8 @@
     const type = getType();
 
     statusTitle.textContent = status.title;
+    statusTitleHero.textContent = status.title;
+    statusTitleInline.textContent = status.title;
     statusText.textContent = status.text;
     statusSummary.textContent = status.summary;
 
