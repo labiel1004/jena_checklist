@@ -16,95 +16,197 @@
   <link rel="stylesheet" href="styles.css">
 
   <style>
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(205, 224, 210, 0.45), transparent 34%),
+        linear-gradient(180deg, #f5efe5 0%, #ece2d3 100%);
+    }
+
+    .app-shell {
+      padding-top: 14px;
+      padding-bottom: 44px;
+    }
+
+    .card {
+      background: rgba(255, 252, 246, 0.96);
+      border: 1px solid rgba(220, 207, 188, 0.95);
+      box-shadow: 0 18px 46px rgba(67, 52, 34, 0.08);
+    }
+
+    .hero {
+      padding-top: 4px;
+    }
+
+    .hero .eyebrow {
+      margin-bottom: 12px;
+      color: #1f6b50;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 {
+      display: inline-block;
+      padding: 16px 18px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #e8f1e9 0%, #f3eadc 100%);
+      border: 1px solid #d7e1d5;
+      color: #17231d;
+      box-shadow: 0 10px 24px rgba(31, 107, 80, 0.08);
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1.35;
+      letter-spacing: -0.055em;
+    }
+
     .hero .description {
-      font-size: 18px;
-      line-height: 1.8;
-      color: #3a443f;
-      margin-top: 22px;
+      margin-top: 24px;
+      font-size: 16px;
+      line-height: 1.82;
+      color: #3d4741;
       font-weight: 500;
+      letter-spacing: -0.035em;
     }
 
     .intro-strong {
-      color: #111;
+      color: #17231d;
+      font-weight: 700;
+    }
+
+    .progress-panel {
+      background: #fffaf3;
+      border: 1px solid #e3d7c7;
+      box-shadow: 0 8px 18px rgba(67, 52, 34, 0.05);
+    }
+
+    .progress-copy {
+      color: #536159;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #1f6b50, #8bae9a);
+    }
+
+    .question-card {
+      background: #fffaf3;
+      border: 1px solid #e4d8c8;
+      box-shadow: 0 10px 26px rgba(67, 52, 34, 0.06);
+    }
+
+    .question-number {
+      color: #1f6b50;
+      font-size: 15px;
       font-weight: 800;
+      letter-spacing: -0.02em;
     }
 
     .question-card h2 {
       white-space: pre-line;
-      line-height: 1.75;
+      color: #26312b;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.85;
+      letter-spacing: -0.035em;
+    }
+
+    .answer-button {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .answer-button.yes {
+      background: #1f6b50;
+      color: #fff;
+      box-shadow: 0 12px 24px rgba(31, 107, 80, 0.18);
+    }
+
+    .answer-button.no {
+      background: #efe6d8;
+      color: #3d4741;
+      border: 1px solid #dccfbd;
     }
 
     .result-box {
-      margin-top: 24px;
-      padding: 26px 24px;
-      border-radius: 24px;
-      background: #f7f3ec;
-      border: 1px solid #e2dbcf;
+      margin-top: 22px;
+      padding: 28px 24px;
+      border-radius: 28px;
+      background: #fffaf3;
+      border: 1px solid #e1d6c6;
     }
 
-    .result-box.dark {
-      background: #18231f;
-      border: 1px solid #263a32;
-      color: #fff;
-    }
-
-    .result-box p {
-      margin: 0 0 14px;
-      line-height: 1.8;
-      font-size: 17px;
-      color: #26312b;
-    }
-
-    .result-box.dark p {
-      color: #f6f1e8;
+    .result-box.soft {
+      background: linear-gradient(135deg, #e7efe7 0%, #f3eadc 100%);
+      border: 1px solid #d6dfd4;
     }
 
     .result-title {
+      margin: 0 0 14px;
+      color: #17231d;
       font-size: 22px;
       font-weight: 800;
       line-height: 1.5;
-      margin: 0 0 16px;
-      color: #17231d;
+      letter-spacing: -0.045em;
     }
 
-    .result-box.dark .result-title {
-      color: #fff;
+    .result-box p {
+      margin: 0 0 13px;
+      color: #26312b;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.78;
+      letter-spacing: -0.035em;
     }
 
     .score-badge {
       display: inline-block;
       margin-top: 16px;
-      padding: 10px 16px;
+      padding: 9px 15px;
       border-radius: 999px;
       background: #e8dccb;
       color: #26312b;
+      font-size: 14px;
       font-weight: 800;
-      font-size: 15px;
+      letter-spacing: -0.03em;
+    }
+
+    .highlight-line {
+      display: inline-block;
+      margin: 4px 0 8px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: rgba(31, 107, 80, 0.09);
+      color: #1f6b50 !important;
+      font-weight: 800 !important;
     }
 
     .cta-wrap {
       margin-top: 28px;
       display: grid;
-      gap: 14px;
+      gap: 12px;
     }
 
     .cta-button {
       display: block;
       width: 100%;
-      padding: 18px 20px;
-      border-radius: 18px;
+      box-sizing: border-box;
+      padding: 17px 18px;
+      border-radius: 17px;
       text-align: center;
       text-decoration: none;
+      font-size: 16px;
       font-weight: 800;
-      font-size: 17px;
       line-height: 1.5;
-      box-sizing: border-box;
+      letter-spacing: -0.035em;
     }
 
     .cta-primary {
-      background: linear-gradient(135deg, #1f7a5a, #123d31);
+      background: linear-gradient(135deg, #1f6b50, #254f41);
       color: #fff;
-      box-shadow: 0 14px 28px rgba(31, 122, 90, 0.22);
+      box-shadow: 0 14px 28px rgba(31, 107, 80, 0.2);
     }
 
     .cta-secondary {
@@ -113,9 +215,32 @@
       border: 1px solid #ded3c3;
     }
 
-    .mirror-line {
-      font-weight: 800;
-      color: #1f7a5a;
+    @media (max-width: 520px) {
+      .app-shell {
+        padding-top: 10px;
+      }
+
+      .hero h1 {
+        font-size: 29px;
+        padding: 15px 16px;
+        border-radius: 20px;
+      }
+
+      .hero .description {
+        font-size: 15.8px;
+      }
+
+      .question-card h2 {
+        font-size: 18px;
+      }
+
+      .result-title {
+        font-size: 20px;
+      }
+
+      .result-box p {
+        font-size: 15.8px;
+      }
     }
   </style>
 </head>
@@ -166,78 +291,24 @@
 
   <script>
     const questions = [
-      {
-        text: "감정이 올라왔을 때\n나는 이미 한참 반응한 뒤에야 “아, 나 지금 화났네” 혹은 “슬프네”라고 깨닫는 경우가 있다.",
-        category: "emotion"
-      },
-      {
-        text: "특정 감정이 올라오면\n나는 그 감정에 완전히 잠식되어 다른 생각이 잘 떠오르지 않는 상태가 된다.",
-        category: "emotion"
-      },
-      {
-        text: "어떤 상황이 오면\n생각하기도 전에 가슴이 답답해지거나 몸이 먼저 긴장하는 반응이 튀어나온다.",
-        category: "emotion"
-      },
-      {
-        text: "불편한 감정이 올라오면\n나는 그것을 느끼기보다 이미 휴대폰이나 다른 자극으로 도망가고 있는 경우가 있다.",
-        category: "emotion"
-      },
-      {
-        text: "지금 일보다\n과거의 비슷한 기억이나 상처가 자동으로 떠오르면서 감정이 더 커지는 경우가 있다.",
-        category: "emotion"
-      },
-      {
-        text: "감정이 지나간 뒤에\n“내가 왜 그렇게까지 했지?”라는 생각이 들며 마치 정신이 들 듯한 순간이 있다.",
-        category: "emotion"
-      },
-      {
-        text: "상대의 말을 들을 때\n끝까지 듣기 전에 이미 내 대답이나 반박이 튀어나오는 경우가 있다.",
-        category: "relation"
-      },
-      {
-        text: "갈등이 생기면\n나는 내 상태를 보기 전에 이미 “상대가 문제야”라고 판단하고 있는 경우가 있다.",
-        category: "relation"
-      },
-      {
-        text: "누군가의 표정이나 말투 하나에\n내 기분이 쉽게 흔들리고 그 여파가 오래 가는 경우가 있다.",
-        category: "relation"
-      },
-      {
-        text: "인정받고 싶은 순간이 오면\n나는 이미 눈치를 보거나 나를 맞추고 있는 행동을 하고 있는 경우가 있다.",
-        category: "relation"
-      },
-      {
-        text: "비교가 시작되는 순간\n나는 선택의 여지 없이 바로 위축되거나 감정이 흔들린다.",
-        category: "relation"
-      },
-      {
-        text: "비슷한 관계나 상황에서\n“이번엔 다르게 해야지” 하면서도 결국 같은 방식으로 반응하는 경우가 있다.",
-        category: "relation"
-      },
-      {
-        text: "불안하거나 초조할 때\n나는 멈추기보다 평소보다 더 급하게 결정하고 움직이는 경우가 있다.",
-        category: "choice"
-      },
-      {
-        text: "일이 내 뜻대로 안 될 때\n나는 내려놓기보다 이미 조급해져서 상황을 억지로 바꾸려 하는 경우가 있다.",
-        category: "choice"
-      },
-      {
-        text: "내가 선택했다고 생각했지만\n돌이켜보면 비난받기 싫어서, 혹은 손해 보기 싫어서 그냥 따른 경우가 있다.",
-        category: "choice"
-      },
-      {
-        text: "실수하거나 틀릴까 봐\n나는 시도하기 전에 이미 긴장하고 위축되어 포기 쪽을 선택하는 경우가 있다.",
-        category: "choice"
-      },
-      {
-        text: "멈추고 싶다는 생각이 들어도\n나는 이미 익숙한 습관이나 반응 흐름에 끌려 계속 움직이고 있는 경우가 있다.",
-        category: "choice"
-      },
-      {
-        text: "지금 이 순간에도\n내가 선택하고 있는지, 반응하고 있는지 헷갈릴 때가 있다.",
-        category: "choice"
-      }
+      { text: "감정이 올라왔을 때\n나는 이미 한참 반응한 뒤에야 “아, 나 지금 화났네” 혹은 “슬프네”라고 깨닫는 경우가 있다.", category: "emotion" },
+      { text: "특정 감정이 올라오면\n나는 그 감정에 완전히 잠식되어 다른 생각이 잘 떠오르지 않는 상태가 된다.", category: "emotion" },
+      { text: "어떤 상황이 오면\n생각하기도 전에 가슴이 답답해지거나 몸이 먼저 긴장하는 반응이 튀어나온다.", category: "emotion" },
+      { text: "불편한 감정이 올라오면\n나는 그것을 느끼기보다 이미 휴대폰이나 다른 자극으로 도망가고 있는 경우가 있다.", category: "emotion" },
+      { text: "지금 일보다\n과거의 비슷한 기억이나 상처가 자동으로 떠오르면서 감정이 더 커지는 경우가 있다.", category: "emotion" },
+      { text: "감정이 지나간 뒤에\n“내가 왜 그렇게까지 했지?”라는 생각이 들며 마치 정신이 들 듯한 순간이 있다.", category: "emotion" },
+      { text: "상대의 말을 들을 때\n끝까지 듣기 전에 이미 내 대답이나 반박이 튀어나오는 경우가 있다.", category: "relation" },
+      { text: "갈등이 생기면\n나는 내 상태를 보기 전에 이미 “상대가 문제야”라고 판단하고 있는 경우가 있다.", category: "relation" },
+      { text: "누군가의 표정이나 말투 하나에\n내 기분이 쉽게 흔들리고 그 여파가 오래 가는 경우가 있다.", category: "relation" },
+      { text: "인정받고 싶은 순간이 오면\n나는 이미 눈치를 보거나 나를 맞추고 있는 행동을 하고 있는 경우가 있다.", category: "relation" },
+      { text: "비교가 시작되는 순간\n나는 선택의 여지 없이 바로 위축되거나 감정이 흔들린다.", category: "relation" },
+      { text: "비슷한 관계나 상황에서\n“이번엔 다르게 해야지” 하면서도 결국 같은 방식으로 반응하는 경우가 있다.", category: "relation" },
+      { text: "불안하거나 초조할 때\n나는 멈추기보다 평소보다 더 급하게 결정하고 움직이는 경우가 있다.", category: "choice" },
+      { text: "일이 내 뜻대로 안 될 때\n나는 내려놓기보다 이미 조급해져서 상황을 억지로 바꾸려 하는 경우가 있다.", category: "choice" },
+      { text: "내가 선택했다고 생각했지만\n돌이켜보면 비난받기 싫어서, 혹은 손해 보기 싫어서 그냥 따른 경우가 있다.", category: "choice" },
+      { text: "실수하거나 틀릴까 봐\n나는 시도하기 전에 이미 긴장하고 위축되어 포기 쪽을 선택하는 경우가 있다.", category: "choice" },
+      { text: "멈추고 싶다는 생각이 들어도\n나는 이미 익숙한 습관이나 반응 흐름에 끌려 계속 움직이고 있는 경우가 있다.", category: "choice" },
+      { text: "지금 이 순간에도\n내가 선택하고 있는지, 반응하고 있는지 헷갈릴 때가 있다.", category: "choice" }
     ];
 
     let currentIndex = 0;
@@ -296,7 +367,6 @@
 
       if (topScore === 0) {
         return {
-          key: "balanced",
           title: "뚜렷한 자동반응 영역은 낮음",
           text: "현재 체크 결과만 보면 특정 영역의 자동반응이 강하게 드러나지는 않습니다. 다만 실제 삶에서 반복되는 불편함이 있다면, 그 상황을 기준으로 다시 점검할 필요가 있습니다."
         };
@@ -318,7 +388,6 @@
       };
 
       return {
-        key: topKey,
         title: typeMap[topKey].title,
         text: typeMap[topKey].text
       };
@@ -361,10 +430,7 @@
         <div class="question-card">
           <p class="question-number">체크 완료</p>
           <h2>당신의 현재 반응 구조가 확인되었습니다.</h2>
-
-          <div class="score-badge">
-            총 ${questions.length}개 문항 중 체크 ${totalYes}개
-          </div>
+          <div class="score-badge">총 ${questions.length}개 문항 중 체크 ${totalYes}개</div>
         </div>
 
         <div class="result-box">
@@ -377,7 +443,7 @@
           <p>${dominant.text}</p>
         </div>
 
-        <div class="result-box dark">
+        <div class="result-box soft">
           <h3 class="result-title">현실은 반복되는 반응으로 만들어집니다.</h3>
 
           <p>
@@ -396,13 +462,13 @@
             바꿔야 할 것은 상황이 아니라
           </p>
 
-          <p class="mirror-line">
-            👉 당신 내면에서 작동하는 구조입니다.
+          <p class="highlight-line">
+            당신 내면에서 작동하는 구조입니다.
           </p>
 
           <p>
             ‘고통’은 문제가 아니라<br>
-            👉 변화가 필요하다는 신호입니다.
+            변화가 필요하다는 신호입니다.
           </p>
         </div>
 
@@ -416,8 +482,8 @@
             거울이 있어야만 보입니다.
           </p>
 
-          <p class="mirror-line">
-            👉 내면의 구조도 같습니다.
+          <p class="highlight-line">
+            내면의 구조도 같습니다.
           </p>
 
           <p>
@@ -427,13 +493,11 @@
         </div>
 
         <div class="cta-wrap">
-          <a href="premium_apply.html?${params.toString()}"
-             class="cta-button cta-primary">
+          <a href="premium_apply.html?${params.toString()}" class="cta-button cta-primary">
             내 현실을 만드는 반응 패턴의 근본 구조 확인하기
           </a>
 
-          <a href="report.html?${params.toString()}"
-             class="cta-button cta-secondary">
+          <a href="report.html?${params.toString()}" class="cta-button cta-secondary">
             기본 결과 다시 보기
           </a>
         </div>
