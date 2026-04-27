@@ -537,6 +537,24 @@
       line-height: 1.7;
     }
 
+    .result-layout {
+      display: grid;
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .result-main,
+    .result-breakdown,
+    .result-cta {
+      margin: 0;
+    }
+
+    .result-breakdown {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
     .fade-up {
       animation: fadeUp 0.38s ease;
     }
@@ -601,6 +619,44 @@
 
       .breakdown-grid {
         grid-template-columns: 1fr;
+      }
+
+      .result-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .result-main {
+        order: 1;
+      }
+
+      .result-cta {
+        order: 2;
+        margin-top: 0;
+      }
+
+      .result-breakdown {
+        order: 3;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .result-main .result-summary {
+        margin-bottom: 0;
+      }
+
+      .result-cta .cta-button {
+        min-height: 60px;
+        padding: 17px 18px;
+        font-size: 17px;
+        position: relative;
+        box-shadow: 0 16px 30px rgba(31, 95, 73, 0.22);
+      }
+
+      .result-cta .footer-note {
+        margin-top: 8px;
+        font-size: 12px;
       }
     }
 
@@ -806,16 +862,18 @@
           <span class="question-category">결과 준비 완료</span>
         </div>
 
-        <div class="question-card">
-          <h2>선택 vs 반응 체크가 완료되었습니다.\n이제 당신의 현재 반응 구조를 확인해 보세요.</h2>
+        <div class="result-layout">
+          <div class="question-card result-main">
+            <h2>선택 vs 반응 체크가 완료되었습니다.\n이제 당신의 현재 반응 구조를 확인해 보세요.</h2>
 
-          <div class="score-badge">
-            자동반응 포착 ${totalYes}회
+            <div class="score-badge">
+              자동반응 포착 ${totalYes}회
+            </div>
+
+            <p class="result-summary">${summary}</p>
           </div>
 
-          <p class="result-summary">${summary}</p>
-
-          <div class="breakdown-grid">
+          <div class="result-breakdown breakdown-grid">
             <div class="breakdown-card">
               <span class="breakdown-label">감정 반응</span>
               <span class="breakdown-value">${categoryScores.emotion}<span class="breakdown-unit">회</span></span>
@@ -829,13 +887,13 @@
               <span class="breakdown-value">${categoryScores.choice}<span class="breakdown-unit">회</span></span>
             </div>
           </div>
-        </div>
 
-        <div class="cta-wrap">
-          <a href="report.html?${params.toString()}" class="cta-button">
-            기본 결과 확인하기
-          </a>
-          <p class="footer-note">현재 점수와 카테고리별 결과가 함께 전달됩니다.</p>
+          <div class="cta-wrap result-cta">
+            <a href="report.html?${params.toString()}" class="cta-button">
+              기본 결과 확인하기
+            </a>
+            <p class="footer-note">현재 점수와 카테고리별 결과가 함께 전달됩니다.</p>
+          </div>
         </div>
       `;
 
