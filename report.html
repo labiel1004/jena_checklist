@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>반응/선택 상태 요약 리포트</title>
+  <title>선택 vs 반응 기본 결과</title>
+
   <style>
     :root {
       --bg: #f3eee6;
-      --paper: #fffaf2;
-      --ink: #241f1a;
-      --muted: #7b7064;
-      --green: #1f7a5a;
-      --gold: #b8944d;
-      --line: #e3d8c8;
-      --soft: #f7efe1;
-      --deep: #2d261f;
+      --paper: #fffdf8;
+      --soft: #f8f3ea;
+      --line: #e4d8c8;
+      --ink: #20251f;
+      --muted: #60685f;
+      --green: #1f5f49;
+      --green-deep: #153f32;
+      --beige: #eee5d8;
     }
 
     * { box-sizing: border-box; }
@@ -24,86 +25,130 @@
       background: var(--bg);
       color: var(--ink);
       font-family: "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
-      line-height: 1.75;
+      line-height: 1.78;
     }
 
     .wrap {
       max-width: 820px;
       margin: 0 auto;
-      padding: 28px 16px 70px;
+      padding: 24px 14px 70px;
     }
 
     .cover, section {
       background: var(--paper);
       border: 1px solid var(--line);
       border-radius: 28px;
-      padding: 34px 26px;
+      padding: 32px 24px;
       margin-bottom: 22px;
-      box-shadow: 0 10px 32px rgba(80, 60, 40, 0.08);
+      box-shadow: 0 18px 44px rgba(79, 61, 46, 0.07);
     }
 
     .label {
       color: var(--green);
       font-weight: 800;
-      letter-spacing: 0.08em;
       font-size: 14px;
-      margin-bottom: 16px;
+      letter-spacing: 0.04em;
+      margin-bottom: 14px;
     }
 
     h1 {
-      font-size: 34px;
-      line-height: 1.25;
-      letter-spacing: -0.05em;
+      font-size: 32px;
+      line-height: 1.3;
+      letter-spacing: -0.055em;
       margin: 0 0 18px;
     }
 
     h2 {
-      font-size: 24px;
-      margin: 0 0 18px;
-      letter-spacing: -0.04em;
+      font-size: 22px;
+      line-height: 1.48;
+      letter-spacing: -0.045em;
+      margin: 0 0 16px;
     }
 
-    h3 {
-      font-size: 18px;
-      margin: 24px 0 10px;
+    p {
+      margin: 0 0 14px;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: -0.035em;
     }
-
-    p { margin: 0 0 14px; }
 
     .lead {
-      font-size: 18px;
+      font-size: 16px;
       color: var(--muted);
     }
 
-    .score-box {
-      background: var(--soft);
-      border-left: 5px solid var(--gold);
-      border-radius: 18px;
-      padding: 22px;
-      margin-top: 24px;
+    .score-badge {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: var(--beige);
+      color: var(--green-deep);
+      font-size: 14px;
+      font-weight: 800;
     }
 
-    .score-number {
-      font-size: 30px;
+    .soft {
+      background: var(--soft);
+    }
+
+    .highlight {
+      display: block;
+      margin: 10px 0 16px;
+      padding: 15px 16px;
+      border-radius: 18px;
+      background: #eef4ef;
+      border-left: 4px solid var(--green);
+      color: var(--green-deep);
       font-weight: 800;
-      color: var(--green);
+      line-height: 1.65;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .meta-card {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px 14px;
+    }
+
+    .meta-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .meta-card strong {
+      color: var(--green-deep);
+      font-size: 22px;
+      font-weight: 800;
     }
 
     .bar-wrap {
-      margin: 22px 0;
+      margin-top: 18px;
     }
 
     .bar-copy {
       display: flex;
       justify-content: space-between;
       color: var(--muted);
-      font-weight: 700;
+      font-size: 14px;
+      font-weight: 800;
       margin-bottom: 8px;
     }
 
     .bar {
-      height: 14px;
-      background: #e4ddd2;
+      height: 12px;
+      background: #e8dfd3;
       border-radius: 999px;
       overflow: hidden;
     }
@@ -111,39 +156,15 @@
     .bar-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #1f7a5a, #b8944d);
+      background: var(--green);
       border-radius: 999px;
       transition: width 0.6s ease;
-    }
-
-    .highlight {
-      font-size: 21px;
-      font-weight: 800;
-      line-height: 1.6;
-      color: var(--deep);
-    }
-
-    .note {
-      background: var(--soft);
-      border-radius: 18px;
-      padding: 20px;
-      margin: 18px 0;
-      border: 1px solid var(--line);
-    }
-
-    .list {
-      padding-left: 20px;
-      margin: 0;
-    }
-
-    .list li {
-      margin-bottom: 10px;
     }
 
     .button-group {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 12px;
       margin-top: 26px;
     }
 
@@ -152,33 +173,39 @@
       text-align: center;
       text-decoration: none;
       padding: 17px 18px;
-      border-radius: 16px;
+      border-radius: 18px;
       font-weight: 800;
       font-size: 16px;
+      letter-spacing: -0.035em;
+      line-height: 1.5;
     }
 
     .button.primary {
-      background: var(--deep);
-      color: #fffaf2;
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 14px 28px rgba(31, 95, 73, 0.18);
     }
 
     .button.secondary {
-      background: #ebe7df;
-      color: var(--ink);
+      background: var(--beige);
+      color: var(--green-deep);
+      border: 1px solid var(--line);
     }
 
     .footer {
       text-align: center;
       color: var(--muted);
       font-size: 13px;
-      padding-top: 16px;
+      padding-top: 18px;
+      line-height: 1.7;
     }
 
     @media (max-width: 640px) {
       .wrap { padding: 18px 12px 54px; }
       .cover, section { padding: 28px 20px; border-radius: 24px; }
-      h1 { font-size: 30px; }
-      h2 { font-size: 22px; }
+      h1 { font-size: 29px; }
+      h2 { font-size: 20px; }
+      .meta-grid { grid-template-columns: 1fr; }
       .button-group { grid-template-columns: 1fr; }
     }
   </style>
@@ -188,90 +215,118 @@
   <div class="wrap">
 
     <div class="cover">
-      <div class="label">CONSCIOUSNESS OS BASIC REPORT</div>
-      <h1>반응/선택 상태<br>요약 리포트</h1>
+      <div class="label">CONSCIOUSNESS OS BASIC RESULT</div>
+      <h1>선택 vs 반응<br>기본 결과</h1>
+
       <p class="lead">
-        이 리포트는 지금 당신이 자동반응에 가까운지,
-        선택 가능한 상태에 가까운지를 간단히 확인하는 기본 리포트입니다.
+        이 결과는 당신을 평가하기 위한 것이 아닙니다.
+        지금 어떤 자동반응 구조가 더 선명하게 드러나는지 확인하기 위한 기본 분석입니다.
       </p>
 
-      <div class="score-box">
-        <p>총 <span id="totalText">18</span>개 문항 중</p>
-        <p class="score-number">YES <span id="scoreText">0</span>개</p>
-        <p id="scoreSummary">점수를 불러오는 중입니다.</p>
+      <div class="score-badge">
+        총 <span id="totalText">18</span>개 문항 중 체크 <span id="scoreText">0</span>개
       </div>
-    </div>
-
-    <section>
-      <h2>SECTION 1. YES 점수 해석</h2>
 
       <div class="bar-wrap">
         <div class="bar-copy">
-          <span>선택 가능성 지표</span>
+          <span>자동반응 노출 지표</span>
           <span id="percentText">0%</span>
         </div>
         <div class="bar">
           <div class="bar-fill" id="barFill"></div>
         </div>
       </div>
+    </div>
 
-      <p class="highlight" id="levelTitle"></p>
-      <p id="levelDescription"></p>
+    <section>
+      <h2>현재 상태</h2>
+      <p class="highlight" id="statusTitle"></p>
+      <p id="statusText"></p>
     </section>
 
     <section>
-      <h2>SECTION 2. 현재 선택 가능성 수준</h2>
+      <h2>핵심 반응 구조</h2>
+      <p class="highlight" id="typeTitle"></p>
+      <p id="typeText"></p>
 
-      <div class="note" id="choiceLevel"></div>
-
-      <p>
-        여기서 중요한 것은 점수가 높고 낮음이 아닙니다.
-        중요한 것은 내가 언제 자동반응으로 들어가고,
-        언제 선택의 자리로 돌아올 수 있는지를 알아차리는 것입니다.
-      </p>
-    </section>
-
-    <section>
-      <h2>SECTION 3. 자동반응이 강한 구간</h2>
-
-      <p id="autoPatternIntro"></p>
-
-      <ul class="list" id="autoPatternList"></ul>
-    </section>
-
-    <section>
-      <h2>SECTION 4. 오늘의 한 문장</h2>
-
-      <div class="note">
-        <p class="highlight" id="todaySentence"></p>
+      <div class="meta-grid">
+        <div class="meta-card">
+          <span>감정 자동반응</span>
+          <strong id="emotionText">0</strong>
+        </div>
+        <div class="meta-card">
+          <span>관계 트리거</span>
+          <strong id="relationText">0</strong>
+        </div>
+        <div class="meta-card">
+          <span>선택 착각</span>
+          <strong id="choiceText">0</strong>
+        </div>
       </div>
     </section>
 
-    <section>
-      <h2>SECTION 5. 3일 관찰 과제</h2>
+    <section class="soft">
+      <h2>현실은 반복되는 반응으로 만들어집니다</h2>
 
       <p>
-        지금은 문제를 해결하려 하기보다,
-        자동으로 작동하는 반응을 관찰하는 것이 먼저입니다.
+        매일, 매순간<br>
+        당신의 자동반응과 선택이<br>
+        지금의 현실을 만들어냅니다.
       </p>
 
-      <ul class="list">
-        <li><strong>DAY 1</strong> — 감정이 올라온 순간을 기록합니다.</li>
-        <li><strong>DAY 2</strong> — 그 감정 뒤에 어떤 해석이 있었는지 적어봅니다.</li>
-        <li><strong>DAY 3</strong> — 같은 상황에서 내가 선택할 수 있는 다른 반응 하나를 써봅니다.</li>
-      </ul>
+      <p>
+        당신은 지금의 현실에<br>
+        만족하고 있습니까?
+      </p>
+
+      <p>
+        그렇지 않다면<br>
+        바꿔야 할 것은 상황이 아니라
+      </p>
+
+      <p class="highlight">
+        당신 내면에서 작동하는 구조입니다.
+      </p>
+
+      <p>
+        고통은 문제가 아니라<br>
+        변화가 필요하다는 신호입니다.
+      </p>
     </section>
 
     <section>
-      <h2>프리미엄 리포트 안내</h2>
+      <h2>왜 구조를 봐야 할까요?</h2>
+
       <p>
-        기본 리포트는 현재 상태를 보여줍니다.
+        사람은<br>
+        자기 얼굴을 직접 볼 수 없습니다.
+      </p>
+
+      <p>
+        거울이 있어야만 보입니다.
+      </p>
+
+      <p class="highlight">
+        내면의 구조도 같습니다.
+      </p>
+
+      <p>
+        이 구조는<br>
+        혼자서는 끝까지 보이지 않습니다.
+      </p>
+    </section>
+
+    <section>
+      <h2>다음 단계</h2>
+
+      <p>
+        기본 결과는 현재 드러난 반응 구조의 방향을 보여줍니다.
         프리미엄 리포트는 이 반응이 왜 반복되는지,
-        어떤 의식OS 구조에서 작동하는지를 더 깊이 해석합니다.
+        어떤 내면 알고리즘에서 작동하는지를 더 구체적으로 분석합니다.
       </p>
 
       <div class="button-group">
-        <a class="button secondary" href="index.html">체크리스트 다시 하기</a>
+        <a class="button secondary" id="basicLink" href="#">기본 결과 다시 보기</a>
         <a class="button primary" id="premiumLink" href="premium_apply.html">프리미엄 리포트 신청하기</a>
       </div>
     </section>
@@ -285,97 +340,107 @@
 
   <script>
     const params = new URLSearchParams(window.location.search);
+
     const score = Number(params.get("score")) || 0;
     const total = Number(params.get("total")) || 18;
+    const emotion = Number(params.get("emotion")) || 0;
+    const relation = Number(params.get("relation")) || 0;
+    const choice = Number(params.get("choice")) || 0;
     const percent = Math.round((score / total) * 100);
 
     const totalText = document.getElementById("totalText");
     const scoreText = document.getElementById("scoreText");
-    const scoreSummary = document.getElementById("scoreSummary");
     const percentText = document.getElementById("percentText");
     const barFill = document.getElementById("barFill");
-    const levelTitle = document.getElementById("levelTitle");
-    const levelDescription = document.getElementById("levelDescription");
-    const choiceLevel = document.getElementById("choiceLevel");
-    const autoPatternIntro = document.getElementById("autoPatternIntro");
-    const autoPatternList = document.getElementById("autoPatternList");
-    const todaySentence = document.getElementById("todaySentence");
+
+    const statusTitle = document.getElementById("statusTitle");
+    const statusText = document.getElementById("statusText");
+    const typeTitle = document.getElementById("typeTitle");
+    const typeText = document.getElementById("typeText");
+
+    const emotionText = document.getElementById("emotionText");
+    const relationText = document.getElementById("relationText");
+    const choiceText = document.getElementById("choiceText");
+
+    const basicLink = document.getElementById("basicLink");
     const premiumLink = document.getElementById("premiumLink");
 
     totalText.textContent = total;
     scoreText.textContent = score;
     percentText.textContent = percent + "%";
     barFill.style.width = percent + "%";
-    premiumLink.href = `premium_apply.html?score=${score}&total=${total}`;
 
-    let data = {};
+    emotionText.textContent = `${emotion}/6`;
+    relationText.textContent = `${relation}/6`;
+    choiceText.textContent = `${choice}/6`;
 
-    if (percent >= 75) {
-      data = {
-        summary: "현재 당신은 선택 가능성이 비교적 높은 상태입니다.",
-        title: "선택 인식형",
-        description:
-          "감정이나 상황에 바로 휩쓸리기보다, 자신의 반응을 알아차리고 멈출 수 있는 힘이 어느 정도 열려 있습니다. 다만 선택 가능성이 높다는 것은 자동반응이 없다는 뜻이 아니라, 반응이 올라와도 그것을 관찰할 수 있는 힘이 있다는 뜻입니다.",
-        choice:
-          "당신은 이미 ‘반응하는 나’와 ‘선택하는 나’를 구분하기 시작했습니다. 이제 중요한 것은 이 인식을 일상 속에서 반복적으로 유지하는 것입니다.",
-        intro:
-          "현재 자동반응은 강하게 폭주하기보다, 특정 상황에서 미세하게 작동할 가능성이 있습니다.",
-        patterns: [
-          "중요한 관계에서 인정받고 싶은 마음이 올라올 때",
-          "내가 잘하고 있는지 확인받고 싶을 때",
-          "불편한 감정을 빠르게 정리하려고 할 때"
-        ],
-        sentence:
-          "나는 반응을 없애는 사람이 아니라, 반응을 알아차리고 선택하는 사람입니다."
-      };
-    } else if (percent >= 45) {
-      data = {
-        summary: "현재 당신은 선택과 자동반응이 함께 작동하는 혼합 상태입니다.",
-        title: "전환 구간형",
-        description:
-          "당신 안에는 알아차림의 힘이 분명히 있지만, 특정 자극이 들어오면 익숙한 자동반응이 먼저 실행될 수 있습니다. 이 구간은 매우 중요합니다. 왜냐하면 구조가 보이기 시작하지만, 아직 완전히 선택으로 안정화되지는 않은 상태이기 때문입니다.",
-        choice:
-          "당신은 이미 자동반응을 멈출 가능성을 가지고 있습니다. 다만 감정이 강하게 올라오는 순간에는 다시 익숙한 해석으로 돌아갈 수 있습니다.",
-        intro:
-          "현재 자동반응은 주로 감정이 빠르게 올라오는 상황에서 강해질 수 있습니다.",
-        patterns: [
-          "상대의 말이 나를 평가하거나 무시하는 것처럼 느껴질 때",
-          "실수하거나 부족해 보일까 봐 긴장될 때",
-          "빨리 해결하거나 설명해야 한다는 압박이 생길 때"
-        ],
-        sentence:
-          "나는 지금 반응을 보고 있습니다. 보는 순간, 선택은 이미 시작되었습니다."
-      };
-    } else {
-      data = {
-        summary: "현재는 자동반응이 비교적 강하게 작동하는 상태입니다.",
-        title: "자동반응 우세형",
-        description:
-          "지금은 감정이 올라올 때 멈추거나 관찰하기보다, 익숙한 반응이 먼저 실행될 가능성이 높습니다. 이것은 문제가 있다는 뜻이 아닙니다. 단지 오래된 생존 알고리즘이 아직 빠르게 작동하고 있다는 뜻입니다.",
-        choice:
-          "선택 가능성은 사라진 것이 아니라, 아직 자동반응 아래에 가려져 있을 뿐입니다. 첫 단계는 바꾸려는 것이 아니라 알아차리는 것입니다.",
-        intro:
-          "현재 자동반응은 다음과 같은 흐름에서 강하게 작동할 수 있습니다.",
-        patterns: [
-          "불편한 감정을 빨리 피하거나 덮고 싶을 때",
-          "상대의 반응에 따라 내 상태가 크게 흔들릴 때",
-          "생각이 많아지고 몸이 긴장하면서 바로 행동하려 할 때"
-        ],
-        sentence:
-          "나는 고장난 것이 아닙니다. 다만 오래된 반응 시스템을 보기 시작한 것입니다."
+    function getStatus(score) {
+      if (score <= 5) {
+        return {
+          title: "부분적 선택 상태",
+          text: "당신은 비교적 자신의 반응을 인식하고 선택할 수 있는 상태에 가까워지고 있습니다. 다만 특정 트리거 상황에서는 여전히 자동반응이 개입할 가능성이 있습니다."
+        };
+      }
+
+      if (score <= 11) {
+        return {
+          title: "전환 구간",
+          text: "당신은 이미 일부 순간에서 자신의 반응을 알아차리고 있습니다. 하지만 중요한 상황에서는 여전히 자동반응이 먼저 작동하는 패턴이 남아 있습니다."
+        };
+      }
+
+      return {
+        title: "자동반응 지배 상태",
+        text: "당신은 현재 여러 영역에서 자동반응이 먼저 작동하고 있는 상태입니다. 선택하고 있다고 느끼는 순간에도 이미 반응이 선행된 뒤일 가능성이 높습니다."
       };
     }
 
-    scoreSummary.textContent = data.summary;
-    levelTitle.textContent = data.title;
-    levelDescription.textContent = data.description;
-    choiceLevel.textContent = data.choice;
-    autoPatternIntro.textContent = data.intro;
-    todaySentence.textContent = data.sentence;
+    function getType() {
+      const scores = [
+        { key: "emotion", value: emotion },
+        { key: "relation", value: relation },
+        { key: "choice", value: choice }
+      ].sort((a, b) => b.value - a.value);
 
-    autoPatternList.innerHTML = data.patterns
-      .map(item => `<li>${item}</li>`)
-      .join("");
+      const top = scores[0];
+
+      if (top.value === 0) {
+        return {
+          title: "뚜렷한 자동반응 영역은 낮음",
+          text: "현재 체크 결과만 보면 특정 영역의 자동반응이 강하게 드러나지는 않습니다. 다만 실제 삶에서 반복되는 불편함이 있다면, 그 상황을 기준으로 다시 점검할 필요가 있습니다."
+        };
+      }
+
+      const map = {
+        emotion: {
+          title: "감정 자동반응형",
+          text: "당신의 반응은 주로 감정이 먼저 올라오고, 그 뒤에 인식이 따라오는 구조에서 시작됩니다. 감정을 느끼는 순간이 아니라 이미 반응이 진행된 뒤에야 알아차리는 패턴이 핵심입니다."
+        },
+        relation: {
+          title: "관계 트리거형",
+          text: "당신의 반응은 주로 타인의 말과 행동에 의해 촉발되는 구조입니다. 내 상태보다 상대의 반응이 먼저 기준이 되는 패턴이 반복되고 있습니다."
+        },
+        choice: {
+          title: "선택 착각형",
+          text: "당신은 선택하고 있다고 느끼지만, 실제로는 불안, 회피, 손해 회피, 비난 회피 등의 반응에 의해 결정이 이루어지는 구조가 작동하고 있을 수 있습니다."
+        }
+      };
+
+      return map[top.key];
+    }
+
+    const status = getStatus(score);
+    const type = getType();
+
+    statusTitle.textContent = status.title;
+    statusText.textContent = status.text;
+
+    typeTitle.textContent = type.title;
+    typeText.textContent = type.text;
+
+    const queryString = params.toString();
+    basicLink.href = `report.html?${queryString}`;
+    premiumLink.href = `premium_apply.html?${queryString}`;
   </script>
 </body>
 </html>
