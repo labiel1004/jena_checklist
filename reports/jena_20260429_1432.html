@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JENA님 의식OS 프리미엄 리포트</title>
+  <style>
+    :root{
+      --bg:#f3eee6;
+      --paper:#fffaf2;
+      --ink:#241f1a;
+      --muted:#7b7064;
+      --gold:#b8944d;
+      --line:#e3d8c8;
+      --deep:#2d261f;
+      --soft:#f7efe1;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);font-family:"Noto Sans KR","Apple SD Gothic Neo",sans-serif;color:var(--ink);line-height:1.75}
+    .wrap{max-width:900px;margin:0 auto;padding:28px 16px 70px}
+    .cover{background:linear-gradient(135deg,#2d261f,#5b4937);color:#fffaf2;border-radius:32px;padding:54px 30px;margin-bottom:26px;box-shadow:0 20px 50px rgba(45,38,31,.25)}
+    .label{display:inline-block;border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:6px 14px;font-size:13px;letter-spacing:.08em;color:#ead8b8;margin-bottom:24px}
+    h1{font-size:38px;line-height:1.25;margin:0 0 18px;letter-spacing:-.05em}
+    h2{font-size:24px;margin:0 0 18px;letter-spacing:-.04em}
+    h3{font-size:18px;margin:22px 0 8px}
+    p{margin:0 0 14px}
+    section{background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:32px 26px;margin-bottom:22px;box-shadow:0 8px 28px rgba(80,60,40,.07)}
+    .subtitle{font-size:18px;color:#ead8b8;margin-bottom:28px}
+    .cover-line{width:68px;height:3px;background:var(--gold);margin:28px 0}
+    .client{font-size:15px;color:#f5ead8}
+    .note{background:var(--soft);border-left:5px solid var(--gold);padding:18px 20px;border-radius:16px;margin:18px 0;font-weight:600}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px}
+    .card{background:#fffdf8;border:1px solid var(--line);border-radius:18px;padding:18px}
+    .card strong{display:block;color:var(--gold);margin-bottom:8px}
+    .desc{font-size:13px;color:var(--muted);margin-bottom:6px}
+    .bar-box{margin:16px 0}
+    .bar-label{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);font-weight:800;margin-bottom:7px}
+    .bar{height:12px;background:#e8ddcf;border-radius:999px;overflow:hidden}
+    .bar span{display:block;height:100%;background:linear-gradient(90deg,#b8944d,#6d5532);border-radius:999px}
+    .summary{font-size:20px;font-weight:800;line-height:1.6}
+    .list{padding-left:20px;margin:0}
+    .list li{margin-bottom:10px}
+    .footer{text-align:center;font-size:13px;color:var(--muted);padding:24px 0}
+
+    .toolbar{
+      position:sticky;
+      top:0;
+      z-index:20;
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      padding:14px;
+      background:rgba(243,238,230,.94);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+
+    .toolbar button{
+      border:0;
+      border-radius:999px;
+      padding:11px 18px;
+      background:var(--deep);
+      color:#fffaf2;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    @media print{
+      .toolbar{display:none}
+    }
+
+    @media(max-width:640px){
+      .wrap{padding:18px 12px 54px}
+      .cover{padding:42px 22px;border-radius:26px}
+      h1{font-size:31px}
+      section{padding:26px 20px;border-radius:22px}
+      .grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="toolbar">
+    <button onclick="window.print()">PDF 저장 / 인쇄</button>
+  </div>
+
+  <main id="report" class="wrap"></main>
+
+  <script>
+    const reportData={
+  "clientName": "JENA님",
+  "reportDate": "2026-04-29",
+  "reportType": "의식OS 프리미엄 리포트",
+  "totalState": "과잉 해석 기반 자동반응 구조",
+  "mainMessage": "JENA님은 현재 외부 상황보다 내부 해석과 기준이 우선 작동하는 구조 안에서 자동반응이 강화된 상태이며, 이를 인식하는 순간 선택 간격이 열리는 단계입니다.",
+  "sajuOS": "JENA님의 사주OS는 입력된 정보를 빠르게 구조화하고 판단 기준으로 정렬하는 필터가 강하게 작동하는 구조입니다. 이는 사실 자체보다 기준과 해석이 먼저 작동하는 반응 패턴을 형성합니다.",
+  "energyPattern": "금(金) 에너지가 강하게 작동하며 기준·평가·정리 민감도가 매우 높은 구조입니다. 동시에 수(水) 에너지가 연결되면서 생각이 멈추지 않고 반복되며, 내부 해석이 지속적으로 증폭되는 패턴으로 현실에서 가슴 답답함과 판단 혼선으로 나타납니다.",
+  "elementScores": [
+    {
+      "label": "목",
+      "value": 0
+    },
+    {
+      "label": "화",
+      "value": 33
+    },
+    {
+      "label": "토",
+      "value": 33
+    },
+    {
+      "label": "금",
+      "value": 100
+    },
+    {
+      "label": "수",
+      "value": 67
+    }
+  ],
+  "dominantElements": "금(金) 에너지와 수(水) 에너지",
+  "scores": [
+    {
+      "label": "선택 가능성",
+      "value": 40
+    },
+    {
+      "label": "자동반응",
+      "value": 85
+    },
+    {
+      "label": "이원성 반응",
+      "value": 75
+    },
+    {
+      "label": "전환 가능성",
+      "value": 65
+    }
+  ],
+  "summary": [
+    "JENA님은 기준과 판단이 먼저 작동하는 구조입니다.",
+    "생각이 반복되며 감정 압박으로 연결되는 패턴입니다.",
+    "구조 인식 시 빠른 전환이 가능한 상태입니다."
+  ],
+  "osStructure": {
+    "input": "외부 상황보다 디테일과 기준 요소를 먼저 포착하는 입력 구조",
+    "interpretation": "받은 정보를 즉시 옳고 그름으로 해석하는 판단 중심 구조",
+    "identification": "해석된 기준을 자신의 상태로 동일시하는 경향",
+    "storage": "과거 판단 실패 또는 혼선 경험이 반복 저장되어 기준 강화",
+    "choice": "이 반응이 구조임을 인식하는 순간, 판단 이전의 선택 간격이 열리는 지점"
+  },
+  "loop": [
+    "상황 발생",
+    "세부 기준 및 요소 포착",
+    "즉각적 판단 생성",
+    "판단을 사실로 인식",
+    "생각 반복 및 감정 압박 발생",
+    "판단 혼선 및 답답함 지속"
+  ],
+  "turningQuestions": [
+    "지금 내가 보는 것은 사실인가, 기준인가?",
+    "이 답답함은 상황 때문인가, 해석 때문인가?",
+    "이 판단 반응이 구조임을 지금 인식하고 있는가?"
+  ],
+  "sevenDays": [
+    "하루 1회 판단이 올라오는 순간 기록",
+    "판단 직후 3초 멈춤 관찰",
+    "상황과 해석 분리 연습",
+    "답답함 발생 시 생각 흐름 기록",
+    "같은 패턴 반복 여부 체크",
+    "판단 대신 있는 그대로 묘사 훈련",
+    "자동반응 인식 순간 체크"
+  ],
+  "finalMessage": "JENA님은 문제 상황에 있는 것이 아니라 금(金)과 수(水) 에너지가 결합된 해석 중심 구조 안에서 반응하고 있습니다. 이 구조는 판단과 생각을 자동으로 생성하며 답답함을 만들어냅니다. 그러나 이 반응이 구조임을 인식하는 순간, 반응과 선택 사이에 간격이 발생합니다. 그 간격에서 선택은 자연스럽게 열립니다."
+};
+
+    function escapeHtml(text){
+      return String(text ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function arr(v){return Array.isArray(v)?v:[]}
+
+    function normalize(data){
+      return {
+        clientName:data.clientName || data.name || "고객",
+        reportDate:data.reportDate || data.date || new Date().toLocaleDateString("ko-KR"),
+        reportType:data.reportType || "의식OS 프리미엄 리포트",
+        totalState:data.totalState || data.state || "구조 분석 진행",
+        mainMessage:data.mainMessage || data.coreMessage || data.summaryMessage || "현재 작동 중인 의식 구조를 분석했습니다.",
+        sajuOS:data.sajuOS || data.saju || data.initialSetting || "사주OS 또는 초기 설정값 분석 내용이 입력되지 않았습니다.",
+        energyPattern:data.energyPattern || data.fiveElementPattern || data.ohangPattern || "오행 에너지 패턴 분석 내용이 입력되지 않았습니다.",
+        elementScores:arr(data.elementScores),
+        dominantElements:data.dominantElements || "",
+        scores:arr(data.scores),
+        summary:arr(data.summary),
+        osStructure:data.osStructure || {},
+        loop:arr(data.loop || data.autoLoop),
+        turningQuestions:arr(data.turningQuestions || data.questions),
+        sevenDays:arr(data.sevenDays || data.practice),
+        finalMessage:data.finalMessage || "구조가 보이면 선택이 열립니다."
+      };
+    }
+
+    function renderReport(raw){
+      const data=normalize(raw);
+      const os=data.osStructure;
+      const e=data.elementScores || [];
+
+      const getElementValue=(name)=>{
+        const found=e.find(item=>String(item.label || "").includes(name));
+        return Number(found?.value) || 0;
+      };
+
+      const wood=getElementValue("목");
+      const fire=getElementValue("화");
+      const earth=getElementValue("토");
+      const metal=getElementValue("금");
+      const water=getElementValue("수");
+
+      const totalElement=wood+fire+earth+metal+water || 1;
+      const p1=(wood/totalElement)*100;
+      const p2=(fire/totalElement)*100;
+      const p3=(earth/totalElement)*100;
+      const p4=(metal/totalElement)*100;
+      const c1=p1;
+      const c2=p1+p2;
+      const c3=p1+p2+p3;
+      const c4=p1+p2+p3+p4;
+
+      document.getElementById("report").innerHTML=`
+        <div class="cover">
+          <div>
+            <div class="label">CONSCIOUSNESS OS PREMIUM REPORT</div>
+            <h1>${escapeHtml(data.reportType)}<br>심화 분석 리포트</h1>
+            <div class="subtitle">반복되는 감정과 선택 패턴을<br>의식 구조의 관점에서 해석합니다.</div>
+            <div class="cover-line"></div>
+            <div class="client">
+              CLIENT NAME : ${escapeHtml(data.clientName)}<br>
+              REPORT DATE : ${escapeHtml(data.reportDate)}<br>
+              STATE : ${escapeHtml(data.totalState)}
+            </div>
+          </div>
+        </div>
+
+        <section>
+          <h2>SECTION 1. 핵심 진단 요약</h2>
+          <p class="summary">${escapeHtml(data.mainMessage)}</p>
+          <div class="grid">
+            ${data.summary.map(item=>`<div class="card">${escapeHtml(item)}</div>`).join("")}
+          </div>
+        </section>
+
+        <section>
+          <h2>SECTION 2. 점수 기반 단계 분석</h2>
+          ${data.scores.map(s=>`
+            <div class="bar-box">
+              <div class="bar-label">
+                <span>${escapeHtml(s.label)}</span>
+                <span>${Number(s.value)||0}%</span>
+              </div>
+              <div class="bar">
+                <span style="width:${Math.max(0,Math.min(100,Number(s.value)||0))}%"></span>
+              </div>
+            </div>
+          `).join("")}
+          <div class="note">점수는 정답이 아니라 방향입니다. 중요한 것은 어떤 상황에서 어떤 구조가 자동 실행되는지 보는 것입니다.</div>
+        </section>
+
+        <section>
+          <h2>SECTION 3. 사주OS / 초기 설정값</h2>
+          <p>${escapeHtml(data.sajuOS)}</p>
+        </section>
+
+        <section>
+          <h2>SECTION 4. 오행 에너지 분포</h2>
+          <div class="note">오행은 운명이 아니라, 반응을 만들어내는 ‘에너지 구조’입니다.</div>
+          <p><strong style="font-size:18px;color:#b38b59;">${escapeHtml(data.clientName)}님의 핵심 반응 구조는 ${escapeHtml(data.dominantElements)} 중심으로 작동합니다.</strong></p>
+          <div class="note">${escapeHtml(data.dominantElements)}는 반복되는 감정, 선택, 관계 패턴을 만들어내는 핵심 축으로 작동합니다.</div>
+
+          <div style="display:flex;flex-direction:column;align-items:center;gap:20px;margin:24px 0;">
+            <div style="
+              width:220px;
+              height:220px;
+              border-radius:50%;
+              background:conic-gradient(
+                #4CAF50 0% ${c1}%,
+                #F44336 ${c1}% ${c2}%,
+                #A1887F ${c2}% ${c3}%,
+                #9E9E9E ${c3}% ${c4}%,
+                #2196F3 ${c4}% 100%
+              );
+              position:relative;
+            ">
+              <div style="
+                position:absolute;
+                top:50%;
+                left:50%;
+                transform:translate(-50%,-50%);
+                width:120px;
+                height:120px;
+                border-radius:50%;
+                background:#fffaf2;
+              "></div>
+            </div>
+
+            <div style="width:100%;max-width:340px;font-weight:700;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#4CAF50;">목(木) 에너지</span><span>${wood}</span></div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#F44336;">화(火) 에너지</span><span>${fire}</span></div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#A1887F;">토(土) 에너지</span><span>${earth}</span></div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#9E9E9E;">금(金) 에너지</span><span>${metal}</span></div>
+              <div style="display:flex;justify-content:space-between;"><span style="color:#2196F3;">수(水) 에너지</span><span>${water}</span></div>
+            </div>
+          </div>
+
+          <p>${escapeHtml(data.clientName)}님의 구조에서 가장 강하게 작동하는 에너지는 <strong>${escapeHtml(data.dominantElements || "")}</strong>입니다.</p>
+          <p>${escapeHtml(data.energyPattern)}</p>
+        </section>
+
+        <section>
+          <h2>SECTION 5. 당신의 의식 구조 (5식~9식 해석)</h2>
+          <div class="note">이 구조는 우리가 어떻게 반응하고 선택하는지를 보여주는 내면 시스템입니다.</div>
+          <div class="grid">
+            <div class="card"><strong>5식 (입력)</strong><p class="desc">외부 자극을 받아들이는 단계</p>${escapeHtml(os.input || os.five || "")}</div>
+            <div class="card"><strong>6식 (해석·판단)</strong><p class="desc">그 자극에 의미를 붙이는 단계</p>${escapeHtml(os.interpretation || os.six || "")}</div>
+            <div class="card"><strong>7식 (동일시)</strong><p class="desc">그 해석을 ‘나’라고 믿는 단계</p>${escapeHtml(os.identification || os.seven || "")}</div>
+            <div class="card"><strong>8식 (저장 패턴)</strong><p class="desc">반복된 경험이 쌓여 자동화되는 단계</p>${escapeHtml(os.storage || os.eight || "")}</div>
+            <div class="card"><strong>9식 (의식하는 자아)</strong><p class="desc">모든 과정을 알아차리고 선택하는 주체</p>${escapeHtml(os.choice || os.nine || "")}</div>
+          </div>
+          <div class="note">대부분의 사람은 5식~8식에서 자동으로 반응합니다.<br>하지만 당신은 9식, 즉 ‘선택의 자리’로 돌아올 수 있습니다.</div>
+          <div class="note">당신의 변화는 감정을 없애는 것이 아니라, 이 구조를 알아차리는 순간 시작됩니다.</div>
+        </section>
+
+        <section>
+          <h2>SECTION 6. 자동반응 루프</h2>
+          <ul class="list">${data.loop.map(item=>`<li>${escapeHtml(item)}</li>`).join("")}</ul>
+        </section>
+
+        <section>
+          <h2>SECTION 7. 선택의 자리로 돌아오는 전환 질문</h2>
+          <ul class="list">${data.turningQuestions.map(item=>`<li>${escapeHtml(item)}</li>`).join("")}</ul>
+        </section>
+
+        <section>
+          <h2>SECTION 8. 7일 실천 루틴</h2>
+          <ul class="list">${data.sevenDays.map(item=>`<li>${escapeHtml(item)}</li>`).join("")}</ul>
+        </section>
+
+        <section>
+          <h2>FINAL MESSAGE</h2>
+          <p class="summary">${escapeHtml(data.finalMessage)}</p>
+          <div class="note">이 리포트의 목적은 당신을 규정하는 것이 아니라,<br>당신이 스스로 선택의 자리로 돌아올 수 있도록 돕는 것입니다.</div>
+        </section>
+
+        <div class="footer">
+          © Consciousness Architecture Lab · JENA CO.<br>
+          Reality isn’t events. It’s structure.
+        </div>
+      `;
+    }
+
+    renderReport(reportData);
+  </script>
+</body>
+</html>
