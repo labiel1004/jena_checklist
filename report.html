@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
-
+  
   <style>
     :root {
       --bg-1: #f5efe7;
@@ -245,7 +245,7 @@
       line-height: 1.25;
       letter-spacing: -0.06em;
       color: #1f1d1a;
-    }
+    }re
 
     .hero-state-line {
       margin: 18px 0 0;
@@ -1033,5 +1033,21 @@
     basicLink.href = `report.html?${queryString}`;
     premiumLink.href = `premium_apply.html?${queryString}`;
   </script>
+<h2 id="clientName"></h2>
+<p id="mainMessage"></p> 
+  <script>
+const reportData = {
+  "clientName": "JENA",
+  "mainMessage": "테스트"
+};
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("clientName").innerText = reportData.clientName;
+  document.getElementById("mainMessage").innerText = reportData.mainMessage;
+  });
+</script>
+
 </body>
 </html>
