@@ -588,40 +588,36 @@
             하지만 당신은 9식, 즉 ‘선택의 자리’로 돌아올 수 있습니다.
           </div>
         </section>
-
-        <section>
-          <h2>SECTION 6. 자동반응 루프</h2>
-          <section>
+<section>
   <h2>SECTION 6. 자동반응 루프</h2>
 
   <div class="note">
-    아래 흐름은 자동반응이 실행되는 기본 구조입니다.
-  </div>
+아래는 ${escapeHtml(data.clientName)}님에게 반복적으로 작동하는 자동반응 구조입니다.
+</div>
 
-  <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:center; margin-top:20px; margin-bottom:22px;">
-    <div class="card">자극 입력</div>
-    <div style="font-size:18px; font-weight:900; color:#b8944d; padding:0 6px;">&#8594;</div>
-    <div class="card">평가 해석</div>
-    <div style="font-size:18px; font-weight:900; color:#b8944d; padding:0 6px;">&#8594;</div>
-    <div class="card">감정 상승</div>
-    <div style="font-size:18px; font-weight:900; color:#b8944d; padding:0 6px;">&#8594;</div>
-    <div class="card">방어 반응</div>
-    <div style="font-size:18px; font-weight:900; color:#b8944d; padding:0 6px;">&#8594;</div>
-    <div class="card">사후 정리</div>
-    <div style="font-size:18px; font-weight:900; color:#b8944d; padding:0 6px;">&#8594;</div>
-    <div class="card">반복 저장</div>
+  <div style="display:flex; flex-direction:column; align-items:center; gap:10px; margin:24px 0;">
+
+    ${data.loop.map((item, index) => `
+      <div style="width:100%; max-width:420px; text-align:center;">
+        <div class="card" style="font-weight:800; padding:16px 18px;">
+          ${escapeHtml(item)}
+        </div>
+
+        ${index < data.loop.length - 1 ? `
+          <div style="font-size:22px; font-weight:900; color:#b8944d; padding:4px 0;">
+            &#8595;
+          </div>
+        ` : ""}
+      </div>
+    `).join("")}
+
   </div>
 
   <div class="note">
-    아래는 이 사람에게 실제로 작동하는 자동반응 루프입니다.
+    이 루프는 반복될수록 자동화되지만, 알아차리는 순간 선택의 간격이 생깁니다.
   </div>
-
-  <ul class="list">
-    ${data.loop.map(item=>`<li>${escapeHtml(item)}</li>`).join("")}
-  </ul>
 </section>
-        </section>
-
+        
         <section>
           <h2>SECTION 7. 선택의 자리로 돌아오는 전환 질문</h2>
           <ul class="list">
