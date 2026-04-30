@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -244,7 +245,8 @@
 <body>
   <div class="toolbar">
     <button class="secondary" onclick="toggleJsonPanel()">JSON 붙여넣기</button>
-    <button onclick="renderReport(sampleData)">샘플 보기</button>
+<button onclick="renderReport(sampleData)">샘플 보기</button>
+<button onclick="downloadStaticHtml()">HTML 저장</button>
   </div>
 
   <section id="jsonPanel" class="json-panel">
@@ -260,6 +262,9 @@
   <main id="report" class="wrap"></main>
 
   <script>
+    let currentClientName = "report";
+    let currentFileName = "";
+
     const sampleData = {
       clientName:"홍길동",
       reportDate:"2026.04.24",
@@ -390,6 +395,8 @@
 
     function renderReport(raw){
       const data = normalize(raw);
+      currentClientName = data.clientName || "report";
+      currentFileName = data.fileName || "";
       const os = data.osStructure;
       const e = data.elementScores || [];
 
@@ -703,9 +710,49 @@ ${escapeHtml(data.clientName)}님
       `;
     }
 
-    if (typeof sampleData !== "undefined") {
-      renderReport(sampleData);
+    function makeSafeFileName(name) {
+      return String(name || "report")
+        .trim()
+        .toLowerCase()
+        .replace(/[\/:*?"<>|]/g, "")
+        .replace(/\s+/g, "_");
     }
+
+    function downloadStaticHtml(){
+      const reportHtml = document.getElementById("report").innerHTML;
+      const styleHtml = document.querySelector("style").innerHTML;
+
+      const clientName = currentClientName || "report";
+      const today = new Date().toISOString().slice(0,10).replaceAll("-","");
+      const fileName = currentFileName || `${makeSafeFileName(clientName)}_${today}.html`;
+
+      const html = `<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${clientName} 의식OS 프리미엄 리포트</title>
+<style>
+${styleHtml}
+.toolbar, .json-panel { display:none !important; }
+</style>
+</head>
+<body>
+<main class="wrap">
+${reportHtml}
+</main>
+</body>
+</html>`;
+
+      const blob = new Blob([html], {type:"text/html;charset=utf-8"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = fileName;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    renderReport(sampleData);
   </script>
 </body>
 </html>
