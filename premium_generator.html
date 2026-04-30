@@ -718,7 +718,7 @@ ${escapeHtml(data.clientName)}님
         .replace(/\s+/g, "_");
     }
 
-    function downloadStaticHtml(){
+    async function downloadStaticHtml(){
       const reportHtml = document.getElementById("report").innerHTML;
       const styleHtml = document.querySelector("style").innerHTML;
 
@@ -745,11 +745,36 @@ ${reportHtml}
 </html>`;
 
       const blob = new Blob([html], {type:"text/html;charset=utf-8"});
+
+      // Chrome / Edge에서는 저장 위치와 파일명을 직접 고를 수 있게 한다.
+      if (window.showSaveFilePicker) {
+        try {
+          const handle = await window.showSaveFilePicker({
+            suggestedName: fileName,
+            types: [
+              {
+                description: "HTML 파일",
+                accept: { "text/html": [".html"] }
+              }
+            ]
+          });
+          const writable = await handle.createWritable();
+          await writable.write(blob);
+          await writable.close();
+          return;
+        } catch (e) {
+          // 사용자가 저장창에서 취소한 경우는 아무 작업도 하지 않는다.
+          return;
+        }
+      }
+
+      // 위 기능을 지원하지 않는 브라우저에서는 기존 방식으로 다운로드한다.
       const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
+      const url = URL.createObjectURL(blob);
+      a.href = url;
       a.download = fileName;
       a.click();
-      URL.revokeObjectURL(a.href);
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
     }
 
     renderReport(sampleData);
