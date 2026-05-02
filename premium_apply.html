@@ -19,7 +19,7 @@
     :root {
       --bg:#f3eee6;
       --paper:#fffaf2;
-      --paper2:#fffdf8;
+      --paper2:#fff8ef;
       --ink:#241f1a;
       --deep:#061426;
       --deep2:#101e36;
@@ -27,10 +27,11 @@
       --muted2:#dce2f1;
       --gold:#c49a45;
       --gold2:#f2cf78;
-      --line:#e4d8c8;
+      --line:#d7c7ad;
       --danger:#b8665b;
       --ok:#3b6f9d;
       --shadow:0 16px 42px rgba(80,60,40,.11);
+      --shadow-card:0 10px 26px rgba(0,0,0,.08);
       --shadow-dark:0 22px 62px rgba(24,35,58,.28);
     }
 
@@ -58,9 +59,7 @@
       padding:28px 16px 72px;
     }
 
-    .hero {
-      padding:22px 0 30px;
-    }
+    .hero { padding:22px 0 30px; }
 
     .hero-card {
       width:100%;
@@ -92,13 +91,17 @@
 
     h1 {
       margin:0 0 24px;
-      font-size:clamp(42px, 7vw, 74px);
-      line-height:1.18;
-      letter-spacing:-.07em;
+      font-size:clamp(44px, 7.4vw, 78px);
+      line-height:1.16;
+      letter-spacing:-.075em;
       font-weight:900;
     }
 
-    h1 span { color:var(--gold2); }
+    h1 span {
+      display:inline-block;
+      color:var(--gold2);
+      margin-top:8px;
+    }
 
     .hero-sub {
       margin:0 auto 26px;
@@ -204,7 +207,12 @@
     .problem-section .section-title {
       color:#fffaf2;
       text-align:center;
-      margin-bottom:34px;
+      margin-bottom:42px;
+      font-size:clamp(36px, 6vw, 56px);
+      line-height:1.24;
+      font-weight:900;
+      letter-spacing:-.065em;
+      text-shadow:0 4px 18px rgba(0,0,0,.28);
     }
 
     .problem-list {
@@ -235,7 +243,7 @@
       border-radius:28px;
       background:#fffaf2;
       color:var(--ink);
-      text-align:center;
+      text-align:left;
     }
 
     .problem-num {
@@ -245,7 +253,7 @@
       border-radius:50%;
       align-items:center;
       justify-content:center;
-      margin-bottom:16px;
+      margin-bottom:18px;
       background:linear-gradient(135deg, #f5d487, #c99637);
       color:#fff;
       font-size:26px;
@@ -253,17 +261,18 @@
     }
 
     .problem-body h3 {
-      margin:0 0 18px;
+      margin:0 0 16px;
       font-size:clamp(34px, 6vw, 54px);
       line-height:1.2;
       letter-spacing:-.06em;
       font-weight:900;
+      text-align:left;
     }
 
     .problem-line {
       width:90px;
       height:1px;
-      margin:0 auto 24px;
+      margin:0 0 24px;
       background:var(--gold);
     }
 
@@ -274,6 +283,7 @@
       line-height:1.75;
       letter-spacing:-.04em;
       font-weight:500;
+      text-align:left;
     }
 
     .gate-grid {
@@ -286,18 +296,19 @@
     .gate {
       padding:30px 28px;
       border-radius:28px;
-      border:1px solid var(--line);
-      background:var(--paper2);
+      border:2px solid rgba(196,154,69,.28);
+      background:#fff8ef;
+      box-shadow:var(--shadow-card);
     }
 
     .gate.no {
-      border-color:rgba(184,102,91,.32);
-      background:linear-gradient(135deg, #fffaf2, #fbebe7);
+      border-color:rgba(184,102,91,.38);
+      background:linear-gradient(135deg, #fff8ef, #fbebe7);
     }
 
     .gate.yes {
-      border-color:rgba(59,111,157,.28);
-      background:linear-gradient(135deg, #fffaf2, #edf5fb);
+      border-color:rgba(59,111,157,.34);
+      background:linear-gradient(135deg, #fff8ef, #edf5fb);
     }
 
     .gate h3 {
@@ -328,10 +339,11 @@
     .os-item {
       min-height:116px;
       padding:22px 18px;
-      border:1px solid var(--line);
+      border:2px solid rgba(196,154,69,.35);
       border-radius:24px;
-      background:var(--paper2);
+      background:#fff8ef;
       text-align:center;
+      box-shadow:var(--shadow-card);
     }
 
     .os-item b {
@@ -350,10 +362,11 @@
 
     .soft-box {
       margin-top:30px;
-      border:1px solid rgba(196,154,69,.22);
+      border:2px solid rgba(196,154,69,.35);
       border-radius:26px;
       padding:30px 26px;
-      background:rgba(255,252,244,.5);
+      background:#fff8ef;
+      box-shadow:var(--shadow-card);
     }
 
     .soft-box p {
@@ -377,16 +390,17 @@
     .report-card {
       padding:24px;
       border-radius:24px;
-      border:1px solid var(--line);
-      background:var(--paper2);
+      border:2px solid rgba(196,154,69,.35);
+      background:#fff8ef;
+      box-shadow:var(--shadow-card);
     }
 
     .report-card .num {
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      width:40px;
-      height:40px;
+      width:42px;
+      height:42px;
       border-radius:50%;
       background:#efe4d2;
       color:var(--gold);
@@ -475,6 +489,24 @@
       font-size:18px;
     }
 
+    .price-card .btn-secondary {
+      min-width:220px;
+      min-height:58px;
+      font-size:18px;
+      color:#241f1a;
+      background:#fff8ef;
+      border:2px solid rgba(196,154,69,.35);
+      box-shadow:var(--shadow-card);
+    }
+
+    .apply-buttons {
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      align-items:center;
+      margin-top:24px;
+    }
+
     .notice-small {
       margin:24px auto 0;
       max-width:720px;
@@ -523,6 +555,10 @@
         padding:7px 16px;
       }
 
+      h1 {
+        font-size:clamp(42px, 11vw, 62px);
+      }
+
       .btn-primary {
         width:100%;
         min-height:66px;
@@ -547,6 +583,10 @@
       .problem-body {
         margin:-8px 16px 18px;
         padding:34px 22px 38px;
+      }
+
+      .problem-section .section-title {
+        font-size:clamp(36px, 9vw, 48px);
       }
     }
 
@@ -801,9 +841,15 @@
       <div class="price">30,000원</div>
       <p class="price-note">테스트 오픈가 / 리포트 1회 발행 기준</p>
 
-      <a class="btn btn-primary" href="./payment.html">
-        신청하기
-      </a>
+      <div class="apply-buttons">
+        <a class="btn btn-primary" href="https://forms.gle/Wx8qC97gaCq4i4cr7" target="_blank" rel="noopener noreferrer">
+          신청서 작성하기
+        </a>
+
+        <a class="btn btn-secondary" href="https://open.kakao.com/o/s2Bogusi" target="_blank" rel="noopener noreferrer">
+          결제 후 오픈채팅으로 알리기
+        </a>
+      </div>
 
       <p class="notice-small">
         이 리포트는 의료, 법률, 투자 상담이 아닙니다.<br />
