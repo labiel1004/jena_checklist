@@ -1,185 +1,433 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>의식OS 프리미엄 리포트</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>의식OS 프리미엄 리포트</title>
 
-<style>
-body {
-    margin: 0;
-    font-family: 'Noto Sans KR', sans-serif;
-    background: #f5f2eb;
-    color: #222;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-.container {
-    max-width: 420px;
-    margin: 0 auto;
-}
+    body {
+      margin: 0;
+      font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+      background: #f5f2eb;
+      color: #222;
+      line-height: 1.7;
+    }
 
-/* 첫 화면 */
-.hero {
-    background: linear-gradient(180deg, #0f1c2e 0%, #1a2a44 100%);
-    color: white;
-    padding: 40px 24px;
-    text-align: center;
-}
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-.logo {
-    display: inline-block;
-    padding: 8px 16px;
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 20px;
-    font-size: 12px;
-    margin-bottom: 20px;
-    letter-spacing: 1px;
-}
+    img {
+      max-width: 100%;
+      display: block;
+    }
 
-.hero h1 {
-    font-size: 28px;
-    line-height: 1.4;
-    margin: 20px 0;
-}
+    .page {
+      width: 100%;
+      overflow: hidden;
+    }
 
-.hero h1 span {
-    color: #d4af37;
-}
+    .section {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 90px 32px;
+    }
 
-.subtext {
-    font-size: 15px;
-    opacity: 0.8;
-    margin-bottom: 30px;
-}
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(180deg, #f8f4ec 0%, #efe7d8 100%);
+    }
 
-/* 이미지 */
-.hero img {
-    width: 100%;
-    border-radius: 12px;
-    margin: 20px 0;
-}
+    .hero-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 80px 32px;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 64px;
+      align-items: center;
+    }
 
-/* 버튼 */
-.btn-primary {
-    display: block;
-    background: linear-gradient(90deg, #d4af37, #f1d27a);
-    color: black;
-    padding: 16px;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 20px;
-}
+    .eyebrow {
+      font-size: 14px;
+      letter-spacing: 0.18em;
+      color: #9a7b43;
+      margin-bottom: 18px;
+    }
 
-.btn-secondary {
-    display: block;
-    margin-top: 12px;
-    color: rgba(255,255,255,0.6);
-    text-decoration: none;
-    font-size: 14px;
-}
+    h1 {
+      font-size: 48px;
+      line-height: 1.25;
+      margin: 0 0 28px;
+      font-weight: 700;
+      color: #1f1b16;
+    }
 
-/* 반복 섹션 */
-.section {
-    padding: 40px 20px;
-}
+    .hero p {
+      font-size: 21px;
+      color: #4a4035;
+      margin: 0 0 38px;
+    }
 
-.section h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
+    .hero-image {
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 28px 70px rgba(60, 42, 20, 0.18);
+    }
 
-/* 카드 */
-.card {
-    background: white;
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 16px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
+    .buttons {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
 
-.card img {
-    width: 100%;
-    border-radius: 10px;
-    margin-bottom: 12px;
-}
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px 26px;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 600;
+      transition: 0.25s ease;
+    }
 
-.card h3 {
-    margin: 0 0 6px;
-}
+    .btn-main {
+      background: #2d241b;
+      color: #fff;
+    }
 
-.card p {
-    margin: 0;
-    color: #666;
-    font-size: 14px;
-}
-</style>
+    .btn-main:hover {
+      background: #4a3726;
+    }
+
+    .btn-sub {
+      border: 1px solid #bca77b;
+      color: #4a3726;
+      background: rgba(255,255,255,0.35);
+    }
+
+    .btn-sub:hover {
+      background: #fff;
+    }
+
+    .section-title {
+      font-size: 34px;
+      line-height: 1.35;
+      text-align: center;
+      margin: 0 0 48px;
+      color: #1f1b16;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .card {
+      background: #fffaf1;
+      border: 1px solid rgba(160, 130, 80, 0.22);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 16px 42px rgba(70, 48, 20, 0.08);
+    }
+
+    .card img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    .card h3 {
+      font-size: 22px;
+      margin: 0 0 12px;
+      color: #2c241d;
+    }
+
+    .card p {
+      margin: 0;
+      color: #5b5147;
+      font-size: 16px;
+    }
+
+    .soft-bg {
+      background: #eee6d8;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    .box {
+      background: #fffaf1;
+      border-radius: 24px;
+      padding: 34px;
+      border: 1px solid rgba(160, 130, 80, 0.22);
+    }
+
+    .box h3 {
+      margin: 0 0 20px;
+      font-size: 24px;
+      color: #2c241d;
+    }
+
+    .box ul {
+      padding-left: 20px;
+      margin: 0;
+    }
+
+    .box li {
+      margin-bottom: 12px;
+      color: #4f463c;
+    }
+
+    .include-list {
+      max-width: 820px;
+      margin: 0 auto;
+      display: grid;
+      gap: 18px;
+    }
+
+    .include-item {
+      background: #fffaf1;
+      border-radius: 22px;
+      padding: 24px 28px;
+      border: 1px solid rgba(160, 130, 80, 0.22);
+      color: #4c4238;
+    }
+
+    .sample {
+      max-width: 860px;
+      margin: 0 auto;
+      background: #211a14;
+      color: #f8efe0;
+      border-radius: 28px;
+      padding: 46px;
+      box-shadow: 0 24px 60px rgba(40, 25, 10, 0.22);
+    }
+
+    .sample h3 {
+      font-size: 28px;
+      margin: 0 0 18px;
+      color: #f8d887;
+    }
+
+    .sample p {
+      margin: 0 0 28px;
+      color: #eadcc8;
+    }
+
+    .final {
+      text-align: center;
+      background: #2b2118;
+      color: #fff;
+    }
+
+    .final h2 {
+      font-size: 34px;
+      margin: 0 0 20px;
+    }
+
+    .final p {
+      margin: 0 0 34px;
+      color: #e5d8c5;
+      font-size: 18px;
+    }
+
+    .final .btn-main {
+      background: #d7b66f;
+      color: #211a14;
+    }
+
+    @media (max-width: 768px) {
+      .section {
+        padding: 64px 22px;
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 64px 22px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      .hero p {
+        font-size: 18px;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        font-size: 28px;
+      }
+
+      .sample {
+        padding: 32px 24px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="page">
 
-<div class="container">
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <div class="eyebrow">CONSCIOUSNESS OS PREMIUM REPORT</div>
 
-<!-- 🔥 첫 화면 -->
-<section class="hero">
+          <h1>
+            현실은 사건이 아니다.<br>
+            의식 구조의 출력이다.
+          </h1>
 
-<div class="logo">CONSCIOUSNESS ARCHITECTURE LAB</div>
+          <p>
+            당신의 고통은 성격이 아니라<br>
+            내면 구조에서 반복됩니다.
+          </p>
 
-<h1>
-현실은 사건이 아니다.<br>
-<span>의식 구조의 출력이다.</span>
-</h1>
+          <div class="buttons">
+            <a href="./payment.html" class="btn btn-main">내 의식 구조 진단 시작하기</a>
+            <a href="#more" class="btn btn-sub">더 알아보기</a>
+          </div>
+        </div>
 
-<p class="subtext">
-반복되는 고통의 원인은 성격이 아니라<br>
-내면 구조에 있습니다.
-</p>
+        <div class="hero-image">
+          <img src="images/hero_os.jpg" alt="의식 구조 이미지">
+        </div>
+      </div>
+    </section>
 
-<img src="images/hero_os.jpg" alt="의식OS 구조 이미지">
+    <section id="more" class="section">
+      <h2 class="section-title">혹시 이런 반복을 겪고 있습니까?</h2>
 
-<a href="index.html" class="btn-primary">
-내 의식 구조 진단 시작하기
-</a>
+      <div class="cards">
+        <div class="card">
+          <img src="images/love.jpg" alt="연애">
+          <div class="card-body">
+            <h3>연애</h3>
+            <p>비슷한 감정 패턴과 선택이 반복되어 관계가 흔들립니다.</p>
+          </div>
+        </div>
 
-<a href="#more" class="btn-secondary">
-더보기 ↓
-</a>
+        <div class="card">
+          <img src="images/relationship.jpg" alt="관계">
+          <div class="card-body">
+            <h3>관계</h3>
+            <p>상대의 말과 반응에 쉽게 흔들리고 방어 반응이 올라옵니다.</p>
+          </div>
+        </div>
 
-</section>
+        <div class="card">
+          <img src="images/money.jpg" alt="돈">
+          <div class="card-body">
+            <h3>돈</h3>
+            <p>돈을 원하면서도 막히는 감각, 불안, 자격 없음이 반복됩니다.</p>
+          </div>
+        </div>
 
+        <div class="card">
+          <img src="images/work.jpg" alt="일">
+          <div class="card-body">
+            <h3>일</h3>
+            <p>평가, 성과, 인정 앞에서 자동반응과 압박감이 작동합니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<!-- 🔥 두번째 섹션 -->
-<section id="more" class="section">
+    <section class="section soft-bg">
+      <h2 class="section-title">이런 분들께 추천합니다 / 추천하지 않습니다</h2>
 
-<h2>혹시 이런 반복을 겪고 있습니까?</h2>
+      <div class="two-col">
+        <div class="box">
+          <h3>이런 분들께 추천합니다</h3>
+          <ul>
+            <li>반복되는 감정과 현실 패턴의 구조를 보고 싶은 분</li>
+            <li>문제보다 자신의 반응 구조를 이해하고 싶은 분</li>
+            <li>관계, 돈, 일에서 반복되는 자동반응을 멈추고 싶은 분</li>
+            <li>위로보다 명확한 구조 분석이 필요한 분</li>
+          </ul>
+        </div>
 
-<div class="card">
-<img src="images/love.jpg">
-<h3>연애</h3>
-<p>비슷한 사람을 반복해서 만나고, 같은 감정을 겪습니다.</p>
-</div>
+        <div class="box">
+          <h3>추천하지 않습니다</h3>
+          <ul>
+            <li>자기 선택보다 누군가의 정답을 기다리는 분</li>
+            <li>외부 탓만 확인받고 싶은 분</li>
+            <li>자신의 반응을 관찰할 준비가 아직 되지 않은 분</li>
+            <li>단순 운세나 미래 예언을 기대하는 분</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-<div class="card">
-<img src="images/relationship.jpg">
-<h3>관계</h3>
-<p>사람이 바뀌어도 관계의 패턴은 바뀌지 않습니다.</p>
-</div>
+    <section class="section">
+      <h2 class="section-title">프리미엄 리포트에 포함되는 것</h2>
 
-<div class="card">
-<img src="images/money.jpg">
-<h3>돈</h3>
-<p>수입이 늘어도 결국 같은 상태로 돌아옵니다.</p>
-</div>
+      <div class="include-list">
+        <div class="include-item">현재 의식 구조의 핵심 진단 요약</div>
+        <div class="include-item">자동반응과 선택 가능성의 점수 기반 분석</div>
+        <div class="include-item">사주OS 기반 초기 설정값 해석</div>
+        <div class="include-item">오행 에너지 분포와 반응패턴 분석</div>
+        <div class="include-item">5식~9식 의식OS 구조 해석</div>
+        <div class="include-item">반복되는 자동반응 루프 분석</div>
+        <div class="include-item">7일 실천 루틴 제안</div>
+      </div>
+    </section>
 
-<div class="card">
-<img src="images/work.jpg">
-<h3>일</h3>
-<p>환경이 달라져도 같은 스트레스가 반복됩니다.</p>
-</div>
+    <section class="section soft-bg">
+      <div class="sample">
+        <h3>샘플 리포트</h3>
+        <p>
+          프리미엄 리포트는 단순한 성향 설명이 아니라,
+          한 사람의 반복 반응이 어떤 구조에서 출력되는지를 보여주는 분석 리포트입니다.
+        </p>
+        <a href="./report_premium_test.html" class="btn btn-main">샘플 리포트 보기</a>
+      </div>
+    </section>
 
-</section>
+    <section class="section final">
+      <h2>구조가 보이면 선택이 열립니다.</h2>
+      <p>
+        지금 반복되는 현실은 당신의 본질이 아니라,<br>
+        아직 해석되지 않은 의식 구조의 출력입니다.
+      </p>
+      <a href="./payment.html" class="btn btn-main">내 의식 구조 진단 시작하기</a>
+    </section>
 
-</div>
-
+  </div>
 </body>
 </html>
