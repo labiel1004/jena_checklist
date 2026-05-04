@@ -142,33 +142,25 @@ li {
 /* 모바일 */
 
  @media (max-width: 480px) {
-  .wrap {
-    padding: 28px 16px 64px;
-  }
 
   .hero {
-    padding: 28px 18px;
-    border-radius: 28px;
-    margin-bottom: 28px;
+    padding: 20px 16px;     /* ⬅️ 기존 28 → 20 (핵심) */
+    margin-bottom: 20px;    /* ⬅️ 아래 간격도 줄임 */
   }
 
   .hero h1 {
-    font-size: 30px;
-    line-height: 1.28;
-    margin-bottom: 20px;
+    font-size: 28px;
+    margin-bottom: 12px;    /* ⬅️ 기존 20 → 12 */
   }
 
   .subtitle {
-    font-size: 15px;
-    line-height: 1.65;
-    padding: 14px 14px;
-    border-radius: 16px;
+    padding: 12px 12px;     /* ⬅️ 내부 박스 줄임 */
+    margin-top: 8px;        /* ⬅️ 위쪽 간격 줄임 */
+    line-height: 1.6;
   }
 
-  section {
-    padding: 28px 22px;
-  }
 }
+
 
 </style>
 </head>
