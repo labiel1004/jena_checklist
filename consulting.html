@@ -140,23 +140,36 @@ li {
 }
 
 /* 모바일 */
-@media (max-width: 480px) {
+
+ @media (max-width: 480px) {
+  .wrap {
+    padding: 28px 16px 64px;
+  }
+
   .hero {
-    padding: 48px 22px;   /* ⬅️ 모바일은 더 줄여도 좋음 */
+    padding: 28px 18px;
+    border-radius: 28px;
+    margin-bottom: 28px;
   }
 
   .hero h1 {
-    font-size: 26px;
+    font-size: 30px;
+    line-height: 1.28;
+    margin-bottom: 20px;
   }
 
   .subtitle {
     font-size: 15px;
+    line-height: 1.65;
+    padding: 14px 14px;
+    border-radius: 16px;
   }
 
   section {
     padding: 28px 22px;
   }
 }
+
 </style>
 </head>
 
