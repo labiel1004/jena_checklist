@@ -1,199 +1,243 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>의식구조분석 상담</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>의식구조분석 상담</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Noto Sans KR', sans-serif;
-      background: #f5f2eb;
-      color: #25221e;
-      line-height: 1.75;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  background: #f5f2eb;
+  color: #25221e;
+  line-height: 1.75;
+}
 
-    .wrap {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 56px 22px 80px;
-    }
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 56px 22px 80px;
+}
 
-    .hero {
-      text-align: center;
-      padding: 48px 22px;
-      background: #fffaf0;
-      border-radius: 28px;
-      box-shadow: 0 12px 36px rgba(70, 50, 25, 0.08);
-      margin-bottom: 42px;
-    }
+.hero {
+  text-align: center;
+  padding: 48px 22px;
+  background: #fffaf0;
+  border-radius: 28px;
+  box-shadow: 0 12px 36px rgba(70, 50, 25, 0.08);
+  margin-bottom: 42px;
+}
 
-    h1 {
-      font-size: 30px;
-      line-height: 1.4;
-      margin-bottom: 18px;
-    }
+h1 {
+  font-size: 30px;
+  line-height: 1.4;
+  margin-bottom: 18px;
+}
 
-    .subtitle {
-      font-size: 17px;
-      color: #5f574d;
-      margin-bottom: 30px;
-    }
+.subtitle {
+  font-size: 17px;
+  color: #5f574d;
+  margin-bottom: 30px;
+}
 
-    .btn {
-      display: inline-block;
-      padding: 16px 28px;
-      background: #2d241c;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 999px;
-      font-size: 16px;
-      font-weight: 600;
-    }
+.btn {
+  display: inline-block;
+  padding: 16px 28px;
+  background: #2d241c;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 600;
+}
 
-    section {
-      background: #ffffff;
-      border-radius: 24px;
-      padding: 34px 28px;
-      margin-bottom: 24px;
-      box-shadow: 0 8px 24px rgba(60, 45, 25, 0.05);
-    }
+section {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 34px 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 24px rgba(60, 45, 25, 0.05);
+}
 
-    h2 {
-      font-size: 22px;
-      margin-bottom: 16px;
-    }
+.section-label {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: #b8954b;
+  background: #f4ead7;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 10px;
+}
 
-    p {
-      margin-bottom: 14px;
-      font-size: 16px;
-    }
+.section-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2d241c;
+  margin-bottom: 14px;
+}
 
-    ul {
-      padding-left: 20px;
-    }
+p {
+  margin-bottom: 14px;
+  font-size: 16px;
+}
 
-    li {
-      margin-bottom: 10px;
-    }
+ul {
+  padding-left: 20px;
+}
 
-    .quote {
-      font-size: 19px;
-      font-weight: 600;
-      border-left: 4px solid #b8954b;
-      padding-left: 16px;
-      margin-top: 10px;
-    }
+li {
+  margin-bottom: 10px;
+}
 
-    .final {
-      text-align: center;
-      background: #2d241c;
-      color: #fff;
-    }
+.quote {
+  font-size: 19px;
+  font-weight: 600;
+  border-left: 4px solid #b8954b;
+  padding-left: 16px;
+  margin-top: 10px;
+}
 
-    .final .btn {
-      background: #d7b46a;
-      color: #2d241c;
-      margin-top: 20px;
-    }
+.final {
+  text-align: center;
+  background: #2d241c;
+  color: #fff;
+}
 
-    .info-box {
-      background: #f7f1e6;
-      padding: 20px;
-      border-radius: 16px;
-      margin-top: 16px;
-      font-size: 15px;
-    }
+.final .section-title {
+  color: #fff;
+}
 
-  </style>
+.final .btn {
+  background: #d7b46a;
+  color: #2d241c;
+  margin-top: 20px;
+}
+
+.info-box {
+  background: #f7f1e6;
+  padding: 20px;
+  border-radius: 16px;
+  margin-top: 16px;
+  font-size: 15px;
+}
+
+@media (max-width: 480px) {
+  .wrap {
+    padding: 36px 16px 64px;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+  }
+
+  section {
+    padding: 28px 22px;
+  }
+}
+</style>
 </head>
 
 <body>
-  <main class="wrap">
+<main class="wrap">
 
-    <!-- HERO -->
-    <div class="hero">
-      <h1>
-        이미 확인한 구조를,<br>
-        당신의 현실에 연결해<br>
-        더 자세히 해석합니다.
-      </h1>
+<!-- HERO -->
+<div class="hero">
+  <h1>
+    이미 확인한 구조를,<br>
+    당신의 현실에 연결해<br>
+    더 자세히 해석합니다.
+  </h1>
 
-      <p class="subtitle">
-        프리미엄 리포트 이후,<br>
-        더 깊이 이해하고 싶은 분을 위한<br>
-        1:1 후속 상담입니다.
-      </p>
+  <p class="subtitle">
+    프리미엄 리포트 이후,<br>
+    더 깊이 이해하고 싶은 분을 위한<br>
+    1:1 후속 상담입니다.
+  </p>
 
-      <a class="btn" href="https://open.kakao.com/o/실제링크" target="_blank">
-        1:1 후속 상담 신청하기
-      </a>
-    </div>
+  <a class="btn" href="https://open.kakao.com/o/실제링크" target="_blank">
+    1:1 후속 상담 신청하기
+  </a>
+</div>
 
-    <!-- 정의 -->
-    <section>
-      <h2>의식구조분석 상담이란?</h2>
-      <p>
-        이 상담은 프리미엄 리포트 완료자에게 제공되는 1:1 후속 상담입니다.
-      </p>
+<!-- 정의 -->
+<section>
+  <div class="section-label">WHAT IS THIS</div>
+  <div class="section-title">의식구조분석 상담이란?</div>
 
-      <p>
-        리포트만으로 충분히 이해되었다면<br>
-        추가 상담은 필요하지 않습니다.
-      </p>
+  <p>
+    이 상담은 프리미엄 리포트 완료자에게 제공되는<br>
+    1:1 후속 상담입니다.
+  </p>
 
-      <p>
-        다만 자신의 구조를 실제 삶의 상황과 연결해<br>
-        더 깊이 들여다보고 싶을 때 이용하시면 됩니다.
-      </p>
-    </section>
+  <p>
+    리포트만으로 충분히 이해되었다면<br>
+    추가 상담은 필요하지 않습니다.
+  </p>
 
-    <!-- 내용 -->
-    <section>
-      <h2>상담에서 함께 확인하는 것</h2>
-      <ul>
-        <li>리포트에 나온 핵심 구조를 다시 정리하고</li>
-        <li>실제 삶에서 반복되는 상황과 연결해 해석하며</li>
-        <li>자동반응이 작동하는 지점을 구체적으로 확인하고</li>
-        <li>어디에서 멈추고 선택할 수 있는지 함께 정리합니다.</li>
-      </ul>
-    </section>
+  <p>
+    다만 자신의 구조를 실제 삶의 상황과 연결해<br>
+    더 깊이 들여다보고 싶을 때 이용하시면 됩니다.
+  </p>
+</section>
 
-    <!-- 상담 정보 -->
-    <section>
-      <h2>상담 정보</h2>
-      <p><strong>의식구조분석 1:1 후속 상담</strong></p>
-      <p>대상: 프리미엄 리포트 완료자</p>
-      <p>시간: 약 30분</p>
-      <p>비용: 100,000원</p>
-    </section>
+<!-- 내용 -->
+<section>
+  <div class="section-label">WHAT YOU GET</div>
+  <div class="section-title">상담에서 함께 확인하는 것</div>
 
-    <!-- 진행 방법 -->
-    <section>
-      <h2>진행 방법</h2>
-      <ol>
-        <li>카카오 오픈채팅으로 상담 신청</li>
-        <li>현재 상태 간단 공유</li>
-        <li>입금 안내 및 확인</li>
-        <li>일정 협의 후 예약</li>
-        <li>약속된 시간에 1:1 전화 상담 진행</li>
-      </ol>
-    </section>
+  <ul>
+    <li>리포트 핵심 구조 재정리</li>
+    <li>실제 반복되는 상황과 연결</li>
+    <li>자동반응 작동 지점 확인</li>
+    <li>멈추고 선택할 수 있는 지점 정리</li>
+  </ul>
+</section>
 
-    <!-- 마무리 -->
-    <section class="final">
-      <h2>지금, 더 깊이 이해해보세요</h2>
-      <p>
-        이 상담은 문제를 해결하는 것이 아니라,<br>
-        당신의 구조를 더 명확히 이해하도록 돕는 과정입니다.
-      </p>
+<!-- 상담 정보 -->
+<section>
+  <div class="section-label">DETAIL</div>
+  <div class="section-title">상담 정보</div>
 
-      <a class="btn" href="https://open.kakao.com/o/실제링크" target="_blank">
-        1:1 후속 상담 신청하기
-      </a>
-    </section>
+  <p><strong>의식구조분석 1:1 후속 상담</strong></p>
+  <p>대상: 프리미엄 리포트 완료자</p>
+  <p>시간: 약 30분</p>
+  <p>비용: 100,000원</p>
+</section>
 
-  </main>
+<!-- 진행 방법 -->
+<section>
+  <div class="section-label">PROCESS</div>
+  <div class="section-title">진행 방법</div>
+
+  <ol>
+    <li>카카오 오픈채팅으로 상담 신청</li>
+    <li>현재 상태 간단 공유</li>
+    <li>입금 안내 및 확인</li>
+    <li>일정 협의 후 예약</li>
+    <li>약속된 시간에 1:1 전화 상담 진행</li>
+  </ol>
+</section>
+
+<!-- 마무리 -->
+<section class="final">
+  <div class="section-title">지금, 더 깊이 이해해보세요</div>
+
+  <p>
+    이 상담은 문제를 해결하는 것이 아니라,<br>
+    당신의 구조를 더 명확히 이해하도록 돕습니다.
+  </p>
+
+  <a class="btn" href="https://open.kakao.com/o/실제링크" target="_blank">
+    1:1 후속 상담 신청하기
+  </a>
+</section>
+
+</main>
 </body>
 </html>
