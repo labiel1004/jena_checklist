@@ -62,14 +62,16 @@ section {
 
 /* 🔥 핵심: 제목 강조 블록 */
 .section-title {
-  display: inline-block;
+  display: block;              /* 핵심 */
+  width: 100%;                 /* 전체 가로 채우기 */
   font-size: 22px;
   font-weight: 700;
   color: #2d241c;
   background: #f4ead7;
-  padding: 10px 16px;
+  padding: 14px 18px;          /* 좌우 여백 살짝 키움 */
   border-radius: 14px;
   margin-bottom: 18px;
+  box-sizing: border-box;      /* 중요: padding 포함해서 꽉 채움 */
 }
 
 p {
