@@ -202,16 +202,14 @@
       color:#20170d;
       box-shadow:0 12px 30px rgba(196,154,69,.24);
     }
+.btn-secondary {
+  display: block;              /* ⬅️ 변경 */
+  width: 100%;                 /* ⬅️ 추가 */
+  max-width: 420px;            /* ⬅️ 추가 */
+  margin: 14px auto 0;         /* ⬅️ 중앙 정렬 */
+  text-align: center;
 
-    .btn-secondary {
-      background:#fffdf8;
-      border:1px solid var(--line);
-      color:var(--ink);
-    }
-
-    .btn-secondary {
-  display: inline-block;
-  padding: 16px 32px;
+  padding: 16px 0;
   background: #fff;
   color: #2d241c;
   border-radius: 999px;
@@ -219,9 +217,15 @@
   font-weight: 600;
   text-decoration: none;
   border: 1px solid rgba(0,0,0,0.1);
-  margin-top: 14px;
+
   transition: all 0.2s ease;
 }
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+    
 .btn-consulting {
   display: inline-block;
   padding: 18px 36px;
