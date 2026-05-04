@@ -20,61 +20,84 @@ body {
   padding: 56px 22px 80px;
 }
 
+/* 🔥 히어로 업그레이드 */
 .hero {
   text-align: center;
-  padding: 48px 22px;
-  background: #fffaf0;
-  border-radius: 28px;
-  box-shadow: 0 12px 36px rgba(70, 50, 25, 0.08);
+  padding: 56px 28px;
+  border-radius: 32px;
+
+  background:
+    radial-gradient(circle at 85% 15%, rgba(196,154,69,0.25), transparent 40%),
+    radial-gradient(circle at 0% 100%, rgba(196,154,69,0.12), transparent 40%),
+    #fffaf2;
+
+  box-shadow: 0 20px 60px rgba(60,40,20,0.15);
   margin-bottom: 42px;
 }
 
-h1 {
-  font-size: 30px;
+.hero h1 {
+  font-size: 32px;
   line-height: 1.4;
-  margin-bottom: 18px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  margin-bottom: 22px;
 }
 
+/* 🔥 서브텍스트 카드화 */
 .subtitle {
-  font-size: 17px;
-  color: #5f574d;
-  margin-bottom: 30px;
+  font-size: 16px;
+  color: #6b6257;
+  line-height: 1.75;
+
+  padding: 16px 18px;
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(6px);
+
+  border: 1px solid rgba(196,154,69,0.2);
 }
 
+/* 버튼 */
 .btn {
   display: inline-block;
-  padding: 20px 40px;           /* ⬅️ 크기 확 키움 */
+  padding: 20px 40px;
   background: #2d241c;
   color: #fff;
   text-decoration: none;
   border-radius: 999px;
-  font-size: 18px;              /* ⬅️ 글씨 키움 */
-  font-weight: 700;             /* ⬅️ 더 또렷하게 */
+  font-size: 18px;
+  font-weight: 700;
   letter-spacing: 0.02em;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12); /* ⬅️ 떠오르는 느낌 */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
   transition: all 0.2s ease;
 }
 
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+/* 카드 */
 section {
   background: #ffffff;
   border-radius: 24px;
   padding: 34px 28px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   box-shadow: 0 8px 24px rgba(60, 45, 25, 0.05);
 }
 
-/* 🔥 핵심: 제목 강조 블록 */
+/* 제목 블록 */
 .section-title {
-  display: block;              /* 핵심 */
-  width: 100%;                 /* 전체 가로 채우기 */
+  display: block;
+  width: 100%;
   font-size: 22px;
   font-weight: 700;
   color: #2d241c;
   background: #fffaf0;
-  padding: 14px 18px;          /* 좌우 여백 살짝 키움 */
+  padding: 14px 18px;
   border-radius: 14px;
   margin-bottom: 18px;
-  box-sizing: border-box;      /* 중요: padding 포함해서 꽉 채움 */
+  box-sizing: border-box;
 }
 
 p {
@@ -98,6 +121,7 @@ li {
   margin-top: 10px;
 }
 
+/* 마지막 CTA */
 .final {
   text-align: center;
   background: #2d241c;
@@ -115,12 +139,13 @@ li {
   margin-top: 20px;
 }
 
+/* 모바일 */
 @media (max-width: 480px) {
   .wrap {
     padding: 36px 16px 64px;
   }
 
-  h1 {
+  .hero h1 {
     font-size: 26px;
   }
 
