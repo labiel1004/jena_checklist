@@ -679,40 +679,98 @@ body {
   padding:0;
 }
 .saju-os-section {
-  padding: 8px 0 22px;
-  margin-top: -28px;
+  padding: 26px 20px 36px;
+  margin-top: 0;
 }
 
 .saju-os-card {
-  max-width: 1120px;
-  width: calc(100% - 28px);
+  max-width: 1220px;
+  width: calc(100% - 40px);
   margin: 0 auto;
-  padding: 46px 32px;
+  padding: 56px 48px;
   border-radius: 32px;
+  background: linear-gradient(180deg, #07182d 0%, #0d213d 100%);
+  border: 1px solid rgba(214, 177, 95, 0.45);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
+  box-sizing: border-box;
+}
 
-  background: linear-gradient(
-    180deg,
-    #07182d 0%,
-    #0d213d 100%
-  );
+.saju-os-card .section-label {
+  display: inline-block;
+  margin-bottom: 18px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: #d6b15f !important;
+  border: 1px solid rgba(214, 177, 95, 0.5);
+}
 
-  border: 1px solid rgba(214, 177, 95, 0.35);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+.saju-os-card h2 {
+  margin: 0 0 28px;
+  font-size: 38px;
+  line-height: 1.35;
+  color: #f4dfaa !important;
+}
+
+.saju-os-card p {
+  margin: 0 0 20px;
+  font-size: 18px;
+  line-height: 1.9;
+  color: #f4ead5 !important;
+}
+
+.saju-image {
+  width: 100%;
+  display: block;
+  margin: 34px 0;
+  border-radius: 26px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+.saju-highlight {
+  margin-top: 30px;
+  padding: 26px;
+  border-radius: 22px;
+  background: rgba(214, 177, 95, 0.15);
+  border: 1px solid rgba(214, 177, 95, 0.32);
+  color: #ffe7aa !important;
+  font-size: 19px;
+  line-height: 1.8;
+  font-weight: 700;
 }
 
 @media (max-width: 640px) {
   .saju-os-section {
-    padding: 4px 0 18px;
-    margin-top: -36px;
+    padding: 18px 10px 26px;
+    margin-top: 0;
   }
 
   .saju-os-card {
-    width: calc(100% - 20px);
+    width: calc(100% - 12px);
     padding: 34px 24px;
     border-radius: 26px;
   }
-}
 
+  .saju-os-card h2 {
+    font-size: 27px;
+  }
+
+  .saju-os-card p {
+    font-size: 15.8px;
+    line-height: 1.8;
+  }
+
+  .saju-highlight {
+    font-size: 16px;
+    padding: 20px;
+  }
+
+  .saju-image {
+    border-radius: 20px;
+    margin: 28px 0;
+  }
+}
 
 .wrap {
   padding-top:0 !important;
