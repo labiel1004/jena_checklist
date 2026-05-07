@@ -484,10 +484,25 @@
     }
 
     .price-card .btn-primary {
-      min-width:220px;
-      min-height:58px;
-      font-size:18px;
-    }
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  max-width: 360px;
+
+  min-height: 66px;
+
+  padding: 0 34px;
+
+  border-radius: 999px;
+
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+
+  margin-top: 12px;
+}
 
     .price-card .btn-secondary {
       min-width:220px;
@@ -755,7 +770,18 @@ body {
   .saju-os-card h2 {
     font-size: 27px;
   }
+@media (max-width: 760px) {
 
+  .price-card .btn-primary {
+    width: 100%;
+    min-width: unset;
+
+    min-height: 62px;
+
+    font-size: 20px;
+  }
+
+}
   .saju-os-card p {
     font-size: 15.8px;
     line-height: 1.8;
