@@ -679,17 +679,20 @@ body {
   padding:0;
 }
 .saju-os-section {
-  padding: 6px 0px 10px;
-  margin-top: 0;
+  width: 100%;
+  margin: 24px 0;
+  padding: 0;
 }
 
 .saju-os-card {
-  
-  padding: 56px 48px;
-  border-radius: 32px;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: clamp(28px, 5vw, 42px);
+  border-radius: 28px;
   background: linear-gradient(180deg, #07182d 0%, #0d213d 100%);
   border: 1px solid rgba(214, 177, 95, 0.45);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
+  box-shadow: var(--shadow-dark);
   box-sizing: border-box;
 }
 
@@ -706,8 +709,9 @@ body {
 
 .saju-os-card h2 {
   margin: 0 0 28px;
-  font-size: 38px;
+  font-size: clamp(30px, 4.4vw, 38px);
   line-height: 1.35;
+  letter-spacing: -0.05em;
   color: #f4dfaa !important;
 }
 
@@ -721,13 +725,13 @@ body {
 .saju-image {
   width: 100%;
   display: block;
-  margin: 34px 0;
-  border-radius: 26px;
+  margin: 30px 0;
+  border-radius: 24px;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
 }
 
 .saju-highlight {
-  margin-top: 30px;
+  margin-top: 28px;
   padding: 26px;
   border-radius: 22px;
   background: rgba(214, 177, 95, 0.15);
@@ -738,16 +742,14 @@ body {
   font-weight: 700;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 760px) {
   .saju-os-section {
-    padding: 18px 10px 26px;
-    margin-top: 0;
+    margin: 18px 0;
   }
 
   .saju-os-card {
-    width: calc(100% - 12px);
-    padding: 26px 16px;
     border-radius: 26px;
+    padding: 28px 18px;
   }
 
   .saju-os-card h2 {
@@ -766,10 +768,9 @@ body {
 
   .saju-image {
     border-radius: 20px;
-    margin: 28px 0;
+    margin: 26px 0;
   }
 }
-
 .wrap {
   padding-top:0 !important;
 }
@@ -971,7 +972,7 @@ body {
       </div>
     </section>
 <section class="saju-os-section">
-<div class="saju-os-card section-card">
+<div class="saju-os-card">
 
     <div class="section-label">SAJU OS</div>
 
@@ -980,12 +981,7 @@ body {
       에너지 흐름의 배치 구조입니다
     </h2>
 
-    <p>
-      사주는 고정된 운명이 아니라,<br>
-      당신의 에너지 배치 정보를 보여주는 구조입니다.
-    </p>
-
-    <img src="./images/saju_os.jpg" alt="사주OS 에너지 흐름" class="saju-image">
+       <img src="./images/saju_os.jpg" alt="사주OS 에너지 흐름" class="saju-image">
 <p>
       사주는 고정된 운명이 아니라,<br>
       당신의 에너지 배치 정보를 보여주는 구조입니다.
