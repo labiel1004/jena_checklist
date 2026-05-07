@@ -831,6 +831,7 @@ body {
     min-height: 54px !important;
   }
 } 
+ 
     /* ===== MOBILE HERO FINAL OVERRIDE ===== */
 @media screen and (max-width: 760px) {
   .hero-img {
@@ -851,6 +852,20 @@ body {
     min-height: 50px !important;
   }
 }
+     /* ===== MOBILE HERO TO NEXT SECTION GAP FIX ===== */
+@media screen and (max-width: 760px) {
+  .hero {
+    padding-bottom: 6px !important;
+  }
+
+  .hero-card {
+    padding-bottom: 20px !important;
+  }
+
+  .hero + section {
+    margin-top: 6px !important;
+  }
+}  
   </style>
 </head>
 
