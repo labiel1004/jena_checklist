@@ -857,8 +857,9 @@ body {
     min-height: 50px !important;
   }
 }
-     /* ===== MOBILE HERO TO NEXT SECTION GAP FIX ===== */
+    /* ===== MOBILE HERO TO NEXT SECTION GAP FIX ===== */
 @media screen and (max-width: 760px) {
+
   .hero {
     padding-bottom: 6px !important;
   }
@@ -870,8 +871,10 @@ body {
   .hero + section {
     margin-top: 6px !important;
   }
-}  
-    /* ===== HERO BRIDGE SECTION ===== */
+
+}
+
+/* ===== HERO BRIDGE SECTION ===== */
 
 .bridge-section {
   margin: 10px 0 24px;
@@ -886,18 +889,7 @@ body {
 }
 
 .bridge-row {
-  display: grid;
-  grid-template-columns: 58px 1fr;
-  gap: 20px;
-  align-items: center;
-}
-
-.bridge-icon {
-  color: var(--gold);
-  font-size: 34px;
-  line-height: 1;
-  text-align: center;
-  font-weight: 800;
+  display: block;
 }
 
 .bridge-row p {
@@ -933,6 +925,7 @@ body {
 }
 
 @media screen and (max-width: 760px) {
+
   .bridge-section {
     margin: 8px 0 18px;
   }
@@ -940,15 +933,6 @@ body {
   .bridge-card {
     border-radius: 26px;
     padding: 28px 22px;
-  }
-
-  .bridge-row {
-    grid-template-columns: 42px 1fr;
-    gap: 14px;
-  }
-
-  .bridge-icon {
-    font-size: 28px;
   }
 
   .bridge-row p {
@@ -964,6 +948,7 @@ body {
     font-size: 18px;
     line-height: 1.75;
   }
+
 }
   </style>
 </head>
