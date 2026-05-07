@@ -871,6 +871,100 @@ body {
     margin-top: 6px !important;
   }
 }  
+    /* ===== HERO BRIDGE SECTION ===== */
+
+.bridge-section {
+  margin: 10px 0 24px;
+}
+
+.bridge-card {
+  padding: clamp(28px, 5vw, 42px);
+  border-radius: 28px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.bridge-row {
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.bridge-icon {
+  color: var(--gold);
+  font-size: 34px;
+  line-height: 1;
+  text-align: center;
+  font-weight: 800;
+}
+
+.bridge-row p {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.8;
+  letter-spacing: -0.03em;
+  color: #2f2a25;
+  font-weight: 500;
+}
+
+.bridge-divider {
+  height: 1px;
+  margin: 24px 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(196,154,69,.35),
+    transparent
+  );
+}
+
+.bridge-final {
+  margin-top: 30px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(196,154,69,.35);
+  text-align: center;
+  font-size: 22px;
+  line-height: 1.8;
+  letter-spacing: -0.03em;
+  color: #9f741e;
+  font-weight: 800;
+}
+
+@media screen and (max-width: 760px) {
+  .bridge-section {
+    margin: 8px 0 18px;
+  }
+
+  .bridge-card {
+    border-radius: 26px;
+    padding: 28px 22px;
+  }
+
+  .bridge-row {
+    grid-template-columns: 42px 1fr;
+    gap: 14px;
+  }
+
+  .bridge-icon {
+    font-size: 28px;
+  }
+
+  .bridge-row p {
+    font-size: 16.8px;
+    line-height: 1.8;
+  }
+
+  .bridge-divider {
+    margin: 20px 0;
+  }
+
+  .bridge-final {
+    font-size: 18px;
+    line-height: 1.75;
+  }
+}
   </style>
 </head>
 
@@ -901,7 +995,52 @@ body {
         </div>
       </div>
     </section>
+<section class="bridge-section">
+  <div class="bridge-card">
 
+    <div class="bridge-row">
+      <div class="bridge-icon">↻</div>
+      <p>반복된 감정 반응은 하나의 자동반응 패턴을 만들고,</p>
+    </div>
+
+    <div class="bridge-divider"></div>
+
+    <div class="bridge-row">
+      <div class="bridge-icon">🧠</div>
+      <p>
+        그 패턴이 오래 굳어지면<br>
+        의식하지 않아도 자동 실행되는 프로그램처럼 작동하게 됩니다.
+      </p>
+    </div>
+
+    <div class="bridge-divider"></div>
+
+    <div class="bridge-row">
+      <div class="bridge-icon">🏛</div>
+      <p>
+        겉으로는 비슷해 보여도<br>
+        건물마다 내부 설계 구조가 다르듯,
+      </p>
+    </div>
+
+    <div class="bridge-divider"></div>
+
+    <div class="bridge-row">
+      <div class="bridge-icon">👥</div>
+      <p>
+        같은 사건이어도 사람마다<br>
+        전혀 다른 감정과 현실을 경험하게 됩니다.
+      </p>
+    </div>
+
+    <div class="bridge-final">
+      CAL 의식OS 진단은<br>
+      지금 당신 안에서 반복 실행되고 있는<br>
+      자동반응 구조를 발견하고 이해하기 위한 분석 시스템입니다.
+    </div>
+
+  </div>
+</section>
     <section id="more" class="section-card problem-section">
       <h2 class="section-title">혹시 이런 반복을 겪고 있습니까?</h2>
 
