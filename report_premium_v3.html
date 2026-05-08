@@ -8,244 +8,278 @@
 
 <style>
 :root {
-  --bg: #f8f6f2; /* 조금 더 맑은 베이지 */
+  --bg: #fdfcf9;
   --ink: #1a1a1a;
   --gold: #b28e5d;
-  --gold-light: rgba(178, 142, 93, 0.1);
-  --glass: rgba(255, 255, 255, 0.7);
+  --gold-soft: #f4eee4;
   --border: rgba(0, 0, 0, 0.08);
-  --shadow-sm: 0 4px 12px rgba(0,0,0,0.03);
-  --shadow-lg: 0 12px 30px rgba(0,0,0,0.06);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
 }
-
-* { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
 body {
   margin: 0;
   font-family: 'Pretendard', sans-serif;
   background-color: var(--bg);
   color: var(--ink);
-  line-height: 1.65;
+  line-height: 1.7;
   word-break: keep-all;
 }
 
-.container {
-  max-width: 600px; /* 모바일 최적화 폭 */
+.report-wrap {
+  max-width: 540px; /* 모바일에서 가장 예쁘게 보이는 폭 */
   margin: 0 auto;
-  padding: 20px 16px 100px;
+  padding: 20px 16px 80px;
 }
 
-/* Header / Cover */
-.header {
-  padding: 40px 0 30px;
+/* 상단 커버 디자인 */
+.cover {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 40px 24px;
+  border-radius: 32px;
   text-align: center;
+  margin-bottom: 30px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 
 .kicker {
   font-size: 11px;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.25em;
   color: var(--gold);
-  font-weight: 700;
-  margin-bottom: 12px;
+  font-weight: 800;
+  margin-bottom: 15px;
 }
 
-.title {
-  font-size: 28px;
+.cover h1 {
+  font-size: 26px;
   font-weight: 800;
+  margin: 0 0 20px;
   line-height: 1.3;
-  margin: 0 0 16px;
-  letter-spacing: -0.03em;
 }
 
 .meta-info {
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 12px;
   font-size: 13px;
-  color: #666;
+  color: rgba(255,255,255,0.6);
 }
 
-/* Section Style */
+/* 섹션 공통 스타일 */
 .section {
-  background: var(--glass);
-  backdrop-filter: blur(10px);
+  background: #fff;
   border: 1px solid var(--border);
-  border-radius: 24px;
+  border-radius: 28px;
   padding: 24px;
   margin-bottom: 24px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow);
 }
 
-.section-label {
+.section-num {
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 900;
   color: var(--gold);
-  text-transform: uppercase;
   margin-bottom: 8px;
   display: block;
 }
 
 .section-title {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 21px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: #000;
+}
+
+/* 포인트 박스 */
+.lead-box {
+  background: var(--gold-soft);
+  padding: 20px;
+  border-radius: 20px;
   margin-bottom: 20px;
 }
 
-/* Highlight Box */
-.highlight-box {
-  background: var(--gold-light);
-  border-left: 3px solid var(--gold);
-  padding: 16px;
-  border-radius: 4px 12px 12px 4px;
-  font-weight: 600;
+.lead-box strong {
+  font-size: 18px;
   color: #4a3a25;
-  margin-bottom: 20px;
+  display: block;
+  line-height: 1.5;
 }
 
-/* Loop Diagram (Mobile Scroll) */
-.loop-container {
+/* 카드 스타일 */
+.card {
+  background: #f9f9f9;
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+}
+
+.card-label {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--gold);
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* 다이어그램 (모바일 스크롤) */
+.diagram-wrap {
   display: flex;
   overflow-x: auto;
-  gap: 12px;
-  padding-bottom: 10px;
+  gap: 10px;
+  padding: 10px 0 20px;
   -ms-overflow-style: none; scrollbar-width: none;
 }
-.loop-container::-webkit-scrollbar { display: none; }
+.diagram-wrap::-webkit-scrollbar { display: none; }
 
-.loop-step {
+.diag-item {
   flex: 0 0 auto;
-  background: #fff;
-  border: 1px solid var(--border);
-  padding: 12px 18px;
+  background: #1a1a1a;
+  color: #fff;
+  padding: 10px 18px;
   border-radius: 100px;
   font-size: 13px;
   font-weight: 600;
-  white-space: nowrap;
 }
 
-/* Detail Cards */
-.detail-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 16px;
-  margin-top: 12px;
-  border: 1px solid var(--border);
-}
-
-.detail-card h4 {
-  margin: 0 0 8px;
+/* CAL 인사이트 */
+.cal-insight {
+  margin-top: 20px;
+  padding: 18px;
+  background: #f1f3f5;
+  border-radius: 18px;
   font-size: 14px;
-  color: var(--gold);
+  border-left: 4px solid var(--ink);
 }
 
-.detail-card p {
-  margin: 0;
-  font-size: 15px;
-  color: #444;
-}
-
-/* Insight Box */
-.insight {
-  margin-top: 24px;
-  padding: 16px;
-  background: #1a1a1a;
-  color: #fff;
-  border-radius: 16px;
-  font-size: 14px;
-}
-
-.insight span {
-  color: var(--gold);
-  font-weight: 800;
-  font-size: 11px;
+.cal-insight b {
   display: block;
-  margin-bottom: 4px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  margin-bottom: 5px;
 }
 
-.footer {
+.final-section {
+  background: linear-gradient(135deg, #1a1a1a, #333);
+  color: #fff;
   text-align: center;
-  font-size: 12px;
-  color: #999;
-  margin-top: 40px;
 }
 
-/* Dark Section (Special) */
-.dark-section {
-  background: #1a1a1a !important;
-  color: #fff !important;
+.declaration {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--gold);
+  padding: 20px 0;
 }
-.dark-section .section-title { color: #fff; }
+
+.footer { text-align: center; font-size: 11px; color: #999; margin-top: 40px; }
 </style>
 </head>
 
 <body>
-<div class="container">
-  <header class="header">
-    <div class="kicker">CONSCIOUSNESS ARCHITECTURE LAB</div>
-    <h1 class="title">의식OS 프리미엄 리포트<br><span style="color:var(--gold)">v3.0</span></h1>
-    <div class="meta-info">
-      <span>연삿갓 님</span>
-      <span>•</span>
-      <span>2026.05.08</span>
-    </div>
-  </header>
+<div id="app" class="report-wrap"></div>
 
-  <section class="section">
-    <span class="section-label">01. Summary</span>
-    <h2 class="section-title">현실 출력 구조 요약</h2>
-    <div class="highlight-box">
-      "현실은 사건이 아니라 반복 실행된 의식 구조의 출력입니다."
-    </div>
-    <p style="font-size: 15px; color:#555;">
-      연삿갓님의 핵심 구조는 어린 시절 신체 충격 사건이 ‘평생 해결해야 할 숙제’로 저장되어, 특정 상황에서 불안과 압박을 반복 출력하는 알고리즘을 가지고 있습니다.
-    </p>
-    <div class="insight">
-      <span>CAL INSIGHT</span>
-      사건 그 자체보다 '숙제가 남았다'는 해석의 코드가 현재의 나를 압박하는 주된 엔진입니다.
-    </div>
-  </section>
+<script>
+// 연삿갓님의 실제 데이터를 그대로 사용합니다.
+const reportData = {
+  "meta": {
+    "clientName": "연삿갓",
+    "reportDate": "2026-05-08",
+    "reportId": "CAL-PREMIUM-20260508-연삿갓",
+    "reportType": "CAL 의식OS 프리미엄 리포트 v3.0",
+    "coreThesis": "현실은 사건이 아니라 반복 실행된 의식 구조의 출력입니다."
+  },
+  "executiveSummary": {
+    "title": "현실 출력 구조 요약",
+    "oneLineDiagnosis": "연삿갓님의 핵심 구조는 어린 시절 신체 충격 사건이 ‘평생 해결해야 할 숙제’로 저장되며, 불안과 압박을 반복 출력해온 구조입니다.",
+    "corePattern": "감정 즉시 반응, 해석 과잉, 말의 잔상, 신체 긴장, 반복 반응이 모두 ‘가끔 그렇다’로 나타나며, 자동반응이 강박적으로 폭주하기보다는 특정 자극에서 간헐적으로 실행되는 구조입니다.",
+    "calInsight": "사건 자체가 아니라 '풀어야 할 숙제'라고 명명한 내면의 라벨링이 현재의 자유를 제한하는 주범입니다."
+  },
+  "coreLoop": {
+    "title": "핵심 자동반응 루프",
+    "loopDiagram": ["자극 입력", "숙제 해석", "불안 발생", "자동반응", "재출력"],
+    "coreInsight": "어린 시절 충격 사건 → ‘평생 치유해야 할 숙제’라는 해석 → 불안과 압박 → 회피 → 미완료감 저장"
+  },
+  "consciousnessOS": {
+    "title": "의식OS 구조 분석",
+    "patterns": [
+      { "label": "6식 - 해석", "desc": "외부 자극을 '심각한 과제'로 즉각 분류" },
+      { "label": "9식 - 선택", "desc": "최근 '나무에 흠집났네~'라는 가벼운 해석 언어 형성됨" }
+    ]
+  },
+  "finalMessage": {
+    "title": "최종 선언",
+    "declaration": "나는 더 이상 숙제를 푸는 자가 아니라, 풍요를 그리는 아키텍트이다.",
+    "closing": "연삿갓님의 시스템이 새로운 평온의 알고리즘으로 재부팅되었습니다."
+  }
+};
 
-  <section class="section dark-section">
-    <span class="section-label" style="color:#d6a94d">02. Auto Loop</span>
-    <h2 class="section-title">핵심 자동반응 루프</h2>
-    <div class="loop-container">
-      <div class="loop-step">자극 유입</div>
-      <div class="loop-step" style="background:#d6a94d; color:#1a1a1a;">해석(숙제)</div>
-      <div class="loop-step">감정(불안)</div>
-      <div class="loop-step">자동반응</div>
-      <div class="loop-step">현실 재출력</div>
-    </div>
-    <div class="detail-card" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
-      <p style="color: #ccc; font-size: 14px;">어린 시절 충격 → '평생 치유 과제' 해석 → 미완료감 저장 → 무한 반복 루프 실행</p>
-    </div>
-  </section>
+const esc = (v) => v || '';
 
-  <section class="section">
-    <span class="section-label">03. OS Analysis</span>
-    <h2 class="section-title">의식OS 구조 분석</h2>
-    
-    <div class="detail-card">
-      <h4>6식 — 해석과 판단</h4>
-      <p>외부 자극을 '내가 해결해야만 하는 심각한 일'로 빠르게 라벨링함.</p>
+function renderReport(data) {
+  const app = document.getElementById('app');
+  
+  app.innerHTML = `
+    <header class="cover">
+      <div class="kicker">CONSCIOUSNESS ARCHITECTURE LAB</div>
+      <h1>${esc(data.meta.reportType)}</h1>
+      <div class="meta-info">
+        <span>${esc(data.meta.clientName)} 님</span>
+        <span>${esc(data.meta.reportDate)}</span>
+      </div>
+    </header>
+
+    <section class="section">
+      <span class="section-num">01</span>
+      <h2 class="section-title">${esc(data.executiveSummary.title)}</h2>
+      <div class="lead-box">
+        <strong>${esc(data.executiveSummary.oneLineDiagnosis)}</strong>
+      </div>
+      <p style="font-size:15px; color:#444;">${esc(data.executiveSummary.corePattern)}</p>
+      <div class="cal-insight">
+        <b>CAL INSIGHT</b>
+        ${esc(data.executiveSummary.calInsight)}
+      </div>
+    </section>
+
+    <section class="section" style="background:#fcfcfc">
+      <span class="section-num">02</span>
+      <h2 class="section-title">${esc(data.coreLoop.title)}</h2>
+      <div class="diagram-wrap">
+        ${data.coreLoop.loopDiagram.map(item => `<div class="diag-item">${item}</div>`).join('')}
+      </div>
+      <div class="card">
+        <span class="card-label">루프 메커니즘</span>
+        <p style="margin:0; font-size:14px;">${esc(data.coreLoop.coreInsight)}</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-num">03</span>
+      <h2 class="section-title">${esc(data.consciousnessOS.title)}</h2>
+      ${data.consciousnessOS.patterns.map(p => `
+        <div class="card">
+          <span class="card-label">${p.label}</span>
+          <p style="margin:0; font-size:14px;">${p.desc}</p>
+        </div>
+      `).join('')}
+    </section>
+
+    <section class="section final-section">
+      <span class="section-num" style="color:#d6a94d">FINALLY</span>
+      <h2 class="section-title" style="color:#fff">${esc(data.finalMessage.title)}</h2>
+      <div class="declaration">"${esc(data.finalMessage.declaration)}"</div>
+      <p style="font-size:14px; color:rgba(255,255,255,0.7)">${esc(data.finalMessage.closing)}</p>
+    </section>
+
+    <div class="footer">
+      © 2026 Consciousness Architecture Lab.<br>
+      본 리포트는 의식 구조 분석을 위한 가이드입니다.
     </div>
+  `;
+}
 
-    <div class="detail-card">
-      <h4>9식 — 관리자 권한</h4>
-      <p><strong>선택 지점:</strong> 최근 '나무에 흠집 났네~'라고 가볍게 넘기는 새로운 해석 코드가 감지됨. 이것이 루프 탈출의 핵심 키입니다.</p>
-    </div>
-  </section>
-
-  <section class="section" style="background: linear-gradient(135deg, #b28e5d, #4a3a25); color:#fff; border:none;">
-    <span class="section-label" style="color:rgba(255,255,255,0.8)">10. Declaration</span>
-    <h2 class="section-title" style="color:#fff">최종 선언</h2>
-    <p style="font-size: 18px; font-weight: 700; line-height: 1.5; margin-bottom: 0;">
-      "나는 더 이상 과거의 숙제를 푸는 자가 아니라, 지금 이 순간의 풍요를 출력하는 아키텍트이다."
-    </p>
-  </section>
-
-  <footer class="footer">
-    <p>© 2026 Consciousness Architecture Lab.<br>본 리포트는 의식 구조 분석 가이드입니다.</p>
-  </footer>
-</div>
+renderReport(reportData);
+</script>
 </body>
 </html>
