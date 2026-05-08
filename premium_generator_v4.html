@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CAL 프리미엄 리포트 v4 생성기</title>
+<style>
+:root {
+  --bg: #070707;
+  --panel: #111111;
+  --paper: #ffffff;
+  --paper-soft: #f7f3ea;
+  --ink: #151515;
+  --muted: #77716a;
+  --gold: #c89b3c;
+  --gold-light: #e7c875;
+  --line: rgba(255,255,255,.14);
+  --shadow: 0 28px 80px rgba(0,0,0,.34);
+  --radius: 28px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(200,155,60,.18), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(231,200,117,.10), transparent 34%),
+    linear-gradient(180deg, #050505 0%, #101010 100%);
+  color: #fff;
+  line-height: 1.7;
+  letter-spacing: -0.03em;
+}
+
+.wrap {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 42px 0 70px;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(32px, 5vw, 58px);
+  border-radius: 34px;
+  background:
+    radial-gradient(circle at 88% 20%, rgba(231,200,117,.18), transparent 28%),
+    linear-gradient(135deg, #070707, #171717 58%, #34240f);
+  border: 1px solid rgba(231,200,117,.22);
+  box-shadow: var(--shadow);
+  margin-bottom: 26px;
+}
+
+.kicker {
+  display: inline-flex;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(231,200,117,.24);
+  background: rgba(200,155,60,.12);
+  color: var(--gold-light);
+  font-size: 12px;
+  letter-spacing: .16em;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(34px, 5vw, 58px);
+  line-height: 1.12;
+  letter-spacing: -0.07em;
+}
+
+.hero p {
+  max-width: 760px;
+  margin: 18px 0 0;
+  color: rgba(255,255,255,.76);
+  font-size: 18px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.card {
+  background: rgba(255,255,255,.96);
+  color: var(--ink);
+  border-radius: var(--radius);
+  border: 1px solid rgba(200,155,60,.18);
+  box-shadow: 0 20px 52px rgba(0,0,0,.18);
+  overflow: hidden;
+}
+
+.card-head {
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #fff, #fbf6eb);
+  border-bottom: 1px solid rgba(200,155,60,.2);
+}
+
+.card-head h2 {
+  margin: 0;
+  color: #111;
+  font-size: 24px;
+  letter-spacing: -0.055em;
+}
+
+.card-head p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  min-height: 640px;
+  border: 0;
+  resize: vertical;
+  padding: 22px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #111;
+  background: #fff;
+  outline: none;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 18px 22px 22px;
+  background: #fff;
+  border-top: 1px solid rgba(0,0,0,.08);
+}
+
+button {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  padding: 13px 18px;
+  font-size: 15px;
+  font-weight: 850;
+  letter-spacing: -0.03em;
+  cursor: pointer;
+}
+
+.primary {
+  background: #080808;
+  color: var(--gold-light);
+  box-shadow: 0 10px 22px rgba(0,0,0,.22);
+}
+
+.secondary {
+  background: #f3ead8;
+  color: #2b210e;
+}
+
+.ghost {
+  background: #f4f4f4;
+  color: #222;
+}
+
+.status {
+  padding: 14px 22px 0;
+  color: #80600f;
+  font-size: 14px;
+  font-weight: 700;
+  min-height: 38px;
+}
+
+.preview-box {
+  height: 760px;
+  background: #191919;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+}
+
+.help {
+  margin-top: 22px;
+  padding: 20px 24px;
+  border-radius: 24px;
+  border: 1px solid rgba(231,200,117,.18);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.78);
+  font-size: 15px;
+}
+
+.help strong {
+  color: var(--gold-light);
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+  textarea { min-height: 520px; }
+  .preview-box { height: 620px; }
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="kicker">CONSCIOUSNESS ARCHITECTURE LAB | GENERATOR</div>
+    <h1>CAL 프리미엄 리포트 v4 생성기</h1>
+    <p>JSON을 넣고 생성하면, 현재 v4 디자인 템플릿에 데이터가 삽입된 완성 HTML 파일을 다운로드합니다.</p>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <div class="card-head">
+        <h2>1. JSON 입력</h2>
+        <p>프리미엄 JSON 전체를 아래에 붙여넣으세요.</p>
+      </div>
+      <div class="status" id="status">대기 중</div>
+      <textarea id="jsonInput" spellcheck="false"></textarea>
+      <div class="actions">
+        <button class="primary" id="generateBtn">HTML 생성 & 다운로드</button>
+        <button class="secondary" id="previewBtn">미리보기</button>
+        <button class="ghost" id="sampleBtn">샘플 JSON 넣기</button>
+        <button class="ghost" id="clearBtn">비우기</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>2. 미리보기</h2>
+        <p>생성 전 화면을 빠르게 확인합니다.</p>
+      </div>
+      <div class="preview-box">
+        <iframe id="preview"></iframe>
+      </div>
+    </section>
+  </div>
+
+  <div class="help">
+    <strong>사용 순서:</strong> JSON 붙여넣기 → 미리보기 → HTML 생성 & 다운로드 → 파일명을 원하는 이름으로 변경 → GitHub /reports 폴더에 업로드.
+    <br />
+    <strong>주의:</strong> 이 생성기는 v4 디자인 템플릿을 내장하고 있습니다. report_premium_v4.html을 다시 크게 바꾸면 생성기도 다시 업데이트해야 합니다.
+  </div>
+</div>
+
+<script>
+const REPORT_TEMPLATE = "<!DOCTYPE html>\n<html lang=\"ko\">\n<head>\n<meta charset=\"UTF-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n<title>CAL 의식OS 프리미엄 리포트 v4.0</title>\n\n<style>\n:root {\n  --bg: #f4efe6;\n  --paper: #fffaf2;\n  --paper-strong: #f8ecd9;\n  --ink: #2a241d;\n  --muted: #75695d;\n  --line: rgba(111, 83, 45, 0.18);\n  --gold: #b88a3b;\n  --gold-soft: rgba(184, 138, 59, 0.14);\n  --brown: #5b3d22;\n  --deep: #24180f;\n  --navy: #151b2c;\n  --shadow: 0 18px 45px rgba(68, 43, 18, 0.12);\n  --radius-lg: 28px;\n  --radius-md: 20px;\n  --radius-sm: 14px;\n}\n\n* {\n  box-sizing: border-box;\n}\n\nbody {\n  margin: 0;\n  font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;\n  background:\n    radial-gradient(circle at top left, rgba(184, 138, 59, 0.18), transparent 34%),\n    linear-gradient(180deg, #f8f2e8 0%, var(--bg) 44%, #eee3d4 100%);\n  color: var(--ink);\n  line-height: 1.72;\n  letter-spacing: -0.025em;\n}\n\n.report-wrap {\n  width: min(940px, calc(100% - 32px));\n  margin: 0 auto;\n  padding: 42px 0 80px;\n}\n\n.cover {\n  position: relative;\n  overflow: hidden;\n  border-radius: 36px;\n  padding: clamp(34px, 6vw, 68px);\n  background:\n    linear-gradient(135deg, rgba(25, 31, 48, 0.98), rgba(74, 48, 23, 0.95)),\n    radial-gradient(circle at 78% 16%, rgba(217, 180, 92, 0.28), transparent 28%);\n  color: #fff7e8;\n  box-shadow: var(--shadow);\n  margin-bottom: 26px;\n}\n\n.cover::after {\n  content: \"\";\n  position: absolute;\n  right: -100px;\n  top: -120px;\n  width: 320px;\n  height: 320px;\n  border-radius: 50%;\n  border: 1px solid rgba(231, 188, 93, 0.26);\n  box-shadow: 0 0 80px rgba(220, 173, 76, 0.15) inset;\n}\n\n.kicker {\n  position: relative;\n  z-index: 1;\n  font-size: 13px;\n  letter-spacing: 0.18em;\n  color: rgba(255, 235, 190, 0.72);\n  text-transform: uppercase;\n  margin-bottom: 20px;\n}\n\n.cover h1 {\n  position: relative;\n  z-index: 1;\n  margin: 0;\n  font-size: clamp(32px, 6vw, 56px);\n  line-height: 1.18;\n  letter-spacing: -0.05em;\n  font-weight: 800;\n}\n\n.cover-sub {\n  position: relative;\n  z-index: 1;\n  max-width: 660px;\n  margin: 24px 0 0;\n  color: rgba(255, 248, 232, 0.84);\n  font-size: clamp(17px, 2.5vw, 21px);\n  line-height: 1.75;\n}\n\n.meta-grid {\n  position: relative;\n  z-index: 1;\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 12px;\n  margin-top: 36px;\n}\n\n.meta-card {\n  padding: 16px 18px;\n  border: 1px solid rgba(255, 231, 177, 0.18);\n  border-radius: 18px;\n  background: rgba(255, 255, 255, 0.06);\n  backdrop-filter: blur(8px);\n}\n\n.meta-label {\n  font-size: 12px;\n  color: rgba(255, 235, 190, 0.62);\n  margin-bottom: 4px;\n}\n\n.meta-value {\n  font-size: 15px;\n  font-weight: 650;\n  color: #fff8e9;\n  word-break: keep-all;\n}\n\n.section {\n  background: rgba(255, 250, 242, 0.88);\n  border: 1px solid var(--line);\n  border-radius: var(--radius-lg);\n  box-shadow: var(--shadow);\n  padding: clamp(26px, 4vw, 44px);\n  margin: 22px 0;\n}\n\n.section-title {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  margin: 0 0 22px;\n  font-size: clamp(24px, 4vw, 34px);\n  line-height: 1.25;\n  letter-spacing: -0.055em;\n  color: var(--deep);\n}\n\n.section-number {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 34px;\n  height: 34px;\n  flex: 0 0 34px;\n  border-radius: 50%;\n  background: var(--deep);\n  color: #f7d58c;\n  font-size: 14px;\n  font-weight: 800;\n}\n\n.lead-box {\n  padding: 22px 24px;\n  border-radius: var(--radius-md);\n  background: linear-gradient(135deg, rgba(184, 138, 59, 0.16), rgba(255, 255, 255, 0.45));\n  border: 1px solid rgba(184, 138, 59, 0.24);\n  margin-bottom: 22px;\n}\n\n.lead-box strong {\n  display: block;\n  font-size: clamp(19px, 3vw, 26px);\n  line-height: 1.5;\n  color: #3c2815;\n  letter-spacing: -0.045em;\n}\n\n.body-text {\n  font-size: 17px;\n  color: #342b22;\n  margin: 0;\n  white-space: pre-line;\n}\n\n.body-text + .body-text {\n  margin-top: 14px;\n}\n\n.summary-grid {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 14px;\n}\n\n.summary-card {\n  padding: 20px;\n  border-radius: var(--radius-md);\n  background: #fff6e8;\n  border: 1px solid var(--line);\n}\n\n.summary-card.full {\n  grid-column: 1 / -1;\n  background: linear-gradient(135deg, #fff3dc, #fffaf2);\n}\n\n.card-label {\n  display: block;\n  font-size: 13px;\n  color: var(--gold);\n  font-weight: 800;\n  margin-bottom: 8px;\n}\n\n.card-text {\n  margin: 0;\n  font-size: 16px;\n  color: #342b22;\n  white-space: pre-line;\n}\n\n.list-grid {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 14px;\n  margin-top: 18px;\n}\n\n.list-card {\n  padding: 20px;\n  border-radius: var(--radius-md);\n  background: #fffaf2;\n  border: 1px solid var(--line);\n}\n\n.list-card h3,\n.sub-card h3 {\n  margin: 0 0 12px;\n  color: var(--brown);\n  font-size: 18px;\n}\n\n.list-card ul {\n  margin: 0;\n  padding-left: 20px;\n}\n\n.list-card li {\n  margin: 8px 0;\n  color: #44372c;\n}\n\n.core-loop {\n  background:\n    linear-gradient(180deg, rgba(36, 24, 15, 0.97), rgba(76, 48, 23, 0.95)),\n    radial-gradient(circle at top right, rgba(207, 156, 67, 0.28), transparent 34%);\n  color: #fff7e8;\n  border-color: rgba(255, 218, 150, 0.18);\n}\n\n.core-loop .section-title {\n  color: #fff7e8;\n}\n\n.core-loop .section-number {\n  background: #f7d58c;\n  color: #24180f;\n}\n\n.loop-block {\n  padding: 22px 24px;\n  border-radius: 20px;\n  border: 1px solid rgba(255, 225, 165, 0.16);\n  background: rgba(255, 255, 255, 0.06);\n  margin: 14px 0;\n}\n\n.loop-block h3 {\n  margin: 0 0 10px;\n  font-size: 18px;\n  color: #f7d58c;\n}\n\n.loop-block p {\n  margin: 0;\n  color: rgba(255, 248, 232, 0.88);\n  white-space: pre-line;\n}\n\n.diagram {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 10px;\n  align-items: center;\n  margin: 22px 0;\n}\n\n.diagram-item {\n  padding: 10px 14px;\n  border-radius: 999px;\n  background: rgba(184, 138, 59, 0.14);\n  border: 1px solid rgba(184, 138, 59, 0.26);\n  color: #4b321b;\n  font-weight: 700;\n  font-size: 14px;\n}\n\n.core-loop .diagram-item {\n  background: rgba(255, 215, 137, 0.12);\n  border-color: rgba(255, 215, 137, 0.22);\n  color: #ffe4a8;\n}\n\n.diagram-arrow {\n  color: rgba(184, 138, 59, 0.64);\n  font-weight: 800;\n}\n\n.core-loop .diagram-arrow {\n  color: rgba(255, 226, 171, 0.55);\n}\n\n.insight-box {\n  margin-top: 22px;\n  padding: 18px 20px;\n  border-radius: 18px;\n  background: rgba(184, 138, 59, 0.12);\n  border: 1px solid rgba(184, 138, 59, 0.22);\n}\n\n.insight-label {\n  display: inline-block;\n  font-size: 12px;\n  letter-spacing: 0.12em;\n  color: var(--gold);\n  font-weight: 900;\n  margin-bottom: 8px;\n}\n\n.insight-text {\n  margin: 0;\n  font-size: 16px;\n  color: #372b20;\n  white-space: pre-line;\n}\n\n.core-loop .insight-box {\n  background: rgba(255, 215, 137, 0.1);\n  border-color: rgba(255, 215, 137, 0.22);\n}\n\n.core-loop .insight-text {\n  color: rgba(255, 248, 232, 0.9);\n}\n\n.sub-card {\n  padding: 20px;\n  border-radius: var(--radius-md);\n  background: #fff7ea;\n  border: 1px solid var(--line);\n  margin-top: 14px;\n}\n\n.os-grid {\n  display: grid;\n  grid-template-columns: 1fr;\n  gap: 14px;\n}\n\n.os-card {\n  padding: 20px;\n  border-radius: var(--radius-md);\n  background: #fffaf2;\n  border: 1px solid var(--line);\n}\n\n.os-card h3 {\n  margin: 0 0 8px;\n  color: var(--brown);\n  font-size: 18px;\n}\n\n.os-desc {\n  margin: 0 0 8px;\n  color: var(--muted);\n  font-size: 14px;\n}\n\n.os-pattern {\n  margin: 0;\n  color: #33291f;\n  white-space: pre-line;\n}\n\n.steps {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 14px;\n}\n\n.step-card {\n  padding: 20px;\n  border-radius: var(--radius-md);\n  background: #fffaf2;\n  border: 1px solid var(--line);\n}\n\n.step-num {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 28px;\n  height: 28px;\n  border-radius: 50%;\n  background: var(--deep);\n  color: #f7d58c;\n  font-size: 13px;\n  font-weight: 800;\n  margin-bottom: 10px;\n}\n\n.step-card h3 {\n  margin: 0 0 8px;\n  font-size: 18px;\n  color: var(--brown);\n}\n\n.step-card p {\n  margin: 0;\n  color: #3c3026;\n  white-space: pre-line;\n}\n\n.final {\n  background: linear-gradient(135deg, #24180f, #5b3d22);\n  color: #fff7e8;\n}\n\n.final .section-title {\n  color: #fff7e8;\n}\n\n.final .body-text,\n.final .card-text {\n  color: rgba(255, 248, 232, 0.88);\n}\n\n.final .insight-label {\n  color: #d6a94d;\n}\n\n.final .insight-text {\n  color: rgba(255, 245, 225, 0.92);\n}\n\n.declaration {\n  margin: 22px 0;\n  padding: 24px;\n  border-radius: 22px;\n  background: rgba(255, 215, 137, 0.12);\n  border: 1px solid rgba(255, 215, 137, 0.24);\n  color: #ffe0a1;\n  font-size: clamp(20px, 3vw, 28px);\n  line-height: 1.55;\n  font-weight: 800;\n  letter-spacing: -0.05em;\n}\n\n.disclaimer {\n  font-size: 13px;\n  color: rgba(60, 46, 35, 0.68);\n  text-align: center;\n  padding: 20px 10px 0;\n}\n\n@media (max-width: 720px) {\n  .report-wrap {\n    width: min(100% - 22px, 940px);\n    padding-top: 18px;\n  }\n\n  .cover {\n    border-radius: 28px;\n  }\n\n  .meta-grid,\n  .summary-grid,\n  .list-grid,\n  .steps {\n    grid-template-columns: 1fr;\n  }\n\n  .section {\n    border-radius: 24px;\n  }\n\n  .section-title {\n    align-items: flex-start;\n  }\n\n  .diagram {\n    display: block;\n  }\n\n  .diagram-item {\n    display: block;\n    width: 100%;\n    margin: 8px 0;\n    text-align: center;\n  }\n\n  .diagram-arrow {\n    display: block;\n    text-align: center;\n    margin: 4px 0;\n  }\n}\n\n\n/* ===== CAL PREMIUM v4 DESIGN OVERRIDE : BLACK / WHITE / GOLD ===== */\n:root {\n  --bg: #060606;\n  --paper: #ffffff;\n  --paper-soft: #fffdf8;\n  --ink: #111111;\n  --muted: #6f6a61;\n  --line: rgba(0,0,0,.10);\n  --gold: #b98518;\n  --gold-light: #e7c875;\n  --gold-soft: rgba(185,133,24,.14);\n  --deep: #080808;\n  --shadow: 0 28px 80px rgba(0,0,0,.22);\n  --radius-lg: 34px;\n  --radius-md: 24px;\n  --radius-sm: 16px;\n}\n\nbody {\n  background:\n    radial-gradient(circle at 5% 0%, rgba(185,133,24,.22), transparent 28%),\n    radial-gradient(circle at 95% 30%, rgba(231,200,117,.10), transparent 26%),\n    linear-gradient(180deg, #050505 0%, #111 38%, #f1eee8 38%, #eee8dd 100%);\n  color: var(--ink);\n  line-height: 1.76;\n  letter-spacing: -0.03em;\n}\n\n.report-wrap {\n  width: min(980px, calc(100% - 32px));\n  padding: 44px 0 86px;\n}\n\n.cover {\n  border-radius: 38px;\n  padding: clamp(38px, 6vw, 76px);\n  background:\n    radial-gradient(circle at 84% 18%, rgba(231,200,117,.22), transparent 25%),\n    linear-gradient(135deg, #050505 0%, #151515 55%, #33230d 100%);\n  border: 1px solid rgba(231,200,117,.18);\n  box-shadow: 0 34px 90px rgba(0,0,0,.42);\n  margin-bottom: 30px;\n}\n\n.cover::before {\n  content: \"\";\n  position: absolute;\n  inset: 18px;\n  border: 1px solid rgba(231,200,117,.18);\n  border-radius: 28px;\n  pointer-events: none;\n}\n\n.cover::after {\n  right: -120px;\n  top: -140px;\n  width: 360px;\n  height: 360px;\n  border-color: rgba(231,200,117,.24);\n  box-shadow: 0 0 90px rgba(231,200,117,.16) inset;\n}\n\n.kicker {\n  display: inline-flex;\n  padding: 8px 12px;\n  border-radius: 999px;\n  background: rgba(185,133,24,.12);\n  border: 1px solid rgba(231,200,117,.24);\n  font-size: 12px;\n  color: rgba(255,235,190,.86);\n}\n\n.cover h1 {\n  font-size: clamp(36px, 6vw, 62px);\n  line-height: 1.12;\n  letter-spacing: -0.065em;\n  font-weight: 950;\n}\n\n.cover-sub {\n  font-size: clamp(18px, 2.5vw, 22px);\n  color: rgba(255,255,255,.78);\n  font-weight: 500;\n}\n\n.meta-card {\n  border: 1px solid rgba(255,231,177,.18);\n  background: rgba(255,255,255,.07);\n  backdrop-filter: blur(10px);\n}\n\n.section {\n  background: rgba(255,255,255,.97);\n  border: 1px solid rgba(0,0,0,.08);\n  border-radius: 34px;\n  box-shadow: 0 18px 46px rgba(0,0,0,.08);\n  padding: clamp(30px, 4.3vw, 50px);\n  margin: 26px 0;\n}\n\n.section-title {\n  gap: 14px;\n  margin-bottom: 30px;\n  font-size: clamp(30px, 4.4vw, 42px);\n  line-height: 1.15;\n  letter-spacing: -0.07em;\n  color: #050505;\n  font-weight: 950;\n}\n\n.section-number {\n  width: 38px;\n  height: 38px;\n  flex: 0 0 38px;\n  background: #050505;\n  color: var(--gold-light);\n  font-weight: 950;\n  box-shadow: 0 8px 20px rgba(0,0,0,.22);\n}\n\n.summary-hero {\n  position: relative;\n  overflow: hidden;\n  padding: clamp(30px, 5vw, 48px);\n  border-radius: 30px;\n  background:\n    radial-gradient(circle at 86% 72%, rgba(231,200,117,.13), transparent 30%),\n    linear-gradient(135deg, #070707 0%, #171717 58%, #32230d 100%);\n  color: #fff;\n  border: 1px solid rgba(231,200,117,.24);\n  box-shadow: 0 24px 60px rgba(0,0,0,.24);\n  margin-bottom: 24px;\n}\n\n.summary-hero::after {\n  content: \"CAL\";\n  position: absolute;\n  right: 24px;\n  bottom: -20px;\n  font-size: clamp(64px, 14vw, 132px);\n  font-weight: 950;\n  letter-spacing: -0.08em;\n  color: rgba(231,200,117,.10);\n  line-height: 1;\n}\n\n.summary-hero p {\n  position: relative;\n  z-index: 1;\n  margin: 0;\n  font-size: clamp(24px, 4vw, 38px);\n  line-height: 1.45;\n  letter-spacing: -0.065em;\n  font-weight: 950;\n  word-break: keep-all;\n  color: #fff;\n}\n\n.summary-core-message {\n  margin: 0 0 24px;\n  padding: 24px 28px;\n  border-radius: 24px;\n  background: linear-gradient(135deg, #fffaf0, #fffdf8);\n  border: 1px solid rgba(185,133,24,.24);\n  box-shadow: 0 12px 30px rgba(0,0,0,.045);\n}\n\n.summary-body-box {\n  margin: 24px 0 0;\n  padding: 0;\n  background: transparent;\n  border: none;\n  box-shadow: none;\n}\n\n.summary-point {\n  display: grid;\n  grid-template-columns: 250px 1fr;\n  gap: 34px;\n  align-items: center;\n  padding: 26px 30px;\n  margin-bottom: 20px;\n  border-radius: 22px;\n  background: #fffdf8;\n  border: 1px solid rgba(185,133,24,.28);\n  box-shadow: 0 12px 28px rgba(0,0,0,.04);\n}\n\n.summary-point:last-child {\n  margin-bottom: 0;\n}\n\n.summary-point-label {\n  position: relative;\n  color: #916612;\n  font-size: clamp(28px, 3.4vw, 38px);\n  line-height: 1.2;\n  font-weight: 950;\n  letter-spacing: -0.065em;\n  word-break: keep-all;\n}\n\n.summary-point-label::after {\n  content: \"\";\n  position: absolute;\n  right: -18px;\n  top: 50%;\n  transform: translateY(-50%);\n  width: 2px;\n  height: 86px;\n  background: linear-gradient(180deg, transparent, rgba(185,133,24,.82), transparent);\n}\n\n.summary-point-text {\n  margin: 0;\n  font-size: 19px;\n  line-height: 1.85;\n  color: #111;\n  font-weight: 500;\n  white-space: pre-line;\n  word-break: keep-all;\n}\n\n.cal-box,\n.insight-box {\n  margin-top: 24px;\n  padding: 24px 28px;\n  border-radius: 24px;\n  background: linear-gradient(135deg, rgba(185,133,24,.15), rgba(255,255,255,.86));\n  border: 1px solid rgba(185,133,24,.32);\n  box-shadow: 0 14px 34px rgba(185,133,24,.10);\n}\n\n.cal-label,\n.insight-label {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  color: var(--gold);\n  font-size: 12px;\n  letter-spacing: .16em;\n  font-weight: 950;\n  margin-bottom: 10px;\n}\n\n.cal-label::before,\n.insight-label::before {\n  content: \"\";\n  width: 8px;\n  height: 8px;\n  border-radius: 50%;\n  background: var(--gold);\n  box-shadow: 0 0 14px rgba(185,133,24,.72);\n}\n\n.cal-box p,\n.insight-text {\n  margin: 0;\n  font-size: 18px;\n  line-height: 1.8;\n  color: #201a12;\n  white-space: pre-line;\n}\n\n.lead-box {\n  padding: 24px 28px;\n  border-radius: 24px;\n  background: linear-gradient(135deg, rgba(185,133,24,.14), rgba(255,255,255,.72));\n  border: 1px solid rgba(185,133,24,.26);\n}\n\n.lead-box strong {\n  color: #111;\n  font-size: clamp(21px, 3vw, 30px);\n  font-weight: 950;\n}\n\n.summary-card,\n.list-card,\n.sub-card,\n.os-card,\n.step-card {\n  background: #fff;\n  border: 1px solid rgba(0,0,0,.10);\n  box-shadow: 0 10px 24px rgba(0,0,0,.045);\n}\n\n.card-label {\n  color: var(--gold);\n  font-weight: 950;\n}\n\n.card-text,\n.body-text,\n.os-pattern,\n.step-card p,\n.list-card li {\n  font-size: 17px;\n  color: #202020;\n}\n\n.list-card h3,\n.sub-card h3,\n.os-card h3,\n.step-card h3 {\n  color: #050505;\n  font-weight: 950;\n}\n\n.core-loop,\n.final {\n  background:\n    radial-gradient(circle at top right, rgba(231,200,117,.18), transparent 34%),\n    linear-gradient(180deg, #050505 0%, #151515 100%);\n  color: #fff;\n  border-color: rgba(255,255,255,.12);\n  box-shadow: 0 28px 76px rgba(0,0,0,.32);\n}\n\n.core-loop .section-title,\n.final .section-title {\n  color: #fff;\n}\n\n.core-loop .section-number,\n.final .section-number {\n  background: var(--gold-light);\n  color: #050505;\n}\n\n.core-loop .insight-box,\n.final .insight-box {\n  background: rgba(231,200,117,.10);\n  border-color: rgba(231,200,117,.24);\n  box-shadow: none;\n}\n\n.core-loop .insight-text,\n.final .insight-text,\n.final .body-text,\n.final .card-text {\n  color: rgba(255,255,255,.88);\n}\n\n.declaration {\n  padding: clamp(26px, 4vw, 38px);\n  border-radius: 28px;\n  background: rgba(231,200,117,.12);\n  border: 1px solid rgba(231,200,117,.32);\n  color: #ffe7a9;\n  font-size: clamp(24px, 4vw, 38px);\n  font-weight: 950;\n}\n\n@media (max-width: 720px) {\n  body {\n    background:\n      radial-gradient(circle at top left, rgba(185,133,24,.16), transparent 30%),\n      linear-gradient(180deg, #050505 0%, #111 34%, #f1eee7 34%, #eee8dd 100%);\n  }\n\n  .report-wrap {\n    width: min(100% - 22px, 940px);\n    padding-top: 18px;\n  }\n\n  .cover {\n    border-radius: 28px;\n    padding: 34px 24px;\n  }\n\n  .cover::before {\n    inset: 12px;\n    border-radius: 22px;\n  }\n\n  .cover h1 {\n    font-size: 34px;\n  }\n\n  .section {\n    border-radius: 26px;\n    padding: 28px 22px;\n    margin: 20px 0;\n  }\n\n  .section-title {\n    font-size: 28px;\n    gap: 11px;\n  }\n\n  .summary-hero {\n    padding: 28px 22px;\n    border-radius: 24px;\n  }\n\n  .summary-hero p {\n    font-size: 24px;\n  }\n\n  .summary-point {\n    grid-template-columns: 1fr;\n    gap: 12px;\n    padding: 24px 22px;\n  }\n\n  .summary-point-label {\n    font-size: 28px;\n  }\n\n  .summary-point-label::after {\n    display: none;\n  }\n\n  .summary-point-text,\n  .body-text,\n  .card-text,\n  .insight-text,\n  .cal-box p,\n  .step-card p,\n  .os-pattern,\n  .list-card li {\n    font-size: 17px;\n    line-height: 1.8;\n  }\n}\n\n</style>\n</head>\n\n<body>\n<div class=\"report-wrap\" id=\"app\"></div>\n\n<script>\nconst reportData = {\n  \"meta\": {\n    \"clientName\": \"연삿갓\",\n    \"reportDate\": \"2026-05-08\",\n    \"reportId\": \"CAL-PREMIUM-20260508-연삿갓\",\n    \"reportType\": \"CAL 의식OS 프리미엄 리포트 v4.0\",\n    \"coreThesis\": \"현실은 사건이 아니라 반복 실행된 의식 구조의 출력입니다.\"\n  },\n  \"executiveSummary\": {\n    \"title\": \"한눈에 보는 현실 출력 구조\",\n    \"oneLineDiagnosis\": \"연삿갓님의 핵심 구조는 어린 시절 신체 충격 사건이 ‘평생 해결해야 할 숙제’로 저장되며, 불안과 압박을 반복 출력해온 구조입니다.\",\n    \"corePattern\": \"감정 즉시 반응, 해석 과잉, 말의 잔상, 신체 긴장, 반복 반응이 모두 ‘가끔 그렇다’로 나타나며, 자동반응이 강박적으로 폭주하기보다는 특정 자극에서 간헐적으로 실행되는 구조입니다.\",\n    \"coreStoredBelief\": \"해결해야 할 숙제가 아직 남아 있다.\",\n    \"repeatedLoop\": \"어린 시절 충격 사건 → ‘평생 치유해야 할 숙제’라는 해석 → 불안과 압박 → 회피 → 미완료감 저장 → 계속 불안 → 다시 해결 과제로 인식\",\n    \"choicePoint\": \"이미 ‘지금은 거의 극복됨’이라는 인식이 생겼고, ‘나무에 흠집났네~~’라는 새로운 해석 언어가 형성되어 있습니다. 이 지점이 9식의 선택 회복 포인트입니다.\",\n    \"reportFocus\": \"이 리포트는 어린 시절 사건 자체가 아니라, 그 사건이 어떻게 평생의 숙제처럼 저장되어 현실을 압박해왔는지 분석합니다.\"\n  },\n  \"openingDeclaration\": {\"title\":\"현실 출력 선언\",\"headline\":\"\",\"body\":\"\",\"keyMessage\":\"\",\"calInsight\":\"\"},\n  \"realityOutput\": {\"title\":\"현재 현실에서 반복되는 출력 패턴\",\"mainPattern\":\"\",\"visibleProblems\":[],\"emotionalSignals\":[],\"bodySignals\":[],\"relationshipOutput\":\"\",\"moneyOrWorkOutput\":\"\",\"choicePattern\":\"\",\"coreInsight\":\"\",\"calInsight\":\"\"},\n  \"coreLoop\": {\"title\":\"핵심 자동반응 루프\",\"trigger\":\"\",\"interpretation\":\"\",\"storedBelief\":\"\",\"emotionRise\":\"\",\"identification\":\"\",\"automaticReaction\":\"\",\"storagePattern\":\"\",\"realityReOutput\":\"\",\"loopDiagram\":[\"자극 입력\",\"해석\",\"저장된 자기해석\",\"감정 상승\",\"동일시\",\"자동반응\",\"반복 저장\",\"현실 재출력\"],\"coreInsight\":\"\",\"calInsight\":\"\"},\n  \"sajuLens\": {\"title\":\"사주OS — 초기 에너지 렌즈\",\"birthData\":{\"yearPillar\":\"\",\"monthPillar\":\"\",\"dayPillar\":\"\",\"hourPillar\":\"\",\"calendarType\":\"\",\"birthTime\":\"\"},\"elementScores\":{\"wood\":0,\"fire\":0,\"earth\":0,\"metal\":0,\"water\":0},\"dominantElements\":[],\"weakElements\":[],\"normalOperation\":\"\",\"distortedOperation\":\"\",\"lensAmplification\":\"\",\"storedInterpretationConnection\":\"\",\"connectionToRealityOutput\":\"\",\"coreInsight\":\"\",\"calInsight\":\"\"},\n  \"consciousnessOS\": {\"title\":\"의식OS 구조 분석\",\"fiveSenseInput\":{\"label\":\"5식 — 입력 감지\",\"description\":\"\",\"clientPattern\":\"\"},\"sixthInterpretation\":{\"label\":\"6식 — 해석과 판단\",\"description\":\"\",\"clientPattern\":\"\"},\"seventhIdentification\":{\"label\":\"7식 — 동일시\",\"description\":\"\",\"clientPattern\":\"\"},\"eighthStorage\":{\"label\":\"8식 — 저장된 자동패턴\",\"description\":\"\",\"clientPattern\":\"\"},\"ninthConsciousChoice\":{\"label\":\"9식 — 의식하는 자아\",\"description\":\"\",\"clientPattern\":\"\",\"choicePoint\":\"\"},\"coreInsight\":\"\",\"calInsight\":\"\"},\n  \"materializationFlow\": {\"title\":\"현실은 어떻게 물질화되는가\",\"innerPattern\":\"\",\"repeatedEmotion\":\"\",\"repeatedChoice\":\"\",\"repeatedBehavior\":\"\",\"outerResult\":\"\",\"materializationDiagram\":[\"반복 해석\",\"반복 감정\",\"반복 선택\",\"반복 행동\",\"현실 출력\"],\"coreInsight\":\"\",\"calInsight\":\"\"},\n  \"choiceRecovery\": {\"title\":\"9식 — 관리자 권한 회복\",\"notSelfStatement\":\"\",\"observerStatement\":\"\",\"pausePoint\":\"\",\"newChoicePossibility\":\"\",\"reprogrammingStatement\":\"\",\"coreInsight\":\"\",\"calInsight\":\"\"},\n  \"reprogrammingProtocol\": {\"title\":\"현실 재프로그래밍 프로토콜\",\"steps\":[],\"dailyPractice\":\"\",\"turningQuestions\":[],\"coreInsight\":\"\",\"calInsight\":\"\"},\n  \"resistancePattern\": {\"title\":\"변화 과정에서 나타나는 저항\",\"expectedResistance\":[],\"whyItHappens\":\"\",\"howToReadResistance\":\"\",\"responseGuide\":\"\",\"coreInsight\":\"\",\"calInsight\":\"\"},\n  \"finalMessage\": {\"title\":\"최종 선언\",\"message\":\"\",\"declaration\":\"\",\"closingSentence\":\"\",\"calInsight\":\"\"},\n  \"disclaimer\": {\"text\":\"본 리포트는 의료, 법률, 투자 상담이 아닙니다. 자기 이해와 선택 전환을 위한 의식 구조 분석 자료이며, 선택은 본인의 몫입니다.\"}\n};\n\nconst $ = (v) => v ?? '';\n\nfunction esc(value) {\n  return String(value ?? '')\n    .replace(/&/g, '&amp;')\n    .replace(/</g, '&lt;')\n    .replace(/>/g, '&gt;')\n    .replace(/\"/g, '&quot;')\n    .replace(/'/g, '&#039;');\n}\n\nfunction hasText(value) {\n  return value !== undefined && value !== null && String(value).trim() !== '';\n}\n\nfunction p(text, cls = 'body-text') {\n  return hasText(text) ? `<p class=\"${cls}\">${esc(text)}</p>` : '';\n}\n\nfunction insight(text) {\n  if (!hasText(text)) return '';\n  return `\n    <div class=\"insight-box\">\n      <div class=\"insight-label\">CAL INSIGHT</div>\n      <p class=\"insight-text\">${esc(text)}</p>\n    </div>\n  `;\n}\n\nfunction diagram(items = []) {\n  if (!items.length) return '';\n  return `\n    <div class=\"diagram\">\n      ${items.map((item, idx) => `\n        <span class=\"diagram-item\">${esc(item)}</span>\n        ${idx < items.length - 1 ? '<span class=\"diagram-arrow\">→</span>' : ''}\n      `).join('')}\n    </div>\n  `;\n}\n\nfunction listCard(title, items = []) {\n  if (!items || !items.length) return '';\n  return `\n    <div class=\"list-card\">\n      <h3>${esc(title)}</h3>\n      <ul>${items.map(item => `<li>${esc(item)}</li>`).join('')}</ul>\n    </div>\n  `;\n}\n\nfunction section(num, title, content, extraClass = '') {\n  return `\n    <section class=\"section ${extraClass}\">\n      <h2 class=\"section-title\"><span class=\"section-number\">${num}</span>${esc(title)}</h2>\n      ${content}\n    </section>\n  `;\n}\n\nfunction summary(data, openingData = {}) {\n  const openingIntegrated = `\n    ${hasText(openingData.headline) ? `<div class=\"lead-box\"><strong>${esc(openingData.headline)}</strong></div>` : ''}\n    ${p(openingData.body)}\n    ${hasText(openingData.keyMessage) ? `<div class=\"sub-card\"><h3>핵심 메시지</h3>${p(openingData.keyMessage, 'card-text')}</div>` : ''}\n    ${insight(openingData.calInsight)}\n  `;\n\n  const summaryPoints = [\n    ['반복 패턴', data.corePattern],\n    ['반복 루프', data.repeatedLoop],\n    ['선택 회복 포인트', data.choicePoint],\n    ['리포트 초점', data.reportFocus]\n  ].filter(([label, text]) => hasText(text));\n\n  return section(\n    '1',\n    data.title || '현실 출력 구조 요약',\n    `\n      ${hasText(data.oneLineDiagnosis) ? `\n        <div class=\"summary-hero\">\n          <p>${esc(data.oneLineDiagnosis)}</p>\n        </div>\n      ` : ''}\n\n      ${hasText(data.coreStoredBelief) ? `\n        <div class=\"summary-core-message\">\n          <span class=\"card-label\">저장된 자기해석</span>\n          <p class=\"card-text\">${esc(data.coreStoredBelief)}</p>\n        </div>\n      ` : ''}\n\n      ${summaryPoints.length ? `\n        <div class=\"summary-body-box\">\n          ${summaryPoints.map(([label, text]) => `\n            <div class=\"summary-point\">\n              <div class=\"summary-point-label\">${esc(label)}</div>\n              <p class=\"summary-point-text\">${esc(text)}</p>\n            </div>\n          `).join('')}\n        </div>\n      ` : ''}\n\n      ${hasText(data.calInsight) ? `\n        <div class=\"cal-box\">\n          <span class=\"cal-label\">CAL INSIGHT</span>\n          <p>${esc(data.calInsight)}</p>\n        </div>\n      ` : ''}\n\n      ${openingIntegrated}\n    `\n  );\n}\n\nfunction opening(data) {\n  return section('2', data.title || '현실 출력 선언', `\n    ${hasText(data.headline) ? `<div class=\"lead-box\"><strong>${esc(data.headline)}</strong></div>` : ''}\n    ${p(data.body)}\n    ${hasText(data.keyMessage) ? `<div class=\"sub-card\"><h3>핵심 메시지</h3>${p(data.keyMessage, 'card-text')}</div>` : ''}\n    ${insight(data.calInsight)}\n  `);\n}\n\nfunction reality(data) {\n  return section('2', data.title || '현재 현실에서 반복되는 출력 패턴', `\n    ${hasText(data.mainPattern) ? `<div class=\"lead-box\"><strong>${esc(data.mainPattern)}</strong></div>` : ''}\n    <div class=\"list-grid\">\n      ${listCard('현실에서 보이는 문제', data.visibleProblems)}\n      ${listCard('감정 신호', data.emotionalSignals)}\n      ${listCard('신체 신호', data.bodySignals)}\n    </div>\n    ${hasText(data.relationshipOutput) ? `<div class=\"sub-card\"><h3>관계 출력</h3>${p(data.relationshipOutput, 'card-text')}</div>` : ''}\n    ${hasText(data.moneyOrWorkOutput) ? `<div class=\"sub-card\"><h3>돈 / 일 출력</h3>${p(data.moneyOrWorkOutput, 'card-text')}</div>` : ''}\n    ${hasText(data.choicePattern) ? `<div class=\"sub-card\"><h3>선택 패턴</h3>${p(data.choicePattern, 'card-text')}</div>` : ''}\n    ${hasText(data.coreInsight) ? `<div class=\"sub-card\"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}\n    ${insight(data.calInsight)}\n  `);\n}\n\nfunction coreLoop(data) {\n  const blocks = [\n    ['자극 입력', data.trigger],\n    ['해석', data.interpretation],\n    ['저장된 자기해석', data.storedBelief],\n    ['감정 상승', data.emotionRise],\n    ['동일시', data.identification],\n    ['자동반응', data.automaticReaction],\n    ['반복 저장', data.storagePattern],\n    ['현실 재출력', data.realityReOutput]\n  ];\n\n  return section('3', data.title || '핵심 자동반응 루프', `\n    ${diagram(data.loopDiagram)}\n    ${blocks.map(([title, text]) => hasText(text) ? `<div class=\"loop-block\"><h3>${esc(title)}</h3>${p(text, 'card-text')}</div>` : '').join('')}\n    ${hasText(data.coreInsight) ? `<div class=\"loop-block\"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}\n    ${insight(data.calInsight)}\n  `, 'core-loop');\n}\n\nfunction saju(data) {\n  const bd = data.birthData || {};\n  const es = data.elementScores || {};\n  return section('4', data.title || '사주OS — 초기 에너지 렌즈', `\n    <div class=\"summary-grid\">\n      <div class=\"summary-card\"><span class=\"card-label\">원국</span><p class=\"card-text\">${esc([bd.yearPillar, bd.monthPillar, bd.dayPillar, bd.hourPillar].filter(Boolean).join(', '))}</p></div>\n      <div class=\"summary-card\"><span class=\"card-label\">오행 분포</span><p class=\"card-text\">목(${esc(es.wood)}) · 화(${esc(es.fire)}) · 토(${esc(es.earth)}) · 금(${esc(es.metal)}) · 수(${esc(es.water)})</p></div>\n      <div class=\"summary-card\"><span class=\"card-label\">강한 에너지</span><p class=\"card-text\">${esc((data.dominantElements || []).join(', '))}</p></div>\n      <div class=\"summary-card\"><span class=\"card-label\">약한 에너지</span><p class=\"card-text\">${esc((data.weakElements || []).join(', '))}</p></div>\n    </div>\n    ${hasText(data.normalOperation) ? `<div class=\"sub-card\"><h3>순기능</h3>${p(data.normalOperation, 'card-text')}</div>` : ''}\n    ${hasText(data.distortedOperation) ? `<div class=\"sub-card\"><h3>왜곡 작동</h3>${p(data.distortedOperation, 'card-text')}</div>` : ''}\n    ${hasText(data.lensAmplification) ? `<div class=\"sub-card\"><h3>렌즈 증폭</h3>${p(data.lensAmplification, 'card-text')}</div>` : ''}\n    ${hasText(data.storedInterpretationConnection) ? `<div class=\"sub-card\"><h3>저장된 자기해석과의 연결</h3>${p(data.storedInterpretationConnection, 'card-text')}</div>` : ''}\n    ${hasText(data.connectionToRealityOutput) ? `<div class=\"sub-card\"><h3>현실 출력과의 연결</h3>${p(data.connectionToRealityOutput, 'card-text')}</div>` : ''}\n    ${hasText(data.coreInsight) ? `<div class=\"sub-card\"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}\n    ${insight(data.calInsight)}\n  `);\n}\n\nfunction consciousness(data) {\n  const items = [data.fiveSenseInput, data.sixthInterpretation, data.seventhIdentification, data.eighthStorage, data.ninthConsciousChoice];\n  return section('5', data.title || '의식OS 구조 분석', `\n    <div class=\"os-grid\">\n      ${items.map(item => item ? `\n        <div class=\"os-card\">\n          <h3>${esc(item.label)}</h3>\n          <p class=\"os-desc\">${esc(item.description)}</p>\n          <p class=\"os-pattern\">${esc(item.clientPattern || item.choicePoint || '')}</p>\n          ${hasText(item.choicePoint) ? `<p class=\"os-pattern\"><strong>선택 지점:</strong> ${esc(item.choicePoint)}</p>` : ''}\n        </div>\n      ` : '').join('')}\n    </div>\n    ${hasText(data.coreInsight) ? `<div class=\"sub-card\"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}\n    ${insight(data.calInsight)}\n  `);\n}\n\nfunction materialization(data) {\n  return section('6', data.title || '현실은 어떻게 물질화되는가', `\n    ${diagram(data.materializationDiagram)}\n    <div class=\"summary-grid\">\n      <div class=\"summary-card\"><span class=\"card-label\">내부 패턴</span><p class=\"card-text\">${esc(data.innerPattern)}</p></div>\n      <div class=\"summary-card\"><span class=\"card-label\">반복 감정</span><p class=\"card-text\">${esc(data.repeatedEmotion)}</p></div>\n      <div class=\"summary-card\"><span class=\"card-label\">반복 선택</span><p class=\"card-text\">${esc(data.repeatedChoice)}</p></div>\n      <div class=\"summary-card\"><span class=\"card-label\">반복 행동</span><p class=\"card-text\">${esc(data.repeatedBehavior)}</p></div>\n      <div class=\"summary-card full\"><span class=\"card-label\">현실 출력</span><p class=\"card-text\">${esc(data.outerResult)}</p></div>\n    </div>\n    ${hasText(data.coreInsight) ? `<div class=\"sub-card\"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}\n    ${insight(data.calInsight)}\n  `);\n}\n\nfunction choice(data) {\n  return section('7', data.title || '9식 — 관리자 권한 회복', `\n    <div class=\"summary-grid\">\n      <div class=\"summary-card full\"><span class=\"card-label\">나는 이것이 아니다</span><p class=\"card-text\">${esc(data.notSelfStatement)}</p></div>\n      <div class=\"summary-card\"><span class=\"card-label\">관찰자 문장</span><p class=\"card-text\">${esc(data.observerStatement)}</p></div>\n      <div class=\"summary-card\"><span class=\"card-label\">멈춤 지점</span><p class=\"card-text\">${esc(data.pausePoint)}</p></div>\n      <div class=\"summary-card\"><span class=\"card-label\">새로운 선택</span><p class=\"card-text\">${esc(data.newChoicePossibility)}</p></div>\n      <div class=\"summary-card\"><span class=\"card-label\">재프로그래밍 문장</span><p class=\"card-text\">${esc(data.reprogrammingStatement)}</p></div>\n    </div>\n    ${hasText(data.coreInsight) ? `<div class=\"sub-card\"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}\n    ${insight(data.calInsight)}\n  `);\n}\n\nfunction protocol(data) {\n  return section('8', data.title || '현실 재프로그래밍 프로토콜', `\n    <div class=\"steps\">\n      ${(data.steps || []).map(step => `\n        <div class=\"step-card\">\n          <div class=\"step-num\">${esc(step.step)}</div>\n          <h3>${esc(step.name)}</h3>\n          <p>${esc(step.instruction)}</p>\n        </div>\n      `).join('')}\n    </div>\n    ${hasText(data.dailyPractice) ? `<div class=\"sub-card\"><h3>데일리 실천</h3>${p(data.dailyPractice, 'card-text')}</div>` : ''}\n    ${listCard('전환 질문', data.turningQuestions)}\n    ${hasText(data.coreInsight) ? `<div class=\"sub-card\"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}\n    ${insight(data.calInsight)}\n  `);\n}\n\nfunction resistance(data) {\n  return section('9', data.title || '변화 과정에서 나타나는 저항', `\n    ${listCard('예상되는 저항', data.expectedResistance)}\n    ${hasText(data.whyItHappens) ? `<div class=\"sub-card\"><h3>왜 나타나는가</h3>${p(data.whyItHappens, 'card-text')}</div>` : ''}\n    ${hasText(data.howToReadResistance) ? `<div class=\"sub-card\"><h3>어떻게 읽을 것인가</h3>${p(data.howToReadResistance, 'card-text')}</div>` : ''}\n    ${hasText(data.responseGuide) ? `<div class=\"sub-card\"><h3>대응 가이드</h3>${p(data.responseGuide, 'card-text')}</div>` : ''}\n    ${hasText(data.coreInsight) ? `<div class=\"sub-card\"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}\n    ${insight(data.calInsight)}\n  `);\n}\n\nfunction finalMessage(data) {\n  return section('10', data.title || '최종 선언', `\n    ${p(data.message)}\n    ${hasText(data.declaration) ? `<div class=\"declaration\">${esc(data.declaration)}</div>` : ''}\n    ${p(data.closingSentence)}\n    ${insight(data.calInsight)}\n  `, 'final');\n}\n\nfunction render(data) {\n  const meta = data.meta || {};\n  document.getElementById('app').innerHTML = `\n    <header class=\"cover\">\n      <div class=\"kicker\">CONSCIOUSNESS ARCHITECTURE LAB | CAL</div>\n      <h1>${esc(meta.reportType || 'CAL 의식OS 프리미엄 리포트')}</h1>\n      <p class=\"cover-sub\">${esc(meta.coreThesis || '')}</p>\n      <div class=\"meta-grid\">\n        <div class=\"meta-card\"><div class=\"meta-label\">고객명</div><div class=\"meta-value\">${esc(meta.clientName)}</div></div>\n        <div class=\"meta-card\"><div class=\"meta-label\">리포트 날짜</div><div class=\"meta-value\">${esc(meta.reportDate)}</div></div>\n        <div class=\"meta-card\"><div class=\"meta-label\">리포트 ID</div><div class=\"meta-value\">${esc(meta.reportId)}</div></div>\n      </div>\n    </header>\n\n    ${summary(data.executiveSummary || {}, data.openingDeclaration || {})}\n    ${reality(data.realityOutput || {})}\n    ${coreLoop(data.coreLoop || {})}\n    ${saju(data.sajuLens || {})}\n    ${consciousness(data.consciousnessOS || {})}\n    ${materialization(data.materializationFlow || {})}\n    ${choice(data.choiceRecovery || {})}\n    ${protocol(data.reprogrammingProtocol || {})}\n    ${resistance(data.resistancePattern || {})}\n    ${finalMessage(data.finalMessage || {})}\n    <div class=\"disclaimer\">${esc(data.disclaimer?.text || '')}</div>\n  `;\n}\n\nrender(reportData);\n<\/script>\n</body>\n</html> ";
+const SAMPLE_JSON = "{\n  \"meta\": {\n    \"clientName\": \"연삿갓\",\n    \"reportDate\": \"2026-05-08\",\n    \"reportId\": \"CAL-PREMIUM-20260508-연삿갓\",\n    \"reportType\": \"CAL 의식OS 프리미엄 리포트 v4.0\",\n    \"coreThesis\": \"현실은 사건이 아니라 반복 실행된 의식 구조의 출력입니다.\"\n  },\n  \"executiveSummary\": {\n    \"title\": \"한눈에 보는 현실 출력 구조\",\n    \"oneLineDiagnosis\": \"연삿갓님의 핵심 구조는 어린 시절 신체 충격 사건이 ‘평생 해결해야 할 숙제’로 저장되며, 불안과 압박을 반복 출력해온 구조입니다.\",\n    \"corePattern\": \"감정 즉시 반응, 해석 과잉, 말의 잔상, 신체 긴장, 반복 반응이 모두 ‘가끔 그렇다’로 나타나며, 자동반응이 강박적으로 폭주하기보다는 특정 자극에서 간헐적으로 실행되는 구조입니다.\",\n    \"coreStoredBelief\": \"해결해야 할 숙제가 아직 남아 있다.\",\n    \"repeatedLoop\": \"어린 시절 충격 사건 → ‘평생 치유해야 할 숙제’라는 해석 → 불안과 압박 → 회피 → 미완료감 저장 → 계속 불안 → 다시 해결 과제로 인식\",\n    \"choicePoint\": \"이미 ‘지금은 거의 극복됨’이라는 인식이 생겼고, ‘나무에 흠집났네~~’라는 새로운 해석 언어가 형성되어 있습니다. 이 지점이 9식의 선택 회복 포인트입니다.\",\n    \"reportFocus\": \"이 리포트는 어린 시절 사건 자체가 아니라, 그 사건이 어떻게 평생의 숙제처럼 저장되어 현실을 압박해왔는지 분석합니다.\"\n  },\n  \"openingDeclaration\": {\n    \"title\": \"현실 출력 선언\",\n    \"headline\": \"\",\n    \"body\": \"\",\n    \"keyMessage\": \"\",\n    \"calInsight\": \"\"\n  },\n  \"realityOutput\": {\n    \"title\": \"현재 현실에서 반복되는 출력 패턴\",\n    \"mainPattern\": \"\",\n    \"visibleProblems\": [],\n    \"emotionalSignals\": [],\n    \"bodySignals\": [],\n    \"relationshipOutput\": \"\",\n    \"moneyOrWorkOutput\": \"\",\n    \"choicePattern\": \"\",\n    \"coreInsight\": \"\",\n    \"calInsight\": \"\"\n  },\n  \"coreLoop\": {\n    \"title\": \"핵심 자동반응 루프\",\n    \"trigger\": \"\",\n    \"interpretation\": \"\",\n    \"storedBelief\": \"\",\n    \"emotionRise\": \"\",\n    \"identification\": \"\",\n    \"automaticReaction\": \"\",\n    \"storagePattern\": \"\",\n    \"realityReOutput\": \"\",\n    \"loopDiagram\": [\n      \"자극 입력\",\n      \"해석\",\n      \"저장된 자기해석\",\n      \"감정 상승\",\n      \"동일시\",\n      \"자동반응\",\n      \"반복 저장\",\n      \"현실 재출력\"\n    ],\n    \"coreInsight\": \"\",\n    \"calInsight\": \"\"\n  },\n  \"sajuLens\": {\n    \"title\": \"사주OS — 초기 에너지 렌즈\",\n    \"birthData\": {\n      \"yearPillar\": \"\",\n      \"monthPillar\": \"\",\n      \"dayPillar\": \"\",\n      \"hourPillar\": \"\",\n      \"calendarType\": \"\",\n      \"birthTime\": \"\"\n    },\n    \"elementScores\": {\n      \"wood\": 0,\n      \"fire\": 0,\n      \"earth\": 0,\n      \"metal\": 0,\n      \"water\": 0\n    },\n    \"dominantElements\": [],\n    \"weakElements\": [],\n    \"normalOperation\": \"\",\n    \"distortedOperation\": \"\",\n    \"lensAmplification\": \"\",\n    \"storedInterpretationConnection\": \"\",\n    \"connectionToRealityOutput\": \"\",\n    \"coreInsight\": \"\",\n    \"calInsight\": \"\"\n  },\n  \"consciousnessOS\": {\n    \"title\": \"의식OS 구조 분석\",\n    \"fiveSenseInput\": {\n      \"label\": \"5식 — 입력 감지\",\n      \"description\": \"\",\n      \"clientPattern\": \"\"\n    },\n    \"sixthInterpretation\": {\n      \"label\": \"6식 — 해석과 판단\",\n      \"description\": \"\",\n      \"clientPattern\": \"\"\n    },\n    \"seventhIdentification\": {\n      \"label\": \"7식 — 동일시\",\n      \"description\": \"\",\n      \"clientPattern\": \"\"\n    },\n    \"eighthStorage\": {\n      \"label\": \"8식 — 저장된 자동패턴\",\n      \"description\": \"\",\n      \"clientPattern\": \"\"\n    },\n    \"ninthConsciousChoice\": {\n      \"label\": \"9식 — 의식하는 자아\",\n      \"description\": \"\",\n      \"clientPattern\": \"\",\n      \"choicePoint\": \"\"\n    },\n    \"coreInsight\": \"\",\n    \"calInsight\": \"\"\n  },\n  \"materializationFlow\": {\n    \"title\": \"현실은 어떻게 물질화되는가\",\n    \"innerPattern\": \"\",\n    \"repeatedEmotion\": \"\",\n    \"repeatedChoice\": \"\",\n    \"repeatedBehavior\": \"\",\n    \"outerResult\": \"\",\n    \"materializationDiagram\": [\n      \"반복 해석\",\n      \"반복 감정\",\n      \"반복 선택\",\n      \"반복 행동\",\n      \"현실 출력\"\n    ],\n    \"coreInsight\": \"\",\n    \"calInsight\": \"\"\n  },\n  \"choiceRecovery\": {\n    \"title\": \"9식 — 관리자 권한 회복\",\n    \"notSelfStatement\": \"\",\n    \"observerStatement\": \"\",\n    \"pausePoint\": \"\",\n    \"newChoicePossibility\": \"\",\n    \"reprogrammingStatement\": \"\",\n    \"coreInsight\": \"\",\n    \"calInsight\": \"\"\n  },\n  \"reprogrammingProtocol\": {\n    \"title\": \"현실 재프로그래밍 프로토콜\",\n    \"steps\": [],\n    \"dailyPractice\": \"\",\n    \"turningQuestions\": [],\n    \"coreInsight\": \"\",\n    \"calInsight\": \"\"\n  },\n  \"resistancePattern\": {\n    \"title\": \"변화 과정에서 나타나는 저항\",\n    \"expectedResistance\": [],\n    \"whyItHappens\": \"\",\n    \"howToReadResistance\": \"\",\n    \"responseGuide\": \"\",\n    \"coreInsight\": \"\",\n    \"calInsight\": \"\"\n  },\n  \"finalMessage\": {\n    \"title\": \"최종 선언\",\n    \"message\": \"\",\n    \"declaration\": \"\",\n    \"closingSentence\": \"\",\n    \"calInsight\": \"\"\n  },\n  \"disclaimer\": {\n    \"text\": \"본 리포트는 의료, 법률, 투자 상담이 아닙니다. 자기 이해와 선택 전환을 위한 의식 구조 분석 자료이며, 선택은 본인의 몫입니다.\"\n  }\n}";
+
+const $ = (id) => document.getElementById(id);
+
+function setStatus(message, isError = false) {
+  const el = $("status");
+  el.textContent = message;
+  el.style.color = isError ? "#b00020" : "#80600f";
+}
+
+function parseJson() {
+  const raw = $("jsonInput").value.trim();
+  if (!raw) throw new Error("JSON 입력칸이 비어 있습니다.");
+  try {
+    return JSON.parse(raw);
+  } catch (err) {
+    throw new Error("JSON 형식 오류: " + err.message);
+  }
+}
+
+function safeFilePart(value) {
+  return String(value || "report")
+    .trim()
+    .replace(/[\\/:*?"<>|]/g, "_")
+    .replace(/\s+/g, "_")
+    .slice(0, 60);
+}
+
+function injectData(data) {
+  const json = JSON.stringify(data, null, 2);
+  const marker = /const reportData = [\s\S]*?;\n\nconst \$ =/;
+
+  if (!marker.test(REPORT_TEMPLATE)) {
+    throw new Error("템플릿 안에서 reportData 위치를 찾지 못했습니다.");
+  }
+
+  return REPORT_TEMPLATE.replace(
+    marker,
+    "const reportData = " + json + ";\n\nconst $ ="
+  );
+}
+
+function makeFilename(data) {
+  const meta = data.meta || {};
+  const name = safeFilePart(meta.clientName || "client");
+  const date = safeFilePart(meta.reportDate || new Date().toISOString().slice(0,10));
+  return "report_" + name + "_" + date + ".html";
+}
+
+function preview() {
+  const data = parseJson();
+  const html = injectData(data);
+  $("preview").srcdoc = html;
+  setStatus("미리보기 완료");
+}
+
+function downloadHtml() {
+  const data = parseJson();
+  const html = injectData(data);
+  const filename = makeFilename(data);
+
+  const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(url);
+  $("preview").srcdoc = html;
+  setStatus("생성 완료: " + filename);
+}
+
+$("sampleBtn").addEventListener("click", () => {
+  $("jsonInput").value = SAMPLE_JSON;
+  setStatus("샘플 JSON 입력 완료");
+});
+
+$("clearBtn").addEventListener("click", () => {
+  $("jsonInput").value = "";
+  $("preview").srcdoc = "";
+  setStatus("입력칸을 비웠습니다.");
+});
+
+$("previewBtn").addEventListener("click", () => {
+  try { preview(); } catch (err) { setStatus(err.message, true); }
+});
+
+$("generateBtn").addEventListener("click", () => {
+  try { downloadHtml(); } catch (err) { setStatus(err.message, true); }
+});
+
+$("jsonInput").value = SAMPLE_JSON;
+try { preview(); } catch (err) { setStatus(err.message, true); }
+</script>
+</body>
+</html>
