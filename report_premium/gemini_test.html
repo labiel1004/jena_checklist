@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>CAL 의식OS 프리미엄 리포트 v4.0</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+    <style>
+        :root {
+            --bg-black: #0a0a0a;
+            --card-dark: #161616;
+            --accent-gold: #d4af37;
+            --accent-gold-dim: rgba(212, 175, 55, 0.15);
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --border: rgba(255, 255, 255, 0.08);
+            --radius: 20px;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            margin: 0;
+            background-color: var(--bg-black);
+            color: var(--text-main);
+            font-family: 'Pretendard', sans-serif;
+            line-height: 1.6;
+            word-break: keep-all;
+        }
+
+        /* Layout */
+        .container { padding: 20px; max-width: 500px; margin: 0 auto; }
+
+        /* Header / Cover */
+        .header {
+            padding: 40px 0;
+            text-align: center;
+            background: linear-gradient(to bottom, #1a1a1a, var(--bg-black));
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+        .kicker {
+            display: inline-block;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+            padding: 4px 12px;
+            border-radius: 50px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        h1 { font-size: 28px; font-weight: 800; margin: 0 0 10px; color: #fff; letter-spacing: -1px; }
+        .meta-info { font-size: 14px; color: var(--text-muted); }
+
+        /* Cards */
+        .card {
+            background: var(--card-dark);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .section-title {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--accent-gold);
+        }
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 18px;
+            background: var(--accent-gold);
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+
+        /* Content Elements */
+        .highlight-box {
+            background: var(--accent-gold-dim);
+            padding: 18px;
+            border-radius: 14px;
+            border-left: 3px solid var(--accent-gold);
+            margin-bottom: 20px;
+        }
+        .highlight-box strong { display: block; font-size: 17px; color: #fff; margin-bottom: 8px; }
+        
+        .list-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: var(--text-main);
+        }
+        .list-item::before { content: '•'; color: var(--accent-gold); }
+
+        .insight-badge {
+            display: inline-flex;
+            align-items: center;
+            font-size: 11px;
+            font-weight: 800;
+            background: #222;
+            color: var(--accent-gold);
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        .cal-insight {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            font-size: 14px;
+            font-style: italic;
+            color: var(--text-muted);
+        }
+
+        /* Flow Diagram style */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 20px 0;
+        }
+        .flow-step {
+            background: #222;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 14px;
+            border: 1px solid var(--border);
+        }
+        .flow-arrow { text-align: center; color: var(--accent-gold); font-size: 12px; }
+
+        /* Saju Grid */
+        .saju-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .saju-item {
+            background: #111;
+            padding: 10px 5px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        .saju-label { font-size: 10px; color: var(--text-muted); margin-bottom: 4px; }
+        .saju-val { font-size: 14px; font-weight: 700; color: #fff; }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 12px;
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        .declaration-box {
+            background: linear-gradient(135deg, #221c0a 0%, #0a0a0a 100%);
+            border: 1px solid var(--accent-gold);
+            padding: 25px;
+            border-radius: var(--radius);
+            text-align: center;
+            margin-top: 40px;
+        }
+        .declaration-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <!-- Header -->
+    <header class="header">
+        <div class="kicker">Premium OS Report</div>
+        <h1>CAL 의식OS 리포트</h1>
+        <div class="meta-info">Client: <strong>연삿갓</strong> | 2026. 05. 08</div>
+    </header>
+
+    <main class="container">
+        <!-- 1. Executive Summary -->
+        <section class="card">
+            <div class="section-title">현실 출력 요약</div>
+            <div class="highlight-box">
+                <strong>"현실은 사건이 아니라 <br>반복된 의식 구조의 출력입니다."</strong>
+                <p style="margin:0; font-size:15px; color:var(--text-main);">
+                    어린 시절의 신체 충격 사건이 '평생의 숙제'로 오인되어 저장된 구조입니다.
+                </p>
+            </div>
+            <div class="cal-insight">
+                💡 CAL Insight: 파일은 닫혔는데 작업 표시줄에 계속 떠 있으면 시스템 에너지를 계속 소모하게 됩니다.
+            </div>
+        </section>
+
+        <!-- 2. Core Loop -->
+        <section class="card">
+            <div class="section-title">핵심 자동반응 루프</div>
+            <p style="font-size:15px; margin-bottom:15px;">과거의 '흠집'을 시스템이 매일 '새 상처'로 스캔하고 있습니다.</p>
+            
+            <div class="flow">
+                <div class="flow-step">자극 (신체감각/기억)</div>
+                <div class="flow-arrow">▼</div>
+                <div class="flow-step">해석 (평생의 숙제다)</div>
+                <div class="flow-arrow">▼</div>
+                <div class="flow-step">감정 (불안/압박 상승)</div>
+                <div class="flow-arrow">▼</div>
+                <div class="flow-step">반응 (회피/방어)</div>
+                <div class="flow-arrow">▼</div>
+                <div class="flow-step">저장 (역시 해결 안 됐어)</div>
+            </div>
+        </section>
+
+        <!-- 3. Saju OS -->
+        <section class="card">
+            <div class="section-title">사주OS — 초기 렌즈</div>
+            <div class="saju-grid">
+                <div class="saju-item"><div class="saju-label">년주</div><div class="saju-val">기축</div></div>
+                <div class="saju-item"><div class="saju-label">월주</div><div class="saju-val">임신</div></div>
+                <div class="saju-item"><div class="saju-label">일주</div><div class="saju-val">기묘</div></div>
+                <div class="saju-item"><div class="saju-label">시주</div><div class="saju-val">기사</div></div>
+            </div>
+            <p style="font-size:14px; color:var(--text-muted);">
+                <strong>토(土)</strong> 에너지가 강한 시스템입니다. 파일을 삭제하지 않고 오래 보관하는 '안정성'이 때로는 '오래된 오류'를 붙드는 원인이 됩니다.
+            </p>
+        </section>
+
+        <!-- 4. Protocol -->
+        <section class="card">
+            <div class="section-title">재프로그래밍 프로토콜</div>
+            <div class="list-item"><strong>1. 감지:</strong> 압박감이 오면 위치만 확인</div>
+            <div class="list-item"><strong>2. 멈춤:</strong> 충동이 일 때 10초간 정지</div>
+            <div class="list-item"><strong>3. 명명:</strong> "숙제 반응이 켜졌다"고 이름 붙이기</div>
+            <div class="list-item"><strong>4. 질문:</strong> "현실인가, 저장된 파일인가?"</div>
+            <div class="list-item"><strong>5. 종료:</strong> "흠집은 있지만 나는 작동한다"</div>
+        </section>
+
+        <!-- 5. Final Message -->
+        <div class="declaration-box">
+            <div class="insight-badge">DECLARATION</div>
+            <div class="declaration-text">
+                "나는 과거를 부정하지 않는다. <br>
+                그러나 그것을 나의 <br>
+                전체 정체성으로 두지 않는다."
+            </div>
+        </div>
+
+        <footer class="footer">
+            본 리포트는 의식 구조 분석 자료이며, <br>의료적 진단을 대신할 수 없습니다. <br><br>
+            © 2026 CAL Consciousness OS
+        </footer>
+    </main>
+</div>
+
+</body>
+</html>
