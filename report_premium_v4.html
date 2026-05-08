@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CAL 의식OS 프리미엄 리포트 v4.0</title>
+
+<style>
+:root {
+  --bg: #f4efe6;
+  --paper: #fffaf2;
+  --paper-strong: #f8ecd9;
+  --ink: #2a241d;
+  --muted: #75695d;
+  --line: rgba(111, 83, 45, 0.18);
+  --gold: #b88a3b;
+  --gold-soft: rgba(184, 138, 59, 0.14);
+  --brown: #5b3d22;
+  --deep: #24180f;
+  --navy: #151b2c;
+  --shadow: 0 18px 45px rgba(68, 43, 18, 0.12);
+  --radius-lg: 28px;
+  --radius-md: 20px;
+  --radius-sm: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(184, 138, 59, 0.18), transparent 34%),
+    linear-gradient(180deg, #f8f2e8 0%, var(--bg) 44%, #eee3d4 100%);
+  color: var(--ink);
+  line-height: 1.72;
+  letter-spacing: -0.025em;
+}
+
+.report-wrap {
+  width: min(940px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 42px 0 80px;
+}
+
+.cover {
+  position: relative;
+  overflow: hidden;
+  border-radius: 36px;
+  padding: clamp(34px, 6vw, 68px);
+  background:
+    linear-gradient(135deg, rgba(25, 31, 48, 0.98), rgba(74, 48, 23, 0.95)),
+    radial-gradient(circle at 78% 16%, rgba(217, 180, 92, 0.28), transparent 28%);
+  color: #fff7e8;
+  box-shadow: var(--shadow);
+  margin-bottom: 26px;
+}
+
+.cover::after {
+  content: "";
+  position: absolute;
+  right: -100px;
+  top: -120px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  border: 1px solid rgba(231, 188, 93, 0.26);
+  box-shadow: 0 0 80px rgba(220, 173, 76, 0.15) inset;
+}
+
+.kicker {
+  position: relative;
+  z-index: 1;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: rgba(255, 235, 190, 0.72);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.cover h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: clamp(32px, 6vw, 56px);
+  line-height: 1.18;
+  letter-spacing: -0.05em;
+  font-weight: 800;
+}
+
+.cover-sub {
+  position: relative;
+  z-index: 1;
+  max-width: 660px;
+  margin: 24px 0 0;
+  color: rgba(255, 248, 232, 0.84);
+  font-size: clamp(17px, 2.5vw, 21px);
+  line-height: 1.75;
+}
+
+.meta-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 36px;
+}
+
+.meta-card {
+  padding: 16px 18px;
+  border: 1px solid rgba(255, 231, 177, 0.18);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+}
+
+.meta-label {
+  font-size: 12px;
+  color: rgba(255, 235, 190, 0.62);
+  margin-bottom: 4px;
+}
+
+.meta-value {
+  font-size: 15px;
+  font-weight: 650;
+  color: #fff8e9;
+  word-break: keep-all;
+}
+
+.section {
+  background: rgba(255, 250, 242, 0.88);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: clamp(26px, 4vw, 44px);
+  margin: 22px 0;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 22px;
+  font-size: clamp(24px, 4vw, 34px);
+  line-height: 1.25;
+  letter-spacing: -0.055em;
+  color: var(--deep);
+}
+
+.section-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 50%;
+  background: var(--deep);
+  color: #f7d58c;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.lead-box {
+  padding: 22px 24px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(184, 138, 59, 0.16), rgba(255, 255, 255, 0.45));
+  border: 1px solid rgba(184, 138, 59, 0.24);
+  margin-bottom: 22px;
+}
+
+.lead-box strong {
+  display: block;
+  font-size: clamp(19px, 3vw, 26px);
+  line-height: 1.5;
+  color: #3c2815;
+  letter-spacing: -0.045em;
+}
+
+.body-text {
+  font-size: 17px;
+  color: #342b22;
+  margin: 0;
+  white-space: pre-line;
+}
+
+.body-text + .body-text {
+  margin-top: 14px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.summary-card {
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: #fff6e8;
+  border: 1px solid var(--line);
+}
+
+.summary-card.full {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #fff3dc, #fffaf2);
+}
+
+.card-label {
+  display: block;
+  font-size: 13px;
+  color: var(--gold);
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.card-text {
+  margin: 0;
+  font-size: 16px;
+  color: #342b22;
+  white-space: pre-line;
+}
+
+.list-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.list-card {
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: #fffaf2;
+  border: 1px solid var(--line);
+}
+
+.list-card h3,
+.sub-card h3 {
+  margin: 0 0 12px;
+  color: var(--brown);
+  font-size: 18px;
+}
+
+.list-card ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.list-card li {
+  margin: 8px 0;
+  color: #44372c;
+}
+
+.core-loop {
+  background:
+    linear-gradient(180deg, rgba(36, 24, 15, 0.97), rgba(76, 48, 23, 0.95)),
+    radial-gradient(circle at top right, rgba(207, 156, 67, 0.28), transparent 34%);
+  color: #fff7e8;
+  border-color: rgba(255, 218, 150, 0.18);
+}
+
+.core-loop .section-title {
+  color: #fff7e8;
+}
+
+.core-loop .section-number {
+  background: #f7d58c;
+  color: #24180f;
+}
+
+.loop-block {
+  padding: 22px 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 225, 165, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  margin: 14px 0;
+}
+
+.loop-block h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #f7d58c;
+}
+
+.loop-block p {
+  margin: 0;
+  color: rgba(255, 248, 232, 0.88);
+  white-space: pre-line;
+}
+
+.diagram {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 22px 0;
+}
+
+.diagram-item {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(184, 138, 59, 0.14);
+  border: 1px solid rgba(184, 138, 59, 0.26);
+  color: #4b321b;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.core-loop .diagram-item {
+  background: rgba(255, 215, 137, 0.12);
+  border-color: rgba(255, 215, 137, 0.22);
+  color: #ffe4a8;
+}
+
+.diagram-arrow {
+  color: rgba(184, 138, 59, 0.64);
+  font-weight: 800;
+}
+
+.core-loop .diagram-arrow {
+  color: rgba(255, 226, 171, 0.55);
+}
+
+.insight-box {
+  margin-top: 22px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: rgba(184, 138, 59, 0.12);
+  border: 1px solid rgba(184, 138, 59, 0.22);
+}
+
+.insight-label {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.insight-text {
+  margin: 0;
+  font-size: 16px;
+  color: #372b20;
+  white-space: pre-line;
+}
+
+.core-loop .insight-box {
+  background: rgba(255, 215, 137, 0.1);
+  border-color: rgba(255, 215, 137, 0.22);
+}
+
+.core-loop .insight-text {
+  color: rgba(255, 248, 232, 0.9);
+}
+
+.sub-card {
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: #fff7ea;
+  border: 1px solid var(--line);
+  margin-top: 14px;
+}
+
+.os-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.os-card {
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: #fffaf2;
+  border: 1px solid var(--line);
+}
+
+.os-card h3 {
+  margin: 0 0 8px;
+  color: var(--brown);
+  font-size: 18px;
+}
+
+.os-desc {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.os-pattern {
+  margin: 0;
+  color: #33291f;
+  white-space: pre-line;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.step-card {
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: #fffaf2;
+  border: 1px solid var(--line);
+}
+
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--deep);
+  color: #f7d58c;
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.step-card h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: var(--brown);
+}
+
+.step-card p {
+  margin: 0;
+  color: #3c3026;
+  white-space: pre-line;
+}
+
+.final {
+  background: linear-gradient(135deg, #24180f, #5b3d22);
+  color: #fff7e8;
+}
+
+.final .section-title {
+  color: #fff7e8;
+}
+
+.final .body-text,
+.final .card-text {
+  color: rgba(255, 248, 232, 0.88);
+}
+
+.final .insight-label {
+  color: #d6a94d;
+}
+
+.final .insight-text {
+  color: rgba(255, 245, 225, 0.92);
+}
+
+.declaration {
+  margin: 22px 0;
+  padding: 24px;
+  border-radius: 22px;
+  background: rgba(255, 215, 137, 0.12);
+  border: 1px solid rgba(255, 215, 137, 0.24);
+  color: #ffe0a1;
+  font-size: clamp(20px, 3vw, 28px);
+  line-height: 1.55;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+}
+
+.disclaimer {
+  font-size: 13px;
+  color: rgba(60, 46, 35, 0.68);
+  text-align: center;
+  padding: 20px 10px 0;
+}
+
+@media (max-width: 720px) {
+  .report-wrap {
+    width: min(100% - 22px, 940px);
+    padding-top: 18px;
+  }
+
+  .cover {
+    border-radius: 28px;
+  }
+
+  .meta-grid,
+  .summary-grid,
+  .list-grid,
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    border-radius: 24px;
+  }
+
+  .section-title {
+    align-items: flex-start;
+  }
+
+  .diagram {
+    display: block;
+  }
+
+  .diagram-item {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    text-align: center;
+  }
+
+  .diagram-arrow {
+    display: block;
+    text-align: center;
+    margin: 4px 0;
+  }
+}
+
+
+/* ===== CAL PREMIUM v4 DESIGN OVERRIDE : BLACK / WHITE / GOLD ===== */
+:root {
+  --bg: #060606;
+  --paper: #ffffff;
+  --paper-soft: #fffdf8;
+  --ink: #111111;
+  --muted: #6f6a61;
+  --line: rgba(0,0,0,.10);
+  --gold: #b98518;
+  --gold-light: #e7c875;
+  --gold-soft: rgba(185,133,24,.14);
+  --deep: #080808;
+  --shadow: 0 28px 80px rgba(0,0,0,.22);
+  --radius-lg: 34px;
+  --radius-md: 24px;
+  --radius-sm: 16px;
+}
+
+body {
+  background:
+    radial-gradient(circle at 5% 0%, rgba(185,133,24,.22), transparent 28%),
+    radial-gradient(circle at 95% 30%, rgba(231,200,117,.10), transparent 26%),
+    linear-gradient(180deg, #050505 0%, #111 38%, #f1eee8 38%, #eee8dd 100%);
+  color: var(--ink);
+  line-height: 1.76;
+  letter-spacing: -0.03em;
+}
+
+.report-wrap {
+  width: min(980px, calc(100% - 32px));
+  padding: 44px 0 86px;
+}
+
+.cover {
+  border-radius: 38px;
+  padding: clamp(38px, 6vw, 76px);
+  background:
+    radial-gradient(circle at 84% 18%, rgba(231,200,117,.22), transparent 25%),
+    linear-gradient(135deg, #050505 0%, #151515 55%, #33230d 100%);
+  border: 1px solid rgba(231,200,117,.18);
+  box-shadow: 0 34px 90px rgba(0,0,0,.42);
+  margin-bottom: 30px;
+}
+
+.cover::before {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px solid rgba(231,200,117,.18);
+  border-radius: 28px;
+  pointer-events: none;
+}
+
+.cover::after {
+  right: -120px;
+  top: -140px;
+  width: 360px;
+  height: 360px;
+  border-color: rgba(231,200,117,.24);
+  box-shadow: 0 0 90px rgba(231,200,117,.16) inset;
+}
+
+.kicker {
+  display: inline-flex;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(185,133,24,.12);
+  border: 1px solid rgba(231,200,117,.24);
+  font-size: 12px;
+  color: rgba(255,235,190,.86);
+}
+
+.cover h1 {
+  font-size: clamp(36px, 6vw, 62px);
+  line-height: 1.12;
+  letter-spacing: -0.065em;
+  font-weight: 950;
+}
+
+.cover-sub {
+  font-size: clamp(18px, 2.5vw, 22px);
+  color: rgba(255,255,255,.78);
+  font-weight: 500;
+}
+
+.meta-card {
+  border: 1px solid rgba(255,231,177,.18);
+  background: rgba(255,255,255,.07);
+  backdrop-filter: blur(10px);
+}
+
+.section {
+  background: rgba(255,255,255,.97);
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 34px;
+  box-shadow: 0 18px 46px rgba(0,0,0,.08);
+  padding: clamp(30px, 4.3vw, 50px);
+  margin: 26px 0;
+}
+
+.section-title {
+  gap: 14px;
+  margin-bottom: 30px;
+  font-size: clamp(30px, 4.4vw, 42px);
+  line-height: 1.15;
+  letter-spacing: -0.07em;
+  color: #050505;
+  font-weight: 950;
+}
+
+.section-number {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  background: #050505;
+  color: var(--gold-light);
+  font-weight: 950;
+  box-shadow: 0 8px 20px rgba(0,0,0,.22);
+}
+
+.summary-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(30px, 5vw, 48px);
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 86% 72%, rgba(231,200,117,.13), transparent 30%),
+    linear-gradient(135deg, #070707 0%, #171717 58%, #32230d 100%);
+  color: #fff;
+  border: 1px solid rgba(231,200,117,.24);
+  box-shadow: 0 24px 60px rgba(0,0,0,.24);
+  margin-bottom: 24px;
+}
+
+.summary-hero::after {
+  content: "CAL";
+  position: absolute;
+  right: 24px;
+  bottom: -20px;
+  font-size: clamp(64px, 14vw, 132px);
+  font-weight: 950;
+  letter-spacing: -0.08em;
+  color: rgba(231,200,117,.10);
+  line-height: 1;
+}
+
+.summary-hero p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: clamp(24px, 4vw, 38px);
+  line-height: 1.45;
+  letter-spacing: -0.065em;
+  font-weight: 950;
+  word-break: keep-all;
+  color: #fff;
+}
+
+.summary-core-message {
+  margin: 0 0 24px;
+  padding: 24px 28px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #fffaf0, #fffdf8);
+  border: 1px solid rgba(185,133,24,.24);
+  box-shadow: 0 12px 30px rgba(0,0,0,.045);
+}
+
+.summary-body-box {
+  margin: 24px 0 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.summary-point {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 34px;
+  align-items: center;
+  padding: 26px 30px;
+  margin-bottom: 20px;
+  border-radius: 22px;
+  background: #fffdf8;
+  border: 1px solid rgba(185,133,24,.28);
+  box-shadow: 0 12px 28px rgba(0,0,0,.04);
+}
+
+.summary-point:last-child {
+  margin-bottom: 0;
+}
+
+.summary-point-label {
+  position: relative;
+  color: #916612;
+  font-size: clamp(28px, 3.4vw, 38px);
+  line-height: 1.2;
+  font-weight: 950;
+  letter-spacing: -0.065em;
+  word-break: keep-all;
+}
+
+.summary-point-label::after {
+  content: "";
+  position: absolute;
+  right: -18px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 86px;
+  background: linear-gradient(180deg, transparent, rgba(185,133,24,.82), transparent);
+}
+
+.summary-point-text {
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.85;
+  color: #111;
+  font-weight: 500;
+  white-space: pre-line;
+  word-break: keep-all;
+}
+
+.cal-box,
+.insight-box {
+  margin-top: 24px;
+  padding: 24px 28px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(185,133,24,.15), rgba(255,255,255,.86));
+  border: 1px solid rgba(185,133,24,.32);
+  box-shadow: 0 14px 34px rgba(185,133,24,.10);
+}
+
+.cal-label,
+.insight-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--gold);
+  font-size: 12px;
+  letter-spacing: .16em;
+  font-weight: 950;
+  margin-bottom: 10px;
+}
+
+.cal-label::before,
+.insight-label::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 14px rgba(185,133,24,.72);
+}
+
+.cal-box p,
+.insight-text {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #201a12;
+  white-space: pre-line;
+}
+
+.lead-box {
+  padding: 24px 28px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(185,133,24,.14), rgba(255,255,255,.72));
+  border: 1px solid rgba(185,133,24,.26);
+}
+
+.lead-box strong {
+  color: #111;
+  font-size: clamp(21px, 3vw, 30px);
+  font-weight: 950;
+}
+
+.summary-card,
+.list-card,
+.sub-card,
+.os-card,
+.step-card {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.10);
+  box-shadow: 0 10px 24px rgba(0,0,0,.045);
+}
+
+.card-label {
+  color: var(--gold);
+  font-weight: 950;
+}
+
+.card-text,
+.body-text,
+.os-pattern,
+.step-card p,
+.list-card li {
+  font-size: 17px;
+  color: #202020;
+}
+
+.list-card h3,
+.sub-card h3,
+.os-card h3,
+.step-card h3 {
+  color: #050505;
+  font-weight: 950;
+}
+
+.core-loop,
+.final {
+  background:
+    radial-gradient(circle at top right, rgba(231,200,117,.18), transparent 34%),
+    linear-gradient(180deg, #050505 0%, #151515 100%);
+  color: #fff;
+  border-color: rgba(255,255,255,.12);
+  box-shadow: 0 28px 76px rgba(0,0,0,.32);
+}
+
+.core-loop .section-title,
+.final .section-title {
+  color: #fff;
+}
+
+.core-loop .section-number,
+.final .section-number {
+  background: var(--gold-light);
+  color: #050505;
+}
+
+.core-loop .insight-box,
+.final .insight-box {
+  background: rgba(231,200,117,.10);
+  border-color: rgba(231,200,117,.24);
+  box-shadow: none;
+}
+
+.core-loop .insight-text,
+.final .insight-text,
+.final .body-text,
+.final .card-text {
+  color: rgba(255,255,255,.88);
+}
+
+.declaration {
+  padding: clamp(26px, 4vw, 38px);
+  border-radius: 28px;
+  background: rgba(231,200,117,.12);
+  border: 1px solid rgba(231,200,117,.32);
+  color: #ffe7a9;
+  font-size: clamp(24px, 4vw, 38px);
+  font-weight: 950;
+}
+
+@media (max-width: 720px) {
+  body {
+    background:
+      radial-gradient(circle at top left, rgba(185,133,24,.16), transparent 30%),
+      linear-gradient(180deg, #050505 0%, #111 34%, #f1eee7 34%, #eee8dd 100%);
+  }
+
+  .report-wrap {
+    width: min(100% - 22px, 940px);
+    padding-top: 18px;
+  }
+
+  .cover {
+    border-radius: 28px;
+    padding: 34px 24px;
+  }
+
+  .cover::before {
+    inset: 12px;
+    border-radius: 22px;
+  }
+
+  .cover h1 {
+    font-size: 34px;
+  }
+
+  .section {
+    border-radius: 26px;
+    padding: 28px 22px;
+    margin: 20px 0;
+  }
+
+  .section-title {
+    font-size: 28px;
+    gap: 11px;
+  }
+
+  .summary-hero {
+    padding: 28px 22px;
+    border-radius: 24px;
+  }
+
+  .summary-hero p {
+    font-size: 24px;
+  }
+
+  .summary-point {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 24px 22px;
+  }
+
+  .summary-point-label {
+    font-size: 28px;
+  }
+
+  .summary-point-label::after {
+    display: none;
+  }
+
+  .summary-point-text,
+  .body-text,
+  .card-text,
+  .insight-text,
+  .cal-box p,
+  .step-card p,
+  .os-pattern,
+  .list-card li {
+    font-size: 17px;
+    line-height: 1.8;
+  }
+}
+
+</style>
+</head>
+
+<body>
+<div class="report-wrap" id="app"></div>
+
+<script>
+const reportData = {
+  "meta": {
+    "clientName": "연삿갓",
+    "reportDate": "2026-05-08",
+    "reportId": "CAL-PREMIUM-20260508-연삿갓",
+    "reportType": "CAL 의식OS 프리미엄 리포트 v4.0",
+    "coreThesis": "현실은 사건이 아니라 반복 실행된 의식 구조의 출력입니다."
+  },
+  "executiveSummary": {
+    "title": "한눈에 보는 현실 출력 구조",
+    "oneLineDiagnosis": "연삿갓님의 핵심 구조는 어린 시절 신체 충격 사건이 ‘평생 해결해야 할 숙제’로 저장되며, 불안과 압박을 반복 출력해온 구조입니다.",
+    "corePattern": "감정 즉시 반응, 해석 과잉, 말의 잔상, 신체 긴장, 반복 반응이 모두 ‘가끔 그렇다’로 나타나며, 자동반응이 강박적으로 폭주하기보다는 특정 자극에서 간헐적으로 실행되는 구조입니다.",
+    "coreStoredBelief": "해결해야 할 숙제가 아직 남아 있다.",
+    "repeatedLoop": "어린 시절 충격 사건 → ‘평생 치유해야 할 숙제’라는 해석 → 불안과 압박 → 회피 → 미완료감 저장 → 계속 불안 → 다시 해결 과제로 인식",
+    "choicePoint": "이미 ‘지금은 거의 극복됨’이라는 인식이 생겼고, ‘나무에 흠집났네~~’라는 새로운 해석 언어가 형성되어 있습니다. 이 지점이 9식의 선택 회복 포인트입니다.",
+    "reportFocus": "이 리포트는 어린 시절 사건 자체가 아니라, 그 사건이 어떻게 평생의 숙제처럼 저장되어 현실을 압박해왔는지 분석합니다."
+  },
+  "openingDeclaration": {"title":"현실 출력 선언","headline":"","body":"","keyMessage":"","calInsight":""},
+  "realityOutput": {"title":"현재 현실에서 반복되는 출력 패턴","mainPattern":"","visibleProblems":[],"emotionalSignals":[],"bodySignals":[],"relationshipOutput":"","moneyOrWorkOutput":"","choicePattern":"","coreInsight":"","calInsight":""},
+  "coreLoop": {"title":"핵심 자동반응 루프","trigger":"","interpretation":"","storedBelief":"","emotionRise":"","identification":"","automaticReaction":"","storagePattern":"","realityReOutput":"","loopDiagram":["자극 입력","해석","저장된 자기해석","감정 상승","동일시","자동반응","반복 저장","현실 재출력"],"coreInsight":"","calInsight":""},
+  "sajuLens": {"title":"사주OS — 초기 에너지 렌즈","birthData":{"yearPillar":"","monthPillar":"","dayPillar":"","hourPillar":"","calendarType":"","birthTime":""},"elementScores":{"wood":0,"fire":0,"earth":0,"metal":0,"water":0},"dominantElements":[],"weakElements":[],"normalOperation":"","distortedOperation":"","lensAmplification":"","storedInterpretationConnection":"","connectionToRealityOutput":"","coreInsight":"","calInsight":""},
+  "consciousnessOS": {"title":"의식OS 구조 분석","fiveSenseInput":{"label":"5식 — 입력 감지","description":"","clientPattern":""},"sixthInterpretation":{"label":"6식 — 해석과 판단","description":"","clientPattern":""},"seventhIdentification":{"label":"7식 — 동일시","description":"","clientPattern":""},"eighthStorage":{"label":"8식 — 저장된 자동패턴","description":"","clientPattern":""},"ninthConsciousChoice":{"label":"9식 — 의식하는 자아","description":"","clientPattern":"","choicePoint":""},"coreInsight":"","calInsight":""},
+  "materializationFlow": {"title":"현실은 어떻게 물질화되는가","innerPattern":"","repeatedEmotion":"","repeatedChoice":"","repeatedBehavior":"","outerResult":"","materializationDiagram":["반복 해석","반복 감정","반복 선택","반복 행동","현실 출력"],"coreInsight":"","calInsight":""},
+  "choiceRecovery": {"title":"9식 — 관리자 권한 회복","notSelfStatement":"","observerStatement":"","pausePoint":"","newChoicePossibility":"","reprogrammingStatement":"","coreInsight":"","calInsight":""},
+  "reprogrammingProtocol": {"title":"현실 재프로그래밍 프로토콜","steps":[],"dailyPractice":"","turningQuestions":[],"coreInsight":"","calInsight":""},
+  "resistancePattern": {"title":"변화 과정에서 나타나는 저항","expectedResistance":[],"whyItHappens":"","howToReadResistance":"","responseGuide":"","coreInsight":"","calInsight":""},
+  "finalMessage": {"title":"최종 선언","message":"","declaration":"","closingSentence":"","calInsight":""},
+  "disclaimer": {"text":"본 리포트는 의료, 법률, 투자 상담이 아닙니다. 자기 이해와 선택 전환을 위한 의식 구조 분석 자료이며, 선택은 본인의 몫입니다."}
+};
+
+const $ = (v) => v ?? '';
+
+function esc(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function hasText(value) {
+  return value !== undefined && value !== null && String(value).trim() !== '';
+}
+
+function p(text, cls = 'body-text') {
+  return hasText(text) ? `<p class="${cls}">${esc(text)}</p>` : '';
+}
+
+function insight(text) {
+  if (!hasText(text)) return '';
+  return `
+    <div class="insight-box">
+      <div class="insight-label">CAL INSIGHT</div>
+      <p class="insight-text">${esc(text)}</p>
+    </div>
+  `;
+}
+
+function diagram(items = []) {
+  if (!items.length) return '';
+  return `
+    <div class="diagram">
+      ${items.map((item, idx) => `
+        <span class="diagram-item">${esc(item)}</span>
+        ${idx < items.length - 1 ? '<span class="diagram-arrow">→</span>' : ''}
+      `).join('')}
+    </div>
+  `;
+}
+
+function listCard(title, items = []) {
+  if (!items || !items.length) return '';
+  return `
+    <div class="list-card">
+      <h3>${esc(title)}</h3>
+      <ul>${items.map(item => `<li>${esc(item)}</li>`).join('')}</ul>
+    </div>
+  `;
+}
+
+function section(num, title, content, extraClass = '') {
+  return `
+    <section class="section ${extraClass}">
+      <h2 class="section-title"><span class="section-number">${num}</span>${esc(title)}</h2>
+      ${content}
+    </section>
+  `;
+}
+
+function summary(data, openingData = {}) {
+  const openingIntegrated = `
+    ${hasText(openingData.headline) ? `<div class="lead-box"><strong>${esc(openingData.headline)}</strong></div>` : ''}
+    ${p(openingData.body)}
+    ${hasText(openingData.keyMessage) ? `<div class="sub-card"><h3>핵심 메시지</h3>${p(openingData.keyMessage, 'card-text')}</div>` : ''}
+    ${insight(openingData.calInsight)}
+  `;
+
+  const summaryPoints = [
+    ['반복 패턴', data.corePattern],
+    ['반복 루프', data.repeatedLoop],
+    ['선택 회복 포인트', data.choicePoint],
+    ['리포트 초점', data.reportFocus]
+  ].filter(([label, text]) => hasText(text));
+
+  return section(
+    '1',
+    data.title || '현실 출력 구조 요약',
+    `
+      ${hasText(data.oneLineDiagnosis) ? `
+        <div class="summary-hero">
+          <p>${esc(data.oneLineDiagnosis)}</p>
+        </div>
+      ` : ''}
+
+      ${hasText(data.coreStoredBelief) ? `
+        <div class="summary-core-message">
+          <span class="card-label">저장된 자기해석</span>
+          <p class="card-text">${esc(data.coreStoredBelief)}</p>
+        </div>
+      ` : ''}
+
+      ${summaryPoints.length ? `
+        <div class="summary-body-box">
+          ${summaryPoints.map(([label, text]) => `
+            <div class="summary-point">
+              <div class="summary-point-label">${esc(label)}</div>
+              <p class="summary-point-text">${esc(text)}</p>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+
+      ${hasText(data.calInsight) ? `
+        <div class="cal-box">
+          <span class="cal-label">CAL INSIGHT</span>
+          <p>${esc(data.calInsight)}</p>
+        </div>
+      ` : ''}
+
+      ${openingIntegrated}
+    `
+  );
+}
+
+function opening(data) {
+  return section('2', data.title || '현실 출력 선언', `
+    ${hasText(data.headline) ? `<div class="lead-box"><strong>${esc(data.headline)}</strong></div>` : ''}
+    ${p(data.body)}
+    ${hasText(data.keyMessage) ? `<div class="sub-card"><h3>핵심 메시지</h3>${p(data.keyMessage, 'card-text')}</div>` : ''}
+    ${insight(data.calInsight)}
+  `);
+}
+
+function reality(data) {
+  return section('2', data.title || '현재 현실에서 반복되는 출력 패턴', `
+    ${hasText(data.mainPattern) ? `<div class="lead-box"><strong>${esc(data.mainPattern)}</strong></div>` : ''}
+    <div class="list-grid">
+      ${listCard('현실에서 보이는 문제', data.visibleProblems)}
+      ${listCard('감정 신호', data.emotionalSignals)}
+      ${listCard('신체 신호', data.bodySignals)}
+    </div>
+    ${hasText(data.relationshipOutput) ? `<div class="sub-card"><h3>관계 출력</h3>${p(data.relationshipOutput, 'card-text')}</div>` : ''}
+    ${hasText(data.moneyOrWorkOutput) ? `<div class="sub-card"><h3>돈 / 일 출력</h3>${p(data.moneyOrWorkOutput, 'card-text')}</div>` : ''}
+    ${hasText(data.choicePattern) ? `<div class="sub-card"><h3>선택 패턴</h3>${p(data.choicePattern, 'card-text')}</div>` : ''}
+    ${hasText(data.coreInsight) ? `<div class="sub-card"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}
+    ${insight(data.calInsight)}
+  `);
+}
+
+function coreLoop(data) {
+  const blocks = [
+    ['자극 입력', data.trigger],
+    ['해석', data.interpretation],
+    ['저장된 자기해석', data.storedBelief],
+    ['감정 상승', data.emotionRise],
+    ['동일시', data.identification],
+    ['자동반응', data.automaticReaction],
+    ['반복 저장', data.storagePattern],
+    ['현실 재출력', data.realityReOutput]
+  ];
+
+  return section('3', data.title || '핵심 자동반응 루프', `
+    ${diagram(data.loopDiagram)}
+    ${blocks.map(([title, text]) => hasText(text) ? `<div class="loop-block"><h3>${esc(title)}</h3>${p(text, 'card-text')}</div>` : '').join('')}
+    ${hasText(data.coreInsight) ? `<div class="loop-block"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}
+    ${insight(data.calInsight)}
+  `, 'core-loop');
+}
+
+function saju(data) {
+  const bd = data.birthData || {};
+  const es = data.elementScores || {};
+  return section('4', data.title || '사주OS — 초기 에너지 렌즈', `
+    <div class="summary-grid">
+      <div class="summary-card"><span class="card-label">원국</span><p class="card-text">${esc([bd.yearPillar, bd.monthPillar, bd.dayPillar, bd.hourPillar].filter(Boolean).join(', '))}</p></div>
+      <div class="summary-card"><span class="card-label">오행 분포</span><p class="card-text">목(${esc(es.wood)}) · 화(${esc(es.fire)}) · 토(${esc(es.earth)}) · 금(${esc(es.metal)}) · 수(${esc(es.water)})</p></div>
+      <div class="summary-card"><span class="card-label">강한 에너지</span><p class="card-text">${esc((data.dominantElements || []).join(', '))}</p></div>
+      <div class="summary-card"><span class="card-label">약한 에너지</span><p class="card-text">${esc((data.weakElements || []).join(', '))}</p></div>
+    </div>
+    ${hasText(data.normalOperation) ? `<div class="sub-card"><h3>순기능</h3>${p(data.normalOperation, 'card-text')}</div>` : ''}
+    ${hasText(data.distortedOperation) ? `<div class="sub-card"><h3>왜곡 작동</h3>${p(data.distortedOperation, 'card-text')}</div>` : ''}
+    ${hasText(data.lensAmplification) ? `<div class="sub-card"><h3>렌즈 증폭</h3>${p(data.lensAmplification, 'card-text')}</div>` : ''}
+    ${hasText(data.storedInterpretationConnection) ? `<div class="sub-card"><h3>저장된 자기해석과의 연결</h3>${p(data.storedInterpretationConnection, 'card-text')}</div>` : ''}
+    ${hasText(data.connectionToRealityOutput) ? `<div class="sub-card"><h3>현실 출력과의 연결</h3>${p(data.connectionToRealityOutput, 'card-text')}</div>` : ''}
+    ${hasText(data.coreInsight) ? `<div class="sub-card"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}
+    ${insight(data.calInsight)}
+  `);
+}
+
+function consciousness(data) {
+  const items = [data.fiveSenseInput, data.sixthInterpretation, data.seventhIdentification, data.eighthStorage, data.ninthConsciousChoice];
+  return section('5', data.title || '의식OS 구조 분석', `
+    <div class="os-grid">
+      ${items.map(item => item ? `
+        <div class="os-card">
+          <h3>${esc(item.label)}</h3>
+          <p class="os-desc">${esc(item.description)}</p>
+          <p class="os-pattern">${esc(item.clientPattern || item.choicePoint || '')}</p>
+          ${hasText(item.choicePoint) ? `<p class="os-pattern"><strong>선택 지점:</strong> ${esc(item.choicePoint)}</p>` : ''}
+        </div>
+      ` : '').join('')}
+    </div>
+    ${hasText(data.coreInsight) ? `<div class="sub-card"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}
+    ${insight(data.calInsight)}
+  `);
+}
+
+function materialization(data) {
+  return section('6', data.title || '현실은 어떻게 물질화되는가', `
+    ${diagram(data.materializationDiagram)}
+    <div class="summary-grid">
+      <div class="summary-card"><span class="card-label">내부 패턴</span><p class="card-text">${esc(data.innerPattern)}</p></div>
+      <div class="summary-card"><span class="card-label">반복 감정</span><p class="card-text">${esc(data.repeatedEmotion)}</p></div>
+      <div class="summary-card"><span class="card-label">반복 선택</span><p class="card-text">${esc(data.repeatedChoice)}</p></div>
+      <div class="summary-card"><span class="card-label">반복 행동</span><p class="card-text">${esc(data.repeatedBehavior)}</p></div>
+      <div class="summary-card full"><span class="card-label">현실 출력</span><p class="card-text">${esc(data.outerResult)}</p></div>
+    </div>
+    ${hasText(data.coreInsight) ? `<div class="sub-card"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}
+    ${insight(data.calInsight)}
+  `);
+}
+
+function choice(data) {
+  return section('7', data.title || '9식 — 관리자 권한 회복', `
+    <div class="summary-grid">
+      <div class="summary-card full"><span class="card-label">나는 이것이 아니다</span><p class="card-text">${esc(data.notSelfStatement)}</p></div>
+      <div class="summary-card"><span class="card-label">관찰자 문장</span><p class="card-text">${esc(data.observerStatement)}</p></div>
+      <div class="summary-card"><span class="card-label">멈춤 지점</span><p class="card-text">${esc(data.pausePoint)}</p></div>
+      <div class="summary-card"><span class="card-label">새로운 선택</span><p class="card-text">${esc(data.newChoicePossibility)}</p></div>
+      <div class="summary-card"><span class="card-label">재프로그래밍 문장</span><p class="card-text">${esc(data.reprogrammingStatement)}</p></div>
+    </div>
+    ${hasText(data.coreInsight) ? `<div class="sub-card"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}
+    ${insight(data.calInsight)}
+  `);
+}
+
+function protocol(data) {
+  return section('8', data.title || '현실 재프로그래밍 프로토콜', `
+    <div class="steps">
+      ${(data.steps || []).map(step => `
+        <div class="step-card">
+          <div class="step-num">${esc(step.step)}</div>
+          <h3>${esc(step.name)}</h3>
+          <p>${esc(step.instruction)}</p>
+        </div>
+      `).join('')}
+    </div>
+    ${hasText(data.dailyPractice) ? `<div class="sub-card"><h3>데일리 실천</h3>${p(data.dailyPractice, 'card-text')}</div>` : ''}
+    ${listCard('전환 질문', data.turningQuestions)}
+    ${hasText(data.coreInsight) ? `<div class="sub-card"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}
+    ${insight(data.calInsight)}
+  `);
+}
+
+function resistance(data) {
+  return section('9', data.title || '변화 과정에서 나타나는 저항', `
+    ${listCard('예상되는 저항', data.expectedResistance)}
+    ${hasText(data.whyItHappens) ? `<div class="sub-card"><h3>왜 나타나는가</h3>${p(data.whyItHappens, 'card-text')}</div>` : ''}
+    ${hasText(data.howToReadResistance) ? `<div class="sub-card"><h3>어떻게 읽을 것인가</h3>${p(data.howToReadResistance, 'card-text')}</div>` : ''}
+    ${hasText(data.responseGuide) ? `<div class="sub-card"><h3>대응 가이드</h3>${p(data.responseGuide, 'card-text')}</div>` : ''}
+    ${hasText(data.coreInsight) ? `<div class="sub-card"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}
+    ${insight(data.calInsight)}
+  `);
+}
+
+function finalMessage(data) {
+  return section('10', data.title || '최종 선언', `
+    ${p(data.message)}
+    ${hasText(data.declaration) ? `<div class="declaration">${esc(data.declaration)}</div>` : ''}
+    ${p(data.closingSentence)}
+    ${insight(data.calInsight)}
+  `, 'final');
+}
+
+function render(data) {
+  const meta = data.meta || {};
+  document.getElementById('app').innerHTML = `
+    <header class="cover">
+      <div class="kicker">CONSCIOUSNESS ARCHITECTURE LAB | CAL</div>
+      <h1>${esc(meta.reportType || 'CAL 의식OS 프리미엄 리포트')}</h1>
+      <p class="cover-sub">${esc(meta.coreThesis || '')}</p>
+      <div class="meta-grid">
+        <div class="meta-card"><div class="meta-label">고객명</div><div class="meta-value">${esc(meta.clientName)}</div></div>
+        <div class="meta-card"><div class="meta-label">리포트 날짜</div><div class="meta-value">${esc(meta.reportDate)}</div></div>
+        <div class="meta-card"><div class="meta-label">리포트 ID</div><div class="meta-value">${esc(meta.reportId)}</div></div>
+      </div>
+    </header>
+
+    ${summary(data.executiveSummary || {}, data.openingDeclaration || {})}
+    ${reality(data.realityOutput || {})}
+    ${coreLoop(data.coreLoop || {})}
+    ${saju(data.sajuLens || {})}
+    ${consciousness(data.consciousnessOS || {})}
+    ${materialization(data.materializationFlow || {})}
+    ${choice(data.choiceRecovery || {})}
+    ${protocol(data.reprogrammingProtocol || {})}
+    ${resistance(data.resistancePattern || {})}
+    ${finalMessage(data.finalMessage || {})}
+    <div class="disclaimer">${esc(data.disclaimer?.text || '')}</div>
+  `;
+}
+
+render(reportData);
+</script>
+</body>
+</html> 
