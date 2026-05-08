@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAL 프리미엄 JSON 생성기 v4.0</title>
+<style>
+:root{
+  --bg:#f4efe6;--paper:#fffaf2;--ink:#24180f;--muted:#75695d;
+  --line:rgba(111,83,45,.18);--gold:#b88a3b;--brown:#5b3d22;
+  --deep:#24180f;--shadow:0 18px 45px rgba(68,43,18,.12);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:linear-gradient(180deg,#f8f2e8,#eee3d4);color:var(--ink);line-height:1.72;letter-spacing:-.025em}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(244,239,230,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar-inner{width:min(940px,calc(100% - 28px));margin:0 auto;padding:12px 0;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+button{border:0;border-radius:999px;padding:13px 22px;font-weight:850;font-size:15px;cursor:pointer;letter-spacing:-.02em}
+.btn-primary{background:var(--deep);color:#fff7e8}.btn-secondary{background:#eadfcd;color:var(--deep)}.btn-gold{background:var(--gold);color:#fffaf2}
+.generator-wrap,.report-wrap{width:min(940px,calc(100% - 28px));margin:0 auto}
+.generator-wrap{padding:32px 0 18px}
+.generator-card,.section{background:rgba(255,250,242,.9);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);padding:clamp(24px,4vw,42px);margin:22px 0}
+.generator-card h1{margin:0 0 12px;font-size:clamp(26px,4vw,36px);line-height:1.25;letter-spacing:-.055em}
+.generator-card p{margin:0 0 18px;font-size:17px;color:#44372c}
+textarea{width:100%;min-height:360px;resize:vertical;border-radius:22px;border:1px solid rgba(111,83,45,.22);background:rgba(255,255,255,.55);padding:20px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;line-height:1.7;outline:none;color:#2a241d}
+textarea:focus{border-color:rgba(184,138,59,.75);box-shadow:0 0 0 4px rgba(184,138,59,.12)}
+.action-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.notice{margin-top:14px;color:#7b4e24;font-size:14px;min-height:24px;font-weight:700}
+.report-wrap{padding:30px 0 80px}
+.cover{position:relative;overflow:hidden;border-radius:36px;padding:clamp(34px,6vw,68px);background:linear-gradient(135deg,rgba(25,31,48,.98),rgba(74,48,23,.95));color:#fff7e8;box-shadow:var(--shadow);margin-bottom:26px}
+.cover:after{content:"";position:absolute;right:-100px;top:-120px;width:320px;height:320px;border-radius:50%;border:1px solid rgba(231,188,93,.26)}
+.kicker{position:relative;z-index:1;font-size:13px;letter-spacing:.18em;color:rgba(255,235,190,.72);text-transform:uppercase;margin-bottom:20px}
+.cover h1{position:relative;z-index:1;margin:0;font-size:clamp(32px,6vw,56px);line-height:1.18;letter-spacing:-.05em;font-weight:800}
+.cover-sub{position:relative;z-index:1;max-width:660px;margin:24px 0 0;color:rgba(255,248,232,.84);font-size:clamp(17px,2.5vw,21px)}
+.meta-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:36px}
+.meta-card{padding:16px 18px;border:1px solid rgba(255,231,177,.18);border-radius:18px;background:rgba(255,255,255,.06)}
+.meta-label{font-size:12px;color:rgba(255,235,190,.62);margin-bottom:4px}.meta-value{font-size:15px;font-weight:650;color:#fff8e9;word-break:keep-all}
+.section-title{display:flex;align-items:center;gap:12px;margin:0 0 22px;font-size:clamp(24px,4vw,34px);line-height:1.25;letter-spacing:-.055em;color:var(--deep)}
+.section-number{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;flex:0 0 34px;border-radius:50%;background:var(--deep);color:#f7d58c;font-size:14px;font-weight:800}
+.lead-box{padding:22px 24px;border-radius:20px;background:linear-gradient(135deg,rgba(184,138,59,.16),rgba(255,255,255,.45));border:1px solid rgba(184,138,59,.24);margin-bottom:22px}
+.lead-box strong{display:block;font-size:clamp(19px,3vw,26px);line-height:1.5;color:#3c2815;letter-spacing:-.045em}
+.body-text{font-size:17px;color:#342b22;margin:0;white-space:pre-line}.body-text+.body-text{margin-top:14px}
+.summary-grid,.list-grid,.steps{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.summary-card,.list-card,.sub-card,.os-card,.step-card{padding:20px;border-radius:20px;background:#fffaf2;border:1px solid var(--line)}
+.summary-card.full{grid-column:1/-1;background:linear-gradient(135deg,#fff3dc,#fffaf2)}
+.card-label{display:block;font-size:13px;color:var(--gold);font-weight:800;margin-bottom:8px}.card-text{margin:0;font-size:16px;color:#342b22;white-space:pre-line}
+.list-card h3,.sub-card h3,.os-card h3,.step-card h3{margin:0 0 12px;color:var(--brown);font-size:18px}
+.list-card ul{margin:0;padding-left:20px}.list-card li{margin:8px 0;color:#44372c}.sub-card{margin-top:14px}
+.core-loop{background:linear-gradient(180deg,rgba(36,24,15,.97),rgba(76,48,23,.95));color:#fff7e8;border-color:rgba(255,218,150,.18)}
+.core-loop .section-title{color:#fff7e8}.core-loop .section-number{background:#f7d58c;color:#24180f}
+.loop-block{padding:22px 24px;border-radius:20px;border:1px solid rgba(255,225,165,.16);background:rgba(255,255,255,.06);margin:14px 0}
+.loop-block h3{margin:0 0 10px;font-size:18px;color:#f7d58c}.loop-block p{margin:0;color:rgba(255,248,232,.88);white-space:pre-line}
+.diagram{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:22px 0}
+.diagram-item{padding:10px 14px;border-radius:999px;background:rgba(184,138,59,.14);border:1px solid rgba(184,138,59,.26);color:#4b321b;font-weight:700;font-size:14px}.diagram-arrow{color:rgba(184,138,59,.64);font-weight:800}
+.core-loop .diagram-item{background:rgba(255,215,137,.12);border-color:rgba(255,215,137,.22);color:#ffe4a8}.core-loop .diagram-arrow{color:rgba(255,226,171,.55)}
+.insight-box{margin-top:22px;padding:18px 20px;border-radius:18px;background:rgba(184,138,59,.12);border:1px solid rgba(184,138,59,.22)}
+.insight-label{display:inline-block;font-size:12px;letter-spacing:.12em;color:var(--gold);font-weight:900;margin-bottom:8px}.insight-text{margin:0;font-size:16px;color:#372b20;white-space:pre-line}
+.core-loop .insight-box{background:rgba(255,215,137,.1);border-color:rgba(255,215,137,.22)}.core-loop .insight-text{color:rgba(255,248,232,.9)}
+.os-grid{display:grid;grid-template-columns:1fr;gap:14px}.os-desc{margin:0 0 8px;color:var(--muted);font-size:14px}.os-pattern{margin:0;color:#33291f;white-space:pre-line}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--deep);color:#f7d58c;font-size:13px;font-weight:800;margin-bottom:10px}.step-card p{margin:0;color:#3c3026;white-space:pre-line}
+.final{background:linear-gradient(135deg,#24180f,#5b3d22);color:#fff7e8}.final .section-title{color:#fff7e8}.final .body-text,.final .card-text{color:rgba(255,248,232,.88)}
+.final .insight-label{color:#d6a94d}
+.final .insight-text{color:rgba(255,245,225,.92)}
+.declaration{margin:22px 0;padding:24px;border-radius:22px;background:rgba(255,215,137,.12);border:1px solid rgba(255,215,137,.24);color:#ffe0a1;font-size:clamp(20px,3vw,28px);line-height:1.55;font-weight:800;letter-spacing:-.05em}
+.disclaimer{font-size:13px;color:rgba(60,46,35,.68);text-align:center;padding:20px 10px 0}
+@media(max-width:720px){.report-wrap,.generator-wrap,.topbar-inner{width:min(100% - 22px,940px)}.report-wrap{padding-top:18px}.cover{border-radius:28px}.meta-grid,.summary-grid,.list-grid,.steps{grid-template-columns:1fr}.section{border-radius:24px}.section-title{align-items:flex-start}.diagram{display:block}.diagram-item{display:block;width:100%;margin:8px 0;text-align:center}.diagram-arrow{display:block;text-align:center;margin:4px 0}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-inner">
+    <button class="btn-secondary" onclick="scrollToGenerator()">JSON 붙여넣기</button>
+    <button class="btn-primary" onclick="loadSample()">샘플 보기</button>
+    <button class="btn-gold" onclick="downloadReport()">HTML 다운로드</button>
+  </div>
+</div>
+
+<div class="generator-wrap" id="generator">
+  <div class="generator-card">
+    <h1>프리미엄 JSON 테스트</h1>
+    <p>커스텀 GPT가 생성한 JSON 전체를 붙여넣고 “리포트 생성”을 누르세요.</p>
+    <textarea id="jsonInput" placeholder='{"meta":{"clientName":"홍길동","reportType":"CAL 의식OS 프리미엄 리포트 v4.0"}}'></textarea>
+    <div class="action-row">
+      <button class="btn-primary" onclick="generateReport()">리포트 생성</button>
+      <button class="btn-secondary" onclick="clearJson()">비우기</button>
+    </div>
+    <div class="notice" id="notice"></div>
+  </div>
+</div>
+
+<div class="report-wrap" id="app"></div>
+
+<script>
+let currentReportData=null;
+const sampleData={
+  "meta":{"clientName":"연삿갓","reportDate":"2026-05-08","reportId":"CAL-PREMIUM-20260508-연삿갓","reportType":"CAL 의식OS 프리미엄 리포트 v4.0","coreThesis":"현실은 사건이 아니라 반복 실행된 의식 구조의 출력입니다."},
+  "executiveSummary":{"title":"현실 출력 구조 요약","oneLineDiagnosis":"연삿갓님의 핵심 구조는 어린 시절 신체 충격 사건이 ‘평생 해결해야 할 숙제’로 저장되며, 불안과 압박을 반복 출력해온 구조입니다.","summaryBody":"그 사건은 단순한 신체 경험으로 끝나지 않고, 마음속에서 ‘아직 완료되지 않은 과제’처럼 저장되었습니다. 그래서 시간이 지나도 몸은 현재를 살지만, 의식OS는 그 사건을 계속 미완료 파일처럼 불러왔습니다.","coreMessage":"반복된 불안은 현재 위험의 증거가 아니라, 과거 사건이 아직 완료되지 않은 파일처럼 저장되어 있었던 결과입니다.","calInsight":"파일은 닫혔는데 작업 표시줄에 계속 떠 있으면 컴퓨터가 느려지듯, 끝난 사건도 ‘미완료’로 저장되면 현재의 에너지를 계속 사용합니다."}
+};
+
+function scrollToGenerator(){document.getElementById('generator').scrollIntoView({behavior:'smooth'});}
+function setNotice(msg,isError=false){const n=document.getElementById('notice');n.textContent=msg||'';n.style.color=isError?'#b1402d':'#7b4e24';}
+function loadSample(){document.getElementById('jsonInput').value=JSON.stringify(sampleData,null,2);setNotice('샘플 JSON이 입력되었습니다. “리포트 생성”을 누르세요.');}
+function clearJson(){document.getElementById('jsonInput').value='';setNotice('입력창을 비웠습니다.');}
+function generateReport(){const raw=document.getElementById('jsonInput').value.trim();if(!raw){setNotice('JSON을 먼저 붙여넣어 주세요.',true);return;}try{const data=JSON.parse(raw);currentReportData=data;render(data);setNotice('리포트가 생성되었습니다. 아래 화면을 확인하세요.');document.getElementById('app').scrollIntoView({behavior:'smooth'});}catch(e){setNotice('JSON 형식에 오류가 있습니다: '+e.message,true);}}
+function downloadReport(){if(!currentReportData){setNotice('먼저 리포트를 생성해 주세요.',true);return;}const name=String(currentReportData?.meta?.clientName||'client').replace(/[\\/:*?"<>|\s]+/g,'_');const date=String(currentReportData?.meta?.reportDate||new Date().toISOString().slice(0,10)).replace(/[\\/:*?"<>|\s.]+/g,'_');const file=`report_${name}_${date}.html`;const html=standalone(currentReportData);const blob=new Blob([html],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=file;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);setNotice(`${file} 파일이 다운로드되었습니다.`);}
+function esc(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');}
+function has(v){return v!==undefined&&v!==null&&String(v).trim()!=='';}
+function any(arr){return arr.some(has);}
+function p(t,c='body-text'){return has(t)?`<p class="${c}">${esc(t)}</p>`:'';}
+function insight(t){return has(t)?`<div class="insight-box"><div class="insight-label">CAL INSIGHT</div><p class="insight-text">${esc(t)}</p></div>`:'';}
+function diagram(items=[]){if(!items||!items.length)return'';return `<div class="diagram">${items.map((it,i)=>`<span class="diagram-item">${esc(it)}</span>${i<items.length-1?'<span class="diagram-arrow">→</span>':''}`).join('')}</div>`;}
+function listCard(title,items=[]){if(!items||!items.length)return'';return `<div class="list-card"><h3>${esc(title)}</h3><ul>${items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`;}
+function section(num,title,content,cls=''){const body=String(content||'').trim();if(!body)return'';return `<section class="section ${cls}"><h2 class="section-title"><span class="section-number">${num}</span>${esc(title)}</h2>${body}</section>`;}
+function summary(d={}) {
+  if (!any([d.oneLineDiagnosis, d.summaryBody, d.coreMessage, d.calInsight])) return '';
+
+  return section(
+    '1',
+    d.title || '현실 출력 구조 요약',
+    `
+      ${has(d.oneLineDiagnosis)
+        ? `<div class="lead-box"><strong>${esc(d.oneLineDiagnosis)}</strong></div>`
+        : ''
+      }
+
+      ${has(d.summaryBody)
+        ? `<p class="body-text">${esc(d.summaryBody)}</p>`
+        : ''
+      }
+
+      ${has(d.coreMessage)
+        ? `<div class="sub-card"><h3>핵심 메시지</h3><p class="card-text">${esc(d.coreMessage)}</p></div>`
+        : ''
+      }
+
+      ${insight(d.calInsight)}
+    `
+  );
+}
+function opening(d={}){if(!any([d.headline,d.body,d.keyMessage,d.calInsight]))return'';return section('2',d.title||'현실 출력 선언',`${has(d.headline)?`<div class="lead-box"><strong>${esc(d.headline)}</strong></div>`:''}${p(d.body)}${has(d.keyMessage)?`<div class="sub-card"><h3>핵심 메시지</h3>${p(d.keyMessage,'card-text')}</div>`:''}${insight(d.calInsight)}`);}
+function reality(d={}){if(!any([d.mainPattern,d.relationshipOutput,d.moneyOrWorkOutput,d.choicePattern,d.coreInsight,d.calInsight])&&!(d.visibleProblems||[]).length&&!(d.emotionalSignals||[]).length&&!(d.bodySignals||[]).length)return'';return section('2',d.title||'현재 현실에서 반복되는 출력 패턴',`${has(d.mainPattern)?`<div class="lead-box"><strong>${esc(d.mainPattern)}</strong></div>`:''}<div class="list-grid">${listCard('현실에서 보이는 문제',d.visibleProblems)}${listCard('감정 신호',d.emotionalSignals)}${listCard('신체 신호',d.bodySignals)}</div>${has(d.relationshipOutput)?`<div class="sub-card"><h3>관계 출력</h3>${p(d.relationshipOutput,'card-text')}</div>`:''}${has(d.moneyOrWorkOutput)?`<div class="sub-card"><h3>돈 / 일 출력</h3>${p(d.moneyOrWorkOutput,'card-text')}</div>`:''}${has(d.choicePattern)?`<div class="sub-card"><h3>선택 패턴</h3>${p(d.choicePattern,'card-text')}</div>`:''}${has(d.coreInsight)?`<div class="sub-card"><h3>핵심 통찰</h3>${p(d.coreInsight,'card-text')}</div>`:''}${insight(d.calInsight)}`);}
+function coreLoop(d={}){if(!any([d.trigger,d.interpretation,d.storedBelief,d.emotionRise,d.identification,d.automaticReaction,d.storagePattern,d.realityReOutput,d.coreInsight,d.calInsight]))return'';const blocks=[['자극 입력',d.trigger],['해석',d.interpretation],['저장된 자기해석',d.storedBelief],['감정 상승',d.emotionRise],['동일시',d.identification],['자동반응',d.automaticReaction],['반복 저장',d.storagePattern],['현실 재출력',d.realityReOutput]];return section('3',d.title||'핵심 자동반응 루프',`${diagram(d.loopDiagram)}${blocks.map(([title,text])=>has(text)?`<div class="loop-block"><h3>${esc(title)}</h3>${p(text,'card-text')}</div>`:'').join('')}${has(d.coreInsight)?`<div class="loop-block"><h3>핵심 통찰</h3>${p(d.coreInsight,'card-text')}</div>`:''}${insight(d.calInsight)}`,'core-loop');}
+function saju(d={}){if(!any([d.normalOperation,d.distortedOperation,d.lensAmplification,d.storedInterpretationConnection,d.connectionToRealityOutput,d.coreInsight,d.calInsight])&&!(d.dominantElements||[]).length&&!(d.weakElements||[]).length)return'';const bd=d.birthData||{},es=d.elementScores||{};return section('4',d.title||'사주OS — 초기 에너지 렌즈',`<div class="summary-grid">${any([bd.yearPillar,bd.monthPillar,bd.dayPillar,bd.hourPillar])?`<div class="summary-card"><span class="card-label">원국</span><p class="card-text">${esc([bd.yearPillar,bd.monthPillar,bd.dayPillar,bd.hourPillar].filter(Boolean).join(', '))}</p></div>`:''}<div class="summary-card"><span class="card-label">오행 분포</span><p class="card-text">목(${esc(es.wood??0)}) · 화(${esc(es.fire??0)}) · 토(${esc(es.earth??0)}) · 금(${esc(es.metal??0)}) · 수(${esc(es.water??0)})</p></div>${(d.dominantElements||[]).length?`<div class="summary-card"><span class="card-label">강한 에너지</span><p class="card-text">${esc(d.dominantElements.join(', '))}</p></div>`:''}${(d.weakElements||[]).length?`<div class="summary-card"><span class="card-label">약한 에너지</span><p class="card-text">${esc(d.weakElements.join(', '))}</p></div>`:''}</div>${sub('순기능',d.normalOperation)}${sub('왜곡 작동',d.distortedOperation)}${sub('렌즈 증폭',d.lensAmplification)}${sub('저장된 자기해석과의 연결',d.storedInterpretationConnection)}${sub('현실 출력과의 연결',d.connectionToRealityOutput)}${sub('핵심 통찰',d.coreInsight)}${insight(d.calInsight)}`);}
+function sub(title,text){return has(text)?`<div class="sub-card"><h3>${esc(title)}</h3>${p(text,'card-text')}</div>`:'';}
+function consciousness(d={}){const items=[d.fiveSenseInput,d.sixthInterpretation,d.seventhIdentification,d.eighthStorage,d.ninthConsciousChoice].filter(Boolean);if(!items.some(x=>any([x.label,x.description,x.clientPattern,x.choicePoint]))&&!any([d.coreInsight,d.calInsight]))return'';return section('5',d.title||'의식OS 구조 분석',`<div class="os-grid">${items.map(x=>any([x.label,x.description,x.clientPattern,x.choicePoint])?`<div class="os-card"><h3>${esc(x.label)}</h3>${has(x.description)?`<p class="os-desc">${esc(x.description)}</p>`:''}${has(x.clientPattern)?`<p class="os-pattern">${esc(x.clientPattern)}</p>`:''}${has(x.choicePoint)?`<p class="os-pattern"><strong>선택 지점:</strong> ${esc(x.choicePoint)}</p>`:''}</div>`:'').join('')}</div>${sub('핵심 통찰',d.coreInsight)}${insight(d.calInsight)}`);}
+function materialization(d={}){if(!any([d.innerPattern,d.repeatedEmotion,d.repeatedChoice,d.repeatedBehavior,d.outerResult,d.coreInsight,d.calInsight]))return'';return section('6',d.title||'현실은 어떻게 물질화되는가',`${diagram(d.materializationDiagram)}<div class="summary-grid">${card('내부 패턴',d.innerPattern)}${card('반복 감정',d.repeatedEmotion)}${card('반복 선택',d.repeatedChoice)}${card('반복 행동',d.repeatedBehavior)}${card('현실 출력',d.outerResult,'full')}</div>${sub('핵심 통찰',d.coreInsight)}${insight(d.calInsight)}`);}
+function card(label,text,cls=''){return has(text)?`<div class="summary-card ${cls}"><span class="card-label">${esc(label)}</span><p class="card-text">${esc(text)}</p></div>`:'';}
+function choice(d={}){if(!any([d.notSelfStatement,d.observerStatement,d.pausePoint,d.newChoicePossibility,d.reprogrammingStatement,d.coreInsight,d.calInsight]))return'';return section('7',d.title||'9식 — 관리자 권한 회복',`<div class="summary-grid">${card('나는 이것이 아니다',d.notSelfStatement,'full')}${card('관찰자 문장',d.observerStatement)}${card('멈춤 지점',d.pausePoint)}${card('새로운 선택',d.newChoicePossibility)}${card('재프로그래밍 문장',d.reprogrammingStatement)}</div>${sub('핵심 통찰',d.coreInsight)}${insight(d.calInsight)}`);}
+function protocol(d={}){if(!(d.steps||[]).length&&!any([d.dailyPractice,d.coreInsight,d.calInsight])&&!(d.turningQuestions||[]).length)return'';return section('8',d.title||'현실 재프로그래밍 프로토콜',`<div class="steps">${(d.steps||[]).map(s=>`<div class="step-card"><div class="step-num">${esc(s.step)}</div><h3>${esc(s.name)}</h3><p>${esc(s.instruction)}</p></div>`).join('')}</div>${sub('데일리 실천',d.dailyPractice)}${listCard('전환 질문',d.turningQuestions)}${sub('핵심 통찰',d.coreInsight)}${insight(d.calInsight)}`);}
+function resistance(d={}){if(!(d.expectedResistance||[]).length&&!any([d.whyItHappens,d.howToReadResistance,d.responseGuide,d.coreInsight,d.calInsight]))return'';return section('9',d.title||'변화 과정에서 나타나는 저항',`${listCard('예상되는 저항',d.expectedResistance)}${sub('왜 나타나는가',d.whyItHappens)}${sub('어떻게 읽을 것인가',d.howToReadResistance)}${sub('대응 가이드',d.responseGuide)}${sub('핵심 통찰',d.coreInsight)}${insight(d.calInsight)}`);}
+function finalMessage(d={}){if(!any([d.message,d.declaration,d.closingSentence,d.calInsight]))return'';return section('10',d.title||'최종 선언',`${p(d.message)}${has(d.declaration)?`<div class="declaration">${esc(d.declaration)}</div>`:''}${p(d.closingSentence)}${insight(d.calInsight)}`,'final');}
+function render(data){const m=data.meta||{};document.getElementById('app').innerHTML=`<header class="cover"><div class="kicker">CONSCIOUSNESS ARCHITECTURE LAB | CAL</div><h1>${esc(m.reportType||'CAL 의식OS 프리미엄 리포트')}</h1><p class="cover-sub">${esc(m.coreThesis||'')}</p><div class="meta-grid"><div class="meta-card"><div class="meta-label">고객명</div><div class="meta-value">${esc(m.clientName)}</div></div><div class="meta-card"><div class="meta-label">리포트 날짜</div><div class="meta-value">${esc(m.reportDate)}</div></div><div class="meta-card"><div class="meta-label">리포트 ID</div><div class="meta-value">${esc(m.reportId)}</div></div></div></header>${summary(data.executiveSummary||{})}${reality(data.realityOutput||{})}${coreLoop(data.coreLoop||{})}${saju(data.sajuLens||{})}${consciousness(data.consciousnessOS||{})}${materialization(data.materializationFlow||{})}${choice(data.choiceRecovery||{})}${protocol(data.reprogrammingProtocol||{})}${resistance(data.resistancePattern||{})}${finalMessage(data.finalMessage||{})}<div class="disclaimer">${esc(data.disclaimer?.text||'')}</div>`;}
+function standalone(data){
+  const clone = document.documentElement.cloneNode(true);
+
+  const generator = clone.querySelector('#generator');
+  if (generator) generator.remove();
+
+  const topbar = clone.querySelector('.topbar');
+  if (topbar) topbar.remove();
+
+  const app = clone.querySelector('#app');
+  if (app) app.innerHTML = '';
+
+  const scripts = clone.querySelectorAll('script');
+  scripts.forEach(s => s.remove());
+
+  const dataStr = JSON.stringify(data, null, 2)
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/&/g, '\\u0026');
+
+  const script = clone.ownerDocument.createElement('script');
+  script.textContent = `
+const reportData = ${dataStr};
+${esc.toString()}
+${has.toString()}
+${any.toString()}
+${p.toString()}
+${insight.toString()}
+${diagram.toString()}
+${listCard.toString()}
+${section.toString()}
+${summary.toString()}
+${reality.toString()}
+${coreLoop.toString()}
+${saju.toString()}
+${sub.toString()}
+${consciousness.toString()}
+${materialization.toString()}
+${card.toString()}
+${choice.toString()}
+${protocol.toString()}
+${resistance.toString()}
+${finalMessage.toString()}
+${render.toString()}
+render(reportData);
+  `;
+  clone.querySelector('body').appendChild(script);
+
+  return '<!DOCTYPE html>\\n' + clone.outerHTML;
+}
+render(sampleData);
+</script>
+</body>
+</html>
