@@ -625,19 +625,64 @@ function summary(data, openingData = {}) {
     ${insight(openingData.calInsight)}
   `;
 
-  return section('1', data.title || '한눈에 보는 현실 출력 구조', `
-    ${hasText(data.oneLineDiagnosis) ? `<div class="lead-box"><strong>${esc(data.oneLineDiagnosis)}</strong></div>` : ''}
-    <div class="summary-grid">
-      ${hasText(data.coreStoredBelief) ? `<div class="summary-card full"><span class="card-label">저장된 자기해석</span><p class="card-text">${esc(data.coreStoredBelief)}</p></div>` : ''}
-      ${hasText(data.corePattern) ? `<div class="summary-card"><span class="card-label">반복 패턴</span><p class="card-text">${esc(data.corePattern)}</p></div>` : ''}
-      ${hasText(data.repeatedLoop) ? `<div class="summary-card"><span class="card-label">반복 루프</span><p class="card-text">${esc(data.repeatedLoop)}</p></div>` : ''}
-      ${hasText(data.choicePoint) ? `<div class="summary-card"><span class="card-label">선택 회복 포인트</span><p class="card-text">${esc(data.choicePoint)}</p></div>` : ''}
-      ${hasText(data.reportFocus) ? `<div class="summary-card"><span class="card-label">리포트 초점</span><p class="card-text">${esc(data.reportFocus)}</p></div>` : ''}
-    </div>
-    ${openingIntegrated}
-  `);
-}
+  return section(
+  '1',
+  data.executiveSummary?.title || '현실 출력 구조 요약',
 
+  `
+    <div class="summary-hero">
+      <p>
+        ${esc(data.executiveSummary?.oneLineDiagnosis || '')}
+      </p>
+    </div>
+
+    ${
+      hasText(data.executiveSummary?.summaryBody)
+      ? `
+      <div class="summary-body-box">
+        <p>
+          ${esc(data.executiveSummary.summaryBody)}
+        </p>
+      </div>
+      `
+      : ''
+    }
+
+    ${
+      hasText(data.executiveSummary?.coreMessage)
+      ? `
+      <div class="summary-core-message">
+        <span class="card-label">
+          핵심 메시지
+        </span>
+
+        <p class="card-text">
+          ${esc(data.executiveSummary.coreMessage)}
+        </p>
+      </div>
+      `
+      : ''
+    }
+
+    ${
+      hasText(data.executiveSummary?.calInsight)
+      ? `
+      <div class="cal-box">
+        <span class="cal-label">
+          CAL INSIGHT
+        </span>
+
+        <p>
+          ${esc(data.executiveSummary.calInsight)}
+        </p>
+      </div>
+      `
+      : ''
+    }
+  `
+);
+}
+  
 function opening(data) {
   return section('2', data.title || '현실 출력 선언', `
     ${hasText(data.headline) ? `<div class="lead-box"><strong>${esc(data.headline)}</strong></div>` : ''}
