@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>CAL 의식OS 프리미엄 리포트 v4.0</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+    <style>
+        :root {
+            --bg: #0d0d0d;
+            --surface: #1a1a1a;
+            --accent: #d4af37;
+            --text-p: #e0e0e0;
+            --text-h: #ffffff;
+            --text-dim: #999999;
+            --border: rgba(212, 175, 55, 0.2);
+            --radius: 16px;
+        }
+
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body {
+            margin: 0; background-color: var(--bg); color: var(--text-p);
+            font-family: 'Pretendard', sans-serif; line-height: 1.7; word-break: keep-all;
+        }
+
+        .wrap { max-width: 600px; margin: 0 auto; padding: 20px; }
+
+        /* Header */
+        header { padding: 40px 0 20px; text-align: center; border-bottom: 1px solid var(--border); margin-bottom: 30px; }
+        .kicker { font-size: 12px; letter-spacing: 3px; color: var(--accent); font-weight: 700; margin-bottom: 10px; display: block; }
+        h1 { font-size: 26px; margin: 0; color: var(--text-h); font-weight: 800; letter-spacing: -1px; }
+        .meta { margin-top: 15px; font-size: 13px; color: var(--text-dim); }
+
+        /* Section Cards */
+        .section { background: var(--surface); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        .stitle { display: flex; align-items: center; font-size: 19px; font-weight: 800; color: var(--accent); margin-bottom: 20px; }
+        .stitle::before { content: ''; width: 3px; height: 16px; background: var(--accent); margin-right: 10px; border-radius: 2px; }
+
+        /* Content Blocks */
+        .hero-msg { font-size: 20px; font-weight: 700; line-height: 1.4; color: #fff; margin-bottom: 15px; }
+        .sub-block { background: rgba(0,0,0,0.2); padding: 16px; border-radius: 12px; margin-bottom: 15px; border-left: 2px solid var(--accent); }
+        .label { font-size: 12px; font-weight: 800; color: var(--accent); display: block; margin-bottom: 5px; opacity: 0.8; }
+        
+        .list-card { margin-top: 15px; }
+        .list-item { display: flex; gap: 10px; margin-bottom: 10px; font-size: 15px; }
+        .list-item b { color: var(--accent); flex-shrink: 0; }
+
+        .diagram { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; }
+        .dia-item { background: var(--accent); color: #000; padding: 4px 12px; border-radius: 50px; font-size: 13px; font-weight: 700; }
+        
+        .cal-insight { margin-top: 20px; padding: 15px; background: rgba(212, 175, 55, 0.08); border-radius: 12px; font-size: 14px; border: 1px dashed var(--accent); }
+        .cal-insight::before { content: '💡 CAL Insight'; display: block; font-weight: 800; margin-bottom: 5px; font-size: 11px; }
+
+        /* Saju Table */
+        .saju-box { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 15px; }
+        .saju-cell { background: #111; padding: 10px; text-align: center; border-radius: 8px; border: 1px solid var(--border); }
+        .saju-l { font-size: 11px; color: var(--text-dim); }
+        .saju-v { font-size: 15px; font-weight: 700; color: var(--accent); }
+
+        .steps { counter-reset: step; }
+        .step-item { position: relative; padding-left: 35px; margin-bottom: 20px; }
+        .step-item::before { 
+            counter-increment: step; content: counter(step); 
+            position: absolute; left: 0; top: 0; width: 24px; height: 24px; 
+            background: var(--accent); color: #000; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800;
+        }
+        .step-name { font-weight: 800; color: #fff; display: block; }
+
+        .final-box { background: linear-gradient(135deg, #221c0a, #000); border: 1px solid var(--accent); padding: 30px 20px; text-align: center; border-radius: var(--radius); margin: 40px 0; }
+        .dec-text { font-size: 18px; font-weight: 700; color: var(--accent); line-height: 1.6; white-space: pre-line; }
+
+        footer { text-align: center; padding: 40px 0; font-size: 12px; color: var(--text-dim); opacity: 0.6; line-height: 1.5; }
+        
+        hr { border: 0; border-top: 1px solid rgba(255,255,255,0.05); margin: 25px 0; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <span class="kicker">PREMIUM REPORT v4.0</span>
+            <h1>CAL 의식OS 리포트</h1>
+            <div class="meta">
+                ID: CAL-20260508-YEONSATGAT<br>
+                Client: <b>연삿갓</b> | Date: 2026-05-08
+            </div>
+        </header>
+
+        <!-- 1. Executive Summary -->
+        <section class="section">
+            <div class="stitle">현실 출력 구조 요약</div>
+            <div class="hero-msg">"현실은 사건이 아니라 <br>반복 실행된 의식 구조의 출력입니다."</div>
+            <div class="sub-block">
+                <span class="label">진단</span>
+                연삿갓님의 핵심 구조는 어린 시절 신체 충격 사건이 ‘평생 해결해야 할 숙제’로 저장되며, 불안과 압박을 반복 출력해온 구조입니다.
+            </div>
+            <p style="font-size:15px; color:var(--text-dim);">그 사건은 단순한 신체 경험으로 끝나지 않고, 마음속에서 ‘아직 완료되지 않은 과제’처럼 저장되었습니다. 시간이 지나도 몸은 현재를 살지만, 의식OS는 그 사건을 계속 미완료 파일처럼 불러왔습니다.</p>
+            <div class="cal-insight">파일은 닫혔는데 작업 표시줄에 계속 떠 있으면 컴퓨터가 느려지듯, 끝난 사건도 ‘미완료’로 저장되면 현재의 에너지를 계속 사용합니다.</div>
+        </section>
+
+        <!-- 2. Reality Output -->
+        <section class="section">
+            <div class="stitle">현재 현실의 반복 패턴</div>
+            <div class="sub-block">불안과 압박감이 특정 기억, 신체 감각, 미해결 과제 의식과 연결되어 반복 출력되는 구조입니다.</div>
+            
+            <span class="label">가시적 문제들</span>
+            <div class="list-card">
+                <div class="list-item"><b>•</b> 오래된 사건을 현재의 숙제로 인식</div>
+                <div class="list-item"><b>•</b> 특정 부위/감각을 통한 압박감 발현</div>
+                <div class="list-item"><b>•</b> 직면보다 회피하는 반응의 반복</div>
+                <div class="list-item"><b>•</b> 극복했다 느끼나 잔여 불안이 지속됨</div>
+            </div>
+
+            <hr>
+            <span class="label">영역별 출력</span>
+            <p><b>관계:</b> 직접적 충돌보다 내면 긴장 우세. 상대의 상황을 '나의 문제'로 받아들여 증명하려는 흐름.</p>
+            <p><b>일/돈:</b> 압박이 동력이 되나, 임계점 도달 시 선택보다 회피가 먼저 실행됨.</p>
+            
+            <div class="cal-insight">컴퓨터 경고 알림은 실제 고장이 아니라 오래된 설정 때문에 반복 표시되는 것일 수 있습니다.</div>
+        </section>
+
+        <!-- 3. Core Loop -->
+        <section class="section">
+            <div class="stitle">핵심 자동반응 루프</div>
+            <span class="label">Trigger</span>
+            <p>초5 시기 머리 돌멩이 충격 사건 및 관련 신체 감각</p>
+            
+            <div class="diagram">
+                <div class="dia-item">자극 입력</div> ➔ <div class="dia-item">해석</div> ➔ <div class="dia-item">감정 상승</div> ➔ <div class="dia-item">동일시</div> ➔ <div class="dia-item">자동반응</div> ➔ <div class="dia-item">반복 저장</div>
+            </div>
+
+            <p style="font-size:14px;"><b>동일시:</b> '내가 불안하다'를 넘어 '나는 아직 해결되지 않은 사람이다'로 이동할 때 시스템이 고착됩니다.</p>
+            <div class="cal-insight">돌멩이가 나무에 흠집을 낸 것은 사건이지만, 시스템이 그 흠집을 매일 새 상처로 스캔하면 나무는 매일 다시 다친 것처럼 반응합니다.</div>
+        </section>
+
+        <!-- 4. Saju OS -->
+        <section class="section">
+            <div class="stitle">사주OS — 초기 에너지 렌즈</div>
+            <div class="saju-box">
+                <div class="saju-cell"><div class="saju-l">기축</div><div class="saju-v">년</div></div>
+                <div class="saju-cell"><div class="saju-l">임신</div><div class="saju-v">월</div></div>
+                <div class="saju-cell"><div class="saju-l">기묘</div><div class="saju-v">일</div></div>
+                <div class="saju-cell"><div class="saju-l">기사</div><div class="saju-v">시</div></div>
+            </div>
+            <p><b>토(土) 과다:</b> 토의 순기능은 안정감이나, 충격과 결합하면 사건을 '미완료 현실 문제'로 오래 붙드는 보존력으로 작용합니다.</p>
+            <p style="font-size:14px; color:var(--text-dim);">목(木)의 유연성과 화(火)의 발산 에너지가 상대적으로 낮아 감정이 내부 압박으로 남기 쉬운 렌즈를 가졌습니다.</p>
+        </section>
+
+        <!-- 5. Consciousness OS -->
+        <section class="section">
+            <div class="stitle">의식OS 구조 분석</div>
+            <div class="list-card">
+                <div class="list-item"><b>5식:</b> 신체 긴장 반응을 과거 사건의 알림으로 감지</div>
+                <div class="list-item"><b>6식:</b> 감각에 '평생 치유할 숙제'라는 의미 부여</div>
+                <div class="list-item"><b>7식:</b> 불안을 '나 자체'로 받아들이는 동일시</div>
+                <div class="list-item"><b>8식:</b> 압박-회피 패턴을 자동 실행 파일로 저장</div>
+                <div class="list-item"><b>9식:</b> "나무에 흠집났네"라고 알아차리는 선택의 자리</div>
+            </div>
+            <div class="cal-insight">9식은 계기판 경고등을 보고 바로 멈추기 전에 실제 엔진 상태를 확인하는 운전자와 같습니다.</div>
+        </section>
+
+        <!-- 6. Reprogramming Protocol -->
+        <section class="section">
+            <div class="stitle">현실 재프로그래밍 프로토콜</div>
+            <div class="steps">
+                <div class="step-item"><span class="step-name">감지하기</span>압박감이 오면 몸의 위치만 확인 (해석 금지)</div>
+                <div class="step-item"><span class="step-name">멈추기</span>회피 충동 시 10초간 행동 정지</div>
+                <div class="step-item"><span class="step-name">이름 붙이기</span>"평생 숙제 반응이 켜졌다"고 명명</div>
+                <div class="step-item"><span class="step-name">질문하기</span>"현재 사건인가, 저장된 파일인가?"</div>
+                <div class="step-item"><span class="step-name">작은 행동</span>회피 대신 '기록하기' 등 작은 조치 실행</div>
+                <div class="step-item"><span class="step-name">반복 저장</span>"흠집은 있지만 나는 작동한다"로 종료</div>
+            </div>
+        </section>
+
+        <!-- 7. Resistance & Final -->
+        <section class="section">
+            <div class="stitle">저항 패턴 및 관리</div>
+            <p><b>예상 저항:</b> 가볍게 보면 방심하는 것 같다는 느낌, 숙제를 내려놓을 때의 허전함.</p>
+            <p style="font-size:14px;">저항은 실패가 아니라 <b>기존 OS의 관성</b>입니다. 네비게이션이 새 길 대신 예전 길을 추천하는 것과 같으니 반복 주행으로 업데이트하십시오.</p>
+        </section>
+
+        <div class="final-box">
+            <span class="label" style="margin-bottom:15px">FINAL DECLARATION</span>
+            <div class="dec-text">나는 과거 사건을 부정하지 않는다.
+                그러나 그 사건을 나의 정체성으로 저장하지 않는다.
+                압박감은 자동반응일 뿐이며,
+                나는 새 선택을 입력할 권한이 있다.</div>
+        </div>
+
+        <footer>
+            본 리포트는 자기 이해를 위한 의식 구조 분석 자료입니다.<br>
+            의료, 법률 상담이 아니며 모든 선택은 본인의 책임하에 이루어집니다.<br>
+            <b>© 2026 CAL Consciousness OS System</b>
+        </footer>
+    </div>
+</body>
+</html>
