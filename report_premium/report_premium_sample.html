@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CAL 의식OS 프리미엄 리포트 v4.0</title>
+
+<style>
+:root {
+  --bg: #f4efe6;
+  --paper: #fffaf2;
+  --paper-strong: #f8ecd9;
+  --ink: #2a241d;
+  --muted: #75695d;
+  --line: rgba(111, 83, 45, 0.18);
+  --gold: #b88a3b;
+  --gold-soft: rgba(184, 138, 59, 0.14);
+  --brown: #5b3d22;
+  --deep: #24180f;
+  --navy: #151b2c;
+  --shadow: 0 18px 45px rgba(68, 43, 18, 0.12);
+  --radius-lg: 28px;
+  --radius-md: 20px;
+  --radius-sm: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(184, 138, 59, 0.18), transparent 34%),
+    linear-gradient(180deg, #f8f2e8 0%, var(--bg) 44%, #eee3d4 100%);
+  color: var(--ink);
+  line-height: 1.72;
+  letter-spacing: -0.025em;
+}
+
+.report-wrap {
+  width: min(940px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 42px 0 80px;
+}
+
+.cover {
+  position: relative;
+  overflow: hidden;
+  border-radius: 36px;
+  padding: clamp(34px, 6vw, 68px);
+  background:
+    linear-gradient(135deg, rgba(25, 31, 48, 0.98), rgba(74, 48, 23, 0.95)),
+    radial-gradient(circle at 78% 16%, rgba(217, 180, 92, 0.28), transparent 28%);
+  color: #fff7e8;
+  box-shadow: var(--shadow);
+  margin-bottom: 26px;
+}
+
+.cover::after {
+  content: "";
+  position: absolute;
+  right: -100px;
+  top: -120px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  border: 1px solid rgba(231, 188, 93, 0.26);
+  box-shadow: 0 0 80px rgba(220, 173, 76, 0.15) inset;
+}
+
+.kicker {
+  position: relative;
+  z-index: 1;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: rgba(255, 235, 190, 0.72);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.cover h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: clamp(32px, 6vw, 56px);
+  line-height: 1.18;
+  letter-spacing: -0.05em;
+  font-weight: 800;
+}
+
+.cover-sub {
+  position: relative;
+  z-index: 1;
+  max-width: 660px;
+  margin: 24px 0 0;
+  color: rgba(255, 248, 232, 0.84);
+  font-size: clamp(17px, 2.5vw, 21px);
+  line-height: 1.75;
+}
+
+.meta-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 36px;
+}
+
+.meta-card {
+  padding: 16px 18px;
+  border: 1px solid rgba(255, 231, 177, 0.18);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+}
+
+.meta-label {
+  font-size: 12px;
+  color: rgba(255, 235, 190, 0.62);
+  margin-bottom: 4px;
+}
+
+.meta-value {
+  font-size: 15px;
+  font-weight: 650;
+  color: #fff8e9;
+  word-break: keep-all;
+}
+
+.section {
+  background: rgba(255, 250, 242, 0.88);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: clamp(26px, 4vw, 44px);
+  margin: 22px 0;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 22px;
+  font-size: clamp(24px, 4vw, 34px);
+  line-height: 1.25;
+  letter-spacing: -0.055em;
+  color: var(--deep);
+}
+
+.section-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 50%;
+  background: var(--deep);
+  color: #f7d58c;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.lead-box {
+  padding: 22px 24px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(184, 138, 59, 0.16), rgba(255, 255, 255, 0.45));
+  border: 1px solid rgba(184, 138, 59, 0.24);
+  margin-bottom: 22px;
+}
+
+.lead-box strong {
+  display: block;
+  font-size: clamp(19px, 3vw, 26px);
+  line-height: 1.5;
+  color: #3c2815;
+  letter-spacing: -0.045em;
+}
+
+.body-text {
+  font-size: 17px;
+  color: #342b22;
+  margin: 0;
+  white-space: pre-line;
+}
+
+.body-text + .body-text {
+  margin-top: 14px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.summary-card {
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: #fff6e8;
+  border: 1px solid var(--line);
+}
+
+.summary-card.full {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #fff3dc, #fffaf2);
+}
+
+.card-label {
+  display: block;
+  font-size: 13px;
+  color: var(--gold);
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.card-text {
+  margin: 0;
+  font-size: 16px;
+  color: #342b22;
+  white-space: pre-line;
+}
+
+.list-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.list-card {
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: #fffaf2;
+  border: 1px solid var(--line);
+}
+
+.list-card h3,
+.sub-card h3 {
+  margin: 0 0 12px;
+  color: var(--brown);
+  font-size: 18px;
+}
+
+.list-card ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.list-card li {
+  margin: 8px 0;
+  color: #44372c;
+}
+
+.core-loop {
+  background:
+    linear-gradient(180deg, rgba(36, 24, 15, 0.97), rgba(76, 48, 23, 0.95)),
+    radial-gradient(circle at top right, rgba(207, 156, 67, 0.28), transparent 34%);
+  color: #fff7e8;
+  border-color: rgba(255, 218, 150, 0.18);
+}
+
+.core-loop .section-title {
+  color: #fff7e8;
+}
+
+.core-loop .section-number {
+  background: #f7d58c;
+  color: #24180f;
+}
+
+.loop-block {
+  padding: 22px 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 225, 165, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  margin: 14px 0;
+}
+
+.loop-block h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #f7d58c;
+}
+
+.loop-block p {
+  margin: 0;
+  color: rgba(255, 248, 232, 0.88);
+  white-space: pre-line;
+}
+
+.diagram {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 22px 0;
+}
+
+.diagram-item {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(184, 138, 59, 0.14);
+  border: 1px solid rgba(184, 138, 59, 0.26);
+  color: #4b321b;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.core-loop .diagram-item {
+  background: rgba(255, 215, 137, 0.12);
+  border-color: rgba(255, 215, 137, 0.22);
+  color: #ffe4a8;
+}
+
+.diagram-arrow {
+  color: rgba(184, 138, 59, 0.64);
+  font-weight: 800;
+}
+
+.core-loop .diagram-arrow {
+  color: rgba(255, 226, 171, 0.55);
+}
+
+.insight-box {
+  margin-top: 22px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: rgba(184, 138, 59, 0.12);
+  border: 1px solid rgba(184, 138, 59, 0.22);
+}
+
+.insight-label {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.insight-text {
+  margin: 0;
+  font-size: 16px;
+  color: #372b20;
+  white-space: pre-line;
+}
+
+.core-loop .insight-box {
+  background: rgba(255, 215, 137, 0.1);
+  border-color: rgba(255, 215, 137, 0.22);
+}
+
+.core-loop .insight-text {
+  color: rgba(255, 248, 232, 0.9);
+}
+
+.sub-card {
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: #fff7ea;
+  border: 1px solid var(--line);
+  margin-top: 14px;
+}
+
+.os-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.os-card {
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: #fffaf2;
+  border: 1px solid var(--line);
+}
+
+.os-card h3 {
+  margin: 0 0 8px;
+  color: var(--brown);
+  font-size: 18px;
+}
+
+.os-desc {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.os-pattern {
+  margin: 0;
+  color: #33291f;
+  white-space: pre-line;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.step-card {
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: #fffaf2;
+  border: 1px solid var(--line);
+}
+
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--deep);
+  color: #f7d58c;
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.step-card h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: var(--brown);
+}
+
+.step-card p {
+  margin: 0;
+  color: #3c3026;
+  white-space: pre-line;
+}
+
+.final {
+  background: linear-gradient(135deg, #24180f, #5b3d22);
+  color: #fff7e8;
+}
+
+.final .section-title {
+  color: #fff7e8;
+}
+
+.final .body-text,
+.final .card-text {
+  color: rgba(255, 248, 232, 0.88);
+}
+
+.final .insight-label {
+  color: #d6a94d;
+}
+
+.final .insight-text {
+  color: rgba(255, 245, 225, 0.92);
+}
+
+.declaration {
+  margin: 22px 0;
+  padding: 24px;
+  border-radius: 22px;
+  background: rgba(255, 215, 137, 0.12);
+  border: 1px solid rgba(255, 215, 137, 0.24);
+  color: #ffe0a1;
+  font-size: clamp(20px, 3vw, 28px);
+  line-height: 1.55;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+}
+
+.disclaimer {
+  font-size: 13px;
+  color: rgba(60, 46, 35, 0.68);
+  text-align: center;
+  padding: 20px 10px 0;
+}
+
+@media (max-width: 720px) {
+  .report-wrap {
+    width: min(100% - 22px, 940px);
+    padding-top: 18px;
+  }
+
+  .cover {
+    border-radius: 28px;
+  }
+
+  .meta-grid,
+  .summary-grid,
+  .list-grid,
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    border-radius: 24px;
+  }
+
+  .section-title {
+    align-items: flex-start;
+  }
+
+  .diagram {
+    display: block;
+  }
+
+  .diagram-item {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    text-align: center;
+  }
+
+  .diagram-arrow {
+    display: block;
+    text-align: center;
+    margin: 4px 0;
+  }
+}
+
+
+/* ===== CAL PREMIUM v4 DESIGN OVERRIDE : BLACK / WHITE / GOLD ===== */
+:root {
+  --bg: #060606;
+  --paper: #ffffff;
+  --paper-soft: #fffdf8;
+  --ink: #111111;
+  --muted: #6f6a61;
+  --line: rgba(0,0,0,.10);
+  --gold: #b98518;
+  --gold-light: #e7c875;
+  --gold-soft: rgba(185,133,24,.14);
+  --deep: #080808;
+  --shadow: 0 28px 80px rgba(0,0,0,.22);
+  --radius-lg: 34px;
+  --radius-md: 24px;
+  --radius-sm: 16px;
+}
+
+body {
+  background:
+    radial-gradient(circle at 5% 0%, rgba(185,133,24,.22), transparent 28%),
+    radial-gradient(circle at 95% 30%, rgba(231,200,117,.10), transparent 26%),
+    linear-gradient(180deg, #050505 0%, #111 38%, #f1eee8 38%, #eee8dd 100%);
+  color: var(--ink);
+  line-height: 1.76;
+  letter-spacing: -0.03em;
+}
+
+.report-wrap {
+  width: min(980px, calc(100% - 32px));
+  padding: 44px 0 86px;
+}
+
+.cover {
+  border-radius: 38px;
+  padding: clamp(38px, 6vw, 76px);
+  background:
+    radial-gradient(circle at 84% 18%, rgba(231,200,117,.22), transparent 25%),
+    linear-gradient(135deg, #050505 0%, #151515 55%, #33230d 100%);
+  border: 1px solid rgba(231,200,117,.18);
+  box-shadow: 0 34px 90px rgba(0,0,0,.42);
+  margin-bottom: 30px;
+}
+
+.cover::before {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px solid rgba(231,200,117,.18);
+  border-radius: 28px;
+  pointer-events: none;
+}
+
+.cover::after {
+  right: -120px;
+  top: -140px;
+  width: 360px;
+  height: 360px;
+  border-color: rgba(231,200,117,.24);
+  box-shadow: 0 0 90px rgba(231,200,117,.16) inset;
+}
+
+.kicker {
+  display: inline-flex;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(185,133,24,.12);
+  border: 1px solid rgba(231,200,117,.24);
+  font-size: 12px;
+  color: rgba(255,235,190,.86);
+}
+
+.cover h1 {
+  font-size: clamp(36px, 6vw, 62px);
+  line-height: 1.12;
+  letter-spacing: -0.065em;
+  font-weight: 950;
+}
+
+.cover-sub {
+  font-size: clamp(18px, 2.5vw, 22px);
+  color: rgba(255,255,255,.78);
+  font-weight: 500;
+}
+
+.meta-card {
+  border: 1px solid rgba(255,231,177,.18);
+  background: rgba(255,255,255,.07);
+  backdrop-filter: blur(10px);
+}
+
+.section {
+  background: rgba(255,255,255,.97);
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 34px;
+  box-shadow: 0 18px 46px rgba(0,0,0,.08);
+  padding: clamp(30px, 4.3vw, 50px);
+  margin: 26px 0;
+}
+
+.section-title {
+  gap: 14px;
+  margin-bottom: 30px;
+  font-size: clamp(30px, 4.4vw, 42px);
+  line-height: 1.15;
+  letter-spacing: -0.07em;
+  color: #050505;
+  font-weight: 950;
+}
+
+.section-number {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  background: #050505;
+  color: var(--gold-light);
+  font-weight: 950;
+  box-shadow: 0 8px 20px rgba(0,0,0,.22);
+}
+
+.summary-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(30px, 5vw, 48px);
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 86% 72%, rgba(231,200,117,.13), transparent 30%),
+    linear-gradient(135deg, #070707 0%, #171717 58%, #32230d 100%);
+  color: #fff;
+  border: 1px solid rgba(231,200,117,.24);
+  box-shadow: 0 24px 60px rgba(0,0,0,.24);
+  margin-bottom: 24px;
+}
+
+.summary-hero::after {
+  content: "CAL";
+  position: absolute;
+  right: 24px;
+  bottom: -20px;
+  font-size: clamp(64px, 14vw, 132px);
+  font-weight: 950;
+  letter-spacing: -0.08em;
+  color: rgba(231,200,117,.10);
+  line-height: 1;
+}
+
+.summary-hero p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: clamp(24px, 4vw, 38px);
+  line-height: 1.45;
+  letter-spacing: -0.065em;
+  font-weight: 950;
+  word-break: keep-all;
+  color: #fff;
+}
+
+.summary-core-message {
+  margin: 0 0 24px;
+  padding: 24px 28px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #fffaf0, #fffdf8);
+  border: 1px solid rgba(185,133,24,.24);
+  box-shadow: 0 12px 30px rgba(0,0,0,.045);
+}
+
+.summary-body-box {
+  margin: 24px 0 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.summary-point {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 34px;
+  align-items: center;
+  padding: 26px 30px;
+  margin-bottom: 20px;
+  border-radius: 22px;
+  background: #fffdf8;
+  border: 1px solid rgba(185,133,24,.28);
+  box-shadow: 0 12px 28px rgba(0,0,0,.04);
+}
+
+.summary-point:last-child {
+  margin-bottom: 0;
+}
+
+.summary-point-label {
+  position: relative;
+  color: #916612;
+  font-size: clamp(28px, 3.4vw, 38px);
+  line-height: 1.2;
+  font-weight: 950;
+  letter-spacing: -0.065em;
+  word-break: keep-all;
+}
+
+.summary-point-label::after {
+  content: "";
+  position: absolute;
+  right: -18px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 86px;
+  background: linear-gradient(180deg, transparent, rgba(185,133,24,.82), transparent);
+}
+
+.summary-point-text {
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.85;
+  color: #111;
+  font-weight: 500;
+  white-space: pre-line;
+  word-break: keep-all;
+}
+
+.cal-box,
+.insight-box {
+  margin-top: 24px;
+  padding: 24px 28px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(185,133,24,.15), rgba(255,255,255,.86));
+  border: 1px solid rgba(185,133,24,.32);
+  box-shadow: 0 14px 34px rgba(185,133,24,.10);
+}
+
+.cal-label,
+.insight-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--gold);
+  font-size: 12px;
+  letter-spacing: .16em;
+  font-weight: 950;
+  margin-bottom: 10px;
+}
+
+.cal-label::before,
+.insight-label::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 14px rgba(185,133,24,.72);
+}
+
+.cal-box p,
+.insight-text {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #201a12;
+  white-space: pre-line;
+}
+
+.lead-box {
+  padding: 24px 28px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(185,133,24,.14), rgba(255,255,255,.72));
+  border: 1px solid rgba(185,133,24,.26);
+}
+
+.lead-box strong {
+  color: #111;
+  font-size: clamp(21px, 3vw, 30px);
+  font-weight: 950;
+}
+
+.summary-card,
+.list-card,
+.sub-card,
+.os-card,
+.step-card {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.10);
+  box-shadow: 0 10px 24px rgba(0,0,0,.045);
+}
+
+.card-label {
+  color: var(--gold);
+  font-weight: 950;
+}
+
+.card-text,
+.body-text,
+.os-pattern,
+.step-card p,
+.list-card li {
+  font-size: 17px;
+  color: #202020;
+}
+
+.list-card h3,
+.sub-card h3,
+.os-card h3,
+.step-card h3 {
+  color: #050505;
+  font-weight: 950;
+}
+
+.core-loop,
+.final {
+  background:
+    radial-gradient(circle at top right, rgba(231,200,117,.18), transparent 34%),
+    linear-gradient(180deg, #050505 0%, #151515 100%);
+  color: #fff;
+  border-color: rgba(255,255,255,.12);
+  box-shadow: 0 28px 76px rgba(0,0,0,.32);
+}
+
+.core-loop .section-title,
+.final .section-title {
+  color: #fff;
+}
+
+.core-loop .section-number,
+.final .section-number {
+  background: var(--gold-light);
+  color: #050505;
+}
+
+.core-loop .insight-box,
+.final .insight-box {
+  background: rgba(231,200,117,.10);
+  border-color: rgba(231,200,117,.24);
+  box-shadow: none;
+}
+
+.core-loop .insight-text,
+.final .insight-text,
+.final .body-text,
+.final .card-text {
+  color: rgba(255,255,255,.88);
+}
+
+.declaration {
+  padding: clamp(26px, 4vw, 38px);
+  border-radius: 28px;
+  background: rgba(231,200,117,.12);
+  border: 1px solid rgba(231,200,117,.32);
+  color: #ffe7a9;
+  font-size: clamp(24px, 4vw, 38px);
+  font-weight: 950;
+}
+
+@media (max-width: 720px) {
+  body {
+    background:
+      radial-gradient(circle at top left, rgba(185,133,24,.16), transparent 30%),
+      linear-gradient(180deg, #050505 0%, #111 34%, #f1eee7 34%, #eee8dd 100%);
+  }
+
+  .report-wrap {
+    width: min(100% - 22px, 940px);
+    padding-top: 18px;
+  }
+
+  .cover {
+    border-radius: 28px;
+    padding: 34px 24px;
+  }
+
+  .cover::before {
+    inset: 12px;
+    border-radius: 22px;
+  }
+
+  .cover h1 {
+    font-size: 34px;
+  }
+
+  .section {
+    border-radius: 26px;
+    padding: 28px 22px;
+    margin: 20px 0;
+  }
+
+  .section-title {
+    font-size: 28px;
+    gap: 11px;
+  }
+
+  .summary-hero {
+    padding: 28px 22px;
+    border-radius: 24px;
+  }
+
+  .summary-hero p {
+    font-size: 24px;
+  }
+
+  .summary-point {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 24px 22px;
+  }
+
+  .summary-point-label {
+    font-size: 28px;
+  }
+
+  .summary-point-label::after {
+    display: none;
+  }
+
+  .summary-point-text,
+  .body-text,
+  .card-text,
+  .insight-text,
+  .cal-box p,
+  .step-card p,
+  .os-pattern,
+  .list-card li {
+    font-size: 17px;
+    line-height: 1.8;
+  }
+}
+
+
+/* === RESTORED FINAL SECTION 1 STRUCTURE === */
+.summary-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(28px, 5vw, 46px);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 86% 30%, rgba(231,200,117,.16), transparent 28%),
+    linear-gradient(135deg, #070707 0%, #181818 58%, #3a2a11 100%);
+  color: #fff;
+  border: 1px solid rgba(231,200,117,.26);
+  box-shadow: 0 24px 60px rgba(0,0,0,.20);
+  margin-bottom: 28px;
+}
+
+.summary-hero::after {
+  content: "CAL";
+  position: absolute;
+  right: 22px;
+  bottom: -18px;
+  font-size: clamp(58px, 14vw, 126px);
+  font-weight: 950;
+  letter-spacing: -0.08em;
+  color: rgba(231,200,117,.08);
+  line-height: 1;
+}
+
+.summary-hero p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: clamp(24px, 4vw, 38px);
+  line-height: 1.45;
+  letter-spacing: -0.065em;
+  font-weight: 950;
+  word-break: keep-all;
+}
+
+.section > .body-text {
+  margin: 28px 0 0;
+  font-size: 20px;
+  line-height: 1.9;
+  color: #24180f;
+  font-weight: 500;
+  word-break: keep-all;
+}
+
+.sub-card {
+  padding: 24px 26px;
+  border-radius: 22px;
+  background: #fffdf8;
+  border: 1px solid rgba(0,0,0,.10);
+  margin-top: 24px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.04);
+}
+
+.sub-card h3 {
+  margin: 0 0 12px;
+  color: #111;
+  font-size: 22px;
+  line-height: 1.35;
+  font-weight: 950;
+}
+
+.sub-card .card-text {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #24180f;
+}
+
+.cal-box {
+  margin-top: 28px;
+  padding: 26px 28px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(200,155,60,.16), rgba(255,255,255,.72));
+  border: 1px solid rgba(200,155,60,.32);
+  box-shadow: 0 14px 34px rgba(200,155,60,.10);
+}
+
+.cal-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: #b98518;
+  font-weight: 950;
+  margin-bottom: 12px;
+}
+
+.cal-label::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #b98518;
+  box-shadow: 0 0 14px rgba(200,155,60,.72);
+}
+
+.cal-box p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.85;
+  color: #24180f;
+  white-space: pre-line;
+}
+
+@media (max-width: 720px) {
+  .summary-hero {
+    padding: 28px 22px;
+    border-radius: 24px;
+  }
+
+  .summary-hero p {
+    font-size: 24px;
+  }
+
+  .section > .body-text,
+  .sub-card .card-text,
+  .cal-box p {
+    font-size: 17px;
+    line-height: 1.85;
+  }
+}
+
+</style>
+</head>
+
+<body>
+<div class="report-wrap" id="app"></div>
+
+<script>
+const reportData = {
+  "meta": {
+    "clientName": "홍길동",
+    "reportDate": "2026-05-08",
+    "reportId": "CAL-20260508-091543-HONGGILDONG",
+    "reportType": "CAL 의식OS 프리미엄 리포트 v4.0",
+    "coreThesis": "현실은 사건이 아니라 반복 실행된 의식 구조의 출력입니다."
+  },
+  "executiveSummary": {
+    "title": "현실 출력 구조 요약",
+    "oneLineDiagnosis": "홍길동님의 핵심 구조는 어린 시절 신체 충격 사건이 ‘평생 해결해야 할 숙제’로 저장되며, 불안과 압박을 반복 출력해온 구조입니다.",
+    "summaryBody": "그 사건은 단순한 신체 경험으로 끝나지 않고, 마음속에서 ‘아직 완료되지 않은 과제’처럼 저장되었습니다. 그래서 시간이 지나도 몸은 현재를 살지만, 의식OS는 그 사건을 계속 미완료 파일처럼 불러왔습니다.",
+    "coreMessage": "반복된 불안은 현재 위험의 증거가 아니라, 과거 사건이 아직 완료되지 않은 파일처럼 저장되어 있었던 결과입니다.",
+    "calInsight": "파일은 닫혔는데 작업 표시줄에 계속 떠 있으면 컴퓨터가 느려지듯, 끝난 사건도 ‘미완료’로 저장되면 현재의 에너지를 계속 사용합니다."
+  },
+  "realityOutput": {
+    "title": "현재 현실에서 반복되는 출력 패턴",
+    "mainPattern": "불안과 압박감이 특정 기억, 신체 감각, 미해결 과제 의식과 연결되어 반복 출력되는 구조입니다.",
+    "visibleProblems": [
+      "오래된 사건을 현재에도 해결해야 할 숙제로 인식함",
+      "몸의 특정 부위 또는 감각을 통해 압박감이 올라옴",
+      "문제를 정면으로 다루기보다 회피하는 반응이 반복됨",
+      "현재는 거의 극복되었다고 느끼지만 잔여 불안이 남아 있음"
+    ],
+    "emotionalSignals": [
+      "불안",
+      "압박감",
+      "계속 불안해질 것 같은 예측 감정"
+    ],
+    "bodySignals": [
+      "압박",
+      "머리 충격 사건과 연결된 신체 기억",
+      "긴장성 감각 반응"
+    ],
+    "relationshipOutput": "관계 영역에서는 직접적인 충돌보다 내면에서 먼저 긴장하고, 상대의 말이나 상황을 ‘내가 해결해야 할 문제’처럼 받아들이는 방식이 나타나기 쉽습니다. 인정 욕구, 설명 충동, 거절 어려움, 혼자 해결하려는 경향이 모두 ‘내가 괜찮다는 것을 증명해야 한다’는 흐름으로 연결될 수 있습니다.",
+    "moneyOrWorkOutput": "돈과 일의 영역에서는 문제를 해결해야 한다는 압박이 동력으로 작동할 수 있지만, 압박이 커지면 선택보다 회피가 먼저 실행될 수 있습니다. ‘어른이 되면 내 돈으로 수술한다’는 기대는 경제적 자율성과 회복 욕구가 결합된 현실 출력입니다.",
+    "choicePattern": "반복되는 선택 패턴은 ‘해결해야 한다’는 생각이 올라온 뒤 압박감을 느끼고, 실제로는 회피하거나 미루는 방식입니다. 이 구조는 문제를 없애기보다 미해결감 자체를 장기 저장하게 만듭니다.",
+    "coreInsight": "현재 현실의 핵심 출력은 문제가 계속 발생해서가 아니라, 과거 사건이 ‘끝나지 않은 숙제’로 저장되어 현재의 감정과 선택에 계속 접속되는 것입니다.",
+    "calInsight": "컴퓨터에 알림이 계속 뜨면 실제 문제가 계속 생긴 것처럼 느껴집니다. 하지만 어떤 알림은 오래된 설정 때문에 반복 표시되는 것일 수 있습니다."
+  },
+  "coreLoop": {
+    "title": "핵심 자동반응 루프",
+    "trigger": "핵심 트리거는 초등학교 5학년 시기의 머리 돌멩이 충격 사건과 그 사건을 떠올리게 하는 신체 감각, 압박감, 불안한 생각입니다.",
+    "interpretation": "사건 이후 저장된 1차 해석은 ‘내 몸에 문제가 생겼다’입니다. 그러나 더 깊게 저장된 해석은 ‘이 문제는 평생 치유해야 할 숙제다’입니다. 이 해석은 단순한 기억이 아니라 삶 전체에 붙은 미완료 과제처럼 작동했습니다. 그래서 시간이 지나도 사건은 과거의 장면으로 종료되지 않고, 현재에도 계속 점검해야 하는 항목으로 남았습니다.",
+    "emotionRise": "이 해석이 활성화되면 불안과 압박감이 먼저 상승합니다. 불안은 ‘아직 끝나지 않았다’는 신호로 작동하고, 압박감은 ‘무언가 해야 한다’는 내부 명령처럼 작동합니다. 감정은 단순히 불편한 느낌이 아니라, 저장된 해석을 현실처럼 믿게 만드는 에너지입니다.",
+    "identification": "동일시는 ‘내가 불안을 느낀다’에서 멈추지 않고 ‘나는 아직 해결되지 않은 사람이다’로 이동할 때 발생합니다. 이 순간 자동반응은 자신처럼 느껴집니다. 불안이 올라오는 것이 아니라, 내가 불안한 존재처럼 느껴지고, 압박감이 지나가는 것이 아니라, 내 삶이 압박 그 자체처럼 느껴집니다.",
+    "automaticReaction": "자동반응은 회피하기입니다. 표면적으로는 회피지만, 내부 구조에서는 ‘너무 큰 압박을 잠시 낮추기 위한 방어 반응’입니다. 회피는 즉시 긴장을 낮추기 때문에 단기적으로는 효과가 있습니다. 그러나 장기적으로는 ‘아직 해결하지 못했다’는 저장을 강화합니다.",
+    "storagePattern": "반복 저장은 다음 방식으로 굳어졌습니다. 사건이 떠오릅니다. 몸에 압박이 생깁니다. ‘해결해야 할 숙제가 남았다’는 생각이 따라옵니다. 불안이 상승합니다. 회피합니다. 회피 후에는 잠시 편해지지만, 무의식에는 ‘이 문제는 아직 끝나지 않았다’고 다시 저장됩니다. 이렇게 사건은 한 번의 기억이 아니라 반복 실행되는 내부 과제가 됩니다.",
+    "realityReOutput": "이 저장 패턴은 현실에서 계속 불안할 것 같은 예측, 문제를 해결해야 한다는 압박, 그러나 실제로는 회피하는 선택으로 재출력됩니다. 결국 현실은 ‘문제가 있어서 불안한 것’처럼 보이지만, 구조적으로는 ‘불안하게 저장된 문제 해석이 현실을 다시 그렇게 읽게 만드는 것’입니다.",
+    "loopDiagram": [
+      "자극 입력",
+      "해석",
+      "감정 상승",
+      "동일시",
+      "자동반응",
+      "반복 저장",
+      "현실 재출력"
+    ],
+    "coreInsight": "홍길동님은 사건 때문에 계속 고통받은 것이 아니라, 사건 이후 저장된 ‘나는 평생 치유해야 할 숙제를 가진 사람’이라는 자기해석에 의해 반복적으로 불안과 압박을 경험해왔습니다. 여기서 핵심 전환은 사건을 부정하는 것이 아니라, 그 해석이 자동 저장된 구조임을 보는 것입니다.",
+    "calInsight": "돌멩이가 한 번 나무에 흠집을 낸 것은 사건입니다. 그런데 시스템이 그 흠집을 매일 새 상처로 스캔하면, 나무는 매일 다시 다친 것처럼 반응합니다."
+  },
+  "sajuLens": {
+    "title": "사주OS — 초기 에너지 렌즈",
+    "birthData": {
+      "yearPillar": "기축년",
+      "monthPillar": "임신월",
+      "dayPillar": "기묘일",
+      "hourPillar": "기사시",
+      "calendarType": "양력",
+      "birthTime": "사시"
+    },
+    "elementScores": {
+      "wood": 1,
+      "fire": 1,
+      "earth": 4,
+      "metal": 1,
+      "water": 1
+    },
+    "dominantElements": [
+      "토"
+    ],
+    "weakElements": [
+      "목",
+      "화",
+      "금",
+      "수"
+    ],
+    "normalOperation": "토(土)의 순기능은 안정감, 지속성, 책임감, 현실을 붙잡는 힘입니다. 토가 안정적으로 작동하면 경험을 쉽게 흘려보내지 않고, 삶의 과제를 꾸준히 다루는 기반이 됩니다. 연삿갓님의 사주OS에서는 토 에너지가 강하게 배치되어 있어 기억과 경험을 오래 보관하고, 한 번 중요하다고 인식한 문제를 쉽게 놓지 않는 렌즈가 형성되기 쉽습니다.",
+    "distortedOperation": "토 에너지가 특정 충격 경험과 결합하면, 지나간 사건도 ‘아직 정리되지 않은 현실 문제’처럼 저장될 수 있습니다. 이때 토의 지속성은 장점이 아니라 미완료감을 오래 붙드는 구조로 변형됩니다. 목(木)의 유연한 성장성, 화(火)의 표현과 발산, 금(金)의 명확한 정리, 수(水)의 흐름이 모두 낮은 균형에서는 하나의 사건이 자연스럽게 순환되지 못하고 내부에 오래 고정되기 쉽습니다.",
+    "lensAmplification": "사건이 발생했을 때 사주OS 렌즈는 그것을 단순한 사고로만 저장하기보다 ‘내가 끝까지 해결해야 할 문제’로 증폭했을 가능성이 큽니다. 특히 토의 과다한 보존력은 사건을 오래 들고 있게 만들고, 화의 낮은 표현성은 감정을 밖으로 충분히 배출하기보다 내부 압박으로 남기며, 목의 낮은 유연성은 ‘나무에 흠집났네’처럼 가볍게 재해석하기까지 오랜 시간이 걸리게 만들 수 있습니다.",
+    "connectionToRealityOutput": "사건은 사주OS 해석 필터를 통과해 ‘해결되지 않은 숙제’로 저장되었습니다. 저장된 자기해석은 불안과 압박감을 반복 감정으로 만들었고, 이 감정은 회피라는 자동반응을 실행시켰습니다. 그 결과 현실에서는 문제를 이미 거의 극복했음에도 불구하고, 잔여 불안과 압박감이 반복적으로 출력되는 구조가 남았습니다.",
+    "coreInsight": "사주OS는 운명을 결정한 것이 아니라, 사건을 오래 붙잡고 미완료 과제로 저장하기 쉬운 초기 렌즈를 제공했습니다. 이 렌즈를 이해하면 ‘왜 나는 이 일을 오래 숙제로 느꼈는가’를 구조적으로 볼 수 있습니다.",
+    "calInsight": "토가 강한 시스템은 파일을 쉽게 삭제하지 않고 오래 보관합니다. 장점은 안정성이지만, 오래된 오류 파일까지 계속 보관하면 현재 실행 속도를 늦출 수 있습니다."
+  },
+  "consciousnessOS": {
+    "title": "의식OS 구조 분석",
+    "fiveSenseInput": {
+      "label": "5식 — 입력 감지",
+      "description": "5식은 감각 입력을 받는 층입니다. 몸의 압박, 머리와 연결된 감각, 긴장 반응이 여기서 먼저 감지됩니다.",
+      "clientPattern": "연삿갓님의 경우 신체 감각이 단순한 감각으로 끝나지 않고 과거 사건의 알림처럼 작동합니다."
+    },
+    "sixthInterpretation": {
+      "label": "6식 — 해석과 판단",
+      "description": "6식은 입력된 감각과 사건에 의미를 붙입니다. 여기서 ‘이건 아직 해결해야 한다’, ‘숙제가 남아 있다’는 판단이 만들어집니다.",
+      "clientPattern": "감각이 올라오면 곧바로 ‘평생 치유해야 할 숙제’라는 해석 구조와 연결됩니다."
+    },
+    "seventhIdentification": {
+      "label": "7식 — 동일시",
+      "description": "7식은 해석을 자기 자신과 연결합니다. 문제를 가진 내가 아니라, 문제 자체가 나라고 느끼는 단계입니다.",
+      "clientPattern": "불안이 올라올 때 ‘불안이 지나간다’보다 ‘나는 계속 불안할 것이다’라는 자기화가 발생하기 쉽습니다."
+    },
+    "eighthStorage": {
+      "label": "8식 — 저장된 자동패턴",
+      "description": "8식은 반복된 해석, 감정, 반응을 저장하는 층입니다. 한 번 저장된 패턴은 유사한 자극이 들어올 때 자동 실행됩니다.",
+      "clientPattern": "압박감, 미해결감, 회피 반응이 하나의 자동 실행 파일처럼 저장되어 있습니다."
+    },
+    "ninthConsciousChoice": {
+      "label": "9식 — 의식하는 자아",
+      "description": "9식은 자동반응을 알아차릴 수 있는 의식의 자리입니다. 이 자리는 반응을 억누르는 곳이 아니라, 반응과 자신 사이에 선택 간격을 만드는 기능입니다.",
+      "clientPattern": "현재 ‘지금은 거의 극복됨’과 ‘나무에 흠집났네’라는 표현은 9식이 이미 작동하기 시작했다는 신호입니다.",
+      "choicePoint": "압박감이 올라올 때 ‘또 숙제가 남았다’로 들어가기 전에, ‘이것은 오래된 자동반응이다’라고 인식하는 순간이 선택 지점입니다."
+    },
+    "coreInsight": "5식은 감각을 받고, 6식은 해석하며, 7식은 나와 연결하고, 8식은 반복 저장합니다. 9식은 이 전체 흐름을 알아차리고 멈춤과 선택을 회복하는 자리입니다.",
+    "calInsight": "자동차가 경고등을 띄운다고 해서 항상 엔진이 고장난 것은 아닙니다. 9식은 경고등을 보고 바로 멈추기 전에 실제 상태를 확인하는 운전자입니다."
+  },
+  "materializationFlow": {
+    "title": "현실은 어떻게 물질화되는가",
+    "innerPattern": "내부 패턴은 ‘감각 발생 → 미해결 해석 → 압박감 → 회피’로 구성됩니다.",
+    "repeatedEmotion": "반복 감정은 불안과 압박감입니다. 이 감정은 오래된 사건을 현재의 문제처럼 느끼게 만듭니다.",
+    "repeatedChoice": "반복 선택은 회피입니다. 회피는 즉시 압박을 낮추지만, 장기적으로는 ‘아직 끝나지 않았다’는 내부 저장을 강화합니다.",
+    "repeatedBehavior": "반복 행동은 문제를 직접 끝내기보다 마음속 과제로 남겨두는 방식입니다. 해결하고 싶지만 동시에 마주하기 부담스러운 상태가 지속됩니다.",
+    "outerResult": "외부 현실에서는 이미 상당 부분 극복했음에도, 마음속에서는 ‘완전히 끝나지 않았다’는 잔상이 남습니다. 이 잔상은 새로운 상황에서도 불안 예측을 만들어냅니다.",
+    "materializationDiagram": [
+      "반복 해석",
+      "반복 감정",
+      "반복 선택",
+      "반복 행동",
+      "현실 출력"
+    ],
+    "coreInsight": "현실 물질화는 신비한 끌어당김이 아니라, 반복된 해석이 반복 감정을 만들고, 반복 감정이 반복 선택을 만들며, 반복 선택이 비슷한 현실 체감을 강화하는 과정입니다.",
+    "calInsight": "같은 버튼을 누르면 같은 화면이 뜹니다. 현실도 같은 해석과 같은 선택이 반복되면 비슷한 화면으로 렌더링됩니다."
+  },
+  "choiceRecovery": {
+    "title": "9식 — 관리자 권한 회복",
+    "notSelfStatement": "불안은 홍길동님 자신이 아닙니다. 압박감도 정체성이 아닙니다. 그것은 오래 저장된 자동반응이 현재 입력에 반응한 결과입니다.",
+    "observerStatement": "관찰자의 자리는 ‘내가 또 불안하다’가 아니라 ‘불안 반응이 실행되고 있다’고 보는 자리입니다. 이 차이가 자동반응과 자신을 분리합니다.",
+    "pausePoint": "멈춤 지점은 압박감이 올라온 직후입니다. 이때 바로 회피로 가지 않고, ‘지금 내 안에서 숙제 파일이 열렸다’고 이름 붙이는 것이 핵심입니다.",
+    "newChoicePossibility": "새로운 선택은 사건을 무시하는 것이 아니라, 사건을 현재의 전부로 확대하지 않는 것입니다. ‘나무에 흠집났네’라는 표현은 이미 새로운 해석의 언어입니다.",
+    "reprogrammingStatement": "재프로그래밍은 ‘평생 치유해야 할 숙제’라는 문장을 ‘과거에 생긴 흠집이지만, 지금의 나 전체를 규정하지 않는다’로 바꾸는 반복 훈련입니다.",
+    "coreInsight": "9식의 선택 가능성은 감정을 없애는 능력이 아니라, 감정이 올라와도 자동반응으로 바로 들어가지 않는 간격을 만드는 능력입니다.",
+    "calInsight": "관리자 권한이 없으면 프로그램이 자동으로 실행됩니다. 관리자 권한을 회복하면 실행할지, 닫을지, 업데이트할지 선택할 수 있습니다."
+  },
+  "reprogrammingProtocol": {
+    "title": "현실 재프로그래밍 프로토콜",
+    "steps": [
+      {
+        "step": 1,
+        "name": "감지하기",
+        "instruction": "압박감이 올라오면 먼저 몸의 위치와 강도를 확인합니다. ‘압박이 있다’라고만 기록하고 해석으로 바로 넘어가지 않습니다."
+      },
+      {
+        "step": 2,
+        "name": "멈추기",
+        "instruction": "즉시 해결하거나 회피하려는 충동이 생기면 10초간 행동을 멈춥니다. 이 멈춤이 9식의 선택 간격입니다."
+      },
+      {
+        "step": 3,
+        "name": "반응 이름 붙이기",
+        "instruction": "속으로 ‘평생 숙제 반응이 켜졌다’라고 명명합니다. 이름을 붙이면 반응과 자신 사이에 거리가 생깁니다."
+      },
+      {
+        "step": 4,
+        "name": "새로운 선택 질문하기",
+        "instruction": "‘지금 정말 해결해야 할 현실 문제인가, 아니면 오래된 저장 파일이 열린 것인가?’라고 질문합니다."
+      },
+      {
+        "step": 5,
+        "name": "작은 행동 바꾸기",
+        "instruction": "회피 대신 아주 작은 확인 행동을 선택합니다. 예를 들어 기록하기, 현재 몸 상태 확인하기, 필요한 경우 실제 조치와 불필요한 걱정을 구분하기입니다."
+      },
+      {
+        "step": 6,
+        "name": "새로운 저장 반복하기",
+        "instruction": "마지막에 ‘흠집은 있지만 지금의 나는 작동하고 있다’는 문장으로 종료합니다. 이 종료 문장이 새로운 저장을 만듭니다."
+      }
+    ],
+    "dailyPractice": "하루 1회, 압박감이 없을 때도 ‘과거 사건은 있었고, 지금의 나는 현재를 선택한다’는 문장을 짧게 확인합니다. 불안할 때만 훈련하면 시스템은 훈련 자체를 위기 대응으로 저장할 수 있으므로, 안정된 시간에도 반복하는 것이 중요합니다.",
+    "turningQuestions": [
+      "지금 내가 반응하는 것은 현재 사건인가, 과거 저장인가?",
+      "이 압박감이 나를 보호하려는 방식은 무엇인가?",
+      "회피하면 지금은 편해지지만 무엇이 다시 저장되는가?",
+      "내가 지금 선택할 수 있는 가장 작은 현실 행동은 무엇인가?",
+      "이 사건을 ‘평생 숙제’가 아니라 ‘나무의 흠집’으로 본다면 다음 행동은 어떻게 달라지는가?"
+    ],
+    "coreInsight": "재프로그래밍은 큰 결심보다 반복된 작은 종료 방식에서 일어납니다. 자동반응이 켜질 때마다 다르게 끝내면, 8식의 저장 방식이 바뀝니다.",
+    "calInsight": "프로그램 업데이트는 한 번의 선언으로 끝나지 않습니다. 같은 오류가 뜰 때마다 새 명령을 적용해야 시스템이 새 버전을 기본값으로 인식합니다."
+  },
+  "resistancePattern": {
+    "title": "변화 과정에서 나타나는 저항",
+    "expectedResistance": [
+      "압박감이 줄어들면 오히려 불안해지는 반응",
+      "문제를 가볍게 보면 방심하는 것 같다는 느낌",
+      "회피하지 않으려 할수록 더 강하게 회피하고 싶은 충동",
+      "오래된 숙제를 내려놓으면 무언가 놓치는 것 같다는 감각",
+      "이미 거의 극복했는데도 잔여 감각이 남아 있는 것에 대한 답답함"
+    ],
+    "whyItHappens": "저항은 변화가 잘못되고 있다는 뜻이 아닙니다. 8식에 저장된 자동패턴은 익숙한 반응을 안전으로 인식합니다. 그래서 ‘평생 숙제’라는 오래된 구조를 내려놓으려 하면, 시스템은 잠시 불안 신호를 더 크게 띄울 수 있습니다.",
+    "howToReadResistance": "저항은 되돌아가라는 신호가 아니라, 오래된 자동실행 파일이 권한을 잃고 있다는 신호로 읽어야 합니다. 특히 압박감이 다시 올라올 때 ‘또 시작됐다’가 아니라 ‘기존 저장이 재실행되었다’고 해석해야 합니다.",
+    "responseGuide": "저항이 올라오면 설득하려 하지 말고 구조를 확인합니다. ‘감각이 있다, 해석이 붙었다, 회피 충동이 생겼다, 지금 선택 간격을 만든다’의 순서로 처리합니다. 감정과 논쟁하지 않고 실행 순서를 바꾸는 것이 핵심입니다.",
+    "coreInsight": "변화의 저항은 실패가 아니라 기존 저장 패턴의 관성입니다. 관성은 싸워서 없애는 것이 아니라, 반복적으로 다른 선택을 입력해 약화시키는 것입니다.",
+    "calInsight": "오래 쓰던 네비게이션은 계속 예전 길을 추천합니다. 새 길을 몇 번 실제로 주행해야 시스템도 그 길을 기본 경로로 학습합니다."
+  },
+  "finalMessage": {
+    "title": "Final Message",
+    "message": "연삿갓님의 현실 출력은 ‘불안한 사람’이라는 성격 문제가 아니라, 오래된 사건이 ‘평생 치유해야 할 숙제’라는 해석으로 저장된 의식OS의 반복 실행 결과입니다. 중요한 점은 현재 이미 ‘거의 극복됨’이라는 새 인식이 생겼다는 것입니다. 이는 자동반응과 자신을 분리해 볼 수 있는 9식의 자리가 열렸다는 뜻입니다.",
+    "declaration": "나는 과거 사건을 부정하지 않는다. 그러나 그 사건을 나의 전체 정체성으로 저장하지 않는다. 압박감은 자동반응이고, 나는 그 반응을 알아차리고 새 선택을 입력할 수 있다.",
+    "closingSentence": "이제 핵심은 숙제를 평생 들고 가는 것이 아니라, 흠집이 있는 나무도 계속 자란다는 현재의 선택을 반복 저장하는 것입니다.",
+    "calInsight": "흠집은 기록입니다. 그러나 기록이 운전대를 잡게 둘 필요는 없습니다."
+  },
+  "disclaimer": {
+    "text": "본 리포트는 의료, 법률, 투자 상담이 아닙니다. 자기 이해와 선택 전환을 위한 의식 구조 분석 자료이며, 선택은 본인의 몫입니다."
+  }
+};
+
+const $ = (v) => v ?? '';
+
+function esc(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function hasText(value) {
+  return value !== undefined && value !== null && String(value).trim() !== '';
+}
+
+function p(text, cls = 'body-text') {
+  return hasText(text) ? `<p class="${cls}">${esc(text)}</p>` : '';
+}
+
+function insight(text) {
+  if (!hasText(text)) return '';
+  return `
+    <div class="insight-box">
+      <div class="insight-label">CAL INSIGHT</div>
+      <p class="insight-text">${esc(text)}</p>
+    </div>
+  `;
+}
+
+function diagram(items = []) {
+  if (!items.length) return '';
+  return `
+    <div class="diagram">
+      ${items.map((item, idx) => `
+        <span class="diagram-item">${esc(item)}</span>
+        ${idx < items.length - 1 ? '<span class="diagram-arrow">→</span>' : ''}
+      `).join('')}
+    </div>
+  `;
+}
+
+function listCard(title, items = []) {
+  if (!items || !items.length) return '';
+  return `
+    <div class="list-card">
+      <h3>${esc(title)}</h3>
+      <ul>${items.map(item => `<li>${esc(item)}</li>`).join('')}</ul>
+    </div>
+  `;
+}
+
+function section(num, title, content, extraClass = '') {
+  return `
+    <section class="section ${extraClass}">
+      <h2 class="section-title"><span class="section-number">${num}</span>${esc(title)}</h2>
+      ${content}
+    </section>
+  `;
+}
+
+function summary(data, openingData = {}) {
+  return section(
+    '1',
+    data.title || '현실 출력 구조 요약',
+    `
+      ${hasText(data.oneLineDiagnosis) ? `
+        <div class="summary-hero">
+          <p>${esc(data.oneLineDiagnosis)}</p>
+        </div>
+      ` : ''}
+
+      ${hasText(data.summaryBody) ? `
+        <p class="body-text">${esc(data.summaryBody)}</p>
+      ` : ''}
+
+      ${hasText(data.coreMessage) ? `
+        <div class="sub-card">
+          <h3>핵심 메시지</h3>
+          <p class="card-text">${esc(data.coreMessage)}</p>
+        </div>
+      ` : ''}
+
+      ${hasText(data.calInsight) ? `
+        <div class="cal-box">
+          <span class="cal-label">CAL INSIGHT</span>
+          <p>${esc(data.calInsight)}</p>
+        </div>
+      ` : ''}
+    `
+  );
+}
+
+function opening(data) {
+  return section('2', data.title || '현실 출력 선언', `
+    ${hasText(data.headline) ? `<div class="lead-box"><strong>${esc(data.headline)}</strong></div>` : ''}
+    ${p(data.body)}
+    ${hasText(data.keyMessage) ? `<div class="sub-card"><h3>핵심 메시지</h3>${p(data.keyMessage, 'card-text')}</div>` : ''}
+    ${insight(data.calInsight)}
+  `);
+}
+
+function reality(data) {
+  return section('2', data.title || '현재 현실에서 반복되는 출력 패턴', `
+    ${hasText(data.mainPattern) ? `<div class="lead-box"><strong>${esc(data.mainPattern)}</strong></div>` : ''}
+    <div class="list-grid">
+      ${listCard('현실에서 보이는 문제', data.visibleProblems)}
+      ${listCard('감정 신호', data.emotionalSignals)}
+      ${listCard('신체 신호', data.bodySignals)}
+    </div>
+    ${hasText(data.relationshipOutput) ? `<div class="sub-card"><h3>관계 출력</h3>${p(data.relationshipOutput, 'card-text')}</div>` : ''}
+    ${hasText(data.moneyOrWorkOutput) ? `<div class="sub-card"><h3>돈 / 일 출력</h3>${p(data.moneyOrWorkOutput, 'card-text')}</div>` : ''}
+    ${hasText(data.choicePattern) ? `<div class="sub-card"><h3>선택 패턴</h3>${p(data.choicePattern, 'card-text')}</div>` : ''}
+    ${hasText(data.coreInsight) ? `<div class="sub-card"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}
+    ${insight(data.calInsight)}
+  `);
+}
+
+function coreLoop(data) {
+  const blocks = [
+    ['자극 입력', data.trigger],
+    ['해석', data.interpretation],
+    ['저장된 자기해석', data.storedBelief],
+    ['감정 상승', data.emotionRise],
+    ['동일시', data.identification],
+    ['자동반응', data.automaticReaction],
+    ['반복 저장', data.storagePattern],
+    ['현실 재출력', data.realityReOutput]
+  ];
+
+  return section('3', data.title || '핵심 자동반응 루프', `
+    ${diagram(data.loopDiagram)}
+    ${blocks.map(([title, text]) => hasText(text) ? `<div class="loop-block"><h3>${esc(title)}</h3>${p(text, 'card-text')}</div>` : '').join('')}
+    ${hasText(data.coreInsight) ? `<div class="loop-block"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}
+    ${insight(data.calInsight)}
+  `, 'core-loop');
+}
+
+function saju(data) {
+  const bd = data.birthData || {};
+  const es = data.elementScores || {};
+  return section('4', data.title || '사주OS — 초기 에너지 렌즈', `
+    <div class="summary-grid">
+      <div class="summary-card"><span class="card-label">원국</span><p class="card-text">${esc([bd.yearPillar, bd.monthPillar, bd.dayPillar, bd.hourPillar].filter(Boolean).join(', '))}</p></div>
+      <div class="summary-card"><span class="card-label">오행 분포</span><p class="card-text">목(${esc(es.wood)}) · 화(${esc(es.fire)}) · 토(${esc(es.earth)}) · 금(${esc(es.metal)}) · 수(${esc(es.water)})</p></div>
+      <div class="summary-card"><span class="card-label">강한 에너지</span><p class="card-text">${esc((data.dominantElements || []).join(', '))}</p></div>
+      <div class="summary-card"><span class="card-label">약한 에너지</span><p class="card-text">${esc((data.weakElements || []).join(', '))}</p></div>
+    </div>
+    ${hasText(data.normalOperation) ? `<div class="sub-card"><h3>순기능</h3>${p(data.normalOperation, 'card-text')}</div>` : ''}
+    ${hasText(data.distortedOperation) ? `<div class="sub-card"><h3>왜곡 작동</h3>${p(data.distortedOperation, 'card-text')}</div>` : ''}
+    ${hasText(data.lensAmplification) ? `<div class="sub-card"><h3>렌즈 증폭</h3>${p(data.lensAmplification, 'card-text')}</div>` : ''}
+    ${hasText(data.storedInterpretationConnection) ? `<div class="sub-card"><h3>저장된 자기해석과의 연결</h3>${p(data.storedInterpretationConnection, 'card-text')}</div>` : ''}
+    ${hasText(data.connectionToRealityOutput) ? `<div class="sub-card"><h3>현실 출력과의 연결</h3>${p(data.connectionToRealityOutput, 'card-text')}</div>` : ''}
+    ${hasText(data.coreInsight) ? `<div class="sub-card"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}
+    ${insight(data.calInsight)}
+  `);
+}
+
+function consciousness(data) {
+  const items = [data.fiveSenseInput, data.sixthInterpretation, data.seventhIdentification, data.eighthStorage, data.ninthConsciousChoice];
+  return section('5', data.title || '의식OS 구조 분석', `
+    <div class="os-grid">
+      ${items.map(item => item ? `
+        <div class="os-card">
+          <h3>${esc(item.label)}</h3>
+          <p class="os-desc">${esc(item.description)}</p>
+          <p class="os-pattern">${esc(item.clientPattern || item.choicePoint || '')}</p>
+          ${hasText(item.choicePoint) ? `<p class="os-pattern"><strong>선택 지점:</strong> ${esc(item.choicePoint)}</p>` : ''}
+        </div>
+      ` : '').join('')}
+    </div>
+    ${hasText(data.coreInsight) ? `<div class="sub-card"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}
+    ${insight(data.calInsight)}
+  `);
+}
+
+function materialization(data) {
+  return section('6', data.title || '현실은 어떻게 물질화되는가', `
+    ${diagram(data.materializationDiagram)}
+    <div class="summary-grid">
+      <div class="summary-card"><span class="card-label">내부 패턴</span><p class="card-text">${esc(data.innerPattern)}</p></div>
+      <div class="summary-card"><span class="card-label">반복 감정</span><p class="card-text">${esc(data.repeatedEmotion)}</p></div>
+      <div class="summary-card"><span class="card-label">반복 선택</span><p class="card-text">${esc(data.repeatedChoice)}</p></div>
+      <div class="summary-card"><span class="card-label">반복 행동</span><p class="card-text">${esc(data.repeatedBehavior)}</p></div>
+      <div class="summary-card full"><span class="card-label">현실 출력</span><p class="card-text">${esc(data.outerResult)}</p></div>
+    </div>
+    ${hasText(data.coreInsight) ? `<div class="sub-card"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}
+    ${insight(data.calInsight)}
+  `);
+}
+
+function choice(data) {
+  return section('7', data.title || '9식 — 관리자 권한 회복', `
+    <div class="summary-grid">
+      <div class="summary-card full"><span class="card-label">나는 이것이 아니다</span><p class="card-text">${esc(data.notSelfStatement)}</p></div>
+      <div class="summary-card"><span class="card-label">관찰자 문장</span><p class="card-text">${esc(data.observerStatement)}</p></div>
+      <div class="summary-card"><span class="card-label">멈춤 지점</span><p class="card-text">${esc(data.pausePoint)}</p></div>
+      <div class="summary-card"><span class="card-label">새로운 선택</span><p class="card-text">${esc(data.newChoicePossibility)}</p></div>
+      <div class="summary-card"><span class="card-label">재프로그래밍 문장</span><p class="card-text">${esc(data.reprogrammingStatement)}</p></div>
+    </div>
+    ${hasText(data.coreInsight) ? `<div class="sub-card"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}
+    ${insight(data.calInsight)}
+  `);
+}
+
+function protocol(data) {
+  return section('8', data.title || '현실 재프로그래밍 프로토콜', `
+    <div class="steps">
+      ${(data.steps || []).map(step => `
+        <div class="step-card">
+          <div class="step-num">${esc(step.step)}</div>
+          <h3>${esc(step.name)}</h3>
+          <p>${esc(step.instruction)}</p>
+        </div>
+      `).join('')}
+    </div>
+    ${hasText(data.dailyPractice) ? `<div class="sub-card"><h3>데일리 실천</h3>${p(data.dailyPractice, 'card-text')}</div>` : ''}
+    ${listCard('전환 질문', data.turningQuestions)}
+    ${hasText(data.coreInsight) ? `<div class="sub-card"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}
+    ${insight(data.calInsight)}
+  `);
+}
+
+function resistance(data) {
+  return section('9', data.title || '변화 과정에서 나타나는 저항', `
+    ${listCard('예상되는 저항', data.expectedResistance)}
+    ${hasText(data.whyItHappens) ? `<div class="sub-card"><h3>왜 나타나는가</h3>${p(data.whyItHappens, 'card-text')}</div>` : ''}
+    ${hasText(data.howToReadResistance) ? `<div class="sub-card"><h3>어떻게 읽을 것인가</h3>${p(data.howToReadResistance, 'card-text')}</div>` : ''}
+    ${hasText(data.responseGuide) ? `<div class="sub-card"><h3>대응 가이드</h3>${p(data.responseGuide, 'card-text')}</div>` : ''}
+    ${hasText(data.coreInsight) ? `<div class="sub-card"><h3>핵심 통찰</h3>${p(data.coreInsight, 'card-text')}</div>` : ''}
+    ${insight(data.calInsight)}
+  `);
+}
+
+function finalMessage(data) {
+  return section('10', data.title || '최종 선언', `
+    ${p(data.message)}
+    ${hasText(data.declaration) ? `<div class="declaration">${esc(data.declaration)}</div>` : ''}
+    ${p(data.closingSentence)}
+    ${insight(data.calInsight)}
+  `, 'final');
+}
+
+function render(data) {
+  const meta = data.meta || {};
+  document.getElementById('app').innerHTML = `
+    <header class="cover">
+      <div class="kicker">CONSCIOUSNESS ARCHITECTURE LAB | CAL</div>
+      <h1>${esc(meta.reportType || 'CAL 의식OS 프리미엄 리포트')}</h1>
+      <p class="cover-sub">${esc(meta.coreThesis || '')}</p>
+      <div class="meta-grid">
+        <div class="meta-card"><div class="meta-label">고객명</div><div class="meta-value">${esc(meta.clientName)}</div></div>
+        <div class="meta-card"><div class="meta-label">리포트 날짜</div><div class="meta-value">${esc(meta.reportDate)}</div></div>
+        <div class="meta-card"><div class="meta-label">리포트 ID</div><div class="meta-value">${esc(meta.reportId)}</div></div>
+      </div>
+    </header>
+
+    ${summary(data.executiveSummary || {}, data.openingDeclaration || {})}
+    ${reality(data.realityOutput || {})}
+    ${coreLoop(data.coreLoop || {})}
+    ${saju(data.sajuLens || {})}
+    ${consciousness(data.consciousnessOS || {})}
+    ${materialization(data.materializationFlow || {})}
+    ${choice(data.choiceRecovery || {})}
+    ${protocol(data.reprogrammingProtocol || {})}
+    ${resistance(data.resistancePattern || {})}
+    ${finalMessage(data.finalMessage || {})}
+    <div class="disclaimer">${esc(data.disclaimer?.text || '')}</div>
+  `;
+}
+
+render(reportData);
+</script>
+</body>
+</html> 
