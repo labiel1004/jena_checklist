@@ -216,8 +216,8 @@ a{color:inherit;text-decoration:none}
 .content{min-width:0}
 .section{
   position:relative;
-  margin-bottom:22px;
-  padding:34px;
+  margin-bottom:30px;
+  padding:54px 34px 44px;
   background:rgba(255,255,255,.96);
   border:1px solid rgba(0,0,0,.08);
   border-radius:32px;
@@ -236,7 +236,7 @@ a{color:inherit;text-decoration:none}
   display:flex;
   align-items:center;
   gap:14px;
-  margin:0 0 26px;
+  margin:4px 0 42px;
 }
 .section-index{
   width:42px;
@@ -317,23 +317,10 @@ a{color:inherit;text-decoration:none}
   white-space:pre-line;
   word-break:keep-all;
 }
-.body + .body{margin-top:14px}
-
-.grid-2 + .body,
-.grid-3 + .body,
-.steps + .body,
-.card + .body,
-.energy-card + .body,
-.saju-birth-card + .body,
-.flow + .body{
-  margin-top:34px;
-}
+.body + .body{margin-top:20px}
+.body:last-of-type{margin-bottom:22px}
 .section.dark .body,.section.dark .card-text,.section.dark .panel-text{color:rgba(255,248,236,.88)}
-.grid-2,.grid-3{
-  display:grid;
-  gap:18px;
-  margin-bottom:34px;
-}
+.grid-2,.grid-3{display:grid;gap:14px}
 .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
 .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
 .card{
@@ -453,8 +440,7 @@ a{color:inherit;text-decoration:none}
 .steps{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:18px;
-  margin-bottom:34px;
+  gap:14px;
 }
 .step{
   padding:22px;
@@ -535,6 +521,100 @@ a{color:inherit;text-decoration:none}
   color:#2c241a;
 }
 
+
+.key-message-card{
+  margin-top:42px;
+  background:linear-gradient(180deg,#fff,#fffdf8);
+}
+.body + .key-message-card,
+.grid-2 + .key-message-card,
+.grid-3 + .key-message-card,
+.steps + .key-message-card,
+.loop-visual + .key-message-card,
+.energy-card + .key-message-card{
+  margin-top:44px;
+}
+.loop-visual{
+  display:grid;
+  gap:24px;
+  margin-top:4px;
+}
+.loop-flow{
+  padding:24px 26px;
+  border-radius:22px;
+  background:linear-gradient(135deg,#f0c35c 0%,#fff0c8 100%);
+  border:1px solid rgba(212,176,98,.45);
+  color:#17120d;
+  font-size:clamp(19px,2.8vw,27px);
+  line-height:1.65;
+  font-weight:900;
+  letter-spacing:-0.055em;
+  word-break:keep-all;
+  box-shadow:0 14px 30px rgba(0,0,0,.14);
+}
+.loop-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+.loop-card{
+  min-height:210px;
+  padding:24px;
+  border-radius:22px;
+  background:#fff;
+  border:1px solid rgba(0,0,0,.08);
+  box-shadow:0 14px 28px rgba(0,0,0,.16);
+  color:#111;
+}
+.loop-num{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#111;
+  color:#f2d48e;
+  font-weight:900;
+  font-size:13px;
+  margin-bottom:14px;
+}
+.loop-card h3{
+  margin:0 0 12px;
+  font-size:20px;
+  line-height:1.35;
+  font-weight:900;
+  color:#111;
+  letter-spacing:-.04em;
+}
+.loop-card p{
+  margin:0;
+  font-size:16px;
+  line-height:1.8;
+  color:#2f281f;
+  white-space:pre-line;
+  word-break:keep-all;
+}
+.section.dark .card{
+  background:#fff;
+  border-color:rgba(255,255,255,.22);
+  box-shadow:0 14px 28px rgba(0,0,0,.16);
+  color:#111;
+  backdrop-filter:none;
+}
+.section.dark .card-title{color:#111}
+.section.dark .card-text,
+.section.dark .panel-text{color:#2f281f}
+.section.dark .label{color:var(--gold)}
+@media (max-width:720px){
+  .section{padding:42px 18px 32px;border-radius:24px}
+  .section-head{margin:2px 0 36px}
+  .key-message-card{margin-top:32px}
+  .loop-grid{grid-template-columns:1fr;gap:14px}
+  .loop-card{min-height:auto;padding:20px}
+  .loop-flow{padding:20px 18px;font-size:19px}
+}
+
 /* SAJU VISUAL */
 .saju-birth-card{
   padding:28px;
@@ -556,10 +636,12 @@ a{color:inherit;text-decoration:none}
   margin-bottom:14px;
 }
 .saju-pillars{
-  font-size:clamp(22px,3vw,30px);
+  font-size:clamp(20px,2.45vw,28px);
   font-weight:900;
   line-height:1.45;
   word-break:keep-all;
+  white-space:nowrap;
+  letter-spacing:-0.055em;
 }
 .saju-calendar{
   margin-top:10px;
@@ -673,9 +755,11 @@ a{color:inherit;text-decoration:none}
   .hero h1{font-size:34px}
   .hero-sub{font-size:16px}
   .hero-mini{padding:14px}
-  .section{padding:24px 18px;border-radius:24px}
-  .section-head{align-items:flex-start}
+  .section{padding:34px 18px 28px;border-radius:24px}
+  .section-head{align-items:flex-start;margin-bottom:30px}
   .section-title{font-size:27px}
+  .saju-birth-card{padding:24px 18px}
+  .saju-pillars{font-size:clamp(18px,5.2vw,22px);white-space:nowrap;letter-spacing:-0.075em}
   .hero-quote{padding:24px 18px;border-radius:22px}
   .hero-quote p{font-size:24px}
   .lede{padding:18px;border-radius:18px;font-size:20px}
@@ -689,77 +773,6 @@ a{color:inherit;text-decoration:none}
   .donut::after{inset:48px}
   .donut-center{font-size:10px}
 }
-
-/* ===== FINAL BREATHING OVERRIDE ===== */
-/* 카드/스텝/사주/오행 블록 다음에 오는 본문이 붙어 보이지 않도록 섹션 내부 리듬을 강제로 통일 */
-.section .grid-2,
-.section .grid-3,
-.section .steps,
-.section .saju-birth-card,
-.section .energy-card,
-.section .flow,
-.section .os-grid{
-  margin-bottom:38px !important;
-}
-
-.section .grid-2 + *,
-.section .grid-3 + *,
-.section .steps + *,
-.section .saju-birth-card + *,
-.section .energy-card + *,
-.section .flow + *,
-.section .os-grid + *{
-  margin-top:0 !important;
-}
-
-.section .body{
-  margin-top:0;
-}
-
-.section .body + .body{
-  margin-top:24px !important;
-}
-
-/* 카드/스텝 묶음이 끝난 뒤 본문이 나올 때 숨 쉴 공간 확보 */
-.section .grid-2 ~ .body,
-.section .grid-3 ~ .body,
-.section .steps ~ .body,
-.section .saju-birth-card ~ .body,
-.section .energy-card ~ .body,
-.section .flow ~ .body,
-.section .os-grid ~ .body{
-  margin-top:28px !important;
-}
-
-/* 핵심 메시지 박스도 본문과 너무 붙지 않게 */
-.section .body + .card,
-.section .body + .insight,
-.section .card + .insight{
-  margin-top:34px !important;
-}
-
-@media (max-width:720px){
-  .section .grid-2,
-  .section .grid-3,
-  .section .steps,
-  .section .saju-birth-card,
-  .section .energy-card,
-  .section .flow,
-  .section .os-grid{
-    margin-bottom:34px !important;
-  }
-
-  .section .grid-2 ~ .body,
-  .section .grid-3 ~ .body,
-  .section .steps ~ .body,
-  .section .saju-birth-card ~ .body,
-  .section .energy-card ~ .body,
-  .section .flow ~ .body,
-  .section .os-grid ~ .body{
-    margin-top:26px !important;
-  }
-}
-
 </style>
 </head>
 <body>
@@ -799,9 +812,9 @@ function paragraphs(value){
   return String(value).split(/\n{2,}|\n/).map(x=>x.trim()).filter(Boolean);
 }
 function para(text, cls="body"){return hasText(text) ? `<p class="${cls}">${esc(text)}</p>` : ""}
-function infoCard(title,text,label="DETAIL"){
+function infoCard(title,text,label="DETAIL",extraClass=""){
   if(!hasText(text))return "";
-  return `<div class="card"><div class="label">${esc(label)}</div><h3 class="card-title">${esc(title)}</h3><p class="card-text">${esc(text)}</p></div>`;
+  return `<div class="card ${esc(extraClass)}"><div class="label">${esc(label)}</div><h3 class="card-title">${esc(title)}</h3><p class="card-text">${esc(text)}</p></div>`;
 }
 function listCard(title,items=[],label="POINT"){
   if(!items?.length)return "";
@@ -860,13 +873,49 @@ function renderSajuVisual(saju){
     </div>
   `;
 }
+
+function normalizeLoopSteps(s){
+  const source = s.loopSteps || s.loopCards || s.cards || s.items || (Array.isArray(s.loop) ? s.loop : null) || s.steps || [];
+  if(Array.isArray(source) && source.length){
+    return source.map((item,i)=>({
+      title:item.label || item.name || item.title || item.step || `단계 ${i+1}`,
+      text:item.text || item.body || item.desc || item.description || item.instruction || ""
+    })).filter(x=>hasText(x.title) || hasText(x.text));
+  }
+  const obj = s.loop && typeof s.loop === 'object' ? s.loop : s.reactionLoop || s.automaticLoop || null;
+  if(obj){
+    const keys = [
+      ["trigger","자극 입력"],["input","자극 입력"],["interpretation","해석"],["emotion","감정 상승"],
+      ["identification","동일시"],["reaction","자동반응"],["storage","반복 저장"],["output","현실 재출력"]
+    ];
+    return keys.filter(([k])=>hasText(obj[k])).map(([k,title])=>({title,text:obj[k]}));
+  }
+  return [];
+}
+function loopFlowText(s, cards){
+  const raw = s.loopFlow || s.flowText || s.flow || (s.loop && s.loop.flow);
+  if(Array.isArray(raw)) return raw.filter(hasText).join(" → ");
+  if(hasText(raw)) return raw;
+  if(cards.length) return cards.map(c=>c.title).filter(hasText).join(" → ");
+  return "";
+}
+function renderReactionLoop(s){
+  const cards = normalizeLoopSteps(s);
+  const flowText = loopFlowText(s,cards);
+  if(!cards.length && !hasText(flowText)) return "";
+  return `<div class="loop-visual">
+    ${hasText(flowText)?`<div class="loop-flow">${esc(flowText)}</div>`:""}
+    ${cards.length?`<div class="loop-grid">${cards.map((c,i)=>`<div class="loop-card"><div class="loop-num">${i+1}</div><h3>${esc(c.title)}</h3><p>${esc(c.text)}</p></div>`).join("")}</div>`:""}
+  </div>`;
+}
+
 function renderSection(s, idx){
   const no = s.no || String(idx+1).padStart(2,"0");
   const dark = no === "03" || no === "10";
   let html = "";
   if(no === "01" && s.headline){
     html += `<div class="hero-quote"><p>${esc(s.headline)}</p></div>`;
-  } else if(s.headline){
+  } else if(no !== "03" && s.headline){
     html += `<div class="lede">${esc(s.headline)}</div>`;
   }
   if(s.saju) html += renderSajuVisual(s.saju);
@@ -874,11 +923,13 @@ function renderSection(s, idx){
     const entries = Object.entries(s.lists);
     html += `<div class="${entries.length>=3?'grid-3':'grid-2'}">${entries.map(([k,v])=>listCard(k,Array.isArray(v)?v:[v],"Point")).join("")}</div>`;
   }
-  if(s.steps){
+  if(no === "03"){
+    html += renderReactionLoop(s);
+  } else if(s.steps){
     html += `<div class="steps">${s.steps.map((step,i)=>`<div class="step"><div class="step-num">${esc(step.step || i+1)}</div><h3>${esc(step.label || step.name || step.title || "")}</h3><p class="panel-text">${esc(step.text || step.instruction || step.body || "")}</p></div>`).join("")}</div>`;
   }
   html += paragraphs(s.body).map(p=>para(p)).join("");
-  if(s.keyMessage) html += infoCard("핵심 메시지", s.keyMessage, "Core Message");
+  if(s.keyMessage) html += infoCard("핵심 메시지", s.keyMessage, "Core Message", "key-message-card");
   if(s.insight) html += insight(s.insight);
   return sectionShell(`sec-${no}`, no, s.title || "", html, dark);
 }
