@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAL Premium Generator v7.7 TEMPLATE SYNC</title>
+<style>
+:root{
+  --navy:#10182b;--paper:#f4eee3;--card:#fffaf0;--ink:#25221e;--muted:#756b5d;
+  --gold:#c69a45;--line:#d7c39b;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Noto Sans KR','Apple SD Gothic Neo',system-ui,sans-serif;background:var(--paper);color:var(--ink)}
+.wrap{max-width:980px;margin:0 auto;padding:42px 20px 80px}
+h1{font-size:40px;line-height:1.12;margin:0 0 12px;letter-spacing:-.04em}
+p{font-size:17px;color:#665b4b;line-height:1.7;margin:0 0 18px}
+textarea{width:100%;min-height:430px;border:1px solid var(--line);border-radius:20px;padding:18px;font:15px/1.65 ui-monospace,Consolas,monospace;background:#fffaf0;outline:none}
+.actions,.result-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+button,.btn{border:0;border-radius:999px;background:var(--navy);color:#fff;font-weight:900;padding:15px 24px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;font-size:15px}
+button.secondary{background:#6f5f43}
+button.light,.btn.light{background:#fffaf0;color:var(--navy);border:1px solid var(--line)}
+.box{background:#fffaf0;border:1px solid var(--line);border-radius:24px;padding:22px;margin-top:22px;line-height:1.8}
+.ok{color:#116b38;font-weight:900}.err{color:#b91c1c;font-weight:900}
+code{background:rgba(198,154,69,.14);padding:3px 7px;border-radius:7px}
+.small{font-size:14px;color:#756b5d;margin-top:10px}
+.template-status{font-size:14px;color:#756b5d}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>CAL Premium Generator v7.7 TEMPLATE SYNC</h1>
+  <p>
+    이 생성기는 <b>최종 템플릿 파일</b>을 직접 읽어서 JSON만 교체합니다.<br>
+    그래서 리포트 구조는 <code>cal_report_v7.html</code> 또는 <code>cal-report-v7.html</code>와 동일하게 유지됩니다.
+  </p>
+  <p class="template-status" id="templateStatus">템플릿 대기 중</p>
+
+  <textarea id="jsonInput" placeholder="여기에 프리미엄 리포트 JSON을 붙여넣으세요."></textarea>
+
+  <div class="actions">
+    <button id="generateBtn">HTML 생성하기</button>
+    <button class="secondary" id="sampleBtn">샘플 불러오기</button>
+    <button class="light" id="clearBtn">비우기</button>
+  </div>
+
+  <div id="msg" class="box">대기 중</div>
+</div>
+
+<script>
+const $ = (id)=>document.getElementById(id);
+
+const TEMPLATE_PATHS = [
+  './report_premium/cal_report_v7.html',
+  './report_premium/cal-report-v7.html',
+  './cal_report_v7.html',
+  './cal-report-v7.html'
+];
+
+const SAMPLE = {
+  "clientName": "연삿갓",
+  "reportDate": "2026-05-08",
+  "reportId": "CAL-20260508-091543",
+  "reportVersion": "CAL v7.0",
+  "heroSubtitle": "연삿갓님의 현실 출력 구조 분석",
+  "heroMessage": "현실은 사건이 아니라 반복 실행된 의식 구조의 출력입니다.",
+  "sections": [
+    {
+      "no": "01",
+      "title": "현실 출력 구조 요약",
+      "headline": "핵심 구조는 오래된 사건이 미완료 과제로 저장되며 불안과 압박을 반복 출력해온 구조입니다.",
+      "body": ["사건은 단순한 경험으로 끝나지 않고 마음속에서 아직 완료되지 않은 과제처럼 저장되었습니다."],
+      "keyMessage": "반복된 불안은 현재 위험의 증거가 아니라, 과거 사건이 미완료 파일처럼 저장된 결과입니다.",
+      "insight": "파일은 닫혔는데 작업 표시줄에 계속 떠 있으면 시스템은 계속 에너지를 사용합니다."
+    },
+    {
+      "no": "04",
+      "title": "사주OS — 초기 에너지 렌즈",
+      "saju": {
+        "pillars": "기축년 · 임신월 · 기묘일 · 기사시",
+        "calendar": "양력 · 사시",
+        "elements": {"목(木)":1,"화(火)":1,"토(土)":4,"금(金)":1,"수(水)":1},
+        "dominant": "토(土)",
+        "healthy": "토의 순기능은 안정감·지속성·책임감·현실을 붙잡는 힘입니다.",
+        "distortion": "토 에너지가 충격 경험과 결합하면 지나간 사건도 아직 정리되지 않은 현실 문제처럼 저장될 수 있습니다.",
+        "amplification": "사건 발생 시 사주OS 렌즈는 그것을 끝까지 해결해야 할 문제로 증폭했을 가능성이 큽니다."
+      },
+      "keyMessage": "사주OS는 운명을 결정한 것이 아니라 사건을 해석하는 초기 렌즈입니다.",
+      "insight": "토가 강한 시스템은 파일을 쉽게 삭제하지 않고 오래 보관합니다."
+    },
+    {
+      "no": "10",
+      "title": "Final Message",
+      "body": [
+        "나는 과거 사건을 부정하지 않는다. 그러나 그 사건을 나의 전체 정체성으로 저장하지 않는다.",
+        "이제 핵심은 숙제를 평생 들고 가는 것이 아니라, 현재의 선택을 반복 저장하는 것입니다."
+      ],
+      "insight": "흠집은 기록입니다. 그러나 기록이 운전대를 잡게 둘 필요는 없습니다."
+    }
+  ],
+  "disclaimer": "본 리포트는 의료·법률·투자 상담이 아닙니다. 자기 이해와 선택 전환을 위한 의식 구조 분석 자료이며, 선택은 본인의 몫입니다."
+};
+
+function escapeHtml(v){
+  return String(v ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+function safeName(v){
+  return String(v || 'client').trim()
+    .replace(/[\\/:*?"<>|#%&{}$!'@+=`]/g,'')
+    .replace(/\s+/g,'_') || 'client';
+}
+function digits(v){
+  return String(v || '').replace(/\D/g,'').slice(0,8) || new Date().toISOString().slice(0,10).replace(/-/g,'');
+}
+function normalizeData(raw){
+  const d = {...raw};
+
+  d.clientName = d.clientName || d.name || d.customerName || d.nickname || d["이름"] || d.reportHeader?.clientName || "고객";
+  d.reportDate = d.reportDate || d.date || d.createdAt || d.timestamp || d["타임스탬프"] || new Date().toISOString().slice(0,10);
+  d.reportVersion = d.reportVersion || "CAL v7.0";
+  d.heroSubtitle = d.heroSubtitle || `${d.clientName}님의 현실 출력 구조 분석`;
+  d.heroMessage = d.heroMessage || d.mainMessage || d.totalState || "현실은 사건이 아니라 반복 실행된 의식 구조의 출력입니다.";
+
+  if(typeof d.disclaimer === 'object' && d.disclaimer.text) d.disclaimer = d.disclaimer.text;
+
+  if(!Array.isArray(d.sections) || !d.sections.length){
+    d.sections = [];
+
+    const push = (no,title,obj={})=>{
+      const bodySource = obj.body || obj.message || obj.text || obj.content || obj.description || "";
+      d.sections.push({
+        no, title,
+        headline: obj.headline || obj.summary || obj.title || "",
+        body: Array.isArray(bodySource) ? bodySource : String(bodySource).split(/\n{2,}|\n/).map(x=>x.trim()).filter(Boolean),
+        lists: obj.lists || obj.patterns || obj.signals || null,
+        steps: Array.isArray(obj.steps) ? obj.steps : null,
+        keyMessage: obj.keyMessage || obj.coreMessage || "",
+        insight: obj.insight || obj.calInsight || "",
+        saju: obj.saju || null
+      });
+    };
+
+    push("01","현실 출력 구조 요약",{
+      headline:d.totalState || d.mainMessage || d.mainDiagnosis?.headline || "",
+      body:d.mainDiagnosis?.body || d.summary || d.mainMessage || "",
+      keyMessage:d.coreMessage || d.mainDiagnosis?.keyMessage || "",
+      insight:d.calInsight || d.mainDiagnosis?.calInsight || ""
+    });
+
+    if(d.repeatedPattern || d.patternAnalysis) push("02","반복 출력 패턴", d.repeatedPattern || d.patternAnalysis);
+    if(d.autoLoop || d.loop) push("03","핵심 자동반응 루프", d.autoLoop || d.loop);
+
+    const saju = d.sajuOS || d.saju || d.sajuAnalysis;
+    if(saju){
+      push("04","사주OS — 초기 에너지 렌즈",{
+        saju:{
+          pillars:saju.pillars || saju.pillarText || saju.originalSaju || d.pillars || "",
+          calendar:saju.calendar || saju.birthType || "",
+          elements:saju.elements || saju.elementScores || d.elementScores || {},
+          dominant:saju.dominant || saju.dominantElement || d.dominantElement || "",
+          healthy:saju.healthy || saju.pureFunction || saju.normal || "",
+          distortion:saju.distortion || saju.distorted || "",
+          amplification:saju.amplification || saju.lensAmplification || ""
+        },
+        keyMessage:saju.keyMessage || "",
+        insight:saju.insight || saju.calInsight || ""
+      });
+    }
+
+    if(d.consciousnessOS || d.osStructure) push("05","의식OS 구조 분석", d.consciousnessOS || d.osStructure);
+    if(d.reprogrammingProtocol || d.protocol) push("08","재프로그래밍 프로토콜", d.reprogrammingProtocol || d.protocol);
+    if(d.finalMessage) push("10", d.finalMessage.title || "Final Message", d.finalMessage);
+  }
+
+  return d;
+}
+
+async function fetchTemplate(){
+  let lastError = '';
+  for(const path of TEMPLATE_PATHS){
+    try{
+      const res = await fetch(path + '?v=' + Date.now(), {cache:'no-store'});
+      if(res.ok){
+        const text = await res.text();
+        if(text.includes('window.REPORT_DATA')){
+          $('templateStatus').innerHTML = `템플릿 연결됨: <code>${escapeHtml(path)}</code>`;
+          return {text, path};
+        }
+        lastError = `${path} 파일 안에 window.REPORT_DATA가 없습니다.`;
+      }else{
+        lastError = `${path} 없음 (${res.status})`;
+      }
+    }catch(e){
+      lastError = e.message;
+    }
+  }
+  throw new Error('최종 템플릿 파일을 찾지 못했습니다. /report_premium/cal_report_v7.html 또는 cal-report-v7.html 위치를 확인하세요. 마지막 오류: ' + lastError);
+}
+
+function injectDataIntoTemplate(templateHtml, data){
+  const json = JSON.stringify(data, null, 2).replace(/<\//g, '<\\/');
+
+  const patterns = [
+    /window\.REPORT_DATA\s*=\s*[\s\S]*?;\s*const\s+data\s*=\s*window\.REPORT_DATA\s*;/,
+    /window\.REPORT_DATA\s*=\s*[\s\S]*?;\s*\nconst\s+data\s*=/,
+    /window\.REPORT_DATA\s*=\s*[\s\S]*?;\s*\n/
+  ];
+
+  for(const re of patterns){
+    if(re.test(templateHtml)){
+      if(String(re).includes('const\\s+data\\s*=\\s*window')){
+        return templateHtml.replace(re, `window.REPORT_DATA = ${json};\nconst data = window.REPORT_DATA;`);
+      }
+      if(String(re).includes('const\\s+data\\s*=')){
+        return templateHtml.replace(re, `window.REPORT_DATA = ${json};\nconst data = window.REPORT_DATA;\n`);
+      }
+      return templateHtml.replace(re, `window.REPORT_DATA = ${json};\n`);
+    }
+  }
+
+  throw new Error('템플릿에서 window.REPORT_DATA 위치를 찾지 못했습니다.');
+}
+
+async function generate(){
+  const box = $('msg');
+  box.innerHTML = '생성 중...';
+  try{
+    const raw = $('jsonInput').value.trim();
+    if(!raw) throw new Error('JSON이 비어 있습니다.');
+
+    const parsed = JSON.parse(raw);
+    const data = normalizeData(parsed);
+    const {text:templateHtml, path:templatePath} = await fetchTemplate();
+    const reportHtml = injectDataIntoTemplate(templateHtml, data);
+
+    const filename = `report_${safeName(data.clientName)}_${digits(data.reportDate)}.html`;
+    const blob = new Blob([reportHtml], {type:'text/html;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+
+    const githubUrl = `https://labiel1004.github.io/jena_checklist/report_premium/${encodeURIComponent(filename)}`;
+
+    box.innerHTML = `
+      <div class="ok">생성 성공!</div>
+      <div>사용 템플릿: <code>${escapeHtml(templatePath)}</code></div>
+      <div>파일명: <code>${escapeHtml(filename)}</code></div>
+      <div class="result-actions">
+        <a class="btn" href="${url}" target="_blank" rel="noopener">바로 열어보기 ↗</a>
+        <a class="btn light" href="${githubUrl}" target="_blank" rel="noopener">업로드 후 링크 ↗</a>
+      </div>
+      <div class="small">생성된 HTML 파일을 GitHub의 <b>/report_premium/</b> 폴더에 업로드한 뒤, ‘업로드 후 링크’를 열면 됩니다.</div>
+    `;
+  }catch(e){
+    box.innerHTML = `<span class="err">생성 실패:</span> ${escapeHtml(e.message)}`;
+  }
+}
+
+$('generateBtn').addEventListener('click', generate);
+$('sampleBtn').addEventListener('click', ()=>{$('jsonInput').value = JSON.stringify(SAMPLE,null,2); $('msg').innerHTML='샘플을 불러왔습니다.';});
+$('clearBtn').addEventListener('click', ()=>{$('jsonInput').value=''; $('msg').innerHTML='비웠습니다.';});
+
+// 처음 열 때 템플릿 연결상태만 가볍게 확인
+fetchTemplate().catch(e => {$('templateStatus').innerHTML = `<span class="err">템플릿 미연결:</span> ${escapeHtml(e.message)}`;});
+</script>
+</body>
+</html>
