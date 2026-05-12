@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CAL 의식OS 프리미엄 리포트 v7</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0a0a0a;
+  --paper:#fcfaf6;
+  --paper-2:#f5efe4;
+  --card:#ffffff;
+  --ink:#111111;
+  --ink-soft:#4d463d;
+  --muted:#867c6d;
+  --line:rgba(0,0,0,.09);
+  --gold:#b88a2a;
+  --gold-2:#d4b062;
+  --shadow-xl:0 32px 90px rgba(0,0,0,.26);
+  --shadow-lg:0 20px 50px rgba(0,0,0,.10);
+  --shadow-md:0 10px 28px rgba(0,0,0,.07);
+  --max:1240px;
+  --content:860px;
+  --toc:280px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(212,176,98,.18), transparent 18%),
+    radial-gradient(circle at 100% 15%, rgba(212,176,98,.10), transparent 24%),
+    linear-gradient(180deg, #050505 0 560px, #efe8db 560px 100%);
+  line-height:1.8;
+  letter-spacing:-0.025em;
+}
+a{color:inherit;text-decoration:none}
+.page{
+  width:min(var(--max), calc(100% - 28px));
+  margin:0 auto;
+  padding:24px 0 80px;
+}
+.hero{
+  position:relative;
+  overflow:hidden;
+  min-height:420px;
+  border-radius:40px;
+  padding:40px 34px 34px;
+  background:
+    radial-gradient(circle at 80% 18%, rgba(212,176,98,.20), transparent 18%),
+    radial-gradient(circle at 88% 72%, rgba(212,176,98,.10), transparent 22%),
+    linear-gradient(135deg, #050505 0%, #121212 48%, #2e2212 100%);
+  box-shadow:var(--shadow-xl);
+  border:1px solid rgba(255,255,255,.08);
+  color:#fff8ec;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:16px;
+  border-radius:28px;
+  border:1px solid rgba(212,176,98,.20);
+  pointer-events:none;
+}
+.hero-grid{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:20px;
+  align-items:end;
+  min-height:340px;
+}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:9px 14px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#f7e7bf;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(212,176,98,.24);
+  backdrop-filter:blur(10px);
+}
+.badge::before{
+  content:"";
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--gold-2);
+  box-shadow:0 0 14px rgba(212,176,98,.8);
+}
+.hero h1{
+  margin:18px 0 18px;
+  font-size:clamp(38px,6vw,72px);
+  line-height:1.05;
+  letter-spacing:-0.06em;
+  font-weight:900;
+  word-break:keep-all;
+}
+.hero-sub{
+  max-width:760px;
+  margin:0;
+  font-size:clamp(17px,2.2vw,22px);
+  line-height:1.8;
+  color:rgba(255,248,233,.84);
+  word-break:keep-all;
+}
+.hero-side{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  align-self:stretch;
+  justify-content:flex-end;
+}
+.hero-mini{
+  padding:18px 18px 16px;
+  border-radius:20px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
+  backdrop-filter:blur(10px);
+}
+.hero-mini-label{
+  font-size:12px;
+  color:rgba(255,235,198,.64);
+  margin-bottom:6px;
+  font-weight:700;
+  letter-spacing:.04em;
+}
+.hero-mini-value{
+  font-size:15px;
+  color:#fff9ef;
+  font-weight:700;
+  word-break:break-word;
+}
+.hero-watermark{
+  position:absolute;
+  right:24px;
+  bottom:-12px;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(88px,16vw,220px);
+  line-height:1;
+  letter-spacing:-0.06em;
+  color:rgba(212,176,98,.08);
+  user-select:none;
+  pointer-events:none;
+}
+.layout{
+  margin-top:28px;
+  display:grid;
+  grid-template-columns:var(--toc) minmax(0,var(--content));
+  gap:24px;
+  align-items:start;
+  justify-content:center;
+}
+.toc{
+  position:sticky;
+  top:18px;
+  padding:18px;
+  border-radius:24px;
+  background:rgba(255,255,255,.68);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(0,0,0,.06);
+  box-shadow:var(--shadow-md);
+}
+.toc-title{
+  margin:0 0 12px;
+  font-size:13px;
+  font-weight:900;
+  color:var(--gold);
+  letter-spacing:.15em;
+  text-transform:uppercase;
+}
+.toc-list{display:flex;flex-direction:column;gap:8px}
+.toc-link{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:10px 12px;
+  border-radius:14px;
+  color:#2b241b;
+  font-size:14px;
+  transition:.2s ease;
+  border:1px solid transparent;
+}
+.toc-link:hover,.toc-link.active{
+  background:#fff;
+  border-color:rgba(184,138,42,.18);
+  box-shadow:0 8px 18px rgba(0,0,0,.05);
+}
+.toc-num{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:24px;
+  height:24px;
+  flex:0 0 24px;
+  border-radius:50%;
+  background:#111;
+  color:#f2d48e;
+  font-size:11px;
+  font-weight:900;
+  margin-top:1px;
+}
+.content{min-width:0}
+.section{
+  position:relative;
+  margin-bottom:30px;
+  padding:54px 34px 44px;
+  background:rgba(255,255,255,.96);
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:32px;
+  box-shadow:var(--shadow-lg);
+  overflow:hidden;
+}
+.section.dark{
+  background:
+    radial-gradient(circle at 90% 10%, rgba(212,176,98,.16), transparent 20%),
+    linear-gradient(180deg, #090909 0%, #171717 100%);
+  border-color:rgba(255,255,255,.10);
+  color:#fff8ec;
+  box-shadow:0 24px 70px rgba(0,0,0,.28);
+}
+.section-head{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin:4px 0 42px;
+}
+.section-index{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#111;
+  color:#f0ce81;
+  font-size:14px;
+  font-weight:900;
+  box-shadow:0 10px 22px rgba(0,0,0,.16);
+  flex:0 0 42px;
+}
+.section.dark .section-index{background:var(--gold-2);color:#111}
+.section-title{
+  margin:0;
+  font-size:clamp(26px,4vw,42px);
+  line-height:1.15;
+  letter-spacing:-0.06em;
+  font-weight:900;
+  color:#0b0b0b;
+  word-break:keep-all;
+}
+.section.dark .section-title{color:#fff8ec}
+.lede{
+  padding:24px 26px;
+  border-radius:24px;
+  background:linear-gradient(135deg, rgba(184,138,42,.12), rgba(255,255,255,.7));
+  border:1px solid rgba(184,138,42,.22);
+  margin-bottom:18px;
+  font-size:clamp(20px,3vw,30px);
+  line-height:1.6;
+  font-weight:800;
+  color:#17120d;
+  word-break:keep-all;
+}
+.hero-quote{
+  position:relative;
+  overflow:hidden;
+  padding:30px;
+  margin-bottom:22px;
+  border-radius:28px;
+  background:
+    radial-gradient(circle at 84% 24%, rgba(212,176,98,.16), transparent 20%),
+    linear-gradient(135deg, #0b0b0b 0%, #171717 58%, #352813 100%);
+  color:#fff;
+  border:1px solid rgba(212,176,98,.22);
+  box-shadow:0 20px 48px rgba(0,0,0,.18);
+}
+.hero-quote::after{
+  content:"CAL";
+  position:absolute;
+  right:18px;
+  bottom:-12px;
+  font-size:clamp(64px,14vw,128px);
+  font-weight:900;
+  letter-spacing:-0.08em;
+  color:rgba(212,176,98,.08);
+  line-height:1;
+}
+.hero-quote p{
+  position:relative;
+  z-index:1;
+  margin:0;
+  font-size:clamp(23px,4vw,38px);
+  line-height:1.48;
+  font-weight:900;
+  letter-spacing:-0.055em;
+  word-break:keep-all;
+}
+.body{
+  margin:0;
+  font-size:18px;
+  line-height:1.95;
+  color:#221d17;
+  white-space:pre-line;
+  word-break:keep-all;
+}
+.body + .body{margin-top:20px}
+.body:last-of-type{margin-bottom:22px}
+.section.dark .body,.section.dark .card-text,.section.dark .panel-text{color:rgba(255,248,236,.88)}
+.grid-2,.grid-3{display:grid;gap:14px}
+.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{
+  background:#fff;
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:22px;
+  padding:22px;
+  box-shadow:var(--shadow-md);
+}
+.section.dark .card{
+  background:rgba(255,255,255,.05);
+  border-color:rgba(255,255,255,.10);
+  box-shadow:none;
+  backdrop-filter:blur(8px);
+}
+.label{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:10px;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.14em;
+  color:var(--gold);
+  text-transform:uppercase;
+}
+.label::before{
+  content:"";
+  width:8px;height:8px;border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 10px rgba(184,138,42,.62);
+}
+.card-title{
+  margin:0 0 10px;
+  font-size:20px;
+  line-height:1.4;
+  letter-spacing:-0.04em;
+  font-weight:900;
+  color:#111;
+  word-break:keep-all;
+}
+.section.dark .card-title{color:#fff8ec}
+.card-text,.panel-text,.os-pattern,.os-desc{
+  margin:0;
+  font-size:16px;
+  line-height:1.85;
+  color:#2f281f;
+  white-space:pre-line;
+  word-break:keep-all;
+}
+.muted{color:var(--muted);font-size:14px;margin-bottom:8px}
+.feature-list{margin:0;padding-left:20px}
+.feature-list li{margin:8px 0;color:#342c22;line-height:1.7}
+.section.dark .feature-list li{color:rgba(255,248,236,.88)}
+.flow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:0 0 18px;
+  align-items:center;
+}
+.chip{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:42px;
+  padding:10px 16px;
+  border-radius:999px;
+  background:rgba(184,138,42,.10);
+  border:1px solid rgba(184,138,42,.24);
+  color:#4b3517;
+  font-weight:800;
+  font-size:14px;
+  text-align:center;
+}
+.section.dark .chip{
+  background:rgba(255,255,255,.06);
+  border-color:rgba(212,176,98,.22);
+  color:#ffe8b8;
+}
+.flow-arrow{color:rgba(184,138,42,.7);font-weight:900}
+.insight,.calout{
+  margin-top:20px;
+  padding:22px 24px;
+  border-radius:22px;
+  background:linear-gradient(135deg, rgba(184,138,42,.13), rgba(255,255,255,.82));
+  border:1px solid rgba(184,138,42,.24);
+}
+.section.dark .insight,.section.dark .calout{
+  background:rgba(212,176,98,.08);
+  border-color:rgba(212,176,98,.24);
+}
+.insight-text{
+  margin:0;
+  font-size:17px;
+  line-height:1.85;
+  color:#231b12;
+  white-space:pre-line;
+  word-break:keep-all;
+}
+.section.dark .insight-text{color:rgba(255,248,236,.9)}
+.os-grid{display:grid;gap:14px}
+.os-card{
+  padding:22px;
+  border-radius:22px;
+  border:1px solid rgba(0,0,0,.08);
+  background:linear-gradient(180deg,#fff,#fffaf1);
+  box-shadow:var(--shadow-md);
+}
+.os-card h3{
+  margin:0 0 8px;
+  font-size:20px;
+  line-height:1.35;
+  font-weight:900;
+  color:#111;
+}
+.steps{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.step{
+  padding:22px;
+  border-radius:22px;
+  background:#fff;
+  border:1px solid rgba(0,0,0,.08);
+  box-shadow:var(--shadow-md);
+}
+.step-num{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#111;
+  color:#f2d48e;
+  font-weight:900;
+  font-size:13px;
+  margin-bottom:10px;
+}
+.step h3{
+  margin:0 0 8px;
+  font-size:19px;
+  font-weight:900;
+  color:#111;
+}
+.declaration{
+  margin:22px 0;
+  padding:28px;
+  border-radius:26px;
+  background:rgba(212,176,98,.12);
+  border:1px solid rgba(212,176,98,.28);
+  color:#ffe7af;
+  font-size:clamp(23px,3.2vw,36px);
+  line-height:1.6;
+  font-weight:900;
+  letter-spacing:-0.05em;
+  word-break:keep-all;
+}
+.footer-note{
+  text-align:center;
+  color:rgba(55,45,35,.72);
+  font-size:13px;
+  padding:10px 8px 0;
+}
+.legal-footer{
+  margin:34px auto 0;
+  padding:26px 0 0;
+  text-align:center;
+  color:#8a8173;
+  font-size:13px;
+  line-height:1.8;
+  border-top:1px solid rgba(184,138,42,.22);
+}
+.legal-footer .seal{
+  color:rgba(184,138,42,.72);
+  font-size:26px;
+  line-height:1;
+  margin-bottom:10px;
+}
+.mobile-toc{
+  display:none;
+  margin:18px 0 0;
+  overflow:auto hidden;
+  gap:10px;
+  padding-bottom:4px;
+}
+.mobile-toc a{
+  white-space:nowrap;
+  padding:10px 14px;
+  border-radius:999px;
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(0,0,0,.08);
+  box-shadow:var(--shadow-md);
+  font-size:13px;
+  font-weight:800;
+  color:#2c241a;
+}
+
+
+.key-message-card{
+  margin-top:42px;
+  background:linear-gradient(180deg,#fff,#fffdf8);
+}
+.body + .key-message-card,
+.grid-2 + .key-message-card,
+.grid-3 + .key-message-card,
+.steps + .key-message-card,
+.loop-visual + .key-message-card,
+.energy-card + .key-message-card{
+  margin-top:44px;
+}
+.loop-visual{
+  display:grid;
+  gap:24px;
+  margin-top:4px;
+}
+.loop-flow{
+  padding:24px 26px;
+  border-radius:22px;
+  background:linear-gradient(135deg,#f0c35c 0%,#fff0c8 100%);
+  border:1px solid rgba(212,176,98,.45);
+  color:#17120d;
+  font-size:clamp(19px,2.8vw,27px);
+  line-height:1.65;
+  font-weight:900;
+  letter-spacing:-0.055em;
+  word-break:keep-all;
+  box-shadow:0 14px 30px rgba(0,0,0,.14);
+}
+.loop-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+.loop-card{
+  min-height:210px;
+  padding:24px;
+  border-radius:22px;
+  background:#fff;
+  border:1px solid rgba(0,0,0,.08);
+  box-shadow:0 14px 28px rgba(0,0,0,.16);
+  color:#111;
+}
+.loop-num{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#111;
+  color:#f2d48e;
+  font-weight:900;
+  font-size:13px;
+  margin-bottom:14px;
+}
+.loop-card h3{
+  margin:0 0 12px;
+  font-size:20px;
+  line-height:1.35;
+  font-weight:900;
+  color:#111;
+  letter-spacing:-.04em;
+}
+.loop-card p{
+  margin:0;
+  font-size:16px;
+  line-height:1.8;
+  color:#2f281f;
+  white-space:pre-line;
+  word-break:keep-all;
+}
+.section.dark .card{
+  background:#fff;
+  border-color:rgba(255,255,255,.22);
+  box-shadow:0 14px 28px rgba(0,0,0,.16);
+  color:#111;
+  backdrop-filter:none;
+}
+.section.dark .card-title{color:#111}
+.section.dark .card-text,
+.section.dark .panel-text{color:#2f281f}
+.section.dark .label{color:var(--gold)}
+@media (max-width:720px){
+  .section{padding:42px 18px 32px;border-radius:24px}
+  .section-head{margin:2px 0 36px}
+  .key-message-card{margin-top:32px}
+  .loop-grid{grid-template-columns:1fr;gap:14px}
+  .loop-card{min-height:auto;padding:20px}
+  .loop-flow{padding:20px 18px;font-size:19px}
+}
+
+/* SAJU VISUAL */
+.saju-birth-card{
+  padding:28px;
+  border-radius:26px;
+  background:
+    radial-gradient(circle at 88% 18%, rgba(212,176,98,.14), transparent 26%),
+    linear-gradient(135deg,#080808 0%,#141414 60%,#2a2012 100%);
+  color:#fff8ec;
+  border:1px solid rgba(212,176,98,.20);
+  box-shadow:0 20px 50px rgba(0,0,0,.16);
+  margin-bottom:14px;
+}
+.saju-birth-label{
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--gold-2);
+  margin-bottom:14px;
+}
+.saju-pillars{
+  font-size:clamp(20px,2.45vw,28px);
+  font-weight:900;
+  line-height:1.45;
+  word-break:keep-all;
+  white-space:nowrap;
+  letter-spacing:-0.055em;
+}
+.saju-calendar{
+  margin-top:10px;
+  color:rgba(255,248,236,.58);
+  font-size:16px;
+  font-weight:700;
+}
+.energy-card{
+  background:#fff;
+  border:1px solid rgba(184,138,42,.18);
+  border-radius:26px;
+  padding:26px;
+  box-shadow:var(--shadow-md);
+  margin-bottom:14px;
+}
+.energy-title{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:0 0 20px;
+  font-size:24px;
+  font-weight:900;
+  letter-spacing:-.04em;
+}
+.energy-title::before{
+  content:"✦";
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background:rgba(184,138,42,.12);
+  color:var(--gold);
+}
+.energy-grid{
+  display:grid;
+  grid-template-columns:1fr 240px;
+  gap:24px;
+  align-items:center;
+}
+.bars{display:grid;gap:14px}
+.bar-row{
+  display:grid;
+  grid-template-columns:72px minmax(120px,1fr) 30px;
+  gap:12px;
+  align-items:center;
+  font-size:18px;
+  font-weight:900;
+}
+.bar-track{
+  height:12px;
+  border-radius:999px;
+  background:rgba(0,0,0,.07);
+  overflow:hidden;
+}
+.bar-fill{height:100%;border-radius:999px;display:block}
+.wood{background:#43a35c}.fire{background:#df5d32}.earth{background:#d2a033}.metal{background:#aab3bd}.water{background:#2f76c2}
+.bar-row.dominant strong{
+  color:var(--gold);
+  font-size:24px;
+}
+.donut-wrap{display:grid;place-items:center}
+.donut{
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  background:conic-gradient(#43a35c 0 var(--p1),#df5d32 var(--p1) var(--p2),#d2a033 var(--p2) var(--p3),#aab3bd var(--p3) var(--p4),#2f76c2 var(--p4) 100%);
+  position:relative;
+  box-shadow:0 18px 40px rgba(0,0,0,.12);
+}
+.donut::after{
+  content:"";
+  position:absolute;
+  inset:58px;
+  background:#fff;
+  border-radius:50%;
+  box-shadow:inset 0 0 0 1px rgba(184,138,42,.15);
+}
+.donut-center{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  z-index:2;
+  font-size:11px;
+  font-weight:900;
+  color:rgba(17,17,17,.36);
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+
+@media (max-width:1100px){
+  .layout{grid-template-columns:1fr}
+  .toc{display:none}
+  .mobile-toc{display:flex}
+}
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  .grid-3{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  body{
+    background:
+      radial-gradient(circle at top left, rgba(212,176,98,.14), transparent 24%),
+      linear-gradient(180deg, #050505 0 500px, #efe8db 500px 100%);
+  }
+  .page{width:min(100% - 18px,var(--max));padding-top:12px}
+  .hero{min-height:auto;border-radius:28px;padding:24px 18px 20px}
+  .hero::before{inset:10px;border-radius:20px}
+  .hero h1{font-size:34px}
+  .hero-sub{font-size:16px}
+  .hero-mini{padding:14px}
+  .section{padding:34px 18px 28px;border-radius:24px}
+  .section-head{align-items:flex-start;margin-bottom:30px}
+  .section-title{font-size:27px}
+  .saju-birth-card{padding:24px 18px}
+  .saju-pillars{font-size:clamp(18px,5.2vw,22px);white-space:nowrap;letter-spacing:-0.075em}
+  .hero-quote{padding:24px 18px;border-radius:22px}
+  .hero-quote p{font-size:24px}
+  .lede{padding:18px;border-radius:18px;font-size:20px}
+  .body,.card-text,.panel-text,.insight-text,.os-pattern,.os-desc{font-size:16px;line-height:1.85}
+  .grid-2,.steps{grid-template-columns:1fr}
+  .declaration{padding:22px 18px;font-size:24px}
+  .energy-grid{grid-template-columns:1fr;gap:18px}
+  .energy-card{padding:22px 16px}
+  .bar-row{grid-template-columns:66px minmax(100px,1fr) 28px;font-size:17px}
+  .donut{width:170px;height:170px}
+  .donut::after{inset:48px}
+  .donut-center{font-size:10px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div id="app"></div>
+</div>
+
+<script>
+window.REPORT_DATA = {
+  "clientName": "비타민유",
+  "reportDate": "2026-05-11",
+  "reportId": "CAL-PREMIUM-20260511-VITAMINYU",
+  "reportVersion": "CAL 의식OS 프리미엄 리포트 v5.0",
+  "heroSubtitle": "현실은 사건이 아니라, 내면의 의식 구조가 반복 출력된 결과입니다.",
+  "heroMessage": "비타민유님의 현실은 '돈과 일'이라는 화면을 통해 출력되고 있습니다. 핵심은 ‘유능해야 안전하다’는 저장 패턴과 ‘나 혼자 책임져야 한다’는 생존 역할이 결합되어 압박과 좌절을 무한 반복하는 구조입니다.",
+  "sections": [
+    {
+      "no": "01",
+      "title": "현실 출력 구조 요약",
+      "headline": "‘증명해야 안전하다’는 자동반응이 현재 당신의 현실을 점유하고 있습니다.",
+      "body": [
+        "능력을 의심받는 순간, 자신을 설명하고 증명하려는 반응이 즉각 실행됩니다.",
+        "이는 과거의 실패 경험(카드빚 등)이 '부끄러움'과 함께 저장되어 현재를 압박하기 때문입니다.",
+        "결국 현실은 해결할 과제가 아니라 ‘내 능력이 검증되는 시험대’로 렌더링됩니다.",
+        "회복의 핵심은 더 많이 책임지는 것이 아니라, '책임'과 '내 존재'를 분리하는 데 있습니다."
+      ],
+      "lists": {
+        "핵심 진단": [
+          "생존과 직결된 돈/일의 안전감",
+          "의심받으면 발동하는 증명 모드",
+          "실패에 대한 과도한 부끄러움"
+        ],
+        "선택 회복 포인트": [
+          "사건과 과거의 감정 분리하기",
+          "돈을 존재 가치가 아닌 관리 대상으로 보기",
+          "혼자 다 하려는 역할 멈추기"
+        ]
+      },
+      "keyMessage": "반복되는 압박은 당신이 무능해서가 아니라, 오래된 보안 프로그램이 너무 열일하고 있기 때문입니다.",
+      "insight": "경고등이 켜졌다고 차가 고장 난 건 아닙니다. 지금 필요한 건 자책이 아니라 시스템 알림 확인입니다."
+    },
+    {
+      "no": "02",
+      "title": "반복되는 출력 패턴",
+      "headline": "돈과 일의 압박은 생각 과잉과 신체 경직으로 출력됩니다.",
+      "body": [
+        "‘준비 안 되면 끝’이라는 해석이 미래의 위험을 미리 계산하게 만듭니다.",
+        "그 결과 끊임없이 대책을 세우고 통제하며 자신을 몰아붙입니다.",
+        "관계에서도 오류를 지적받으면 즉각 방어 모드가 켜지고 가슴이 답답해집니다.",
+        "이 구조는 당신을 계속 움직이게 하지만, 진정한 편안함은 허락하지 않는 내부 압박 장치입니다."
+      ],
+      "lists": {
+        "감정/신체 신호": [
+          "부끄러움과 자책",
+          "가슴 압박과 답답함",
+          "실수하지 않으려는 경직"
+        ],
+        "일과 돈의 출력": [
+          "무한 계산과 걱정",
+          "과도한 통제와 정리",
+          "혼자 짊어지는 책임 과부하"
+        ]
+      },
+      "keyMessage": "지금 느끼는 압박은 현실 관리의 문제가 아니라, 자기증명 알고리즘의 오작동입니다.",
+      "insight": "네비게이션이 모든 길을 위험 구간으로 표시하면 운전자는 지칠 수밖에 없습니다."
+    },
+    {
+      "no": "03",
+      "title": "핵심 자동반응 루프",
+      "headline": "의심 → 증명 압박 → 과잉 계산 → 경직 → 좌절 저장이 반복됩니다.",
+      "steps": [
+        {
+          "label": "입력",
+          "text": "돈 문제, 능력 의심, 혹은 실패 가능성이 감지됩니다."
+        },
+        {
+          "label": "해석",
+          "text": "‘유능하지 않으면 위험하다’는 과거의 데이터베이스를 호출합니다."
+        },
+        {
+          "label": "반응",
+          "text": "가슴이 답답해지며, 빨리 설명하거나 혼자 책임지려는 행동이 실행됩니다."
+        },
+        {
+          "label": "저장",
+          "text": "결과가 완벽하지 않으면 ‘역시 부족하다’고 결론지으며 루프를 강화합니다."
+        }
+      ],
+      "keyMessage": "실패를 피하려는 노력이 오히려 실패 공포를 키우는 역설적인 구조입니다.",
+      "insight": "누가 시키지도 않았는데 혼자 사무실을 지키는 보안 요원에게 이제 퇴근 명령을 내릴 시간입니다."
+    },
+    {
+      "no": "04",
+      "title": "사주OS — 에너지 렌즈",
+      "headline": "금(金)과 수(水)의 정밀함이 자기검열 렌즈로 작동하고 있습니다.",
+      "body": [
+        "당신의 OS는 정교한 분석력(金)과 예리한 생존 감각(水)을 타고났습니다.",
+        "순기능일 때는 위험을 미리 감지하고 완벽하게 구조화하는 힘이 됩니다.",
+        "하지만 불안과 결합되면 이 도구는 자신을 공격하는 '자기비판' 시스템으로 변합니다.",
+        "민감한 센서를 외부의 문제를 해결하는 데 써야지, 나를 검열하는 데 써서는 안 됩니다."
+      ],
+      "saju": {
+        "dominant": "금(金) 과다, 수(水) 강세",
+        "healthy": "정밀한 분석, 논리적 구조화, 조용한 몰입",
+        "distortion": "자기검열, 실수 공포, 과잉 계산으로 인한 경직"
+      },
+      "keyMessage": "예리한 칼은 훌륭한 도구지만, 그 칼날을 자신에게 겨누지 마세요."
+    },
+    {
+      "no": "05",
+      "title": "9식 — 관리자 권한 회복",
+      "headline": "‘내가 다 안 해도 된다’는 자각이 시스템 업데이트의 시작입니다.",
+      "body": [
+        "9식(자각)은 자동반응을 ‘나’라고 믿지 않고 관찰하는 자리입니다.",
+        "압박이 올 때 '이건 내 본질이 아니라 오래된 패턴이다'라고 분리하십시오.",
+        "분리는 멈춤을 만들고, 멈춤은 새로운 선택의 간격을 만듭니다.",
+        "당신에게 가장 필요한 명령어는 ‘내가 굳이 힘들게 다 책임지지 않아도 된다’입니다."
+      ],
+      "lists": {
+        "관리자 문장": [
+          "이건 현실이 아니라 실패 공포 루프다.",
+          "돈 문제는 내 가치 평가가 아니라 관리할 과제다.",
+          "괜찮아, 그럴 수도 있어.",
+          "내가 다 안 해도 세상은 무너지지 않는다."
+        ]
+      },
+      "keyMessage": "관리자 권한은 더 강한 통제가 아니라, 통제하지 않아도 안전하다는 믿음에서 나옵니다."
+    },
+    {
+      "no": "06",
+      "title": "재프로그래밍 프로토콜",
+      "headline": "증명 모드를 1초만 늦추는 것부터 시작하십시오.",
+      "steps": [
+        {
+          "label": "감지",
+          "text": "가슴 답답함이나 무한 계산이 시작되면 알림으로 인식합니다."
+        },
+        {
+          "label": "분리",
+          "text": "지금 반응에 ‘증명 모드’라는 이름을 붙이고 한 호흡 늦춥니다."
+        },
+        {
+          "label": "선택",
+          "text": "혼자 떠안기 전에 도움 요청, 분담, 혹은 보류를 선택지에 넣습니다."
+        },
+        {
+          "label": "저장",
+          "text": "분산해도 안전했다는 경험을 의식적으로 뇌에 각인시킵니다."
+        }
+      ],
+      "keyMessage": "전환의 핵심은 더 잘 증명하는 것이 아니라, 증명하지 않아도 안전함을 반복 저장하는 것입니다.",
+      "insight": "시작 프로그램 목록에서 ‘혼자 책임지기’ 체크를 해제하는 것이 가장 빠른 패치입니다."
+    },
+    {
+      "no": "07",
+      "title": "Final Message",
+      "headline": "당신은 오류가 아닙니다. 단지 출력이 잠시 엉켰을 뿐입니다.",
+      "body": [
+        "지금까지 당신을 괴롭힌 건 무능함이 아니라 '과잉 책임'이었습니다.",
+        "이제 책임을 자기 존재의 증명 도구로 쓰지 마십시오.",
+        "돈은 관리하고, 일은 조정하면 됩니다. 그것들이 당신의 존재를 판결하게 두지 마세요.",
+        "당신은 이제 책임을 선택하고 조율하는 의식의 주권자로 살아갈 수 있습니다."
+      ],
+      "keyMessage": "나는 책임을 조정하고 선택할 수 있는 의식의 주권자입니다.",
+      "insight": "화면에 오류가 반복된다고 사용자가 오류인 것은 아닙니다. 설정을 바꾸면 출력은 반드시 달라집니다."
+    }
+  ],
+  "disclaimer": "본 리포트는 자기 이해와 선택 전환을 위한 분석 자료이며, 최종 선택과 책임은 본인에게 있습니다."
+};
+const data = window.REPORT_DATA;
+
+function esc(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+function hasText(value){return value !== undefined && value !== null && String(value).trim() !== ""}
+function paragraphs(value){
+  if(!value)return[];
+  if(Array.isArray(value))return value;
+  return String(value).split(/\n{2,}|\n/).map(x=>x.trim()).filter(Boolean);
+}
+function para(text, cls="body"){return hasText(text) ? `<p class="${cls}">${esc(text)}</p>` : ""}
+function infoCard(title,text,label="DETAIL",extraClass=""){
+  if(!hasText(text))return "";
+  return `<div class="card ${esc(extraClass)}"><div class="label">${esc(label)}</div><h3 class="card-title">${esc(title)}</h3><p class="card-text">${esc(text)}</p></div>`;
+}
+function listCard(title,items=[],label="POINT"){
+  if(!items?.length)return "";
+  return `<div class="card"><div class="label">${esc(label)}</div><h3 class="card-title">${esc(title)}</h3><ul class="feature-list">${items.map(item=>`<li>${esc(item)}</li>`).join("")}</ul></div>`;
+}
+function insight(text){
+  if(!hasText(text))return "";
+  return `<div class="insight"><div class="label">CAL Insight</div><p class="insight-text">${esc(text)}</p></div>`;
+}
+function flow(items=[]){
+  if(!items?.length)return "";
+  return `<div class="flow">${items.map((item,idx)=>`<span class="chip">${esc(item)}</span>${idx<items.length-1?`<span class="flow-arrow">→</span>`:``}`).join("")}</div>`;
+}
+function sectionShell(id,no,title,content,dark=false){
+  return `<section class="section ${dark?"dark":""}" id="${esc(id)}"><div class="section-head"><span class="section-index">${esc(no)}</span><h2 class="section-title">${esc(title)}</h2></div>${content}</section>`;
+}
+function pctStops(elements){
+  const vals=Object.values(elements).map(v=>Number(v)||0);
+  const sum=vals.reduce((a,b)=>a+b,0)||1;
+  let acc=0;
+  return vals.map(v=>{acc+=v/sum*100;return acc.toFixed(2)+"%"});
+}
+function renderSajuVisual(saju){
+  if(!saju)return "";
+  const elements = {"목(木)":0,"화(火)":0,"토(土)":0,"금(金)":0,"수(水)":0,...(saju.elements||{})};
+  const entries = Object.entries(elements);
+  const max = Math.max(...entries.map(([,v])=>Number(v)||0),1);
+  const stops = pctStops(elements);
+  const cls = ["wood","fire","earth","metal","water"];
+  const dominant = saju.dominant || entries.slice().sort((a,b)=>(b[1]||0)-(a[1]||0))[0]?.[0] || "";
+  const bars = entries.map(([k,v],i)=>{
+    const width = Math.max(7,((Number(v)||0)/max*100)).toFixed(1);
+    return `<div class="bar-row ${k===dominant?'dominant':''}"><b>${esc(k)}</b><div class="bar-track"><span class="bar-fill ${cls[i]}" style="width:${width}%"></span></div><strong>${esc(v)}</strong></div>`;
+  }).join("");
+  return `
+    <div class="saju-birth-card">
+      <div class="saju-birth-label">Birth Chart</div>
+      <div class="saju-pillars">${esc(saju.pillars || "")}</div>
+      <div class="saju-calendar">${esc(saju.calendar || "")}</div>
+    </div>
+    <div class="energy-card">
+      <div class="energy-title">오행 분포</div>
+      <div class="energy-grid">
+        <div class="bars">${bars}</div>
+        <div class="donut-wrap">
+          <div class="donut" style="--p1:${stops[0]};--p2:${stops[1]};--p3:${stops[2]};--p4:${stops[3]};">
+            <div class="donut-center">Energy Map</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-2">
+      ${infoCard("순기능", saju.healthy, "Operation")}
+      ${infoCard("왜곡 작동", saju.distortion, "Distortion")}
+      ${infoCard("렌즈 증폭", saju.amplification, "Amplification")}
+    </div>
+  `;
+}
+
+function normalizeLoopSteps(s){
+  const source = s.loopSteps || s.loopCards || s.cards || s.items || (Array.isArray(s.loop) ? s.loop : null) || s.steps || [];
+  if(Array.isArray(source) && source.length){
+    return source.map((item,i)=>({
+      title:item.label || item.name || item.title || item.step || `단계 ${i+1}`,
+      text:item.text || item.body || item.desc || item.description || item.instruction || ""
+    })).filter(x=>hasText(x.title) || hasText(x.text));
+  }
+  const obj = s.loop && typeof s.loop === 'object' ? s.loop : s.reactionLoop || s.automaticLoop || null;
+  if(obj){
+    const keys = [
+      ["trigger","자극 입력"],["input","자극 입력"],["interpretation","해석"],["emotion","감정 상승"],
+      ["identification","동일시"],["reaction","자동반응"],["storage","반복 저장"],["output","현실 재출력"]
+    ];
+    return keys.filter(([k])=>hasText(obj[k])).map(([k,title])=>({title,text:obj[k]}));
+  }
+  return [];
+}
+function loopFlowText(s, cards){
+  const raw = s.loopFlow || s.flowText || s.flow || (s.loop && s.loop.flow);
+  if(Array.isArray(raw)) return raw.filter(hasText).join(" → ");
+  if(hasText(raw)) return raw;
+  if(cards.length) return cards.map(c=>c.title).filter(hasText).join(" → ");
+  return "";
+}
+function renderReactionLoop(s){
+  const cards = normalizeLoopSteps(s);
+  const flowText = loopFlowText(s,cards);
+  if(!cards.length && !hasText(flowText)) return "";
+  return `<div class="loop-visual">
+    ${hasText(flowText)?`<div class="loop-flow">${esc(flowText)}</div>`:""}
+    ${cards.length?`<div class="loop-grid">${cards.map((c,i)=>`<div class="loop-card"><div class="loop-num">${i+1}</div><h3>${esc(c.title)}</h3><p>${esc(c.text)}</p></div>`).join("")}</div>`:""}
+  </div>`;
+}
+
+function renderSection(s, idx){
+  const no = s.no || String(idx+1).padStart(2,"0");
+  const dark = no === "03" || no === "10";
+  let html = "";
+  if(no === "01" && s.headline){
+    html += `<div class="hero-quote"><p>${esc(s.headline)}</p></div>`;
+  } else if(no !== "03" && s.headline){
+    html += `<div class="lede">${esc(s.headline)}</div>`;
+  }
+  if(s.saju) html += renderSajuVisual(s.saju);
+  if(s.lists){
+    const entries = Object.entries(s.lists);
+    html += `<div class="${entries.length>=3?'grid-3':'grid-2'}">${entries.map(([k,v])=>listCard(k,Array.isArray(v)?v:[v],"Point")).join("")}</div>`;
+  }
+  if(no === "03"){
+    html += renderReactionLoop(s);
+  } else if(s.steps){
+    html += `<div class="steps">${s.steps.map((step,i)=>`<div class="step"><div class="step-num">${esc(step.step || i+1)}</div><h3>${esc(step.label || step.name || step.title || "")}</h3><p class="panel-text">${esc(step.text || step.instruction || step.body || "")}</p></div>`).join("")}</div>`;
+  }
+  html += paragraphs(s.body).map(p=>para(p)).join("");
+  if(s.keyMessage) html += infoCard("핵심 메시지", s.keyMessage, "Core Message", "key-message-card");
+  if(s.insight) html += insight(s.insight);
+  return sectionShell(`sec-${no}`, no, s.title || "", html, dark);
+}
+function renderToc(sections){
+  return `<aside class="toc"><h3 class="toc-title">Contents</h3><nav class="toc-list">${sections.map((s,i)=>{const no=s.no||String(i+1).padStart(2,"0");return `<a class="toc-link" href="#sec-${esc(no)}"><span class="toc-num">${esc(no)}</span><span>${esc(s.title||"")}</span></a>`}).join("")}</nav></aside>`;
+}
+function renderMobileToc(sections){
+  return `<div class="mobile-toc">${sections.map((s,i)=>{const no=s.no||String(i+1).padStart(2,"0");return `<a href="#sec-${esc(no)}">${esc(no)}. ${esc(s.title||"")}</a>`}).join("")}</div>`;
+}
+function render(data){
+  const sections = data.sections || [];
+  document.getElementById("app").innerHTML = `
+    <header class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="badge">Consciousness Architecture Lab</div>
+          <h1>CAL 의식OS 프리미엄 리포트</h1>
+          <p class="hero-sub">${esc(data.heroMessage || "현실은 사건이 아니라 반복 실행된 의식 구조의 출력입니다.")}</p>
+        </div>
+        <div class="hero-side">
+          <div class="hero-mini"><div class="hero-mini-label">고객명</div><div class="hero-mini-value">${esc(data.clientName || "-")}</div></div>
+          <div class="hero-mini"><div class="hero-mini-label">리포트 날짜</div><div class="hero-mini-value">${esc(data.reportDate || "-")}</div></div>
+          <div class="hero-mini"><div class="hero-mini-label">리포트 ID</div><div class="hero-mini-value">${esc(data.reportId || "-")}</div></div>
+        </div>
+      </div>
+      <div class="hero-watermark">CAL</div>
+    </header>
+    ${renderMobileToc(sections)}
+    <div class="layout">
+      ${renderToc(sections)}
+      <main class="content">
+        ${sections.map(renderSection).join("")}
+        <div class="footer-note">${esc(data.disclaimer || "")}</div>
+        <div class="legal-footer">
+          <div class="seal">✧</div>
+          <div>Written by <b>Consciousness Architecture Lab</b></div>
+          <div>All contents in this report are protected by copyright.</div>
+        </div>
+      </main>
+    </div>
+  `;
+  bindActiveToc(sections);
+}
+function bindActiveToc(sections){
+  const links=[...document.querySelectorAll('.toc-link')];
+  const els=sections.map((s,i)=>document.getElementById(`sec-${s.no||String(i+1).padStart(2,"0")}`)).filter(Boolean);
+  function setActive(){
+    let currentId=els[0]?.id;
+    const offset=window.scrollY+140;
+    els.forEach(section=>{if(section.offsetTop<=offset) currentId=section.id});
+    links.forEach(link=>link.classList.toggle('active',link.getAttribute('href')===`#${currentId}`));
+  }
+  setActive();
+  window.addEventListener('scroll',setActive,{passive:true});
+}
+render(data);
+</script>
+</body>
+</html>
