@@ -1,0 +1,298 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CAL 리포트 - 박나래</title><style>
+    :root{
+      --navy:#07111f;
+      --navy2:#101827;
+      --gold:#c8932d;
+      --gold2:#8a6b3d;
+      --cream:#f7f1e7;
+      --paper:#fffdf9;
+      --line:#e7d6bc;
+      --text:#171717;
+      --muted:#6b6258;
+      --soft:#f4ead9;
+      --green:#087443;
+      --red:#b42318;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:'Noto Sans KR',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      background:linear-gradient(135deg,#f8f1e6 0%,#f5efe5 45%,#efe2cf 100%);
+      color:var(--text);
+      line-height:1.75;
+      word-break:keep-all;
+    }
+    .wrap{max-width:1180px;margin:0 auto;padding:28px 18px 80px}
+    .panel{
+      background:rgba(255,253,249,.92);
+      border:1px solid var(--line);
+      border-radius:26px;
+      padding:28px;
+      box-shadow:0 18px 45px rgba(43,32,18,.08);
+      margin-bottom:26px;
+    }
+    h1{font-size:32px;margin:0 0 8px;color:var(--navy);letter-spacing:-.04em}
+    h2{font-size:26px;margin:0 0 18px;color:var(--navy);letter-spacing:-.04em}
+    .desc{color:var(--muted);margin:0 0 22px}
+    textarea{
+      width:100%;
+      min-height:390px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+      font-size:15px;
+      line-height:1.7;
+      background:#fffaf2;
+      resize:vertical;
+      outline:none;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    }
+    textarea:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(200,147,45,.14)}
+    .btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+    button{
+      border:0;
+      border-radius:999px;
+      padding:14px 24px;
+      font-weight:800;
+      font-size:16px;
+      cursor:pointer;
+      color:white;
+      background:var(--navy);
+      box-shadow:0 8px 16px rgba(0,0,0,.12);
+    }
+    button.secondary{background:var(--gold2)}
+    button.light{background:#fffaf2;color:var(--navy);border:1px solid var(--line)}
+    .status{
+      margin-top:18px;
+      padding:16px 18px;
+      border-radius:16px;
+      background:#fff8eb;
+      border:1px solid var(--line);
+      color:#4d3b22;
+      display:none;
+    }
+    .status.ok{display:block;color:var(--green)}
+    .status.err{display:block;color:var(--red)}
+    iframe{
+      width:100%;
+      height:760px;
+      border:1px solid var(--line);
+      border-radius:22px;
+      background:white;
+    }
+
+    /* Report style inside generated HTML */
+    .report-body{
+      margin:0;
+      background:linear-gradient(135deg,#f8f1e6 0%,#f5efe5 52%,#ead9bf 100%);
+      color:#171717;
+      font-family:'Noto Sans KR',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      line-height:1.75;
+      word-break:keep-all;
+    }
+    .report-wrap{max-width:980px;margin:0 auto;padding:42px 18px 70px}
+    .cover{
+      background:radial-gradient(circle at 82% 12%,rgba(200,147,45,.22),transparent 32%),
+                 linear-gradient(135deg,#06101f 0%,#121925 54%,#252516 100%);
+      border-radius:30px;
+      padding:58px 52px;
+      color:white;
+      box-shadow:0 24px 55px rgba(0,0,0,.22);
+      margin-bottom:34px;
+      overflow:hidden;
+      position:relative;
+    }
+    .cover:after{
+      content:"";
+      position:absolute;right:-80px;top:-90px;width:310px;height:310px;
+      border:1px solid rgba(200,147,45,.25);border-radius:50%;
+    }
+    .brand{color:#f0b84b;letter-spacing:.18em;font-size:13px;font-weight:900;margin-bottom:38px}
+    .cover h1{font-size:50px;line-height:1.15;margin:0 0 20px;letter-spacing:-.05em;color:white}
+    .cover p{font-size:18px;color:#e9dfcf;margin:0;max-width:720px}
+    .meta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:34px}
+    .meta-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:14px}
+    .meta-label{font-size:12px;color:#d8c59e;margin-bottom:4px}
+    .meta-value{font-weight:800;color:white}
+    .section{
+      background:rgba(255,253,249,.94);
+      border:1px solid #e7d6bc;
+      border-radius:28px;
+      padding:36px 38px;
+      margin:28px 0;
+      box-shadow:0 16px 42px rgba(43,32,18,.07);
+    }
+    .section-title{display:flex;align-items:baseline;gap:14px;margin:0 0 12px}
+    .num{font-size:34px;font-weight:900;color:#c8932d;letter-spacing:-.05em}
+    .section h2{font-size:31px;letter-spacing:-.05em;margin:0;color:#07111f;line-height:1.25}
+    .section-desc{color:#6b6258;margin:0 0 26px}
+    .accent-line{width:54px;height:2px;background:#c8932d;margin:20px 0 30px}
+    .card{
+      border:1px solid #e7d6bc;
+      background:#fffaf2;
+      border-radius:22px;
+      padding:24px;
+      margin:18px 0;
+    }
+    .card.white{background:#fff}
+    .eyebrow{letter-spacing:.18em;font-weight:900;color:#b68222;font-size:13px;margin-bottom:12px;text-transform:uppercase}
+    h3{font-size:22px;margin:0 0 12px;color:#07111f;letter-spacing:-.035em}
+    p{margin:0 0 12px}
+    .list{padding-left:0;margin:12px 0 0;list-style:none}
+    .list li{position:relative;padding-left:18px;margin:7px 0}
+    .list li:before{content:"";position:absolute;left:0;top:.78em;width:6px;height:6px;background:#c8932d;border-radius:50%}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .insight{
+      background:#f1e3cc;
+      border:1px solid #dcc49d;
+      border-radius:18px;
+      padding:18px 20px;
+      margin-top:20px;
+      color:#513917;
+      font-weight:700;
+    }
+    .core{
+      background:#fff7e8;
+      border-left:4px solid #c8932d;
+      padding:16px 18px;
+      border-radius:14px;
+      margin-top:16px;
+      font-weight:700;
+    }
+    .flow{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+    .pill{background:#07111f;color:white;border-radius:999px;padding:8px 13px;font-size:13px;font-weight:800}
+    .element-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:16px 0}
+    .element{background:#fff;border:1px solid #e7d6bc;border-radius:16px;padding:14px;text-align:center}
+    .element b{display:block;font-size:20px;color:#c8932d}
+    .steps{counter-reset:step}
+    .step{display:grid;grid-template-columns:54px 1fr;gap:14px;align-items:start;border-bottom:1px solid #eadcc8;padding:16px 0}
+    .step:last-child{border-bottom:0}
+    .step-num{width:46px;height:46px;border-radius:50%;background:#07111f;color:white;display:flex;align-items:center;justify-content:center;font-weight:900}
+    .final{
+      background:linear-gradient(135deg,#07111f,#1d2118);
+      color:white;
+      border:0;
+    }
+    .final h2,.final h3{color:white}
+    .final .section-desc{color:#e7d9c4}
+    .final .insight{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15);color:#f7e9cc}
+    .declaration{font-size:20px;font-weight:900;color:#f0b84b;margin:22px 0}
+    .footer{font-size:13px;color:#6b6258;text-align:center;margin:34px 0}
+    @media(max-width:760px){
+      .cover{padding:42px 28px}
+      .cover h1{font-size:36px}
+      .section{padding:28px 22px}
+      .grid2,.grid3,.meta-grid,.element-grid{grid-template-columns:1fr}
+      .section h2{font-size:27px}
+    }
+  </style></head><body class="report-body"><div class="report-wrap"><section class="cover">
+    <div class="brand">CONSCIOUSNESS ARCHITECTURE LAB</div>
+    <h1>CAL 의식OS<br>프리미엄 리포트 v4.0</h1>
+    <p>현실은 사건이 아니라 반복 실행된 의식 구조의 출력입니다.</p>
+    <div class="meta-grid">
+      <div class="meta-card"><div class="meta-label">고객명</div><div class="meta-value">박나래</div></div>
+      <div class="meta-card"><div class="meta-label">작성일</div><div class="meta-value">2026-05-15</div></div>
+      <div class="meta-card"><div class="meta-label">Report ID</div><div class="meta-value">CAL-20260515-PNR</div></div>
+    </div>
+  </section><section class="section ">
+    <div class="section-title"><div class="num">01</div><h2>현실 출력 구조 요약</h2></div>
+    <p class="section-desc">현재 삶에서 반복적으로 출력되는 핵심 패턴을 확인합니다.</p>
+    <div class="accent-line"></div>
+    <div class="card white"><div class="eyebrow">Reality Output</div><h3>박나래님의 현실 출력 구조는 ‘인정받아야 안전해진다’는 자동반응 OS가 반복 실행되는 패턴입니다.</h3><p>겉으로는 참고 맞추고 잘하려 애쓰지만, 내부에서는 계속 평가받는 느낌과 불안이 작동합니다. 비판이나 오해가 들어오면 몸은 무거워지고 가슴은 답답해지며, 다시 좋게 보이기 위한 노력이 자동 실행됩니다. 이 구조는 박나래님의 존재 문제가 아니라, 인정과 관계 안전을 연결해 저장한 자동반응 구조입니다.</p><div class="core">지금 반복되는 현실은 박나래님이 부족해서가 아니라, 인정받기 위해 긴장하고 맞추는 OS가 계속 출력되고 있기 때문입니다.</div><div class="insight">CAL Insight · 인정받고 싶은 마음은 약함이 아니라, 오래된 안전 시스템이 켜졌다는 신호입니다.</div></div>
+  </section><section class="section ">
+    <div class="section-title"><div class="num">02</div><h2>현재 현실에서 반복되는 출력 패턴</h2></div>
+    <p class="section-desc">반복되는 문제, 감정 신호, 몸 신호, 관계/일의 출력을 연결합니다.</p>
+    <div class="accent-line"></div>
+    <div class="card white"><h3>핵심 반복 패턴</h3><p>상대가 나를 어떻게 보는지 계속 계산하고, 관계가 멀어질까 봐 먼저 맞추다가 결국 지치는 구조가 반복됩니다.</p><div class="core">박나래님은 관계를 지키기 위해 맞추는 것이 아니라, 평가받는 불안을 낮추기 위해 맞추는 구조가 실행되고 있습니다.</div><div class="insight">CAL Insight · 계속 눈치 보는 것은 섬세함만의 문제가 아니라, 관계 안전을 확인하려는 내부 경보 시스템입니다.</div></div>
+    <div class="grid2">
+      <div class="card"><h3>보이는 문제</h3><ul class="list"><li>비판을 받으면 내가 뭘 잘못했는지부터 찾는다</li><li>오해받는 상황에서 답답함과 억울함이 커진다</li><li>상대의 감정 변화를 과하게 살핀다</li><li>지나치게 맞추다가 피로가 누적된다</li><li>좋게 보이기 위해 다시 애쓴다</li></ul></div>
+      <div class="card"><h3>감정 신호</h3><ul class="list"><li>불안</li><li>자책</li><li>압박감</li><li>배신감</li><li>인정받고 싶은 마음</li><li>관계가 멀어질까 봐 두려움</li></ul></div>
+      <div class="card"><h3>몸 신호</h3><ul class="list"><li>가슴 답답함</li><li>몸이 무거워짐</li><li>극심한 피로</li><li>경직</li><li>답답함</li></ul></div>
+      <div class="card"><h3>선택 패턴</h3><p>내가 원하는 선택보다 상대가 나를 어떻게 평가할지를 먼저 고려하는 선택이 반복됩니다.</p></div>
+    </div>
+    <div class="card white"><h3>관계 출력</h3><p>관계에서는 착하고 바른 역할을 유지하려 하지만, 속으로는 인정받지 못했다는 감각과 억울함이 쌓입니다. 그 결과 지나치게 맞추다 지치고, 결국 관계를 지속하는 힘이 줄어듭니다.</p></div>
+    <div class="card white"><h3>돈/일 출력</h3><p>일이나 역할 상황에서는 압박을 인정받을 기회처럼 해석합니다. 그래서 꾸준히 해내려 하지만, 실수하지 않으려는 경직과 계산이 함께 작동해 에너지가 빨리 소모됩니다.</p></div>
+  </section><section class="section ">
+    <div class="section-title"><div class="num">03</div><h2>핵심 자동반응 루프</h2></div>
+    <p class="section-desc">반복을 만드는 자동반응의 실행 순서를 확인합니다.</p>
+    <div class="accent-line"></div>
+    <div class="flow"><span class="pill">자극 입력</span><span class="pill">해석</span><span class="pill">감정 상승</span><span class="pill">동일시</span><span class="pill">자동반응</span><span class="pill">반복 저장</span><span class="pill">현실 재출력</span></div>
+    <div class="card white"><h3>자극 입력</h3><p>비판, 오해, 상대의 감정 변화, 내가 잘해준 만큼 인정받지 못하는 상황</p><h3>해석</h3><p>상대가 나를 안 좋게 볼 수 있다, 관계가 멀어질 수 있다, 내가 뭔가 잘못했을 수 있다고 해석합니다.</p><h3>감정 상승</h3><p>불안, 자책, 압박감, 답답함이 빠르게 올라옵니다.</p><h3>동일시</h3><p>그 순간 박나래님은 ‘내가 잘못한 사람일지도 모른다’는 해석과 자신을 동일시합니다.</p><h3>자동반응</h3><p>참고 맞추고, 다시 좋게 보이려 애쓰고, 계속 계산하며 걱정합니다.</p><h3>반복 저장</h3><p>이 반응이 반복되면 ‘인정받아야 안전하다’, ‘잘해야 관계가 유지된다’는 저장 패턴이 강화됩니다.</p><h3>현실 재출력</h3><p>결국 관계에서는 과잉 맞춤과 피로가 반복되고, 일상에서는 계속 압박감이 출력됩니다.</p><div class="core">문제는 감정이 올라오는 것이 아니라, 감정이 올라온 직후 자동으로 자책과 맞춤이 실행되는 구조입니다.</div><div class="insight">CAL Insight · 오해받는 순간 박나래님의 OS는 대화 모드가 아니라 생존 모드로 전환됩니다.</div></div>
+  </section><section class="section ">
+    <div class="section-title"><div class="num">04</div><h2>사주OS — 초기 에너지 렌즈</h2></div>
+    <p class="section-desc">사주는 운명이 아니라 자극에 반응하는 초기 입력 필터입니다.</p>
+    <div class="accent-line"></div>
+    <div class="element-grid">
+      <div class="element">목(木)<b>1</b></div>
+      <div class="element">화(火)<b>1</b></div>
+      <div class="element">토(土)<b>4</b></div>
+      <div class="element">금(金)<b>2</b></div>
+      <div class="element">수(水)<b>0</b></div>
+    </div>
+    <div class="grid2">
+      <div class="card"><h3>강한 에너지</h3><ul class="list"><li>토</li><li>금</li></ul></div>
+      <div class="card"><h3>약한 에너지</h3><ul class="list"><li>수</li><li>목</li><li>화</li></ul></div>
+    </div>
+    <div class="card white"><h3>정상 작동</h3><p>토가 강할 때는 책임감, 지속성, 안정 유지 능력으로 작동합니다. 금은 기준, 정리, 판단, 자기 통제 능력으로 표현됩니다.</p></div>
+    <div class="card white"><h3>왜곡 작동</h3><p>압박이 커지면 토는 과잉 책임과 무거움으로, 금은 자기검열과 실수 공포로 왜곡될 수 있습니다. 수가 약하면 감정을 흘려보내기보다 안에 고여 답답함과 피로로 쌓이기 쉽습니다.</p></div>
+    <div class="card white"><h3>렌즈 증폭</h3><p>박나래님의 사주OS는 상황을 안정적으로 유지하려는 필터를 강하게 켭니다. 그래서 관계 긴장이나 평가 상황에서 ‘내가 더 잘해야 한다’는 해석이 증폭될 수 있습니다.</p></div>
+    <div class="card white"><h3>현실 출력 연결</h3><p>인정받으려 애쓰고, 실수하지 않으려 경직되며, 감정을 바로 풀지 못하고 몸의 무거움으로 저장되는 흐름과 연결됩니다.</p></div>
+    <div class="core">사주는 운명이 아니라 초기 입력 필터입니다. 박나래님에게는 책임과 기준의 필터가 강하게 켜져 있습니다.</div><div class="insight">CAL Insight · 강한 토는 버티는 힘이지만, 의식 없이 반복되면 혼자 다 짊어지는 무게가 됩니다.</div>
+  </section><section class="section ">
+    <div class="section-title"><div class="num">05</div><h2>의식OS 구조 분석</h2></div>
+    <p class="section-desc">5식에서 9식까지, 현실이 내부에서 처리되는 흐름을 확인합니다.</p>
+    <div class="accent-line"></div>
+    <div class="grid2"><div class="card"><h3>5식 — 입력 감지</h3><p>5식은 현실에서 들어오는 말, 표정, 분위기, 몸 감각을 감지하는 입력 장치입니다.</p><p><b>개인 패턴</b><br>박나래님은 상대의 감정 변화와 평가 신호를 빠르게 감지합니다. 이때 가슴 답답함과 몸의 무거움이 함께 나타납니다.</p></div><div class="card"><h3>6식 — 해석과 판단</h3><p>6식은 들어온 정보를 해석하고 의미를 붙입니다.</p><p><b>개인 패턴</b><br>상대가 차갑거나 오해하는 것처럼 느껴지면 ‘내가 뭘 잘못했나’, ‘관계가 멀어질까’라는 판단이 빠르게 실행됩니다.</p></div><div class="card"><h3>7식 — 동일시</h3><p>7식은 해석된 생각을 나 자신으로 착각하는 층입니다.</p><p><b>개인 패턴</b><br>불안이 올라오면 박나래님은 ‘나는 부족한가’, ‘내가 더 잘해야 하나’라는 자책과 자신을 붙여버립니다.</p></div><div class="card"><h3>8식 — 저장된 자동패턴</h3><p>8식은 반복된 감정, 선택, 생존 역할이 저장되는 층입니다.</p><p><b>개인 패턴</b><br>눈치보기, 착하고 바른 아이 역할, 참고 맞추기, 인정받기 위해 애쓰기 패턴이 저장되어 있습니다.</p></div><div class="card"><h3>9식 — 의식하는 자아</h3><p>9식은 자동반응과 자신 사이에 선택 공간을 회복하는 관리자 권한입니다.</p><p><b>개인 패턴</b><br>박나래님은 불안과 자책이 올라오는 순간, 그것을 ‘나’가 아니라 ‘인정 안전 OS가 켜진 것’으로 볼 수 있습니다.</p><p><b>선택 지점</b><br>상대에게 맞추기 전에, 지금 내가 원하는 것과 실제로 확인해야 할 것을 구분하는 순간이 선택 지점입니다.</p></div></div>
+    <div class="core">박나래님의 변화 지점은 감정을 없애는 것이 아니라, 감정이 곧 나라는 동일시를 끊는 데 있습니다.</div><div class="insight">CAL Insight · 불안은 명령이 아니라 알림입니다. 알림을 보고도 다른 선택을 할 수 있는 자리가 9식입니다.</div>
+  </section><section class="section ">
+    <div class="section-title"><div class="num">06</div><h2>현실은 어떻게 물질화되는가</h2></div>
+    <p class="section-desc">반복 해석과 반복 선택이 현실 출력으로 굳어지는 과정을 봅니다.</p>
+    <div class="accent-line"></div>
+    <div class="flow"><span class="pill">반복 해석</span><span class="pill">반복 감정</span><span class="pill">반복 선택</span><span class="pill">반복 행동</span><span class="pill">현실 출력</span></div>
+    <div class="grid2">
+      <div class="card "><h3>내부 패턴</h3><p>나는 인정받아야 편안해질 수 있다는 내부 해석이 반복됩니다.</p></div>
+      <div class="card "><h3>반복 감정</h3><p>불안, 자책, 압박감, 답답함이 반복됩니다.</p></div>
+      <div class="card "><h3>반복 선택</h3><p>내 욕구보다 상대의 반응을 먼저 살피는 선택이 반복됩니다.</p></div>
+      <div class="card "><h3>반복 행동</h3><p>참고 맞추고, 잘하려 애쓰고, 실수하지 않으려 경직됩니다.</p></div>
+    </div>
+    <div class="card white"><h3>외부 결과</h3><p>겉으로는 관계를 지키는 것처럼 보이지만, 실제로는 피로와 억울함이 쌓여 관계가 무거워집니다.</p></div>
+    <div class="core">현실은 한 번의 사건이 아니라 반복된 해석과 선택이 쌓여 출력됩니다.</div><div class="insight">CAL Insight · 계속 맞추면 관계가 편해질 것 같지만, 오래 반복되면 나 자신과의 거리가 먼저 멀어집니다.</div>
+  </section><section class="section ">
+    <div class="section-title"><div class="num">07</div><h2>9식 — 관리자 권한 회복</h2></div>
+    <p class="section-desc">자동반응과 자신 사이에 선택 공간을 회복합니다.</p>
+    <div class="accent-line"></div>
+    <div class="card white">
+      <h3>나는 구조 그 자체가 아니다</h3><p>나는 불안 그 자체가 아닙니다. 나는 인정받아야 안전하다고 배운 자동반응을 경험하고 있습니다.</p>
+      <h3>관찰자 문장</h3><p>지금 내 안에서 ‘좋게 보여야 한다’는 프로그램이 실행되고 있구나.</p>
+      <h3>멈춤 지점</h3><p>가슴이 답답해지고 몸이 무거워지는 순간, 바로 해명하거나 맞추기 전에 10초 멈춥니다.</p>
+      <h3>새 선택 가능성</h3><p>상대의 감정을 맞추기보다, 사실 확인과 내 감정 표현을 먼저 선택할 수 있습니다.</p>
+      <h3>재프로그래밍 문장</h3><p>나는 인정받기 위해 나를 지우지 않아도 됩니다. 관계는 맞춤이 아니라 확인과 표현으로 다시 조정될 수 있습니다.</p>
+      <div class="core">관리자 권한은 강해지는 것이 아니라, 자동반응을 자동으로 따르지 않는 힘입니다.</div><div class="insight">CAL Insight · 멈춤은 회피가 아니라 OS를 바꾸는 첫 클릭입니다.</div>
+    </div>
+  </section><section class="section ">
+    <div class="section-title"><div class="num">08</div><h2>현실 재프로그래밍 프로토콜</h2></div>
+    <p class="section-desc">작은 감지와 작은 선택을 반복 저장하는 실행 프로토콜입니다.</p>
+    <div class="accent-line"></div>
+    <div class="card white steps"><div class="step"><div class="step-num">1</div><div><h3>감지하기</h3><p>가슴 답답함, 몸의 무거움, 계속 계산하는 생각이 올라오면 ‘평가 경보가 켜졌다’고 감지합니다.</p></div></div><div class="step"><div class="step-num">2</div><div><h3>멈추기</h3><p>바로 설명하거나 맞추기 전에 숨을 한 번 길게 내쉬고 반응을 늦춥니다.</p></div></div><div class="step"><div class="step-num">3</div><div><h3>반응 이름 붙이기</h3><p>‘지금 자책 OS’, ‘인정받기 OS’, ‘관계 멀어짐 경보’라고 이름 붙입니다.</p></div></div><div class="step"><div class="step-num">4</div><div><h3>새로운 선택 질문하기</h3><p>‘지금 정말 내가 잘못한 것인가, 아니면 오해를 확인해야 하는 상황인가?’라고 질문합니다.</p></div></div><div class="step"><div class="step-num">5</div><div><h3>작은 행동 바꾸기</h3><p>맞추기 전에 한 문장으로 확인합니다. 예: ‘내가 이렇게 이해했는데 맞아?’ 또는 ‘나는 지금 조금 답답하게 느껴져.’</p></div></div><div class="step"><div class="step-num">6</div><div><h3>새로운 저장 반복하기</h3><p>작게라도 나를 지우지 않고 표현한 경험을 반복 저장합니다. 이것이 새로운 현실 출력의 재료가 됩니다.</p></div></div></div>
+    <div class="card "><h3>Daily Practice</h3><p>하루 한 번, 오늘 내가 맞춘 장면과 실제로 표현할 수 있었던 한 문장을 기록합니다.</p></div>
+    <div class="card"><h3>전환 질문</h3><ul class="list"><li>지금 나는 관계를 지키는 중인가, 나를 지우는 중인가?</li><li>이 불안은 사실인가, 오래된 경보인가?</li><li>상대의 감정을 맞추기 전에 확인할 수 있는 사실은 무엇인가?</li><li>내가 지금 원하는 것은 무엇인가?</li><li>인정받지 못해도 내가 유지할 수 있는 기준은 무엇인가?</li></ul></div>
+    <div class="core">재프로그래밍은 큰 결심이 아니라, 자동반응 직전에 작은 선택을 반복 저장하는 과정입니다.</div><div class="insight">CAL Insight · 새로운 나는 한 번에 만들어지지 않습니다. 같은 장면에서 다른 한 문장을 선택할 때 저장됩니다.</div>
+  </section><section class="section ">
+    <div class="section-title"><div class="num">09</div><h2>변화 과정에서 나타나는 저항</h2></div>
+    <p class="section-desc">저항은 실패가 아니라 기존 저장 패턴의 관성입니다.</p>
+    <div class="accent-line"></div>
+    <div class="card"><h3>예상 저항</h3><ul class="list"><li>표현하려는 순간 더 불안해질 수 있습니다</li><li>상대가 실망할 것 같은 느낌이 올라올 수 있습니다</li><li>차라리 맞추는 게 편하다고 느낄 수 있습니다</li><li>자책이 더 강해지는 시기가 올 수 있습니다</li><li>몸이 피곤하고 멈추고 싶어질 수 있습니다</li></ul></div>
+    <div class="card white"><h3>왜 나타나는가</h3><p>저항은 실패가 아니라 기존 저장 패턴의 관성입니다. 오래 사용한 OS는 새로운 선택이 들어오면 위험 신호로 착각할 수 있습니다.</p></div>
+    <div class="card white"><h3>어떻게 읽을 것인가</h3><p>불안이 올라온다는 것은 박나래님이 잘못 가고 있다는 뜻이 아닙니다. 기존 구조가 바뀌는 경계선에 도착했다는 신호일 수 있습니다.</p></div>
+    <div class="card white"><h3>대응 가이드</h3><p>저항이 올라오면 더 크게 바꾸려 하지 말고, 한 문장만 표현하는 방식으로 낮은 강도의 선택을 반복합니다.</p></div>
+    <div class="core">변화의 초반에는 편안함보다 낯섦이 먼저 옵니다.</div><div class="insight">CAL Insight · 오래된 OS는 익숙해서 안전해 보이지만, 익숙함이 곧 자유는 아닙니다.</div>
+  </section><section class="section final">
+    <div class="section-title"><div class="num">10</div><h2>Final Message</h2></div>
+    <p class="section-desc">리포트의 전체 구조를 통합합니다.</p>
+    <div class="accent-line"></div>
+    <p>박나래님은 망가진 사람이 아닙니다. 지금까지 관계 안에서 인정받고, 오해받지 않고, 버려지지 않기 위해 자동반응 구조를 사용해온 것입니다. 그 구조는 한때 박나래님을 보호했습니다. 하지만 지금은 같은 구조가 피로, 자책, 답답함, 과잉 맞춤으로 현실에 출력되고 있습니다. 이제 필요한 것은 더 잘하는 것이 아니라, 자동반응과 나 사이에 공간을 만드는 것입니다. 그 공간에서 박나래님은 맞추기 전에 확인할 수 있고, 자책하기 전에 멈출 수 있고, 인정받기 위해 나를 지우지 않는 선택을 시작할 수 있습니다.</p>
+    <div class="declaration">나는 인정받기 위해 나를 잃지 않는다. 나는 자동반응을 알아차리고 새로운 선택을 실행할 수 있다.</div>
+    <h3>박나래님은 구조 그 자체가 아니라, 그 구조를 바라보고 다시 선택할 수 있는 의식입니다.</h3>
+    <div class="insight">CAL Insight · 내가 반복해온 방식이 나의 전부는 아닙니다. 알아차린 구조는 더 이상 같은 방식으로만 반복되지 않습니다.</div>
+  </section><div class="footer">본 리포트는 의료, 법률, 투자 상담이 아닙니다. 자기 이해와 선택 전환을 위한 의식 구조 분석 자료이며, 선택은 본인의 몫입니다.<br>© Consciousness Architecture Lab. All rights reserved.</div></div></body></html>
