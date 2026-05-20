@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAL APPLY : 내 인생 설계도 (마음 구조 공략집)</title>
+    <style>
+        :root {
+            --bg-main: #0b0f19;
+            --bg-card: #131a2c;
+            --bg-input: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-primary: #6366f1;
+            --accent-secondary: #a855f7;
+            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            --border-color: #334155;
+            
+            --map-love: #f43f5e;
+            --map-money: #eab308;
+            --map-social: #3b82f6;
+            --map-work: #10b981;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            letter-spacing: -0.02em;
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .hero-tag {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            line-height: 1.3;
+            margin: 0 0 24px 0;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            word-break: keep-all;
+        }
+
+        .hero-img-container {
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border: 1px solid var(--border-color);
+        }
+
+        .hero-img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .hero-desc {
+            font-size: 1.15rem;
+            color: var(--text-main);
+            margin-bottom: 24px;
+            word-break: keep-all;
+        }
+
+        .hero-subdesc {
+            font-size: 1rem;
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.03);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 3px solid var(--accent-primary);
+            text-align: left;
+            word-break: keep-all;
+        }
+
+        /* CTA Anchors & Buttons */
+        .cta-btn {
+            display: block;
+            width: 100%;
+            padding: 18px 24px;
+            background: var(--accent-gradient);
+            color: #fff;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 8px 24px rgba(168, 85, 247, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 30px 0;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(168, 85, 247, 0.4);
+        }
+
+        /* Section Maps */
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-align: center;
+            margin: 60px 0 30px 0;
+            word-break: keep-all;
+        }
+
+        .map-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .map-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        .map-card.love::before { background-color: var(--map-love); }
+        .map-card.money::before { background-color: var(--map-money); }
+        .map-card.social::before { background-color: var(--map-social); }
+        .map-card.work::before { background-color: var(--map-work); }
+
+        .map-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .map-icon {
+            font-size: 1.3rem;
+        }
+
+        .map-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .map-card.love .map-name { color: var(--map-love); }
+        .map-card.money .map-name { color: var(--map-money); }
+        .map-card.social .map-name { color: var(--map-social); }
+        .map-card.work .map-name { color: var(--map-work); }
+
+        .map-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 18px 0;
+        }
+
+        .map-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        .map-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            top: -2px;
+        }
+
+        .map-quote {
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--text-muted);
+            border-top: 1px dashed var(--border-color);
+            padding-top: 12px;
+            text-align: right;
+        }
+
+        /* Core Explanation Block */
+        .explain-block {
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 60px 0;
+            word-break: keep-all;
+        }
+
+        .explain-block h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-top: 0;
+            color: var(--text-main);
+        }
+
+        .explain-quote {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid var(--accent-secondary);
+        }
+
+        /* Features */
+        .feature-list {
+            margin: 24px 0;
+        }
+        
+        .feature-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 16px 20px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .feature-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            flex-shrink: 0;
+        }
+
+        .feature-text {
+            font-size: 0.98rem;
+            font-weight: 600;
+        }
+
+        /* Form Block */
+        .form-section {
+            background: var(--bg-card);
+            border: 2px solid var(--accent-primary);
+            border-radius: 20px;
+            padding: 34px;
+            margin-top: 60px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .form-section h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .form-section p {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 16px;
+        }
+
+        /* Footer Info */
+        .footer-note {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 40px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 1.8rem; }
+            .form-section { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- HERO SECTION -->
+        <header class="hero">
+            <span class="hero-tag">CONSCIOUSNESS ARCHITECTURE LAB</span>
+            <h1>왜 우리는 늘 가던 길에서 넘어지고,<br>아는 돌부리에 또 걸릴까? (ㅎㅎ)</h1>
+            
+            <div class="hero-img-container">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MDAgNDUwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj4KICAgIDxkZWZzPgogICAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmdHcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzBmMTcyYSIvPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxZTFiNGIiLz4KICAgICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYWNjZW50R3JhZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNjM2NmYxIi8+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjYTg1NWY3Ii8+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2VjNDg5OSIvPgogICAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICAgICAgPHJhZGlhbEdyYWRpZW50IGlkPSJnbG93IiBjeD0iNTAlIiBjeT0iNTAlIiByPSI1MCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjYTg1NWY3IiBzdG9wLW9wYWNpdHk9IjAuMjUiLz4KICAgICAgICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjYTg1NWY3IiBzdG9wLW9wYWNpdHk9IjAiLz4KICAgICAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPC9kZWZzPgogICAgPHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI0NTAiIGZpbGw9InVybCgjYmdHcmFkKSIvPgogICAgPGNpcmNsZSBjeD0iNDAwIiBjeT0iMjI1IiByPSIzMDAiIGZpbGw9InVybCgjZ2xvdykiLz4KICAgIDxnIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLW9wYWNpdHk9IjAuMDUiIHN0cm9rZS13aWR0aD0iMSI+CiAgICAgICAgPGxpbmUgeDE9IjAiIHkxPSIyMjUiIHgyPSI4MDAiIHkyPSIyMjUiLz4KICAgICAgICA8bGluZSB4MT0iNDAwIiB5MT0iMCIgeDI9IjQwMCIgeTI9IjQ1MCIvPgogICAgICAgIDxjaXJjbGUgY3g9IjQwMCIgY3k9IjIyNSIgcj0iMTAwIi8+CiAgICAgICAgPGNpcmNsZSBjeD0iNDAwIiBjeT0iMjI1IiByPSIyMDAiLz4KICAgIDwvZz4KICAgIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNhY2NlbnRHcmFkKSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgogICAgICAgIDxwYXRoIGQ9Ik0gNDAwLDc1IEEgMTUwLDE1MCAwIDAsMCAyNTAsMjI1IEEgMTUwLDE1MCAwIDAsMCA0MDAsMzc1IEEgMTUwLDE1MCAwIDAsMCA1NTAsMjI1IEEgMTUwLDE1MCAwIDAsMCA0MDAsNzUgWiIgc3Ryb2tlLW9wYWNpdHk9IjAuNCIgc3Ryb2tlLWRhc2hhcnJheT0iNSw1Ii8+CiAgICAgICAgPHBhdGggZD0iTSAyODAsMTUwIFEgMzQwLDEzMCA0MDAsMTUwIFQgNTIwLDE1MCBRIDU1MCwyMjUgNTIwLDMwMCBUIDQwMCwzMDAgVCAyODAsMzAwIFEgMjUwLDIyNSAyODAsMTUwIFoiIHN0cm9rZS1vcGFjaXR5PSIwLjgiLz4KICAgICAgICA8Y2lyY2xlIGN4PSI0MDAiIGN5PSIyMjUiIHI9IjM1IiBzdHJva2Utd2lkdGg9IjMiLz4KICAgICAgICA8cGF0aCBkPSJNIDQwMCwxMjAgTCA0MDAsMTQwIE0gNDAwLDMxMCBMIDQwMCwzMzAgTSAyOTUsMjI1IEwgMzE1LDIyNSBNIDQ4NSwyMjUgTCA1MDUsMjI1Ii8+CiAgICA8L2c+CiAgICA8ZyBmaWxsPSIjZmZmZmZmIj4KICAgICAgICA8Y2lyY2xlIGN4PSI0MDAiIGN5PSIyMjUiIHI9IjYiIGZpbGw9IiNlYzQ4OTkiLz4KICAgICAgICA8Y2lyY2xlIGN4PSIyODAiIGN5PSIxNTAiIHI9IjQiLz4KICAgICAgICA8Y2lyY2xlIGN4PSI1MjAiIGN5PSIxNTAiIHI9IjQiLz4KICAgICAgICA8Y2lyY2xlIGN4PSI1MjAiIGN5PSIzMDAiIHI9IjQiLz4KICAgICAgICA8Y2lyY2xlIGN4PSIyODAiIGN5PSIzMDAiIHI9IjQiLz4KICAgIDwvZz4KICAgIDx0ZXh0IHg9IjQwMCIgeT0iNTAiIGZpbGw9IiNmZmZmZmYiIGZvbnQtZmFtaWx5PSJzeXN0ZW0tdWksIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI2MDAiIGxldHRlci1zcGFjaW5nPSI0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBvcGFjaXR5PSIwLjYiPkNPTlNDSU9VU05FU1MgQVJDSElURUNUVVJFIExBQjwvdGV4dD4KPC9zdmc+" class="hero-img" alt="Mind Blueprint">
+            </div>
+
+            <p class="hero-desc">연애, 돈, 인간관계, 일...</p>
+            <p class="hero-subdesc">
+                사는 모습이나 만나는 사람은 매번 바뀌는 것 같은데, 서운하고, 불안하고, 화나고, 결국 후회하게 되는 <strong>마음의 결말</strong>은 왜 늘 비슷할까요?<br><br>
+                <strong>CAL(의식 연구소)</strong>은 평생 당신도 모르게 작동해 온 ‘나를 움직이는 마음의 설계도(구조)’를 무겁지 않게, 하지만 소름 돋게 명확하게 함께 짚어보는 공간입니다.
+            </p>
+            
+            <a href="#apply-form" class="cta-btn">🔘 내 마음의 숨은 설계도 확인하러 가기</a>
+        </header>
+
+        <!-- MAP MAP SECTION -->
+        <section>
+            <h2 class="section-title">🗺️ 지금 당신의 마음을 조종하는 '숨은 조종사'는 누구인가요?</h2>
+            
+            <div class="map-grid">
+                
+                <!-- LOVE MAP -->
+                <div class="map-card love">
+                    <div class="map-header">
+                        <span class="map-icon">💔</span>
+                        <span class="map-name">늘 롤러코스터를 타는 연애/부부 관계</span>
+                    </div>
+                    <ul class="map-list">
+                        <li>상대방의 연락 한 통에 내 세상 전체가 천국과 지옥을 오감.</li>
+                        <li>버려질까 봐 온갖 눈치를 보다가도, 막상 상대가 다가오면 숨이 막혀 도망치고 싶음.</li>
+                        <li>머리로는 "이런 사람 만나지 말아야지" 하면서도, 눈을 떠보면 늘 비슷한 결의 사람에게 끌려가고 있음.</li>
+                        <li>인연이 끝났는데도 머릿속에서 '그때 왜 그랬을까' 혼자 지나간 필름을 무한 재생함.</li>
+                    </ul>
+                    <div class="map-quote">"아… 내 마음인데 왜 내 뜻대로 조종이 안 되지? (ㅎㅎ)"</div>
+                </div>
+
+                <!-- MONEY MAP -->
+                <div class="map-card money">
+                    <div class="map-header">
+                        <span class="map-icon">💸</span>
+                        <span class="map-name">벌어도 채워지지 않는 돈과 미래</span>
+                    </div>
+                    <ul class="map-list">
+                        <li>통장에 돈이 찍혀도 마음은 늘 시베리아 벌판처럼 시리고 불안함.</li>
+                        <li>일이 잘 풀리면 기쁜 게 아니라 '조만간 무슨 일이 터지려나?' 하며 불행을 예지함.</li>
+                        <li>10년 뒤, 20년 뒤에 길거리에 나앉는 시나리오를 쓰느라 정작 지금 쓸 돈 앞에서도 손이 떨림.</li>
+                        <li>돈 얘기만 나오면 나도 모르게 어깨가 굳고 마음의 방어벽을 높이 쌓음.</li>
+                    </ul>
+                    <div class="map-quote">"통장 잔고의 문제가 아니라, 내 마음의 '풍요 주파수'가 고장 나 있었음 (ㅎㅎ)"</div>
+                </div>
+
+                <div style="margin: 20px 0; border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color);">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MDAgMzAwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj4KICAgIDxkZWZzPgogICAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYm94R3JhZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMWUyOTNiIi8+CiAgICAgICAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzBmMTcyYSIvPgogICAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzBmMTcyYSIgcng9IjE2Ii8+CiAgICA8ZyBzdHJva2U9IiMzMzQxNTUiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWRhc2hhcnJheT0iNCw0Ij4KICAgICAgICA8bGluZSB4MT0iNDAwIiB5MT0iMjAiIHgyPSI0MDAiIHkyPSIyODAiLz4KICAgICAgICA8bGluZSB4MT0iNDAiIHkxPSIxNTAiIHgyPSI3NjAiIHkyPSIxNTAiLz4KICAgIDwvZz4KICAgIDwhLS0gNCBOb2RlcyAtLT4KICAgIDxjaXJjbGUgY3g9IjIyMCIgY3k9Ijg1IiByPSI0NSIgZmlsbD0iI2Y0M2Y1ZSIgZmlsbC1vcGFjaXR5PSIwLjE1IiBzdHJva2U9IiNmNDNmNWUiIHN0cm9rZS13aWR0aD0iMiIvPgogICAgPHRleHQgeD0iMjIwIiB5PSI5MCIgZmlsbD0iI2Y0M2Y1ZSIgZm9udC1mYW1pbHk9InN5c3RlbS11aSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuyXsOyVoDwvdGV4dD4KICAgIAogICAgPGNpcmNsZSBjeD0iNTgwIiBjeT0iODUiIHI9IjQ1IiBmaWxsPSIjZWFiMzA4IiBmaWxsLW9wYWNpdHk9IjAuMTUiIHN0cm9rZT0iI2VhYjMwOCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8dGV4dCB4PSI1ODAiIHk9IjkwIiBmaWxsPSIjZWFiMzA4IiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iYm9sZCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+64+IPC90ZXh0PgogICAgCiAgICA8Y2lyY2xlIGN4PSIyMjAiIGN5PSIyMTUiIHI9IjQ1IiBmaWxsPSIjM2I4MmY2IiBmaWxsLW9wYWNpdHk9IjAuMTUiIHN0cm9rZT0iIzNiODJmNiIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8dGV4dCB4PSIyMjAiIHk9IjIyMCIgZmlsbD0iIzNiODJmNiIgZm9udC1mYW1pbHk9InN5c3RlbS11aSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuq0gOqzhDwvdGV4dD4KICAgIAogICAgPGNpcmNsZSBjeD0iNTgwIiBjeT0iMjE1IiByPSI0NSIgZmlsbD0iIzEwYjk4MSIgZmlsbC1vcGFjaXR5PSIwLjE1IiBzdHJva2U9IiMxMGI5ODEiIHN0cm9rZS13aWR0aD0iMiIvPgogICAgPHRleHQgeD0iNTgwIiB5PSIyMjAiIGZpbGw9IiMxMGI5ODEiIGZvbnQtZmFtaWx5PSJzeXN0ZW0tdWksIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSJib2xkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7snbw8L3RleHQ+CiAgICAKICAgIDwhLS0gT3V0ZXIgY29ubmVjdGlvbnMgLS0+CiAgICA8cGF0aCBkPSJNIDI2NSw4NSBMIDUzNSw4NSBNIDU4MCwxMzAgTCA1ODAsMTcwIE0gNTM1LDIxNSBMIDI2NSwyMTUgTSAyMjAsMTcwIEwgMjIwLDEzMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDc1NTY5IiBzdHJva2Utd2lkdGg9IjIiIG1hcmtlci1lbmQ9InVybCgjYXJyb3cpIi8+Cjwvc3ZnPg==" class="hero-img" alt="The Four Dimensions Matrix">
+                </div>
+
+                <!-- SOCIAL MAP -->
+                <div class="map-card social">
+                    <div class="map-header">
+                        <span class="map-icon">👥</span>
+                        <span class="map-name">눈치 보느라 바쁜 인간관계</span>
+                    </div>
+                    <ul class="map-list">
+                        <li>스쳐 지나간 타인의 무심한 표정 하나에 밤새 방구석에서 혼자 '뇌내 재판'을 열어 따짐.</li>
+                        <li>속으로는 "싫다" 외치고 싶은데, 입은 평생 해온 버릇처럼 "네, 좋아요" 하고 맞춰줌.</li>
+                        <li>미움받는 게 너무 무서워서 주변 모든 사람의 '기분 에어백' 역할을 자처함.</li>
+                        <li>관계 하나 틀어지면 '내가 또 뭘 잘못했지?' 자책하는 마음이 밤새 나를 갉아먹음.</li>
+                        <li>혼자 있을 땐 편한데, 사람만 만나고 오면 영혼까지 탈탈 털려 방전됨.</li>
+                    </ul>
+                    <div class="map-quote">"나는 왜 평생 남의 집 불 끄러 다니느라 내 마음 타는 줄 몰랐을까 (ㅎㅎ)"</div>
+                </div>
+
+                <!-- WORK MAP -->
+                <div class="map-card work">
+                    <div class="map-header">
+                        <span class="map-icon">🔋</span>
+                        <span class="map-name">겉은 멀쩡한데 속은 타들어 가는 일과 커리어</span>
+                    </div>
+                    <ul class="map-list">
+                        <li>출근하기도 전에 이미 마음은 퇴근+피로 누적 상태.</li>
+                        <li>완벽하게 해내지 못하면 내 가치가 쓸모없어질 것 같아 시작도 하기 전에 도망치고 싶음.</li>
+                        <li>내 유능함을 증명해 내려고 언제나 스스로를 쥐어짜며 120%로 폭주 중.</li>
+                        <li>주말에 침대에 누워는 있는데, 머릿속에서는 여전히 밀린 일과 인간관계 걱정으로 특근 중.</li>
+                    </ul>
+                    <div class="map-quote">"몸은 쉬고 있는데, 내 마음은 주말에도 쉬지 못하고 야근 중 (ㅎㅎ)"</div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- WHAT IS CAL SECTION -->
+        <section class="explain-block">
+            <h3>🤔 그래서 CAL은 뭐 하는 곳인가요?</h3>
+            <p>CAL은 당신이 살아온 삶을 평가하거나, "마음을 고쳐먹으라"고 훈계하는 딱딱한 심리 상담소가 아닙니다.</p>
+            
+            <div class="explain-quote">
+                "어라? 내가 왜 이 타이밍만 되면 또 옛날 그 마음으로 돌아가지?"
+            </div>
+            
+            <p>이걸 마치 남의 일 보듯, 가만히 팝콘 먹으면서 내 마음의 작동 구조를 투명하게 같이 구경하는 곳입니다.</p>
+            <p>인간은 생각보다 다들 비슷한 마음의 덫에 걸려 허우적댑니다. 그리고 그건 당신의 잘못이 아니라, 아주 어릴 때 나를 지키기 위해 만들어둔 '마음의 방어벽'이 지금껏 자동으로 켜지는 것뿐입니다. <strong>당신은 아무 잘못이 없습니다. ㅎㅎ</strong></p>
+        </section>
+
+        <!-- WHAT WE SHOW SECTION -->
+        <section>
+            <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">🛠️ 무엇을 보여주는데?</h3>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">내 삶을 뒤흔들고 있던 '나를 움직이는 마음의 숨은 구조'를 한 편의 친절한 설명서처럼 투명하게 까서 보여드립니다.</p>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-dot"></div>
+                    <div class="feature-text"><strong>감정 발작 버튼</strong> (유독 욱하거나 서운해지는 진짜 이유)</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-dot"></div>
+                    <div class="feature-text"><strong>반복되는 관계의 덫</strong> (늘 나만 독박 쓰고 상처받는 이유)</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-dot"></div>
+                    <div class="feature-text"><strong>만성 불안 프로그램</strong> (현실이 안정되어도 늘 도망치고 싶은 이유)</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-dot"></div>
+                    <div class="feature-text"><strong>숨은 채찍질(자기검열)</strong> (아무리 잘해도 스스로를 들볶는 이유)</div>
+                </div>
+            </div>
+            <p style="text-align: center; font-weight: 700; color: #fff;">쉽게. 재밌게. 하지만 가슴이 뻥 뚫리게 명료하게.</p>
+        </section>
+
+        <!-- EASY & IMPORTANT NOTE SECTION -->
+        <section class="explain-block" style="border-color: rgba(168, 85, 247, 0.2); background: rgba(168, 85, 247, 0.03);">
+            <h3>🧐 내용이 너무 어렵거나 무거운 거 아냐?</h3>
+            <p><strong>아뇨. (ㅎㅎ)</strong> 어려운 심리학 용어나 한자어, 거창한 철학으로 유세 부리지 않습니다. 9살짜리 아이도 듣자마자 "아! 내 마음이 이래서 그랬구나!" 하고 단번에 무릎을 탁 치게 만드는 게 저희 목표입니다.</p>
+            <p style="font-style: italic; color: var(--accent-secondary); font-weight: 600;">"진짜 내 것을 만든 사람은 복잡하고 어렵게 설명하지 않으니까요."</p>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+                <p><strong>💡 IMPORTANT NOTE</strong></p>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">당신은 고장 난 존재가 아닙니다. 그저 '인간 경험'이라는 거대한 무대 위에서, 나름대로 치열하고 훌륭하게 버텨온 멋진 주인공일 뿐입니다.</p>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">CAL은 그 무대 위에서 나를 힘들게 했던 반복되는 시나리오를 발견하고, "아, 내가 또 내 마음에 속았네 ㅋㅋ" 하고 허허 웃으며 내려놓을 수 있도록 돕는 비밀 치트키 같은 공간입니다.</p>
+            </div>
+        </section>
+
+        <!-- APPLICATION FORM SECTION -->
+        <section id="apply-form" class="form-section">
+            <h2>FINAL CTA</h2>
+            <p>맨날 똑같은 걱정거리, 똑같은 슬픔에 발목 잡혀서 남은 인생을 보내기엔 우리 시간이 너무 아깝지 않나요?<br>딱 기분 좋게 밥 한 끼 먹는 셈 치고 (혹은 커피 몇 잔 값으로), 평생 나를 지배해 온 '마음의 숨은 구조'를 한번 들여다보세요.</p>
+            
+            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; margin-bottom: 30px; font-size: 0.9rem; text-align: center; border: 1px solid var(--border-color);">
+                ✨ 용한 점집 찾아가듯 가볍게 | 부담 없이 마실 나오듯 쿨하게 | 근데 은근 소름 돋게 다 내 얘기인 걸로 (ㅎㅎ)
+            </div>
+
+            <form onsubmit="event.preventDefault(); alert('내 마음의 숨은 설계도 신청이 완료되었습니다! 안내 메일을 확인해주세요.');">
+                <div class="form-group">
+                    <label for="name">이름 / 닉네임</label>
+                    <input type="text" id="name" class="form-control" placeholder="편하게 불릴 이름을 적어주세요" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">이메일 주소</label>
+                    <input type="email" id="email" class="form-control" placeholder="리포트를 받으실 이메일을 정확히 입력해주세요" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="target-map">지금 가장 쥐가 나는 마음의 '맵'은 어디인가요?</label>
+                    <select id="target-map" class="form-control" required>
+                        <option value="" disabled selected>선택해주세요</option>
+                        <option value="love">💔 연애 / 부부 관계 맵</option>
+                        <option value="money">💸 돈 / 미래 불안 맵</option>
+                        <option value="social">👥 인간관계 / 타인 눈치 맵</option>
+                        <option value="work">🔋 일 / 커리어 번아웃 맵</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="story">요즘 반복되고 있다고 느끼는 나만의 생각/감정 패턴이 있다면?</label>
+                    <textarea id="story" class="form-control" rows="4" placeholder="예: 카톡 답장이 늦으면 불안해서 아무것도 손에 안 잡혀요. (가볍게 적어주셔도 좋습니다)"></textarea>
+                </div>
+
+                <button type="submit" class="cta-btn" style="margin-bottom: 0;">👉🏻 밥 한 끼 값으로 내 마음의 숨은 설계도 받기</button>
+            </form>
+        </section>
+
+        <footer class="footer-note">
+            © Consciousness Architecture Lab. All rights reserved.<br>
+            본 신청서는 당신을 진단하거나 평가하지 않으며, 스스로 마음의 구조를 관찰할 수 있는 가이드를 제공합니다.
+        </footer>
+
+    </div>
+
+</body>
+</html>
