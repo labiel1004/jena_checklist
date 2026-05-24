@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CAL Apply Light</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:#f6f1e8;
+  color:#1f1f1f;
+  font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+  word-break:keep-all;
+  line-height:1.72;
+}
+
+img{
+  width:100%;
+  display:block;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+section{
+  position:relative;
+}
+
+.hero{
+  min-height:100svh;
+  background:#f6f1e8;
+  overflow:hidden;
+}
+
+.hero-image{
+  position:relative;
+  height:58vh;
+  overflow:hidden;
+}
+
+.hero-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.hero-image::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(246,241,232,0) 0%,
+    rgba(246,241,232,.18) 52%,
+    rgba(246,241,232,.98) 100%
+  );
+}
+
+.hero-copy{
+  position:relative;
+  z-index:2;
+  margin-top:-72px;
+  padding:0 28px 84px;
+}
+
+.eyebrow{
+  margin:0 0 14px;
+  color:#9c8b75;
+  font-size:.76rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-weight:700;
+}
+
+.hero-copy .eyebrow{
+  letter-spacing:.24em;
+}
+
+h1{
+  margin:0;
+  color:#1f1f1f;
+  font-size:clamp(2.35rem,10.5vw,4.8rem);
+  line-height:1.13;
+  letter-spacing:-0.055em;
+  font-weight:780;
+}
+
+h2{
+  margin:0 0 26px;
+  color:#1f1f1f;
+  font-size:clamp(1.85rem,8vw,3.2rem);
+  line-height:1.27;
+  letter-spacing:-0.045em;
+  font-weight:760;
+}
+
+h3{
+  margin:0 0 14px;
+  color:#24211e;
+  font-size:1.28rem;
+  line-height:1.43;
+  letter-spacing:-0.035em;
+}
+
+p{
+  margin:0 0 18px;
+  color:#5e574f;
+  font-size:1.04rem;
+}
+
+.hero-questions{
+  margin:30px 0 0;
+  padding:0;
+  list-style:none;
+  display:grid;
+  gap:12px;
+  color:#4f4942;
+  font-size:1.04rem;
+  line-height:1.65;
+}
+
+.hero-lead{
+  margin:30px 0 0;
+  color:#2d2a27;
+  font-size:1.12rem;
+  line-height:1.75;
+  font-weight:700;
+}
+
+.scroll-guide{
+  margin-top:42px;
+  color:#ad9d8a;
+  font-size:.9rem;
+}
+
+.section{
+  padding:54px 28px;
+}
+
+.section.tight{
+  padding-top:34px;
+}
+
+.inner{
+  max-width:780px;
+  margin:0 auto;
+}
+
+.lead{
+  color:#34302b;
+  font-size:1.1rem;
+  font-weight:680;
+}
+
+.bridge-image{
+  padding:0 28px 42px;
+}
+
+.bridge-image .image-frame{
+  max-width:780px;
+  margin:0 auto;
+  overflow:hidden;
+  border-radius:30px;
+  border:1px solid #e7ddcf;
+}
+
+.bridge-image img{
+  aspect-ratio:16/9;
+  object-fit:cover;
+}
+
+.repeat-grid{
+  display:grid;
+  gap:24px;
+  margin-top:38px;
+}
+
+.repeat-card{
+  overflow:hidden;
+  border-radius:30px;
+  background:#fffdfa;
+  border:1px solid #ece2d4;
+}
+
+.repeat-card img{
+  aspect-ratio:16/9;
+  object-fit:cover;
+}
+
+.repeat-copy{
+  padding:24px;
+}
+
+.repeat-copy p{
+  margin-bottom:0;
+  color:#6a625a;
+}
+
+.chapter-dark{
+  background:#2f3b46;
+  color:#fff;
+}
+
+.chapter-dark h2,
+.chapter-dark h3{
+  color:#fff;
+}
+
+.chapter-dark p{
+  color:rgba(255,255,255,.75);
+}
+
+.chapter-dark .eyebrow{
+  color:#e7d3ad;
+}
+
+.chapter-image{
+  padding:58px 28px 22px;
+}
+
+.chapter-image .image-frame{
+  max-width:840px;
+  margin:0 auto;
+  overflow:hidden;
+  border-radius:30px;
+  border:1px solid rgba(255,255,255,.14);
+}
+
+.chapter-image img{
+  aspect-ratio:16/9;
+  object-fit:cover;
+}
+
+.chapter-text{
+  padding:44px 28px 62px;
+}
+
+.saju-mini-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin:30px 0 34px;
+}
+
+.saju-mini-grid div{
+  padding:18px 16px;
+  border-radius:20px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
+}
+
+.saju-mini-grid strong{
+  display:block;
+  margin-bottom:7px;
+  color:#fff;
+  font-size:1rem;
+  line-height:1.4;
+}
+
+.saju-mini-grid span{
+  display:block;
+  color:rgba(255,255,255,.68);
+  font-size:.9rem;
+  line-height:1.55;
+}
+
+.saju-note{
+  margin:30px 0 0;
+  padding-left:18px;
+  border-left:3px solid #d7bc86;
+  color:rgba(255,255,255,.82);
+  font-size:1.02rem;
+  line-height:1.8;
+}
+
+.chapter-light{
+  background:#f6f1e8;
+}
+
+.chapter-light .chapter-image .image-frame{
+  border:1px solid #e7ddcf;
+}
+
+.check-list,
+.pill-list{
+  display:grid;
+  gap:12px;
+  margin:28px 0 0;
+  padding:0;
+  list-style:none;
+}
+
+.check-list li,
+.pill-list li{
+  padding:15px 16px;
+  border-radius:18px;
+  background:#fffdfa;
+  border:1px solid #eadfce;
+  color:#4d463f;
+}
+
+.report-highlight{
+  background:#2f3b46;
+  color:#fff;
+  padding:66px 28px;
+}
+
+.report-highlight h2{
+  color:#fff;
+}
+
+.report-highlight p{
+  color:rgba(255,255,255,.76);
+}
+
+.report-highlight .eyebrow{
+  color:#e7d3ad;
+}
+
+.report-highlight .pill-list li{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.16);
+  color:rgba(255,255,255,.9);
+}
+
+.split{
+  display:grid;
+  gap:22px;
+  margin-top:32px;
+}
+
+.recommend-box{
+  padding:28px 22px;
+  border-radius:28px;
+  background:#fffdfa;
+  border:1px solid #ece2d4;
+}
+
+.recommend-box.nope{
+  background:#f0e9dd;
+}
+
+.quote{
+  margin:30px 0 0;
+  padding-left:18px;
+  border-left:3px solid #b89b65;
+  color:#38332e;
+  font-size:1.12rem;
+  font-weight:680;
+  line-height:1.72;
+}
+
+.final-cta{
+  background:#2f3b46;
+  color:#fff;
+  padding:70px 28px;
+}
+
+.final-cta h2{
+  color:#fff;
+}
+
+.final-cta p{
+  color:rgba(255,255,255,.76);
+}
+
+.cta-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:32px;
+}
+
+.button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:54px;
+  padding:0 26px;
+  border-radius:999px;
+  background:#f5efe5;
+  color:#2b2b2b;
+  font-weight:700;
+}
+
+.footer{
+  padding:52px 24px 76px;
+  text-align:center;
+  color:#a99a87;
+  font-size:.9rem;
+}
+
+
+/* =========================
+CHAPTER HERO STYLE
+========================= */
+
+.chapter-hero{
+  position:relative;
+  overflow:hidden;
+}
+
+.chapter-hero-image{
+  position:relative;
+  width:100%;
+  height:46vh;
+  min-height:260px;
+  overflow:hidden;
+}
+
+.chapter-hero-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.chapter-hero-copy{
+  position:relative;
+  z-index:2;
+  margin-top:-56px;
+  padding:0 28px 62px;
+}
+
+.chapter-hero .inner{
+  max-width:780px;
+  margin:0 auto;
+}
+
+.chapter-dark .chapter-hero-image::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(47,59,70,0) 0%,
+    rgba(47,59,70,.24) 48%,
+    rgba(47,59,70,.96) 100%
+  );
+}
+
+.chapter-light .chapter-hero-image::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(246,241,232,0) 0%,
+    rgba(246,241,232,.20) 50%,
+    rgba(246,241,232,.98) 100%
+  );
+}
+
+@media(max-width:480px){
+  .saju-mini-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(min-width:768px){
+
+  .chapter-hero-image{
+    height:62vh;
+    min-height:420px;
+  }
+
+  .chapter-hero-copy{
+    margin-top:-86px;
+    padding:0 54px 88px;
+  }
+
+  .hero-image{
+    height:76vh;
+  }
+
+  .hero-copy{
+    max-width:980px;
+    margin:-110px auto 0;
+    padding:0 54px 110px;
+  }
+
+  .hero-copy h1{
+    font-size:5.4rem;
+  }
+
+  .hero-questions{
+    max-width:720px;
+    font-size:1.16rem;
+  }
+
+  .repeat-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .split{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+  <div class="hero-image">
+    <img src="../light_images/hero_light.png" alt="CAL Hero">
+  </div>
+
+  <div class="hero-copy">
+    <p class="eyebrow">Consciousness Architecture Lab</p>
+
+    <h1>
+      쉬고 싶다면서,<br>
+      쉬면 또<br>
+      불안하지?
+    </h1>
+
+    <ul class="hero-questions">
+      <li>사랑받고 싶은데, 가까워지면 또 숨 막히지?</li>
+      <li>돈 벌고 싶다면서, 돈 얘기만 나오면 마음부터 쪼그라들지?</li>
+      <li>끝난 일인데, 혼자 머릿속에서 시즌 8까지 찍고 있지?</li>
+    </ul>
+
+    <p class="hero-lead">
+      웃다가 찔렸다면,<br>
+      지금 내 마음의 자동반응이 켜진 겁니다.
+    </p>
+
+    <div class="scroll-guide">↓ 천천히 내려보기</div>
+  </div>
+</section>
+
+
+<section class="bridge-image">
+  <div class="image-frame">
+    <img src="../light_images/pause_woman_light.png" alt="잠시 멈추는 시간">
+  </div>
+</section>
+
+
+<section class="section tight">
+  <div class="inner">
+    <p class="eyebrow">너만 그런 거 아냐</p>
+
+    <h2>
+      인간들 생각보다<br>
+      다 비슷합니다.
+    </h2>
+
+    <p>
+      ㅎㅎ, 다들 겉으론 멀쩡한 척하는데,<br>
+      속에서는 혼자 별의별 시뮬레이션 다 돌리고 있어요.
+    </p>
+
+    <p class="lead">
+      중요한 건 당신이 이상한 게 아니라,<br>
+      오래된 마음 구조가 아직 자동 실행 중이라는 겁니다.
+    </p>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="inner">
+    <p class="eyebrow">내면 구조</p>
+
+    <h2>
+      성격 문제가 아니라,<br>
+      자동 프로그램일 수 있습니다.
+    </h2>
+
+    <p>
+      CAL은 반복되는 감정과 행동을<br>
+      “왜 이렇게 예민해?”로 보지 않습니다.
+    </p>
+
+    <p>
+      오래 저장된 내면 구조가<br>
+      같은 버튼을 누르는 중인지 봅니다.
+    </p>
+
+    <ul class="check-list">
+      <li>컴퓨터 켜자마자 자동 실행되는 프로그램처럼.</li>
+      <li>내비게이션이 자꾸 예전 길만 추천하는 것처럼.</li>
+      <li>통장 잔고보다 불안 잔고가 더 큰 날처럼.</li>
+    </ul>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="inner">
+    <p class="eyebrow">혹시 이런 반복을 겪고 있습니까?</p>
+
+    <h2>
+      삶의 영역은 다른데,<br>
+      반복되는 구조는 닮아 있습니다.
+    </h2>
+
+    <div class="repeat-grid">
+
+      <article class="repeat-card">
+        <img src="../light_images/love_light.png" alt="연애 반복 패턴">
+        <div class="repeat-copy">
+          <h3>사랑받고 싶은데,<br>가까워지면 숨 막힐 때</h3>
+          <p>원하는 건 사랑인데, 막상 가까워지면 도망가고 싶어집니다.</p>
+        </div>
+      </article>
+
+      <article class="repeat-card">
+        <img src="../light_images/relationship_light.png" alt="관계 반복 패턴">
+        <div class="repeat-copy">
+          <h3>사람들에게 맞추다 보면,<br>정작 내가 사라질 때</h3>
+          <p>관계는 유지되는데, 마음은 점점 지쳐갑니다.</p>
+        </div>
+      </article>
+
+      <article class="repeat-card">
+        <img src="../light_images/money_light.png" alt="돈 반복 패턴">
+        <div class="repeat-copy">
+          <h3>돈보다 먼저,<br>불안이 계산될 때</h3>
+          <p>숫자보다 감정이 먼저 반응하고, 가능성보다 두려움이 먼저 켜집니다.</p>
+        </div>
+      </article>
+
+      <article class="repeat-card">
+        <img src="../light_images/cal_image.png" alt="일과 현실 반복 패턴">
+        <div class="repeat-copy">
+          <h3>열심히 사는데,<br>이상하게 같은 자리로 돌아올 때</h3>
+          <p>의지가 약해서가 아니라, 익숙한 반응 루프가 현실을 비슷하게 출력하고 있을 수 있습니다.</p>
+        </div>
+      </article>
+
+      <article class="repeat-card">
+        <img src="../light_images/health_light.png" alt="몸 반응 패턴">
+        <div class="repeat-copy">
+          <h3>별일 아닌데도,<br>몸이 먼저 반응할 때</h3>
+          <p>마음의 긴장이 몸으로 번지고, 몸은 말보다 먼저 신호를 보냅니다.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<section class="chapter-hero chapter-dark">
+  <div class="chapter-hero-image">
+    <img src="../light_images/saju_light.png" alt="사주OS 에너지 필터">
+  </div>
+
+  <div class="chapter-hero-copy">
+    <div class="inner">
+      <p class="eyebrow">사주OS</p>
+
+      <h2>
+        사주는 운명이 아니라,<br>
+        초기 입력 필터입니다.
+      </h2>
+
+      <div class="saju-mini-grid">
+        <div>
+          <strong>에너지 배치 정보</strong>
+          <span>타고난 오행의 배열과 흐름</span>
+        </div>
+
+        <div>
+          <strong>처음 쓰는 에너지 안경</strong>
+          <span>세상을 처음 읽는 기본 렌즈</span>
+        </div>
+
+        <div>
+          <strong>에너지 해석 필터</strong>
+          <span>자극을 받아들이는 해석 경향</span>
+        </div>
+
+        <div>
+          <strong>초기설정값</strong>
+          <span>가장 기초적인 하드웨어 진단</span>
+        </div>
+      </div>
+
+      <p class="saju-note">
+        사주는 인생을 결정하는 예언이 아니라,<br>
+        내가 세상을 처음 해석하는 방식과<br>
+        어떤 자극에 먼저 반응하기 쉬운지를 보여주는 기초 데이터입니다.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<section class="chapter-hero chapter-light">
+  <div class="chapter-hero-image">
+    <img src="../light_images/cal_image.png" alt="CAL 구조 이미지">
+  </div>
+
+  <div class="chapter-hero-copy">
+    <div class="inner">
+      <p class="eyebrow">CAL은 사주를 이렇게 씁니다</p>
+
+      <h2>
+        사주는 운명이 아니라,<br>
+        반복 반응을 읽는<br>
+        하나의 보조 렌즈입니다.
+      </h2>
+
+      <p>
+        CAL은 사주를 “너는 이렇게 살아야 한다”는 식으로 사용하지 않습니다.
+      </p>
+
+      <p>
+        사주는 내가 어떤 자극에 민감하게 반응하기 쉬운지,<br>
+        어떤 방식으로 세상을 해석하기 쉬운지를 보여주는 하나의 초기 데이터입니다.
+      </p>
+
+      <p class="lead">
+        그래서 CAL은 사주만 보지 않습니다.<br>
+        실제 반복되는 감정, 관계, 돈, 일, 몸의 반응까지 함께 봅니다.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="inner">
+    <p class="eyebrow">CAL은 뭐하는 곳인가</p>
+
+    <h2>
+      사람을 고치거나<br>
+      평가하지 않습니다.
+    </h2>
+
+    <p class="lead">
+      CAL은 인간의 반복 반응을<br>
+      의식 구조로 해석하는<br>
+      자기이해 시스템입니다.
+    </p>
+
+    <p>
+      CAL은 “왜 또 이 패턴으로 돌아갔는지”를 함께 봅니다.
+    </p>
+
+    <p>
+      성격 탓도, 팔자 탓도,<br>
+      의지 부족 탓도 하지 않습니다.
+    </p>
+
+    <p class="lead">
+      지금 내 안에서 어떤 자동반응 알고리즘이 반복 실행되고 있는지<br>
+      구조적으로 보여줍니다.
+    </p>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="inner">
+    <p class="eyebrow">이게 정말 도움이 되나</p>
+
+    <h2>
+      구조가 보이면,<br>
+      반응과 나 사이에<br>
+      간격이 생깁니다.
+    </h2>
+
+    <p class="lead">
+      그 간격이 선택의 시작입니다.
+    </p>
+
+    <ul class="check-list">
+      <li>감정에 바로 끌려가지 않게 됩니다.</li>
+      <li>같은 관계 패턴을 조금씩 알아차립니다.</li>
+      <li>돈, 일, 관계의 불안을 구조로 보기 시작합니다.</li>
+      <li>“내가 문제다”에서 “내 안의 구조가 작동 중이다”로 관점이 바뀝니다.</li>
+    </ul>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="inner">
+    <p class="eyebrow">왜 혼자서는 잘 안 보이나</p>
+
+    <h2>
+      눈은 자기 눈을<br>
+      직접 볼 수 없습니다.
+    </h2>
+
+    <p>
+      거울이 필요합니다.
+    </p>
+
+    <p>
+      내 마음도 같습니다.<br>
+      너무 익숙하게 반복해 온 반응은 오히려 나에게 너무 자연스러워서 잘 보이지 않습니다.
+    </p>
+
+    <p class="lead">
+      CAL 리포트는 그 반복 구조를 비춰주는 거울입니다.
+    </p>
+  </div>
+</section>
+
+
+<section class="report-highlight">
+  <div class="inner">
+    <p class="eyebrow">CAL 리포트</p>
+
+    <h2>
+      이 모든 분석은 결국,<br>
+      당신의 반복 구조를<br>
+      하나의 리포트로 보여주기 위한 것입니다.
+    </h2>
+
+    <p>
+      CAL 리포트는 성격을 판단하거나 미래를 예언하지 않습니다.
+    </p>
+
+    <p>
+      지금 반복되는 현실 장면 뒤에서 어떤 자동반응 구조가 작동하는지 정리해주는<br>
+      개인 의식 구조 설명서입니다.
+    </p>
+
+    <ul class="pill-list">
+      <li>현재 반복되는 현실 출력 구조</li>
+      <li>핵심 자동반응 루프</li>
+      <li>사주OS 기반 초기 입력 필터</li>
+      <li>의식OS 구조</li>
+      <li>9식 관리자 권한 회복 포인트</li>
+      <li>현실 재프로그래밍 프로토콜</li>
+      <li>변화 과정에서 나타나는 저항</li>
+      <li>Final Message</li>
+    </ul>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="inner">
+    <p class="eyebrow">추천 / 비추천</p>
+
+    <h2>
+      이런 사람에게 좋고,<br>
+      이런 사람은 안 해도 됩니다.
+    </h2>
+
+    <div class="split">
+      <div class="recommend-box">
+        <h3>추천합니다</h3>
+        <ul class="check-list">
+          <li>같은 관계 패턴이 반복되는 사람</li>
+          <li>돈과 미래 불안이 자주 올라오는 사람</li>
+          <li>감정은 힘든데 이유를 모르겠는 사람</li>
+          <li>자기검열이 심한 사람</li>
+          <li>점집이나 상담보다 내 구조를 직접 이해하고 싶은 사람</li>
+          <li>내 삶의 반복을 이제는 다르게 보고 싶은 사람</li>
+        </ul>
+      </div>
+
+      <div class="recommend-box nope">
+        <h3>안 해도 됩니다</h3>
+        <ul class="check-list">
+          <li>누군가가 내 인생을 대신 결정해주길 원하는 사람</li>
+          <li>미래 예언을 원하는 사람</li>
+          <li>스스로를 볼 준비가 전혀 없는 사람</li>
+          <li>“나는 절대 반복되는 패턴이 없다”고 생각하는 사람</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="inner">
+    <p class="eyebrow">존재에 대한 확신</p>
+
+    <h2>
+      당신은<br>
+      고장난 인간이 아닙니다.
+    </h2>
+
+    <p>
+      당신은 의식이 인간이라는 인터페이스를 통해 현실을 경험하는 존재입니다.
+    </p>
+
+    <p>
+      CAL은 당신을 문제투성이 인간으로 보지 않습니다.
+    </p>
+
+    <p class="lead">
+      구조가 보이면, 사람은 다시 선택할 수 있습니다.
+    </p>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="inner">
+    <p class="eyebrow">CAL에 대해 더 궁금하다면 →</p>
+
+    <h2>
+      CAL은 인간을<br>
+      이렇게 봅니다.
+    </h2>
+
+    <p>
+      현실은 사건만으로 만들어지지 않습니다.
+    </p>
+
+    <p>
+      현실은 사건을 해석하고 반응하는 의식 구조의 출력입니다.
+    </p>
+
+    <p>
+      인간은 자동반응에 끌려갈 수 있지만,<br>
+      의식하는 자아는 그 반응을 알아차리고 선택할 수 있습니다.
+    </p>
+
+    <blockquote class="quote">
+      CAL은 사람을 평가하지 않고 구조를 봅니다.<br>
+      구조가 보이면 선택이 열립니다.
+    </blockquote>
+  </div>
+</section>
+
+
+<section class="final-cta">
+  <div class="inner">
+    <h2>
+      내 마음의 구조,<br>
+      한번쯤은 제대로 보고 싶다면.
+    </h2>
+
+    <p>
+      CAL 리포트는 당신을 판단하지 않습니다.<br>
+      다만 반복되는 구조를 보여줍니다.
+    </p>
+
+    <div class="cta-row">
+      <a href="../payment.html" class="button">CAL 리포트 신청하기</a>
+    </div>
+  </div>
+</section>
+
+
+<footer class="footer">
+  CAL Mind Structure Report · Apply Light
+</footer>
+
+</body>
+</html>
