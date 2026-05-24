@@ -125,9 +125,8 @@ section{
 .recommend-section,
 .process-section,
 .philosophy-section{
-  padding:86px 24px;
+  padding:44px 24px;
 }
-
 .inner{
   max-width:780px;
   margin:0 auto;
@@ -248,7 +247,19 @@ p{
   max-width:780px;
   margin:0 auto;
 }
+.saju-image{
+  margin:28px 0 30px;
+  overflow:hidden;
+  border-radius:28px;
+  border:1px solid rgba(255,255,255,.16);
+}
 
+.saju-image img{
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  display:block;
+}
 .light-image-card{
   overflow:hidden;
   border-radius:32px;
@@ -583,8 +594,7 @@ textarea{
   </div>
 </section>
 
-
-<section class="dark-section">
+<section class="dark-section saju-section">
   <div class="dark-card">
     <p class="eyebrow">사주OS</p>
 
@@ -592,6 +602,10 @@ textarea{
       사주는 운명이 아니라,<br>
       초기 입력 필터입니다.
     </h2>
+
+    <div class="saju-image">
+      <img src="../light_images/saju_os.jpg" alt="사주OS 이미지">
+    </div>
 
     <p>
       사주가 인생을 결정하는 게 아닙니다.
@@ -608,7 +622,6 @@ textarea{
     </p>
   </div>
 </section>
-
 
 <section class="structure-section">
   <div class="inner card">
