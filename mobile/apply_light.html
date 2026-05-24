@@ -273,12 +273,6 @@ p{
   max-width:780px;
   margin:0 auto;
 }
-.saju-image{
-  margin:28px 0 30px;
-  overflow:hidden;
-  border-radius:28px;
-  border:1px solid rgba(255,255,255,.16);
-}
 
  .bridge-section{
   margin-top:-20px;
@@ -301,11 +295,48 @@ p{
   display:block;
 }
   
-.saju-image img{
-  width:100%;
-  aspect-ratio:16/9;
-  object-fit:cover;
+.saju-mini-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin:30px 0 34px;
+}
+
+.saju-mini-grid div{
+  padding:18px 16px;
+  border-radius:20px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
+}
+
+.saju-mini-grid strong{
   display:block;
+  margin-bottom:7px;
+  color:#fff;
+  font-size:1rem;
+  line-height:1.4;
+}
+
+.saju-mini-grid span{
+  display:block;
+  color:rgba(255,255,255,.68);
+  font-size:.9rem;
+  line-height:1.55;
+}
+
+.saju-note{
+  margin:30px 0 0;
+  padding-left:18px;
+  border-left:3px solid #d7bc86;
+  color:rgba(255,255,255,.82);
+  font-size:1.02rem;
+  line-height:1.8;
+}
+
+@media(max-width:480px){
+  .saju-mini-grid{
+    grid-template-columns:1fr;
+  }
 }
 .light-image-card{
   overflow:hidden;
@@ -653,23 +684,32 @@ textarea{
       초기 입력 필터입니다.
     </h2>
 
-    <div class="saju-image">
-      <img src="../light_images/saju_os_light (2).png
-" alt="사주OS 이미지">
+    <div class="saju-mini-grid">
+      <div>
+        <strong>에너지 배치 정보</strong>
+        <span>타고난 오행의 배열과 흐름</span>
+      </div>
+
+      <div>
+        <strong>처음 쓰는 에너지 안경</strong>
+        <span>세상을 처음 읽는 기본 렌즈</span>
+      </div>
+
+      <div>
+        <strong>에너지 해석 필터</strong>
+        <span>자극을 받아들이는 해석 경향</span>
+      </div>
+
+      <div>
+        <strong>초기설정값</strong>
+        <span>가장 기초적인 하드웨어 진단</span>
+      </div>
     </div>
 
-    <p>
-      사주가 인생을 결정하는 게 아닙니다.
-    </p>
-
-    <p>
-      다만 내가 세상을 처음 해석하는 렌즈,<br>
-      어떤 자극에 민감하게 반응하기 쉬운지를 보여줍니다.
-    </p>
-
-    <p>
-      그러니까 “너는 이렇게 살아야 해”가 아니라<br>
-      “너는 이런 신호에 먼저 반응하기 쉽구나”에 가깝습니다.
+    <p class="saju-note">
+      사주는 인생을 결정하는 예언이 아니라,<br>
+      내가 세상을 처음 해석하는 방식과<br>
+      어떤 자극에 먼저 반응하기 쉬운지를 보여주는 기초 데이터입니다.
     </p>
   </div>
 </section>
