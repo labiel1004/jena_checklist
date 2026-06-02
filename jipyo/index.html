@@ -618,14 +618,11 @@
   width:100%;
   display:block;
 }
+  
+    .audio-cover.no-deco-play .play,
     .audio-cover .play {
-  display: none;
-}
-
-.audio-cover {
-  min-height: 120px;
-  padding: 20px 24px;
-}
+      display:none !important;
+    }
   </style>
 </head>
 <body>
@@ -822,24 +819,26 @@
 
     <section class="video-section" id="deep-video">
       <div class="inner">
-        <div class="section-kicker">DEEP DIVE VIDEO</div>
+        <div class="section-kicker">DEEP DIVE AUDIO</div>
         <h2 class="title">지표 교육의 방향을<br />더 깊이 알고 싶다면</h2>
-        <p class="sub">아래 30분 설명 영상은 지표의 교육 자료와 철학을 바탕으로 구성된 심층 콘텐츠입니다. AI 시대에 왜 사고력과 자기설계력이 중요한지 더 자세히 이해할 수 있습니다.</p>
-        
+        <p class="sub">아래 30분 설명 오디오는 지표의 교육 자료와 철학을 바탕으로 구성된 심층 콘텐츠입니다. AI 시대에 왜 사고력과 자기설계력이 중요한지 더 자세히 이해할 수 있습니다.</p>
+
         <div class="video-card">
-  <div class="audio-shell">
-    <div class="audio-cover">
-           <div class="video-title">AI 시대 교육, 지표 사고력 시스템</div>
-      <div class="video-note">30분 심층 설명 오디오</div>
-    </div>
+          <div class="audio-shell">
+            <div class="audio-cover no-deco-play">
+              <div class="video-title">AI 시대 교육, 지표 사고력 시스템</div>
+              <div class="video-note">30분 심층 설명 오디오</div>
+            </div>
 
-    <audio controls preload="metadata" style="width:100%;">
-      <source src="https://labiel1004.github.io/jena_checklist/jipyo/audio/jipyo_deepdive_30min_32k.mp3" type="audio/mpeg" />
-    </audio>
-  </div>
+            <audio controls preload="metadata" style="width:100%;">
+              <source src="https://labiel1004.github.io/jena_checklist/jipyo/audio/jipyo_deepdive_30min_32k.mp3" type="audio/mpeg" />
+              브라우저가 오디오 재생을 지원하지 않습니다.
+            </audio>
+          </div>
 
-  <p class="caption">본 콘텐츠는 지표의 자체 교육 자료와 철학을 바탕으로 AI 음성 기술을 활용해 제작되었습니다.</p>
-</div>
+          <p class="caption">본 콘텐츠는 지표의 자체 교육 자료와 철학을 바탕으로 AI 음성 기술을 활용해 제작되었습니다.</p>
+        </div>
+      </div>
     </section>
 
     <section>
