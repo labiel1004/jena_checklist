@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>지표를 이해하는 12가지 질문 | JIPYO Q&A</title>
+  <meta name="description" content="지표 교육에 대해 학부모님들이 자주 묻는 질문 12가지를 정리했습니다. 신문·시사 주제, 교재 선별, 연령·실력 차이, AI 시대 사고력 교육에 대한 안내입니다." />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="지표를 이해하는 12가지 질문" />
+  <meta property="og:description" content="학부모님들이 가장 궁금해하는 지표 교육 Q&A" />
+  <meta property="og:image" content="https://labiel1004.github.io/jena_checklist/jipyo/images/jipyo_class_discussion.png" />
+  <meta property="og:url" content="https://labiel1004.github.io/jena_checklist/jipyo/jipyo_12_questions.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <style>
+    :root {
+      --navy:#0f172a;
+      --navy2:#17233c;
+      --blue:#2563eb;
+      --soft-blue:#eaf1ff;
+      --gold:#c8a96b;
+      --gold2:#eadfbd;
+      --ivory:#f8f6f1;
+      --paper:#fffdf8;
+      --white:#ffffff;
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --line:rgba(15,23,42,.12);
+      --line-dark:rgba(255,255,255,.15);
+      --shadow:0 18px 50px rgba(15,23,42,.12);
+      --shadow-soft:0 10px 28px rgba(15,23,42,.08);
+    }
+
+    * { box-sizing:border-box; }
+
+    html { scroll-behavior:smooth; }
+
+    body {
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Pretendard","Segoe UI",sans-serif;
+      background:#e7dfd0;
+      color:var(--ink);
+      word-break:keep-all;
+      line-height:1.68;
+    }
+
+    a { color:inherit; text-decoration:none; }
+    p,h1,h2,h3 { margin:0; }
+
+    .page {
+      width:min(100%, 860px);
+      margin:0 auto;
+      background:var(--ivory);
+      overflow:hidden;
+      box-shadow:0 0 70px rgba(15,23,42,.16);
+    }
+
+    .nav {
+      position:sticky;
+      top:0;
+      z-index:20;
+      backdrop-filter:blur(18px);
+      background:rgba(248,246,241,.84);
+      border-bottom:1px solid rgba(15,23,42,.08);
+    }
+
+    .nav-inner {
+      max-width:760px;
+      margin:0 auto;
+      padding:13px 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+
+    .logo {
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      justify-content:center;
+      gap:6px;
+      color:var(--navy);
+      flex-shrink:0;
+    }
+
+    .logo img {
+      width:180px;
+      height:auto;
+      display:block;
+    }
+
+    .logo small {
+      display:block;
+      margin-left:2px;
+      font-size:10px;
+      letter-spacing:.22em;
+      color:var(--muted);
+      font-weight:800;
+      line-height:1;
+    }
+
+    .nav-link {
+      font-size:13px;
+      font-weight:900;
+      color:var(--navy);
+      padding:9px 13px;
+      border:1px solid rgba(15,23,42,.12);
+      border-radius:999px;
+      background:rgba(255,255,255,.5);
+      white-space:nowrap;
+    }
+
+    section { padding:78px 24px; }
+    .inner { max-width:760px; margin:0 auto; }
+
+    .hero {
+      position:relative;
+      color:#fff;
+      background:
+        radial-gradient(circle at 78% 12%, rgba(200,169,107,.28), transparent 31%),
+        radial-gradient(circle at 0% 72%, rgba(37,99,235,.22), transparent 34%),
+        linear-gradient(145deg,#0f172a 0%,#121c33 55%,#1b2845 100%);
+      overflow:hidden;
+      padding-top:84px;
+      padding-bottom:72px;
+    }
+
+    .hero::after {
+      content:"";
+      position:absolute;
+      inset:auto -10% -22% -10%;
+      height:42%;
+      background:linear-gradient(180deg, transparent, rgba(248,246,241,.11));
+      transform:skewY(-4deg);
+    }
+
+    .hero-content {
+      position:relative;
+      z-index:1;
+    }
+
+    .eyebrow {
+      display:inline-flex;
+      width:fit-content;
+      align-items:center;
+      gap:8px;
+      padding:8px 13px;
+      border:1px solid rgba(234,223,189,.55);
+      border-radius:999px;
+      color:var(--gold2);
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.02em;
+      background:rgba(255,255,255,.05);
+      margin-bottom:18px;
+    }
+
+    h1 {
+      font-size:clamp(36px,7.2vw,58px);
+      line-height:1.12;
+      letter-spacing:-.07em;
+      font-weight:950;
+      margin-bottom:22px;
+    }
+
+    .lead {
+      color:rgba(255,255,255,.78);
+      font-size:17px;
+      line-height:1.92;
+      letter-spacing:-.035em;
+      max-width:640px;
+    }
+
+    .hero-actions {
+      display:grid;
+      grid-template-columns:1fr;
+      gap:12px;
+      margin-top:30px;
+      max-width:520px;
+    }
+
+    .btn {
+      min-height:56px;
+      border-radius:999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:0 18px;
+      font-weight:900;
+      letter-spacing:-.035em;
+      border:1px solid transparent;
+      text-align:center;
+    }
+
+    .btn.primary {
+      background:var(--gold);
+      color:#111827;
+      box-shadow:0 18px 35px rgba(200,169,107,.28);
+    }
+
+    .btn.ghost {
+      color:#fff;
+      border-color:rgba(255,255,255,.25);
+      background:rgba(255,255,255,.06);
+    }
+
+    .intro-card {
+      margin-top:28px;
+      border-radius:28px;
+      background:linear-gradient(135deg,#fffdf8,#f0e4cc);
+      border:1px solid rgba(200,169,107,.42);
+      box-shadow:var(--shadow-soft);
+      padding:26px 22px;
+      color:var(--navy);
+    }
+
+    .intro-card strong {
+      display:block;
+      font-size:22px;
+      line-height:1.4;
+      letter-spacing:-.05em;
+      margin-bottom:10px;
+    }
+
+    .intro-card p {
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.82;
+    }
+
+    .section-kicker {
+      color:var(--gold);
+      font-size:13px;
+      letter-spacing:.08em;
+      font-weight:900;
+      margin-bottom:13px;
+    }
+
+    .title {
+      font-size:clamp(29px,5.5vw,44px);
+      line-height:1.22;
+      letter-spacing:-.065em;
+      color:var(--navy);
+      font-weight:950;
+      margin-bottom:18px;
+    }
+
+    .sub {
+      color:var(--muted);
+      font-size:16.5px;
+      line-height:1.92;
+      letter-spacing:-.035em;
+    }
+
+    .qa-grid {
+      display:grid;
+      gap:14px;
+      margin-top:32px;
+    }
+
+    .qa-card {
+      background:linear-gradient(145deg,#10213d,#172a4b);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:22px;
+      box-shadow:var(--shadow-soft);
+      overflow:hidden;
+    }
+
+    .qa-card summary {
+      cursor:pointer;
+      list-style:none;
+      padding:22px 20px;
+      display:grid;
+      grid-template-columns:52px 1fr 24px;
+      gap:14px;
+      align-items:center;
+    }
+
+    .qa-card summary::-webkit-details-marker { display:none; }
+
+    .q-num {
+      width:46px;
+      height:46px;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      background:rgba(234,223,189,.16);
+      color:var(--gold2);
+      font-size:14px;
+      font-weight:950;
+      border:1px solid rgba(234,223,189,.24);
+    }
+
+    .q-text {
+      font-size:19px;
+      line-height:1.38;
+      letter-spacing:-.045em;
+      font-weight:950;
+      color:#fff;
+    }
+
+    .chev {
+      width:24px;
+      height:24px;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      color:var(--gold2);
+      font-weight:950;
+      transition:.25s ease;
+    }
+
+    .qa-card[open] .chev {
+      transform:rotate(45deg);
+    }
+
+    .answer {
+      padding:0 20px 24px 86px;
+      color:rgba(255,255,255,.76);
+      font-size:15.5px;
+      line-height:1.86;
+      letter-spacing:-.03em;
+    }
+
+    .answer p + p {
+      margin-top:10px;
+    }
+
+    .answer strong {
+      color:#fff;
+      font-weight:900;
+    }
+
+    .highlight {
+      margin-top:34px;
+      border-radius:28px;
+      padding:28px 24px;
+      background:linear-gradient(145deg,#10213d,#172a4b);
+      color:#fff;
+      box-shadow:var(--shadow);
+    }
+
+    .highlight strong {
+      display:block;
+      font-size:24px;
+      line-height:1.42;
+      letter-spacing:-.055em;
+      margin-bottom:12px;
+    }
+
+    .highlight p {
+      color:rgba(255,255,255,.75);
+      font-size:15.5px;
+      line-height:1.82;
+    }
+
+    .bottom-cta {
+      background:
+        radial-gradient(circle at 18% 20%, rgba(200,169,107,.22), transparent 30%),
+        linear-gradient(180deg,#fff8e8,#efe2c8);
+      text-align:center;
+    }
+
+    .bottom-cta .btn {
+      margin-top:26px;
+    }
+
+    .footer {
+      background:var(--navy);
+      color:rgba(255,255,255,.55);
+      text-align:center;
+      padding:34px 22px;
+      font-size:12px;
+      line-height:1.8;
+    }
+
+    @media (min-width:720px) {
+      section { padding:92px 38px; }
+      .hero-actions { grid-template-columns:1fr 1fr; }
+      .qa-grid { grid-template-columns:1fr; }
+      .qa-card summary { padding:24px 24px; }
+      .answer { padding:0 26px 26px 92px; }
+    }
+
+    @media (max-width:520px) {
+      .nav-inner {
+        justify-content:flex-start;
+      }
+
+      .nav-link {
+        display:none;
+      }
+
+      .qa-card summary {
+        grid-template-columns:44px 1fr 20px;
+        gap:12px;
+        padding:19px 16px;
+      }
+
+      .q-num {
+        width:40px;
+        height:40px;
+        border-radius:14px;
+      }
+
+      .q-text {
+        font-size:17px;
+      }
+
+      .answer {
+        padding:0 18px 22px 72px;
+        font-size:14.5px;
+      }
+
+      .logo img {
+        width:162px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <nav class="nav">
+      <div class="nav-inner">
+        <a class="logo" href="index.html">
+          <img src="https://labiel1004.github.io/jena_checklist/jipyo/images/jipyo_logo.png" alt="지표 로고" />
+          <small>JIPPYO THINKING SYSTEM</small>
+        </a>
+        <a class="nav-link" href="index.html">홍보페이지로 돌아가기</a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="inner hero-content">
+        <div class="eyebrow">PARENT Q&amp;A · JIPYO GUIDE</div>
+        <h1>지표를 이해하는<br />12가지 질문</h1>
+        <p class="lead">
+          신문과 현실 주제, 교재 선별, 발표와 글쓰기, 연령·실력 차이에 대해
+          학부모님들이 가장 궁금해할 질문을 먼저 정리했습니다.
+        </p>
+      </div>
+    </section>
+
+    <section id="questions">
+      <div class="inner">
+        <div class="section-kicker">12 QUESTIONS</div>
+        <h2 class="title">궁금한 질문을 눌러보세요.</h2>
+        <p class="sub">
+          각 질문 카드를 누르면 답변이 열립니다.
+          처음부터 모두 읽어도 좋고, 가장 마음에 걸리는 질문부터 확인해도 좋습니다.
+        </p>
+
+        <div class="qa-grid">
+          <details class="qa-card" open>
+            <summary>
+              <div class="q-num">Q1</div>
+              <div class="q-text">지표는 독서논술과 무엇이 다른가요?</div>
+              <div class="chev">＋</div>
+            </summary>
+            <div class="answer">
+              <p>지표는 단순히 책을 읽고 감상문을 쓰는 수업이 아닙니다.</p>
+              <p>신문과 다양한 현실 주제를 읽고, 질문하고, 연결하고, 자기 생각을 구조화한 뒤 토론·발표·보고서로 표현하는 <strong>사고력 훈련</strong>입니다.</p>
+            </div>
+          </details>
+
+          <details class="qa-card">
+            <summary>
+              <div class="q-num">Q2</div>
+              <div class="q-text">왜 신문과 현실 주제를 사용하나요?</div>
+              <div class="chev">＋</div>
+            </summary>
+            <div class="answer">
+              <p>세상은 교과서 밖에서도 계속 움직이고 있습니다.</p>
+              <p>지표는 아이가 현실과 연결된 주제를 통해 읽고 생각하며, 학교 공부와 세상을 함께 이해할 수 있도록 돕습니다.</p>
+            </div>
+          </details>
+
+          <details class="qa-card">
+            <summary>
+              <div class="q-num">Q3</div>
+              <div class="q-text">정치적이거나 편향된 내용은 없나요?</div>
+              <div class="chev">＋</div>
+            </summary>
+            <div class="answer">
+              <p>지표는 특정 의견이나 입장을 가르치는 교육이 아닙니다.</p>
+              <p>중요한 것은 무엇을 믿게 하는 것이 아니라, 다양한 관점을 살펴보고 <strong>스스로 생각하는 힘</strong>을 기르는 것입니다.</p>
+            </div>
+          </details>
+
+          <details class="qa-card">
+            <summary>
+              <div class="q-num">Q4</div>
+              <div class="q-text">아이가 보기엔 너무 자극적인 주제는 없나요?</div>
+              <div class="chev">＋</div>
+            </summary>
+            <div class="answer">
+              <p>지표는 연령과 발달 수준을 고려하여 교재를 선정합니다.</p>
+              <p>자극적이거나 선정적인 내용보다 아이가 생각의 폭을 넓히고 표현할 수 있는 주제를 우선적으로 다룹니다.</p>
+            </div>
+          </details>
+
+          <details class="qa-card">
+            <summary>
+              <div class="q-num">Q5</div>
+              <div class="q-text">교재와 질문은 어떻게 선정하나요?</div>
+              <div class="chev">＋</div>
+            </summary>
+            <div class="answer">
+              <p>지표는 아무 기사나 아무 질문이나 사용하지 않습니다.</p>
+              <p>아이의 사고력 확장, 질문 생성, 표현 가능성, 현실 연결성을 기준으로 교재와 질문을 선별합니다.</p>
+            </div>
+          </details>
+
+          <details class="qa-card">
+            <summary>
+              <div class="q-num">Q6</div>
+              <div class="q-text">내성적인 아이도 할 수 있나요?</div>
+              <div class="chev">＋</div>
+            </summary>
+            <div class="answer">
+              <p>물론입니다.</p>
+              <p>오히려 조용히 관찰하고 깊이 생각하는 아이들이 강점을 보이는 경우도 많습니다.</p>
+              <p>지표는 말을 잘하는 아이보다 생각을 만들어가는 과정을 중요하게 생각합니다.</p>
+            </div>
+          </details>
+
+          <details class="qa-card">
+            <summary>
+              <div class="q-num">Q7</div>
+              <div class="q-text">발표를 싫어하는 아이도 괜찮나요?</div>
+              <div class="chev">＋</div>
+            </summary>
+            <div class="answer">
+              <p>괜찮습니다.</p>
+              <p>지표는 발표를 강요하기보다 자신의 생각을 표현하는 경험을 차근차근 쌓아갑니다.</p>
+              <p>많은 아이들이 시간이 지나면서 자연스럽게 자신감을 얻게 됩니다.</p>
+            </div>
+          </details>
+
+          <details class="qa-card">
+            <summary>
+              <div class="q-num">Q8</div>
+              <div class="q-text">글쓰기를 어려워하는 아이도 가능한가요?</div>
+              <div class="chev">＋</div>
+            </summary>
+            <div class="answer">
+              <p>가능합니다.</p>
+              <p>글쓰기는 재능보다 구조를 이해하는 힘에 가깝습니다.</p>
+              <p>지표는 읽기 → 질문 → 정리 → 표현 과정을 반복하며 글쓰기의 기반을 만들어 줍니다.</p>
+            </div>
+          </details>
+
+          <details class="qa-card">
+            <summary>
+              <div class="q-num">Q9</div>
+              <div class="q-text">수행평가와 발표에 실제로 도움이 되나요?</div>
+              <div class="chev">＋</div>
+            </summary>
+            <div class="answer">
+              <p>네.</p>
+              <p>수행평가와 발표의 핵심은 자료를 많이 모으는 것이 아니라 내용을 이해하고 자기 생각으로 정리하는 것입니다.</p>
+              <p>지표는 그 기반이 되는 사고력과 표현력을 훈련합니다.</p>
+            </div>
+          </details>
+
+          <details class="qa-card">
+            <summary>
+              <div class="q-num">Q10</div>
+              <div class="q-text">AI 시대에 왜 사고력·표현력 교육이 더 중요한가요?</div>
+              <div class="chev">＋</div>
+            </summary>
+            <div class="answer">
+              <p>AI는 자료를 찾고 글의 형식을 만드는 것을 도와줄 수 있습니다.</p>
+              <p>하지만 무엇을 궁금해할지, 무엇을 중요하게 생각할지, 어떤 질문을 할지는 여전히 인간의 몫입니다.</p>
+            </div>
+          </details>
+
+          <details class="qa-card">
+            <summary>
+              <div class="q-num">Q11</div>
+              <div class="q-text">함께 하는 아이들의 실력 차이나 연령 차이는 괜찮나요?</div>
+              <div class="chev">＋</div>
+            </summary>
+            <div class="answer">
+              <p>지표는 경쟁보다 성장에 초점을 둡니다.</p>
+              <p>아이들은 서로 다른 생각을 접하면서 배우고 성장합니다.</p>
+              <p>중요한 것은 현재 수준보다 생각하는 힘이 조금씩 확장되는 경험입니다.</p>
+            </div>
+          </details>
+
+          <details class="qa-card">
+            <summary>
+              <div class="q-num">Q12</div>
+              <div class="q-text">지표가 아이에게 남기는 가장 큰 힘은 무엇인가요?</div>
+              <div class="chev">＋</div>
+            </summary>
+            <div class="answer">
+              <p>스스로 생각하고 표현하는 힘입니다.</p>
+              <p>입시가 끝난 뒤에도 남는 힘, 새로운 문제를 만나도 질문하고 배우며 성장할 수 있는 힘.</p>
+              <p>지표는 그 힘을 키우고자 합니다.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="highlight">
+          <strong>지표가 중요하게 보는 것은 특정 의견이 아니라, 생각하는 힘의 성장입니다.</strong>
+          <p>
+            아이가 세상을 무서워하게 만드는 것이 아니라,
+            세상을 읽고 질문하고 자기 언어로 표현할 수 있도록 돕는 것.
+            그것이 지표가 신문과 현실 주제를 사용하는 이유입니다.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="bottom-cta">
+      <div class="inner">
+        <div class="section-kicker">JIPYO THINKING SYSTEM</div>
+        <h2 class="title">질문이 바뀌면,<br />아이의 생각도 달라집니다.</h2>
+        <p class="sub">
+          지표는 아이가 정답을 외우는 데서 멈추지 않고,
+          스스로 읽고 묻고 연결하고 표현하는 힘을 기르도록 돕습니다.
+        </p>
+        <a class="btn primary" href="index.html">지표 홍보페이지로 돌아가기</a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      지표 JIPYO THINKING SYSTEM<br />
+      20년 현장 노하우와 AI 시대 사고력 교육의 융합<br /><br />
+      © CAL. All rights reserved.<br />
+      본 페이지의 문구, 구성, 교육 자료 및 디자인 요소의 저작권은 CAL에 있습니다. 무단 복제, 배포, 수정 및 상업적 이용을 금합니다.
+    </footer>
+  </main>
+</body>
+</html>
