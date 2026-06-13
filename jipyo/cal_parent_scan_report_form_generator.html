@@ -65,5 +65,5 @@ ${section('05',s5.title,s5.description,`<div class="saju-layout"><div class="saj
 ${section('06',s6.title,s6.description,`<div class="grid">${field('알아차릴 지점',s6.awarenessPoint,true)}${field('새로운 관점',s6.newPerspective)}${field('작은 실천',s6.smallPractice)}${field('선택 문장',s6.choiceSentence,true)}</div>`,s6.calInsight)}
 <section class="section"><div class="section-head"><div class="num">07</div><div><h3>${esc(s7.title)}</h3>${s7.description?`<div class="desc">${esc(s7.description)}</div>`:''}</div></div><div class="final-message">${paragraphs(s7.finalText)}</div><div class="mirror">${esc(s7.mirrorMessage)}</div></section>
 ${nextStepGuide(data.nextStepGuide)}
-<div class="footer">CAL Parent Scan · by Consciousness Architecture Lab<br/>© CAL. All rights reserved.</div>`;setTimeout(()=>document.querySelector('.report').scrollIntoView({behavior:'smooth'}),100)}catch(e){err.textContent='JSON 형식을 확인해주세요: '+e.message;err.style.display='block'}}renderReport();
+<div class="footer">CAL Parent Scan by Consciousness Architecture Lab<br/>© CAL. All rights reserved.</div>`;setTimeout(()=>document.querySelector('.report').scrollIntoView({behavior:'smooth'}),100)}catch(e){err.textContent='JSON 형식을 확인해주세요: '+e.message;err.style.display='block'}}renderReport();
 </script></body></html>
