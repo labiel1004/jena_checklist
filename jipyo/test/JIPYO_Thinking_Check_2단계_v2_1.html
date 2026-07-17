@@ -1,0 +1,1605 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>JIPYO Thinking Check · 2단계 v2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Pretendard';src:url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/woff2/PretendardVariable.woff2') format('woff2-variations');font-weight:45 920;font-display:swap;}
+
+:root{
+  /* ── Base color (지표 공통 뉴트럴) ─────── */
+  --bg:#FAFAF8;            /* 아주 밝은 뉴트럴 화이트 */
+  --surface:#FFFFFF;       /* 카드 */
+  --cream:#F2F3F1;         /* 안내·선택 영역 */
+  --cream-deep:#EBEDEA;
+  --ink:#20221F;           /* 본문 딥차콜 */
+  --ink-2:#61665F;         /* 보조 텍스트 */
+  --ink-3:#929690;         /* 도움말 */
+  --line:#E6E8E4;          /* 아주 연한 구분선 */
+  --line-2:#D6D9D3;
+
+  /* ── 2단계 시그니처: 딥 틸(teal) ─────────
+     1단계(웜골드)와 확실히 구분되는, 조금 더 지적·분석적인 톤 */
+  --brand:#3C7A6E;
+  --brand-soft:#D6E7E1;
+  --brand-tint:#EEF6F3;
+
+  /* ── 단계별 보조 컬러 (저채도, 9단계) ─────── */
+  --step-read:#F3EFE1;      --acc-read:#CDBE8A;
+  --step-check:#E7EEF4;     --acc-check:#9DB4C7;
+  --step-choice:#E4EFE9;    --acc-choice:#84B2A3;
+  --step-reason:#F4ECE3;    --acc-reason:#D6B79B;
+  --step-apply:#ECE9F2;     --acc-apply:#ABA2C4;
+  --step-shift:#E3EFEF;     --acc-shift:#8DBBB8;
+  --step-other:#E9F0E4;     --acc-other:#A6C097;
+  --step-question:#E5F1EB;  --acc-question:#8FC3B0;
+  --step-final:#E6EEE9;     --acc-final:#5E9082;
+
+  /* 현재 화면 컬러 (JS가 #app에 설정) */
+  --step:var(--brand-tint);
+  --acc:var(--brand);
+
+  /* ── Type scale ────────────────────── */
+  --f-display:38px;
+  --f-h1:26px;
+  --f-h2:21px;
+  --f-body:19px;
+  --f-read:20px;
+  --f-note:16px;
+  --f-cap:14px;
+
+  /* ── Space / shape ─────────────────── */
+  --r-card:16px;
+  --r-head:20px;
+  --r-btn:11px;
+  --pad:28px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:'Pretendard','Pretendard Variable',-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+  font-size:var(--f-body);line-height:1.72;letter-spacing:-.01em;
+  font-weight:400;-webkit-font-smoothing:antialiased;
+  overscroll-behavior:none;
+}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;}
+:focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:6px;}
+
+/* ══ Frame ═════════════════════════════ */
+#app{min-height:100dvh;display:flex;flex-direction:column;
+     padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);}
+
+/* ── Top rail (progress) ── */
+.rail{position:sticky;top:0;z-index:30;background:rgba(250,250,248,.92);backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--line);}
+.rail-in{max-width:1180px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:22px;}
+.brand{font-size:var(--f-cap);letter-spacing:.14em;color:var(--ink-2);font-weight:600;white-space:nowrap;}
+.brand em{font-style:normal;color:var(--brand);}
+.steps{display:flex;align-items:center;gap:0;flex:1;min-width:0;overflow:hidden;}
+.step{display:flex;align-items:center;gap:8px;padding-right:8px;flex:0 0 auto;}
+.step .dot{width:7px;height:7px;border-radius:50%;background:var(--line-2);transition:.4s var(--ease);}
+.step .lbl{font-size:var(--f-cap);color:var(--ink-3);white-space:nowrap;transition:.4s var(--ease);}
+.step .bar{width:20px;height:1px;background:var(--line-2);margin-left:8px;}
+.step:last-child .bar{display:none;}
+.step.done .dot{background:var(--brand-soft);}
+.step.done .lbl{color:var(--ink-3);}
+.step.now .dot{width:22px;border-radius:4px;background:var(--tone,var(--brand));box-shadow:0 0 0 4px var(--tone-soft,var(--brand-tint));}
+.step.now .lbl{color:var(--ink);font-weight:600;}
+.count{font-size:var(--f-cap);color:var(--ink-3);white-space:nowrap;font-variant-numeric:tabular-nums;}
+.rail .ghost{font-size:var(--f-cap);color:var(--ink-2);border:1px solid var(--line-2);border-radius:999px;
+             padding:9px 16px;min-height:44px;display:inline-flex;align-items:center;white-space:nowrap;
+             transition:.25s var(--ease);}
+.rail .ghost:hover{background:var(--step);}
+
+/* ── Screen ── */
+main{flex:1;display:flex;flex-direction:column;}
+.screen{display:none;flex:1;max-width:1180px;width:100%;margin:0 auto;padding:36px 32px 140px;animation:in .5s var(--ease);}
+.screen.on{display:block;}
+@keyframes in{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+
+/* ── 질문 헤더 카드 ── */
+.step-header{position:relative;background:var(--step);border-radius:var(--r-head);
+             padding:26px 32px 24px 34px;margin-bottom:28px;overflow:hidden;
+             transition:background .45s var(--ease);}
+.step-header:before{content:"";position:absolute;left:0;top:22px;bottom:22px;width:4px;
+                    border-radius:0 4px 4px 0;background:var(--acc);}
+.eyebrow{font-size:var(--f-cap);letter-spacing:.12em;color:var(--ink-2);font-weight:600;margin-bottom:10px;
+         display:flex;align-items:center;gap:8px;}
+.eyebrow i{width:6px;height:6px;border-radius:50%;background:var(--acc);display:inline-block;flex:0 0 auto;}
+h1.q{font-size:var(--f-h1);font-weight:700;line-height:1.5;letter-spacing:-.02em;max-width:26em;}
+h1.q .qnum{vertical-align:middle;}
+h2.sub{font-size:var(--f-h2);font-weight:500;margin-top:6px;color:var(--ink-2);}
+.lede{color:var(--ink-2);font-size:var(--f-note);margin-top:10px;max-width:44em;}
+.step-header .lede{color:#565B53;}
+.hair{height:1px;background:var(--line);margin:28px 0;}
+
+/* ── Cards ── */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);padding:var(--pad);}
+.soft{background:var(--cream);border-color:transparent;}
+.tint{background:var(--step);border-radius:var(--r-card);padding:18px 24px;color:#565B53;font-size:var(--f-note);
+      margin-bottom:22px;}
+
+/* ══ Start screen ═════════════════════ */
+#s-start{display:none;}
+#s-start.on{display:flex;align-items:center;justify-content:center;padding-top:0;}
+.start-wrap{width:100%;max-width:760px;text-align:center;padding:20px 0 60px;}
+.mark-halo{width:104px;height:104px;margin:0 auto 26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+           background:radial-gradient(circle at 50% 46%, #E2EFEA 0%, #DCEBE5 54%, rgba(220,235,229,0) 72%);}
+.mark{width:34px;height:34px;position:relative;}
+.mark:before,.mark:after{content:"";position:absolute;inset:0;border-radius:50%;}
+.mark:before{border:1px solid var(--line-2);}
+.mark:after{border:1.5px solid var(--brand);clip-path:inset(0 0 50% 0);}
+.title-en{font-size:var(--f-display);font-weight:700;letter-spacing:-.02em;line-height:1.2;}
+.title-ko{font-size:var(--f-h2);color:var(--ink-2);margin-top:10px;font-weight:500;letter-spacing:.02em;}
+.stage{margin:30px auto 0;display:inline-flex;flex-direction:column;gap:4px;padding:16px 34px;
+       background:var(--surface);border:1px solid var(--brand-soft);border-radius:var(--r-head);
+       box-shadow:0 1px 2px rgba(35,33,30,.03),0 8px 22px rgba(35,33,30,.04);}
+.stage b{font-size:var(--f-h2);font-weight:700;}
+.stage b em{font-style:normal;color:var(--brand);}
+.stage span{font-size:var(--f-note);color:var(--ink-2);letter-spacing:.02em;}
+.notice{margin:32px auto 0;max-width:620px;background:var(--step-read);border-radius:var(--r-head);
+        padding:26px 32px;color:#454239;font-size:var(--f-note);line-height:2;text-align:left;}
+.notice b{color:var(--ink);font-weight:600;}
+.fields{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:16px;margin:34px auto 0;max-width:640px;text-align:left;}
+.field label{display:block;font-size:var(--f-cap);color:var(--ink-2);margin-bottom:8px;letter-spacing:.02em;}
+.field input{width:100%;min-height:52px;padding:12px 16px;background:var(--surface);
+             border:1px solid var(--line-2);border-radius:12px;font:inherit;font-size:var(--f-note);
+             color:var(--ink);transition:.25s var(--ease);}
+.field input:focus{border-color:var(--brand-soft);outline:none;box-shadow:0 0 0 5px var(--brand-tint);background:#FCFEFD;}
+#begin{border-radius:14px;}
+#begin:active{transform:scale(.985);}
+.sys-link{margin-top:40px;font-size:var(--f-cap);color:var(--ink-3);border-bottom:1px solid var(--line-2);padding-bottom:2px;}
+
+/* ══ Reading ══════════════════════════ */
+.read{display:grid;grid-template-columns:1fr 190px;gap:44px;align-items:start;}
+.read-body{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-head);padding:38px 44px;
+           box-shadow:0 1px 2px rgba(35,33,30,.03);}
+.read-body p{font-size:var(--f-read);line-height:2.05;margin-bottom:24px;max-width:37em;color:#2A2C27;}
+.read-body p:last-child{margin-bottom:0;}
+.icons{display:flex;flex-direction:column;gap:26px;padding-top:8px;border-left:1px solid var(--line);padding-left:26px;}
+.icons figure{display:flex;flex-direction:column;gap:8px;align-items:flex-start;}
+.icons svg{width:26px;height:26px;stroke:#7C8078;fill:none;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round;}
+.icons figcaption{font-size:12px;color:var(--ink-3);letter-spacing:.02em;}
+
+/* ══ Answer blocks ════════════════════ */
+.qblock{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);
+        padding:24px 26px;box-shadow:0 1px 2px rgba(35,33,30,.03);}
+.qblock:first-of-type{margin-top:0;}
+.qnum{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:26px;padding:0 8px;
+      border-radius:8px;background:var(--step);color:var(--ink-2);font-size:var(--f-cap);font-weight:700;
+      margin-right:10px;flex:0 0 auto;}
+.qtext{font-size:var(--f-h2);font-weight:600;line-height:1.6;display:flex;gap:2px;align-items:center;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.grid3 > div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);padding:20px;}
+.grid2 > div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);padding:20px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.qblock .grid2 > div{background:var(--bg);}
+.who{display:inline-flex;align-items:center;justify-content:center;height:26px;padding:0 12px;border-radius:8px;
+     background:var(--step);font-size:var(--f-cap);font-weight:700;margin-bottom:12px;color:var(--ink-2);}
+
+/* ── Ink pad ── */
+.pad{margin-top:16px;background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-card);
+     position:relative;overflow:hidden;transition:.3s var(--ease);}
+.pad:focus-within,.pad.active{border-color:var(--acc);box-shadow:0 0 0 4px var(--step),0 0 0 5px var(--brand-tint);}
+.pad-tools{display:flex;align-items:center;gap:4px;padding:8px 10px;border-bottom:1px solid rgba(0,0,0,.05);
+           background:var(--step);transition:background .45s var(--ease);}
+.tool{min-width:44px;min-height:44px;padding:0 12px;border-radius:8px;display:inline-flex;align-items:center;
+      gap:7px;font-size:var(--f-cap);color:var(--ink-2);transition:.2s var(--ease);}
+.tool svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;}
+.tool:hover{background:rgba(255,255,255,.7);}
+.tool[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 0 rgba(0,0,0,.06);}
+.tool.right{margin-left:auto;}
+.canvas-wrap{position:relative;background:#fff;}
+canvas{display:block;width:100%;touch-action:none;cursor:crosshair;background:#fff;}
+.ph{position:absolute;left:26px;top:22px;color:var(--ink-3);font-size:var(--f-note);pointer-events:none;transition:opacity .3s;}
+.pad textarea{display:none;width:100%;border:none;resize:none;padding:22px 26px;font:inherit;font-size:var(--f-note);
+              line-height:2.1;color:var(--ink);background:
+              repeating-linear-gradient(to bottom,transparent 0 calc(2.1em - 1px),var(--line) calc(2.1em - 1px) 2.1em);}
+.pad textarea:focus{outline:none;}
+.pad.keys canvas,.pad.keys .ph{display:none;}
+.pad.keys textarea{display:block;}
+.pad .rule{position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,transparent 0 63px,var(--line) 63px 64px);opacity:.55;}
+.pad.keys .rule{display:none;}
+
+/* ── Choice cards ── */
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.choice{display:flex;align-items:center;gap:16px;text-align:left;min-height:78px;padding:20px 24px;
+        background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-card);
+        font-size:var(--f-body);color:var(--ink);transition:.24s var(--ease);width:100%;}
+.choice:hover{border-color:var(--line-2);background:#FCFDFC;}
+.choice:active{transform:scale(.995);}
+.choice .mk{width:22px;height:22px;border-radius:50%;border:1px solid var(--line-2);flex:0 0 auto;position:relative;
+            transition:.24s var(--ease);}
+.choice .mk:after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--brand);
+                  transform:scale(0);transition:.24s var(--ease);}
+.choice[aria-checked="true"]{background:var(--step);border-color:var(--brand-soft);
+                             box-shadow:inset 0 0 0 1px var(--brand-soft);font-weight:600;}
+.choice[aria-checked="true"] .mk{border-color:var(--brand);}
+.choice[aria-checked="true"] .mk:after{transform:scale(1);}
+.other-in{grid-column:1/-1;display:none;animation:in .4s var(--ease);background:var(--step);
+          border-radius:var(--r-card);padding:18px 22px;}
+.other-in.on{display:block;}
+.other-in label{display:block;font-size:var(--f-cap);color:var(--ink-2);margin-bottom:8px;}
+.other-in input{width:100%;min-height:60px;padding:16px 22px;background:var(--surface);border:1px solid var(--line-2);
+                border-radius:12px;font:inherit;font-size:var(--f-note);}
+.other-in input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 4px var(--brand-tint);}
+
+/* ── 상황 적용 (문항 5) ── */
+.case{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);
+      padding:24px 26px;margin-top:18px;box-shadow:0 1px 2px rgba(35,33,30,.03);}
+.case:first-of-type{margin-top:0;}
+.case-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:16px;}
+.case-head .who{margin-bottom:0;flex:0 0 auto;}
+.scenario{font-size:var(--f-body);line-height:1.6;color:var(--ink);font-weight:500;}
+.verdicts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:4px;}
+.vbtn{display:flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 14px;
+      background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-btn);
+      font-size:var(--f-note);color:var(--ink);transition:.22s var(--ease);text-align:center;}
+.vbtn .mk{width:18px;height:18px;border-radius:50%;border:1px solid var(--line-2);flex:0 0 auto;position:relative;transition:.22s var(--ease);}
+.vbtn .mk:after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--brand);transform:scale(0);transition:.22s var(--ease);}
+.vbtn:hover{background:#FCFDFC;}
+.vbtn[aria-checked="true"]{background:var(--step);border-color:var(--brand-soft);box-shadow:inset 0 0 0 1px var(--brand-soft);font-weight:600;}
+.vbtn[aria-checked="true"] .mk{border-color:var(--brand);}
+.vbtn[aria-checked="true"] .mk:after{transform:scale(1);}
+
+/* ── Echo of previous choice ── */
+.echo{display:inline-flex;flex-direction:column;gap:4px;padding:16px 24px;
+      background:linear-gradient(180deg,var(--step),#FFFEFD);
+      border:1px solid var(--line);border-left:3px solid var(--acc);
+      border-radius:0 12px 12px 0;margin-bottom:24px;max-width:100%;}
+.echo small{font-size:var(--f-cap);color:var(--ink-2);letter-spacing:.02em;}
+.echo b{font-size:var(--f-note);font-weight:600;line-height:1.5;}
+
+/* ── Help (collapsed) ── */
+.help{margin-top:20px;}
+.help-btn{font-size:var(--f-cap);color:var(--ink-2);border:1px solid rgba(0,0,0,.06);border-radius:999px;
+          background:var(--step);padding:0 18px;min-height:44px;display:inline-flex;align-items:center;gap:8px;
+          transition:.25s var(--ease);}
+.help-btn:hover{filter:brightness(.985);}
+.help-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5;transition:.3s var(--ease);}
+.help-btn[aria-expanded="true"] svg{transform:rotate(180deg);}
+.help-body{display:none;margin-top:14px;padding:22px 26px;background:var(--step);border-radius:var(--r-card);
+           color:#565B53;font-size:var(--f-note);line-height:2.1;animation:in .4s var(--ease);}
+.help-body.on{display:block;}
+.help-body p:first-child{color:var(--ink-3);font-size:var(--f-cap);margin-bottom:10px;}
+
+/* ── Footer nav ── */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:25;background:rgba(250,250,248,.94);
+     backdrop-filter:blur(10px);border-top:1px solid var(--line);
+     padding:0 0 env(safe-area-inset-bottom);}
+.nav-in{max-width:1180px;margin:0 auto;padding:16px 32px;display:flex;align-items:center;gap:12px;}
+.btn{min-height:54px;padding:0 30px;border-radius:12px;font-size:var(--f-note);font-weight:600;
+     display:inline-flex;align-items:center;justify-content:center;gap:9px;transition:.25s var(--ease);}
+.btn-primary{background:var(--ink);color:#FBFCFB;}
+.btn-primary:hover{background:#363832;}
+.btn:active{transform:scale(.985);}
+.btn:disabled{opacity:.45;cursor:default;transform:none;}
+.btn-quiet{color:var(--ink-2);border:1px solid var(--line-2);background:var(--surface);}
+.btn-quiet:hover{background:var(--cream);}
+.btn-accent{background:var(--brand);color:#fff;}
+.btn-accent:hover{background:#336C61;}
+.btn-sm{min-height:44px;padding:0 18px;font-size:var(--f-cap);font-weight:500;border-radius:10px;}
+.spacer{flex:1;}
+.saved{font-size:var(--f-cap);color:var(--ink-3);}
+
+/* ── Text sheet (읽은 글 보기) ── */
+.sheet{position:fixed;inset:0;z-index:60;display:none;}
+.sheet.on{display:block;}
+.sheet .veil{position:absolute;inset:0;background:rgba(32,34,31,.28);animation:fade .35s var(--ease);}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.sheet .panel{position:absolute;top:0;right:0;bottom:0;width:min(640px,92vw);background:var(--bg);
+              border-left:1px solid var(--line);padding:34px 40px 44px;overflow-y:auto;
+              animation:slide .45s var(--ease);}
+@keyframes slide{from{transform:translateX(28px);opacity:.4}to{transform:none;opacity:1}}
+.sheet h3{font-size:var(--f-h2);font-weight:700;margin-bottom:6px;}
+.sheet .close{position:absolute;top:26px;right:30px;min-width:44px;min-height:44px;border-radius:8px;color:var(--ink-2);
+              display:inline-flex;align-items:center;justify-content:center;}
+.sheet .close:hover{background:var(--cream);}
+.sheet p{font-size:var(--f-note);line-height:2;color:#2A2C27;margin-top:20px;}
+.sheet .eyebrow{color:var(--ink-2);}
+
+/* ══ Done ═════════════════════════════ */
+#s-done.on,#s-saved.on{display:flex;align-items:center;justify-content:center;}
+.done-wrap{text-align:center;max-width:620px;padding-bottom:60px;width:100%;}
+.tick{width:96px;height:96px;margin:0 auto 24px;border-radius:50%;
+      background:radial-gradient(circle at 50% 46%, #E2EFEA 0%, #E8F1EE 55%, rgba(232,241,238,0) 72%);
+      display:flex;align-items:center;justify-content:center;}
+.tick svg{width:30px;height:30px;stroke:var(--brand);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;
+          stroke-dasharray:30;stroke-dashoffset:30;animation:draw .9s .2s var(--ease) forwards;}
+@keyframes draw{to{stroke-dashoffset:0}}
+.done-wrap h1{font-size:var(--f-h1);font-weight:700;}
+.done-msg{margin-top:20px;background:var(--step-final);border-radius:var(--r-head);padding:24px 30px;
+          color:#444239;font-size:var(--f-note);line-height:2;text-align:left;}
+.done-wrap .status{margin-top:16px;font-size:var(--f-cap);color:var(--ink-2);min-height:22px;}
+
+/* 교사용 결과 저장 */
+.teacher{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);text-align:left;}
+.teacher h4{font-size:12px;letter-spacing:.12em;color:var(--ink-3);font-weight:600;margin-bottom:12px;}
+.teacher .row{display:flex;flex-wrap:wrap;gap:10px;}
+
+/* ── Modal ── */
+.scrim{position:fixed;inset:0;z-index:90;background:rgba(32,34,31,.32);backdrop-filter:blur(3px);
+       display:none;align-items:center;justify-content:center;padding:24px;}
+.scrim.on{display:flex;}
+.modal{width:min(560px,100%);background:var(--surface);border-radius:20px;padding:32px 34px;
+       box-shadow:0 24px 60px rgba(0,0,0,.2);animation:in .3s var(--ease);}
+.modal h3{font-size:var(--f-h2);font-weight:700;margin-bottom:12px;}
+.modal p{color:var(--ink-2);font-size:var(--f-note);line-height:1.9;}
+.modal .miss{margin-top:16px;padding:14px 18px;background:var(--cream);border-radius:10px;
+             font-size:var(--f-cap);color:var(--ink-2);line-height:1.9;max-height:170px;overflow:auto;}
+.modal .acts{display:flex;gap:12px;margin-top:26px;}
+.modal .acts .btn{flex:1;padding:0 16px;}
+
+/* ══ Design system sheet ══════════════ */
+#ds{position:fixed;inset:0;z-index:80;background:var(--bg);overflow-y:auto;display:none;}
+#ds.on{display:block;}
+.ds-in{max-width:980px;margin:0 auto;padding:56px 32px 90px;}
+.ds-in h2{font-size:var(--f-h1);font-weight:700;}
+.ds-in h4{font-size:var(--f-cap);letter-spacing:.12em;color:var(--brand);font-weight:600;margin:44px 0 16px;}
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;}
+.sw{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);}
+.sw .chip{height:60px;}
+.sw .meta{padding:10px 12px;font-size:12px;color:var(--ink-2);line-height:1.6;}
+.sw .meta b{display:block;color:var(--ink);font-size:var(--f-cap);font-weight:600;}
+.ds-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+.ds-list{font-size:var(--f-note);color:var(--ink-2);line-height:2;}
+.ds-list b{color:var(--ink);font-weight:600;}
+.ds-close{position:fixed;top:22px;right:28px;z-index:81;}
+
+/* ══ Portrait / narrow ════════════════ */
+@media (max-width:900px){
+  :root{--f-display:32px;--f-h1:23px;--f-h2:19px;--f-body:18px;--f-read:19px;--pad:22px;}
+  .rail-in{padding:12px 20px;gap:14px;}
+  .steps{display:none;}
+  .screen{padding:26px 20px 140px;}
+  .read{grid-template-columns:1fr;gap:28px;}
+  .read-body{padding:26px 24px;}
+  .icons{flex-direction:row;flex-wrap:wrap;gap:22px;border-left:none;border-top:1px solid var(--line);
+         padding-left:0;padding-top:22px;}
+  .grid3,.grid2,.choices,.verdicts{grid-template-columns:1fr;}
+  .fields{grid-template-columns:1fr;}
+  .nav-in{padding:14px 20px;}
+  .btn{padding:0 22px;}
+  .step-header{padding:22px 22px 20px 24px;}
+}
+
+/* ══ 결과지 (PDF) ═════════════════════ */
+#report{display:none;}
+@media print{
+  @page{size:A4;margin:15mm 13mm;}
+  html,body{background:#fff;}
+  #app,.sheet,.scrim,#ds{display:none!important;}
+  #report{display:block!important;}
+}
+#report{color:#000;font-size:11pt;line-height:1.6;}
+.rp-head{border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:14px;}
+.rp-head h1{font-size:19pt;letter-spacing:-.01em;}
+.rp-head .stg{font-size:12pt;font-weight:700;}
+.rp-head .dom{font-size:10pt;color:#333;}
+.rp-meta{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:9.5pt;}
+.rp-meta th,.rp-meta td{border:1px solid #999;padding:5px 8px;text-align:left;}
+.rp-meta th{background:#F1F1F1;width:96px;font-weight:700;}
+.rp-item{border:1px solid #999;margin-bottom:11px;page-break-inside:avoid;break-inside:avoid;}
+.rp-q{background:#F1F1F1;border-bottom:1px solid #999;padding:7px 10px;
+      page-break-after:avoid;break-after:avoid;}
+.rp-row{page-break-inside:avoid;break-inside:avoid;padding-bottom:6px;margin-bottom:6px;
+        border-bottom:1px dotted #DDD;}
+.rp-row:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0;}
+.rp-sub{font-size:9.5pt;font-weight:700;margin-bottom:3px;}
+.rp-hw{page-break-inside:avoid;break-inside:avoid;}
+.rp-id{font-size:8.5pt;font-weight:700;letter-spacing:.04em;}
+.rp-qt{font-size:10.5pt;line-height:1.5;}
+.rp-b{padding:9px 10px;font-size:10pt;}
+.rp-f{font-size:8.5pt;color:#333;margin-bottom:5px;}
+.rp-a{white-space:pre-wrap;border-left:3px solid #000;padding-left:9px;margin:4px 0;line-height:1.6;}
+.rp-a.blank{border-left-color:#BBB;color:#777;}
+.rp-item img{max-width:100%;border:1px solid #DDD;display:block;margin-top:6px;}
+.rp-trans{border:1px dashed #AAA;min-height:32px;margin-top:6px;font-size:8pt;color:#888;padding:3px 6px;}
+.rp-foot{margin-top:12px;padding-top:8px;border-top:1px solid #999;font-size:8.5pt;color:#444;line-height:1.5;}
+</style>
+
+<div id="app">
+
+  <!-- ── Progress rail ─────────────────── -->
+  <header class="rail" id="rail" hidden>
+    <div class="rail-in">
+      <div class="brand">JIPYO <em>·</em> 2단계</div>
+      <div class="steps" id="steps"></div>
+      <div class="count" id="count">1 / 9</div>
+      <button class="ghost" id="openSheet">읽은 글 보기</button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ══ 시작 화면 ═══════════════════════ -->
+    <section class="screen on" id="s-start">
+      <div class="start-wrap">
+        <div class="mark-halo"><div class="mark" aria-hidden="true"></div></div>
+        <div class="title-en">JIPYO Thinking Check</div>
+        <div class="title-ko">지표 생각 표현 체크</div>
+
+        <div class="stage">
+          <b><em>2단계</em></b>
+          <span>비교하고 · 기준을 세우고 · 다른 상황에 적용하기</span>
+        </div>
+
+        <p class="notice">
+          <b>이 활동은 시험이 아닙니다.</b><br>
+          서로 다른 AI 사용 사례를 비교하고, 나만의 기준을 세워 다른 상황에 적용해봅니다.<br>
+          정답을 맞히려고 애쓰기보다, 글을 근거로 천천히 생각해주세요.
+        </p>
+
+        <div class="fields">
+          <div class="field"><label for="f-name">이름</label><input id="f-name" type="text" autocomplete="off"></div>
+          <div class="field"><label for="f-grade">학년</label><input id="f-grade" type="text" autocomplete="off"></div>
+          <div class="field"><label for="f-date">날짜</label><input id="f-date" type="date"></div>
+        </div>
+
+        <div style="margin-top:34px">
+          <button class="btn btn-primary" id="begin" style="min-width:220px">시작하기</button>
+        </div>
+
+        <button class="sys-link" id="openDs">디자인 시스템 보기</button>
+      </div>
+    </section>
+
+    <!-- ══ 1. 짧은 글 읽기 ═════════════════ -->
+    <section class="screen" id="s-read">
+      <div class="step-header">
+        <div class="eyebrow"><i></i>짧은 글 읽기</div>
+        <h1 class="q" id="readTitle">AI 숙제 도우미, 어디까지 괜찮을까?</h1>
+        <p class="lede">천천히 읽어보세요. 다 읽은 뒤에도 언제든 다시 볼 수 있습니다.</p>
+      </div>
+
+      <div class="read">
+        <div class="read-body" id="readBody"></div>
+
+        <div class="icons" aria-hidden="true">
+          <figure>
+            <svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 12h7M9 16h5"/></svg>
+            <figcaption>글쓰기 숙제</figcaption>
+          </figure>
+          <figure>
+            <svg viewBox="0 0 24 24"><path d="M12 3l1.7 4.1L18 8.8l-4.3 1.7L12 15l-1.7-4.5L6 8.8l4.3-1.7z"/><path d="M18.5 15l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/></svg>
+            <figcaption>AI 도우미</figcaption>
+          </figure>
+          <figure>
+            <svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-4 4v-4H4z"/><path d="M8 9h8M8 12h5"/></svg>
+            <figcaption>발표</figcaption>
+          </figure>
+          <figure>
+            <svg viewBox="0 0 24 24"><path d="M12 4v15"/><path d="M6 8h12"/><path d="M6 8l-2.5 5h5z"/><path d="M18 8l-2.5 5h5z"/><path d="M8 20h8"/></svg>
+            <figcaption>기준·판단</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 2. 글 내용 확인 ① ② ═════════════ -->
+    <section class="screen" id="s-check1">
+      <div class="step-header">
+        <div class="eyebrow"><i></i>글 내용 확인</div>
+        <h1 class="q">글에 나온 내용을 다시 살펴볼까요?</h1>
+        <p class="lede">글 속에서 찾은 내용을 편하게 적어보세요.</p>
+      </div>
+
+      <div class="qblock">
+        <div class="qtext"><span class="qnum">2-1</span><span data-q="2-1-jiwoo"></span></div>
+        <div class="grid2">
+          <div><div class="who">지우</div><div class="pad" data-pad="2-1-jiwoo" data-h="170" data-ph="지우가 AI를 쓴 방법"></div></div>
+          <div><div class="who">서준</div><div class="pad" data-pad="2-1-seojun" data-h="170" data-ph="서준이 AI를 쓴 방법"></div></div>
+        </div>
+      </div>
+
+      <div class="qblock">
+        <div class="qtext"><span class="qnum">2-2</span><span data-q="2-2"></span></div>
+        <div class="pad" data-pad="2-2" data-h="160" data-ph="글에서 찾은 내용을 적어보세요."></div>
+      </div>
+    </section>
+
+    <!-- ══ 2. 글 내용 확인 ③ ═══════════════ -->
+    <section class="screen" id="s-check2">
+      <div class="step-header">
+        <div class="eyebrow"><i></i>글 내용 확인</div>
+        <h1 class="q"><span class="qnum">2-3</span><span data-q="2-3"></span></h1>
+        <p class="lede">글쓴이가 가장 중요하게 말하는 문제를 한두 문장으로 적어보세요.</p>
+      </div>
+
+      <div class="pad" data-pad="2-3" data-h="230" data-ph="글에서 찾은 내용을 적어보세요."></div>
+    </section>
+
+    <!-- ══ 3. 가장 중요한 기준 고르기 ═══════ -->
+    <section class="screen" id="s-choice">
+      <div class="step-header">
+        <div class="eyebrow"><i></i>기준 고르기</div>
+        <h1 class="q" data-q="3"></h1>
+        <p class="lede">하나만 골라주세요. 고른 뒤에도 언제든 바꿀 수 있습니다.</p>
+      </div>
+
+      <div class="choices" id="choices" data-cq="3" role="radiogroup" aria-label="가장 중요한 기준 고르기">
+        <button class="choice" role="radio" aria-checked="false" data-v="AI가 알려준 내용을 학생이 이해하고 설명할 수 있는가"><span class="mk"></span><span>AI가 알려준 내용을 학생이 이해하고 설명할 수 있는가</span></button>
+        <button class="choice" role="radio" aria-checked="false" data-v="문제와 핵심 생각을 학생이 직접 정했는가"><span class="mk"></span><span>문제와 핵심 생각을 학생이 직접 정했는가</span></button>
+        <button class="choice" role="radio" aria-checked="false" data-v="완성된 결과가 정확하고 훌륭한가"><span class="mk"></span><span>완성된 결과가 정확하고 훌륭한가</span></button>
+        <button class="choice" role="radio" aria-checked="false" data-v="AI를 사용한 사실을 선생님에게 밝혔는가"><span class="mk"></span><span>AI를 사용한 사실을 선생님에게 밝혔는가</span></button>
+        <button class="choice" role="radio" aria-checked="false" data-v="AI를 사용한 시간이 짧은가"><span class="mk"></span><span>AI를 사용한 시간이 짧은가</span></button>
+        <button class="choice" role="radio" aria-checked="false" data-v="다른 기준이 있다" data-other="1"><span class="mk"></span><span>다른 기준이 있다</span></button>
+        <button class="choice" role="radio" aria-checked="false" data-v="아직 잘 모르겠다"><span class="mk"></span><span>아직 잘 모르겠다</span></button>
+        <div class="other-in" id="otherIn">
+          <label for="otherText">어떤 기준인지 적어주세요.</label>
+          <input type="text" id="otherText" placeholder="내가 생각한 다른 기준을 적어주세요." autocomplete="off">
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 4. 기준과 이유 설명하기 ═════════ -->
+    <section class="screen" id="s-reason">
+      <div class="step-header">
+        <div class="eyebrow"><i></i>기준과 이유</div>
+        <h1 class="q">왜 이 기준이 중요하다고 생각하나요?</h1>
+        <p class="lede" data-q="4"></p>
+      </div>
+
+      <div class="echo" id="echo"><small>내가 고른 기준</small><b id="echoText">—</b></div>
+
+      <div class="pad" data-pad="4" data-h="260" data-ph="여기에 이유를 써보세요."></div>
+
+      <div class="help">
+        <button class="help-btn" aria-expanded="false" data-help="h-reason">
+          생각이 잘 안 나면 눌러보세요
+          <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="help-body" id="h-reason">
+          <p>필요할 때만 사용하세요.</p>
+          나는 이 기준이 중요하다고 생각한다.<br>
+          왜냐하면 __________ 때문이다.
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 5. 상황 적용 ════════════════════ -->
+    <section class="screen" id="s-apply">
+      <div class="step-header">
+        <div class="eyebrow"><i></i>상황 적용</div>
+        <h1 class="q">기준을 여러 상황에 적용해 볼까요?</h1>
+        <p class="lede">각 행동을 보고 ‘해도 된다 · 조건이 필요하다 · 하면 안 된다’ 중 하나를 고른 뒤, 그렇게 생각한 이유를 적어보세요.</p>
+      </div>
+
+      <div class="case">
+        <div class="case-head"><span class="who">가</span><p class="scenario">AI에게 모르는 개념을 설명해 달라고 한 뒤, 이해한 내용을 자신의 말로 정리했다.</p></div>
+        <div class="verdicts" data-cq="5-a" role="radiogroup" aria-label="가 상황 판단">
+          <button class="vbtn" role="radio" aria-checked="false" data-v="해도 된다"><span class="mk"></span>해도 된다</button>
+          <button class="vbtn" role="radio" aria-checked="false" data-v="조건이 필요하다"><span class="mk"></span>조건이 필요하다</button>
+          <button class="vbtn" role="radio" aria-checked="false" data-v="하면 안 된다"><span class="mk"></span>하면 안 된다</button>
+        </div>
+        <div class="pad" data-pad="5-a" data-h="130" data-ph="그렇게 생각한 이유를 적어보세요."></div>
+      </div>
+
+      <div class="case">
+        <div class="case-head"><span class="who">나</span><p class="scenario">AI가 만든 글을 거의 그대로 제출했지만, 발표 전 내용을 외워서 설명했다.</p></div>
+        <div class="verdicts" data-cq="5-b" role="radiogroup" aria-label="나 상황 판단">
+          <button class="vbtn" role="radio" aria-checked="false" data-v="해도 된다"><span class="mk"></span>해도 된다</button>
+          <button class="vbtn" role="radio" aria-checked="false" data-v="조건이 필요하다"><span class="mk"></span>조건이 필요하다</button>
+          <button class="vbtn" role="radio" aria-checked="false" data-v="하면 안 된다"><span class="mk"></span>하면 안 된다</button>
+        </div>
+        <div class="pad" data-pad="5-b" data-h="130" data-ph="그렇게 생각한 이유를 적어보세요."></div>
+      </div>
+
+      <div class="case">
+        <div class="case-head"><span class="who">다</span><p class="scenario">자신의 경험과 생각을 먼저 정한 뒤, AI에게 문장 순서와 맞춤법만 도움받았다.</p></div>
+        <div class="verdicts" data-cq="5-c" role="radiogroup" aria-label="다 상황 판단">
+          <button class="vbtn" role="radio" aria-checked="false" data-v="해도 된다"><span class="mk"></span>해도 된다</button>
+          <button class="vbtn" role="radio" aria-checked="false" data-v="조건이 필요하다"><span class="mk"></span>조건이 필요하다</button>
+          <button class="vbtn" role="radio" aria-checked="false" data-v="하면 안 된다"><span class="mk"></span>하면 안 된다</button>
+        </div>
+        <div class="pad" data-pad="5-c" data-h="130" data-ph="그렇게 생각한 이유를 적어보세요."></div>
+      </div>
+    </section>
+
+    <!-- ══ 6. 조건이 달라지면 ══════════════ -->
+    <section class="screen" id="s-shift">
+      <div class="step-header">
+        <div class="eyebrow"><i></i>조건 변화</div>
+        <h1 class="q" data-q="6"></h1>
+        <p class="lede">상황이 바뀌면 내 판단도 달라질지, 이유와 함께 생각해보세요.</p>
+      </div>
+
+      <div class="tint">기준은 그대로 두어도 되고, 상황에 맞게 조금 바꿔도 됩니다. 정답은 없습니다.</div>
+
+      <div class="pad" data-pad="6" data-h="280" data-ph="내 생각과 이유를 적어보세요."></div>
+    </section>
+
+    <!-- ══ 7. 다른 관점 살펴보기 ═══════════ -->
+    <section class="screen" id="s-other">
+      <div class="step-header">
+        <div class="eyebrow"><i></i>다른 관점</div>
+        <h1 class="q" data-q="7"></h1>
+        <p class="lede">나와 생각이 다른 사람의 입장에서, 그 사람의 이유를 떠올려보세요.</p>
+      </div>
+
+      <div class="tint">이 화면은 내 답을 바꾸는 곳이 아닙니다. 다른 생각의 이유를 잠시 살펴보는 곳입니다.</div>
+
+      <div class="pad" data-pad="7" data-h="280" data-ph="그 사람이 들 만한 이유를 적어보세요."></div>
+    </section>
+
+    <!-- ══ 8. 궁금한 점 만들기 ═════════════ -->
+    <section class="screen" id="s-ask">
+      <div class="step-header">
+        <div class="eyebrow"><i></i>궁금한 점 만들기</div>
+        <h1 class="q">이 글을 읽고 무엇이 더 궁금해졌나요?</h1>
+        <p class="lede" data-q="8-1"></p>
+      </div>
+
+      <div class="tint">더 알아보고 싶은 것, 친구와 토론해 보고 싶은 것을 자유롭게 적어도 좋아요.</div>
+
+      <div class="grid2">
+        <div><div class="who">질문 1</div><div class="pad" data-pad="8-1" data-h="200" data-ph="궁금한 것을 질문으로 적어보세요."></div></div>
+        <div><div class="who">질문 2</div><div class="pad" data-pad="8-2" data-h="200" data-ph="궁금한 것을 질문으로 적어보세요."></div></div>
+      </div>
+    </section>
+
+    <!-- ══ 9. 내 생각 쓰기 ═════════════════ -->
+    <section class="screen" id="s-final">
+      <div class="step-header">
+        <div class="eyebrow"><i></i>내 생각 쓰기</div>
+        <h1 class="q">AI가 숙제를 도와줄 때, 어디까지 허용해도 될까요?</h1>
+        <p class="lede" data-q="9"></p>
+      </div>
+
+      <div class="pad" data-pad="9" data-h="360" data-ph="내 생각을 자유롭게 써보세요."></div>
+
+      <div class="help">
+        <button class="help-btn" aria-expanded="false" data-help="h-final">
+          생각이 잘 안 나면 눌러보세요
+          <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="help-body" id="h-final">
+          <p>필요한 문장만 골라 사용해도 괜찮아요. 그대로 쓰지 않아도 됩니다.</p>
+          나는 ______라고 생각한다.<br>
+          가장 중요한 기준은 ______이다.<br>
+          왜냐하면 ______.<br>
+          예를 들어 ______.<br>
+          하지만 ______한 경우에는 달리 볼 수 있다.<br>
+          그래서 ______.
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 완료 ════════════════════════════ -->
+    <section class="screen" id="s-done">
+      <div class="done-wrap">
+        <div class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div>
+        <h1>생각을 끝까지 표현했어요.</h1>
+        <div class="done-msg">
+          두 사례를 비교하고, 내 기준을 세워<br>
+          다른 상황에 적용하고 표현해보는 활동이었습니다.
+        </div>
+        <div class="status" id="doneStatus"></div>
+      </div>
+    </section>
+
+    <section class="screen" id="s-saved">
+      <div class="done-wrap">
+        <div class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div>
+        <h1>생각이 잘 저장되었습니다.</h1>
+        <p id="savedWho" style="color:var(--ink-3);font-size:var(--f-cap);margin-top:10px"></p>
+        <div class="status" id="savedStatus"></div>
+
+        <div class="teacher">
+          <h4>교사용 결과 저장</h4>
+          <div class="row">
+            <button class="btn btn-quiet btn-sm" id="dlPdf">결과지 PDF로 저장</button>
+            <button class="btn btn-quiet btn-sm" id="dlJson">데이터 다운로드</button>
+            <button class="btn btn-quiet btn-sm" id="finish">완료하기</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer nav ── -->
+  <nav class="nav" id="nav" hidden>
+    <div class="nav-in">
+      <button class="btn btn-quiet" id="prev">이전</button>
+      <button class="btn btn-quiet" id="reread" hidden>다시 읽기</button>
+      <div class="spacer"></div>
+      <span class="saved" id="savedTag"></span>
+      <button class="btn btn-primary" id="next">다음</button>
+    </div>
+  </nav>
+</div>
+
+<!-- ── 읽은 글 보기 ── -->
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="읽은 글 보기">
+  <div class="veil" data-close></div>
+  <div class="panel">
+    <button class="close" data-close aria-label="닫기">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="eyebrow">짧은 글</div>
+    <h3 id="sheetTitle">AI 숙제 도우미, 어디까지 괜찮을까?</h3>
+    <div id="sheetBody"></div>
+  </div>
+</div>
+
+<!-- ── 공용 모달 ── -->
+<div class="scrim" id="scrim" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="modal">
+    <h3 id="mTitle"></h3>
+    <div id="mBody"></div>
+    <div class="acts" id="mActs"></div>
+  </div>
+</div>
+
+<!-- ── 디자인 시스템 ── -->
+<div id="ds">
+  <button class="btn btn-quiet ds-close" id="closeDs">닫기</button>
+  <div class="ds-in">
+    <div class="eyebrow">JIPYO Design System · Stage 2</div>
+    <h2>지표 생각 표현 체크 · 2단계 디자인 시스템</h2>
+    <p class="lede">1단계와 같은 차분하고 지적인 틀을 유지하되, 시그니처 컬러를 웜골드에서 <b>딥 틸(teal)</b>로 바꿔 “지금은 2단계”임을 한눈에 알 수 있게 했습니다. 비교·기준·적용을 다루는 조금 더 분석적인 단계에 맞는 톤입니다. 단계 컬러는 여전히 저채도이며, 답에 영향을 주는 강조는 사용하지 않습니다.</p>
+
+    <h4>BASE COLOR</h4>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#FAFAF8"></div><div class="meta"><b>Neutral White</b>#FAFAF8 · 배경</div></div>
+      <div class="sw"><div class="chip" style="background:#FFFFFF;border-bottom:1px solid var(--line)"></div><div class="meta"><b>Surface</b>#FFFFFF · 카드·캔버스</div></div>
+      <div class="sw"><div class="chip" style="background:#20221F"></div><div class="meta"><b>Deep Charcoal</b>#20221F · 본문</div></div>
+      <div class="sw"><div class="chip" style="background:#61665F"></div><div class="meta"><b>Medium Grey</b>#61665F · 보조 텍스트</div></div>
+      <div class="sw"><div class="chip" style="background:#E6E8E4"></div><div class="meta"><b>Hairline</b>#E6E8E4 · 구분선</div></div>
+      <div class="sw"><div class="chip" style="background:#3C7A6E"></div><div class="meta"><b>Deep Teal</b>#3C7A6E · 2단계 시그니처</div></div>
+    </div>
+
+    <h4>STEP COLOR · 9단계</h4>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#F3EFE1"></div><div class="meta"><b>Read</b>#F3EFE1 · 읽기</div></div>
+      <div class="sw"><div class="chip" style="background:#E7EEF4"></div><div class="meta"><b>Check</b>#E7EEF4 · 내용 확인</div></div>
+      <div class="sw"><div class="chip" style="background:#E4EFE9"></div><div class="meta"><b>Choice</b>#E4EFE9 · 기준 고르기</div></div>
+      <div class="sw"><div class="chip" style="background:#F4ECE3"></div><div class="meta"><b>Reason</b>#F4ECE3 · 기준과 이유</div></div>
+      <div class="sw"><div class="chip" style="background:#ECE9F2"></div><div class="meta"><b>Apply</b>#ECE9F2 · 상황 적용</div></div>
+      <div class="sw"><div class="chip" style="background:#E3EFEF"></div><div class="meta"><b>Shift</b>#E3EFEF · 조건 변화</div></div>
+      <div class="sw"><div class="chip" style="background:#E9F0E4"></div><div class="meta"><b>Other</b>#E9F0E4 · 다른 관점</div></div>
+      <div class="sw"><div class="chip" style="background:#E5F1EB"></div><div class="meta"><b>Question</b>#E5F1EB · 궁금한 점</div></div>
+      <div class="sw"><div class="chip" style="background:#E6EEE9"></div><div class="meta"><b>Final</b>#E6EEE9 · 내 생각·완료</div></div>
+    </div>
+    <p class="ds-list" style="margin-top:16px">단계 컬러는 <b>질문 헤더 카드 · 아이브로우 · 진행 표시의 현재 점 · 손글씨 도구 바 · 도움 문장 · 선택된 카드 배경</b>에만 적용합니다. 화면 전체 배경과 캔버스는 언제나 뉴트럴 화이트/화이트입니다. 정답·오답을 연상시키는 빨강·초록, 원색, 그라데이션은 사용하지 않습니다. ‘해도 된다·조건이 필요하다·하면 안 된다’ 판단 버튼도 모두 같은 중립 스타일입니다.</p>
+
+    <h4>TYPE</h4>
+    <p class="ds-list">
+      Pretendard → Noto Sans KR 순으로 대체.<br>
+      <b>메인 제목 38px / 700</b> · <b>문항 제목 26px / 700</b> · <b>소제목 21px / 500</b><br>
+      <b>본문 19px</b> · <b>읽기 지문 20px, 행간 2.05</b> · <b>안내 16px</b> · <b>캡션 14px</b>
+    </p>
+
+    <h4>BUTTON</h4>
+    <div class="ds-row">
+      <button class="btn btn-primary">다음 (Primary)</button>
+      <button class="btn btn-quiet">이전 (Quiet)</button>
+      <button class="btn btn-accent">제출하기 (Accent·Teal)</button>
+      <button class="help-btn">도움말 버튼</button>
+    </div>
+    <p class="ds-list" style="margin-top:14px">모든 터치 대상 최소 높이 44px, 실제 버튼 54px. 버튼 모서리 11px, 카드 16px, 헤더 카드 20px — 1단계보다 살짝 더 부드럽게 둥글려 단계 차이를 은은하게 드러냅니다.</p>
+
+    <h4>CARD</h4>
+    <div class="ds-row" style="align-items:stretch">
+      <button class="choice" style="max-width:320px" aria-checked="false"><span class="mk"></span><span>기본 선택 카드</span></button>
+      <button class="choice" style="max-width:320px" aria-checked="true"><span class="mk"></span><span>선택된 상태 (단계 틴트 + 틸)</span></button>
+    </div>
+
+    <h4>WRITING AREA</h4>
+    <p class="ds-list">밑줄이 아니라 하나의 넓은 면. 손글씨(기본) ↔ 키보드 전환, 지우개, 되돌리기, 전체 지우기. 캔버스는 항상 흰색, 도구 바만 단계 컬러를 띱니다. 손글씨는 원본 이미지로 보존하며 자동 인식·자동 교정은 하지 않습니다.</p>
+
+    <h4>DATA</h4>
+    <p class="ds-list">제출 시 <b>텍스트 기반 PDF 결과지</b>와 <b>구조화된 JSON</b>을 생성합니다. 빈 답은 삭제하지 않고 <b>response_status: blank</b>로 기록하고, 손글씨는 <b>recognition_status: not_processed</b>로 남깁니다. 상황 적용(문항 5)은 <b>선택한 판단</b>과 <b>이유</b>를 함께 저장합니다.</p>
+
+    <h4>MOTION</h4>
+    <p class="ds-list">화면 전환 500ms, 상태 변화 220~280ms, 모두 <b>cubic-bezier(.22,.61,.36,1)</b>. 축하 효과·점수·배지·별점은 사용하지 않습니다. <b>prefers-reduced-motion</b>을 존중합니다.</p>
+  </div>
+</div>
+
+<!-- ── 결과지 (PDF) ── -->
+<div id="report" aria-hidden="true"></div>
+
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+
+  const VERSION = '2.0';
+  const STAGE = 2;
+  const PASSAGE_TITLE = 'AI 숙제 도우미, 어디까지 괜찮을까?';
+  const STORE = 'jipyo_tc_s2_v2_0';
+
+  /* ── 읽기 지문 (화면·읽은 글 보기·PDF 공통 단일 소스) ── */
+  const PASSAGE = [
+    '지우와 서준은 같은 글쓰기 숙제를 받았습니다. 주제는 ‘우리 학교를 더 좋은 곳으로 만드는 방법’이었습니다. 선생님은 숙제를 내주며 “완성된 글만 보는 것이 아니라, 어떤 문제를 발견했고 왜 그런 생각을 했는지도 함께 보겠다”고 말했습니다.',
+    '지우는 AI에게 “이 주제로 글을 완성해 줘”라고 부탁했습니다. AI는 학교에 휴식 공간을 만들고, 급식 의견을 조사하고, 친구 사이의 갈등을 줄이자는 내용을 자연스럽게 정리해 주었습니다. 지우는 몇 군데 표현만 고친 뒤 자신의 이름으로 제출했습니다. 글은 깔끔했지만, 지우가 실제로 학교에서 겪은 일이나 직접 생각한 이유는 거의 드러나지 않았습니다.',
+    '서준은 먼저 학교생활에서 불편했던 일을 떠올렸습니다. 비 오는 날 우산을 둘 곳이 부족했던 일과 쉬는 시간에 조용히 있을 공간이 없었던 일을 메모했습니다. 그다음 AI에게 “내 생각을 세 부분으로 나누려면 어떻게 하면 좋을까?”라고 물었습니다. AI가 제안한 순서를 참고했지만, 어떤 문제를 고를지와 문장, 예시는 서준이 직접 정했습니다.',
+    '발표 시간에 선생님이 이유를 물었을 때 서준은 자신의 경험을 설명했습니다. 지우는 글에 적힌 제안이 왜 필요한지 묻자 잠시 대답하지 못했습니다. 하지만 지우는 “AI 덕분에 짧은 시간 안에 정리된 글을 만들 수 있었다”고 말했습니다.',
+    '또 다른 학생 민아는 모르는 개념을 AI에게 설명해 달라고 한 뒤, 이해한 내용을 자신의 말로 다시 정리했습니다. 세 학생 모두 AI를 사용했지만, AI가 맡은 역할과 학생이 직접 한 생각의 양은 서로 달랐습니다.',
+    'AI는 모르는 내용을 이해하고 생각을 정리하는 데 도움을 줄 수 있습니다. 그러나 AI가 핵심 생각과 글 전체를 대신하면 학생이 배워야 할 과정을 건너뛸 수도 있습니다. 그렇다고 AI를 사용한 모든 숙제를 똑같이 잘못이라고 할 수도 없습니다. 중요한 것은 AI를 썼는지 여부만이 아니라, 누가 문제를 발견하고, 판단하고, 결정하고, 설명할 수 있는지를 살펴보는 일입니다.'
+  ];
+
+  /* ── 화면 흐름 ─────────────────────── */
+  const FLOW = [
+    {id:'s-start'},
+    {id:'s-read',   step:0, reread:true, tone:'read'},
+    {id:'s-check1', step:1, tone:'check'},
+    {id:'s-check2', step:1, tone:'check'},
+    {id:'s-choice', step:2, tone:'choice'},
+    {id:'s-reason', step:3, tone:'reason'},
+    {id:'s-apply',  step:4, tone:'apply'},
+    {id:'s-shift',  step:5, tone:'shift'},
+    {id:'s-other',  step:6, tone:'other'},
+    {id:'s-ask',    step:7, tone:'question'},
+    {id:'s-final',  step:8, next:'다 썼어요', tone:'final'},
+    {id:'s-done',   step:8, next:'제출하기', accent:true, tone:'final'},
+    {id:'s-saved',  tone:'final'}
+  ];
+  const STEPS = ['읽기','내용 확인','기준 선택','기준·이유','상황 적용','조건 변화','다른 관점','질문','내 생각'];
+  const STEP_TONE = ['read','check','choice','reason','apply','shift','other','question','final'];
+  const TONE = {
+    read:    {step:'#F3EFE1', acc:'#CDBE8A'},
+    check:   {step:'#E7EEF4', acc:'#9DB4C7'},
+    choice:  {step:'#E4EFE9', acc:'#84B2A3'},
+    reason:  {step:'#F4ECE3', acc:'#D6B79B'},
+    apply:   {step:'#ECE9F2', acc:'#ABA2C4'},
+    shift:   {step:'#E3EFEF', acc:'#8DBBB8'},
+    other:   {step:'#E9F0E4', acc:'#A6C097'},
+    question:{step:'#E5F1EB', acc:'#8FC3B0'},
+    final:   {step:'#E6EEE9', acc:'#5E9082'}
+  };
+  const DONE_INDEX  = FLOW.findIndex(f => f.id === 's-done');
+  const SAVED_INDEX = FLOW.findIndex(f => f.id === 's-saved');
+  const FINAL_INDEX = FLOW.findIndex(f => f.id === 's-final');
+
+  /* ── 문항 정의 (화면·PDF·JSON 공통 단일 소스) ─────── */
+  const Q5_STEM = '아래 행동을 보고 ‘해도 된다 · 조건이 필요하다 · 하면 안 된다’ 중 하나를 고른 뒤, 그렇게 생각한 이유를 써보세요.';
+  const QUESTIONS = [
+    {id:'2-1-jiwoo',  display_number:'2-1', subgroup:'지우', section:'글 내용 확인', screen:'s-check1', type:'pad',
+     question:'지우와 서준이 AI를 사용한 방법은 어떻게 달랐나요?'},
+    {id:'2-1-seojun', display_number:'2-1', subgroup:'서준', section:'글 내용 확인', screen:'s-check1', type:'pad',
+     question:'지우와 서준이 AI를 사용한 방법은 어떻게 달랐나요?'},
+    {id:'2-2',        display_number:'2-2', section:'글 내용 확인', screen:'s-check1', type:'pad',
+     question:'발표 시간에 지우와 서준의 모습은 어떻게 달랐나요?'},
+    {id:'2-3',        display_number:'2-3', section:'글 내용 확인', screen:'s-check2', type:'pad',
+     question:'이 글에서 말하는 가장 중요한 문제는 무엇인가요?'},
+    {id:'3',          display_number:'3',   section:'기준 고르기', screen:'s-choice', type:'choice',
+     question:'AI를 이용해 숙제할 때 가장 중요하다고 생각하는 기준은 무엇인가요? 하나만 골라보세요.'},
+    {id:'4',          display_number:'4',   section:'기준과 이유', screen:'s-reason', type:'pad', help_id:'reason',
+     question:'3번에서 고른 기준이 왜 중요하다고 생각하나요?'},
+    {id:'5-a',        display_number:'5', subgroup:'가', section:'상황 적용', screen:'s-apply', type:'apply',
+     scenario:'AI에게 모르는 개념을 설명해 달라고 한 뒤, 이해한 내용을 자신의 말로 정리했다.',
+     verdicts:['해도 된다','조건이 필요하다','하면 안 된다'], question:Q5_STEM},
+    {id:'5-b',        display_number:'5', subgroup:'나', section:'상황 적용', screen:'s-apply', type:'apply',
+     scenario:'AI가 만든 글을 거의 그대로 제출했지만, 발표 전 내용을 외워서 설명했다.',
+     verdicts:['해도 된다','조건이 필요하다','하면 안 된다'], question:Q5_STEM},
+    {id:'5-c',        display_number:'5', subgroup:'다', section:'상황 적용', screen:'s-apply', type:'apply',
+     scenario:'자신의 경험과 생각을 먼저 정한 뒤, AI에게 문장 순서와 맞춤법만 도움받았다.',
+     verdicts:['해도 된다','조건이 필요하다','하면 안 된다'], question:Q5_STEM},
+    {id:'6',          display_number:'6',   section:'조건 변화', screen:'s-shift', type:'pad',
+     question:'친구가 한국어가 익숙하지 않아 AI의 도움을 많이 받아야 한다면, 같은 기준을 그대로 적용해야 할까요? 내 생각과 이유를 써보세요.'},
+    {id:'7',          display_number:'7',   section:'다른 관점', screen:'s-other', type:'pad',
+     question:'‘숙제의 결과가 좋고 학생이 내용을 설명할 수 있다면, AI가 글을 많이 써도 괜찮다’고 말하는 사람은 어떤 이유를 들 수 있을까요?'},
+    {id:'8-1',        display_number:'8', subgroup:'질문 1', section:'궁금한 점 만들기', screen:'s-ask', type:'pad',
+     question:'이 글을 읽고 더 알아보거나 토론해 보고 싶은 질문을 2개 써보세요.'},
+    {id:'8-2',        display_number:'8', subgroup:'질문 2', section:'궁금한 점 만들기', screen:'s-ask', type:'pad',
+     question:'이 글을 읽고 더 알아보거나 토론해 보고 싶은 질문을 2개 써보세요.'},
+    {id:'9',          display_number:'9',   section:'내 생각 쓰기', screen:'s-final', type:'pad', help_id:'final',
+     question:'‘AI가 숙제를 도와줄 때 어디까지 허용해도 될까?’에 대한 내 생각을 4~6문장으로 써보세요. 내가 중요하게 생각하는 기준과 그 이유, 예외가 될 수 있는 상황을 함께 넣어보세요.'}
+  ];
+  const QMAP = {};
+  QUESTIONS.forEach(q => QMAP[q.id] = q);
+
+  /* 화면·PDF·JSON이 같은 문항 문구를 쓰도록, 화면 문구를 배열에서 주입 */
+  function syncQuestionText(){
+    $('#readTitle').textContent = PASSAGE_TITLE;
+    $('#sheetTitle').textContent = PASSAGE_TITLE;
+    $('#readBody').innerHTML = PASSAGE.map(p => `<p>${escapeHtml(p)}</p>`).join('');
+    $('#sheetBody').innerHTML = PASSAGE.map(p => `<p>${escapeHtml(p)}</p>`).join('');
+    $$('[data-q]').forEach(el => {
+      const q = QMAP[el.dataset.q];
+      if (q) el.textContent = q.question;
+    });
+  }
+
+  /* PDF 출력용 논리 그룹 (2-1, 5, 8은 하나의 질문 아래 묶어서 표시) */
+  const GROUPS = [];
+  QUESTIONS.forEach(q => {
+    const g = GROUPS.find(x => x.display_number === q.display_number);
+    if (g) g.items.push(q);
+    else GROUPS.push({display_number:q.display_number, section:q.section, question:q.question, items:[q]});
+  });
+
+  /* ── 상태 ──────────────────────────── */
+  let i = 0;
+  const CHOICE_IDS = ['3','5-a','5-b','5-c'];
+  const state = {
+    choices:{},                    // '3' + '5-a/b/c' 판단
+    otherText:'',                  // 문항 3의 '다른 기준이 있다'
+    helpUsed:{reason:false, final:false},
+    pads:{},                       // question_id -> {mode, strokes, text, h}
+    startedAt:null
+  };
+  CHOICE_IDS.forEach(id => state.choices[id] = null);
+  QUESTIONS.filter(q => q.type !== 'choice')
+    .forEach(q => state.pads[q.id] = {mode:'handwriting', strokes:[], text:'', h:150});
+
+  /* 진행 표시 */
+  const stepsEl = $('#steps');
+  STEPS.forEach((s) => {
+    const el = document.createElement('div');
+    el.className = 'step';
+    el.innerHTML = `<span class="dot"></span><span class="lbl">${s}</span><span class="bar"></span>`;
+    stepsEl.appendChild(el);
+  });
+
+  /* ══ 렌더 ═══════════════════════════ */
+  function render(){
+    const cur = FLOW[i];
+    $$('.screen').forEach(s => s.classList.toggle('on', s.id === cur.id));
+
+    const t = TONE[cur.tone || 'final'];
+    $('#app').style.setProperty('--step', t.step);
+    $('#app').style.setProperty('--acc', t.acc);
+
+    const chrome = i > 0 && cur.id !== 's-saved';
+    $('#rail').hidden = !chrome;
+    $('#nav').hidden = i === 0 || cur.id === 's-saved';
+
+    if (chrome && cur.step !== undefined){
+      $$('.step').forEach((el, n) => {
+        el.classList.toggle('now', n === cur.step);
+        el.classList.toggle('done', n < cur.step);
+        if (n === cur.step){
+          const tn = TONE[STEP_TONE[n]];
+          el.style.setProperty('--tone', tn.acc);
+          el.style.setProperty('--tone-soft', tn.step);
+        }
+      });
+      $('#count').textContent = `${cur.step + 1} / ${STEPS.length}  ·  ${STEPS[cur.step]}`;
+    }
+    $('#openSheet').style.visibility = (cur.id === 's-read') ? 'hidden' : 'visible';
+
+    $('#prev').hidden = (i <= 1);
+    $('#reread').hidden = !cur.reread;
+    $('#next').textContent = cur.next || '다음';
+    $('#next').className = 'btn ' + (cur.accent ? 'btn-accent' : 'btn-primary');
+    $('#next').disabled = false;
+    $('#savedTag').textContent = (i > 1 && i < DONE_INDEX) ? '답은 저장되어 있어요. 이전으로 돌아가 고쳐도 괜찮아요.' : '';
+
+    if (cur.id === 's-reason'){
+      const c = state.choices['3'];
+      const t2 = c === '다른 기준이 있다' && state.otherText
+        ? `다른 기준이 있다 — ${state.otherText}` : (c || '아직 고르지 않았어요');
+      $('#echoText').textContent = t2;
+    }
+    if (cur.id === 's-saved'){
+      const n = $('#f-name').value.trim();
+      $('#savedWho').textContent = n ? `${n} · 2단계` : '2단계';
+    }
+    window.scrollTo({top:0, behavior:'instant'});
+    setTimeout(sizeAll, 40);
+    save();
+  }
+
+  $('#begin').onclick = () => {
+    state.startedAt = state.startedAt || new Date().toISOString();
+    i = 1; render();
+  };
+  $('#next').onclick  = () => {
+    if (FLOW[i].id === 's-done'){ onSubmit(); return; }
+    if (i < FLOW.length - 1){ i++; render(); }
+  };
+  $('#prev').onclick  = () => { if (i > 1){ i--; render(); } };
+  $('#reread').onclick = () => window.scrollTo({top:0, behavior:'smooth'});
+
+  /* ── 읽은 글 보기 ─────────────────── */
+  $('#openSheet').onclick = () => $('#sheet').classList.add('on');
+  $$('#sheet [data-close]').forEach(b => b.onclick = () => $('#sheet').classList.remove('on'));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape'){ $('#sheet').classList.remove('on'); closeModal(); }
+  });
+
+  /* ── 디자인 시스템 ────────────────── */
+  $('#openDs').onclick  = () => $('#ds').classList.add('on');
+  $('#closeDs').onclick = () => $('#ds').classList.remove('on');
+
+  /* ── 선택·판단 카드 (문항 3, 5-a/b/c 공통) ── */
+  function wireChoices(){
+    $$('[data-cq]').forEach(group => {
+      const gid = group.dataset.cq;
+      const btns = [...group.querySelectorAll('[data-v]')];
+      btns.forEach(btn => {
+        btn.onclick = () => {
+          btns.forEach(b => b.setAttribute('aria-checked', 'false'));
+          btn.setAttribute('aria-checked', 'true');
+          state.choices[gid] = btn.dataset.v;
+          if (gid === '3'){
+            const open = !!btn.dataset.other;
+            if (!open) state.otherText = '';
+            $('#otherIn').classList.toggle('on', open);
+            $('#otherText').value = open ? state.otherText : '';
+            if (open) setTimeout(() => $('#otherText').focus(), 220);
+          }
+          save();
+        };
+      });
+    });
+  }
+  $('#otherText').oninput = e => { state.otherText = e.target.value.trim(); save(); };
+  function syncChoices(){
+    $$('[data-cq]').forEach(group => {
+      const gid = group.dataset.cq;
+      group.querySelectorAll('[data-v]').forEach(b => {
+        b.setAttribute('aria-checked', String(b.dataset.v === state.choices[gid]));
+      });
+    });
+    const open = state.choices['3'] === '다른 기준이 있다';
+    $('#otherIn').classList.toggle('on', open);
+    $('#otherText').value = state.otherText || '';
+  }
+
+  /* ── 도움 문장 ────────────────────── */
+  $$('.help-btn[data-help]').forEach(b => {
+    b.onclick = () => {
+      const body = document.getElementById(b.dataset.help);
+      const open = b.getAttribute('aria-expanded') === 'true';
+      b.setAttribute('aria-expanded', String(!open));
+      body.classList.toggle('on', !open);
+      if (!open){                                  // 펼친 사실만 기록 (베껴 썼는지는 판단하지 않음)
+        const which = b.dataset.help === 'h-reason' ? 'reason' : 'final';
+        state.helpUsed[which] = true;
+        save();
+      }
+    };
+  });
+
+  /* ══ 손글씨 입력 패드 ═══════════════ */
+  /* 좌표는 논리 좌표계(가로 1000 × data-h)로 저장 → 화면 크기와 무관하게 재현·재출력 */
+  const LW = 1000;
+  const pads = [];
+  const T = {
+    pen:'<svg viewBox="0 0 24 24"><path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="M14 6l3 3"/></svg>',
+    era:'<svg viewBox="0 0 24 24"><path d="M8 19h12"/><path d="M14 5l5 5-8 8H7l-3-3z"/></svg>',
+    undo:'<svg viewBox="0 0 24 24"><path d="M4 9h11a4 4 0 010 8h-6"/><path d="M8 5L4 9l4 4"/></svg>',
+    clear:'<svg viewBox="0 0 24 24"><path d="M5 7h14"/><path d="M8 7V5h8v2"/><path d="M7 7l1 12h8l1-12"/></svg>',
+    key:'<svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M7 10h.01M11 10h.01M15 10h.01M8 14h8"/></svg>'
+  };
+
+  function paint(ctx, strokes, kx, ky){
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    strokes.forEach(s => {
+      ctx.globalCompositeOperation = s.e ? 'destination-out' : 'source-over';
+      ctx.strokeStyle = '#20221F';
+      ctx.lineWidth = (s.e ? 22 : 2.4) * kx;
+      ctx.beginPath();
+      s.p.forEach((pt, n) => n ? ctx.lineTo(pt[0]*kx, pt[1]*ky) : ctx.moveTo(pt[0]*kx, pt[1]*ky));
+      if (s.p.length === 1) ctx.lineTo(s.p[0][0]*kx + .1, s.p[0][1]*ky + .1);
+      ctx.stroke();
+    });
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  function strokesToPNG(strokes, h, scale){
+    scale = scale || 2;
+    const ink = document.createElement('canvas');
+    ink.width = LW * scale; ink.height = h * scale;
+    paint(ink.getContext('2d'), strokes, scale, scale);
+
+    const out = document.createElement('canvas');
+    out.width = ink.width; out.height = ink.height;
+    const o = out.getContext('2d');
+    o.fillStyle = '#FFFFFF'; o.fillRect(0, 0, out.width, out.height);
+    o.drawImage(ink, 0, 0);
+    return out.toDataURL('image/png');
+  }
+
+  function buildPad(el){
+    const key = el.dataset.pad, h = +el.dataset.h, ph = el.dataset.ph || '';
+    const A = state.pads[key];
+    A.h = h;
+
+    const Q = QMAP[key] || {};
+    const aria = `문항 ${Q.display_number || ''} ${Q.subgroup || ''} ${Q.question || ''}`.replace(/\s+/g, ' ').trim();
+
+    el.innerHTML = `
+      <div class="pad-tools">
+        <button class="tool" data-t="pen" aria-pressed="true" aria-label="펜">${T.pen}<span>펜</span></button>
+        <button class="tool" data-t="era" aria-pressed="false" aria-label="지우개">${T.era}<span>지우개</span></button>
+        <button class="tool" data-t="undo" aria-label="되돌리기">${T.undo}<span>되돌리기</span></button>
+        <button class="tool" data-t="clear" aria-label="전체 지우기">${T.clear}<span>전체 지우기</span></button>
+        <button class="tool right" data-t="key" aria-pressed="false" aria-label="키보드로 쓰기">${T.key}<span>키보드</span></button>
+      </div>
+      <div class="canvas-wrap" style="height:${h}px">
+        <div class="rule"></div>
+        <canvas aria-label="${aria} — 손글씨 답안 영역"></canvas>
+        <div class="ph">${ph}</div>
+      </div>
+      <textarea rows="4" placeholder="${ph}" spellcheck="false" autocorrect="off" autocapitalize="off"
+        aria-label="${aria} — 키보드 답안 영역" style="min-height:${h}px"></textarea>`;
+
+    const cv = el.querySelector('canvas');
+    const ctx = cv.getContext('2d');
+    const phEl = el.querySelector('.ph');
+    const ta = el.querySelector('textarea');
+    let cur = null, erasing = false, drawing = false, penSeen = false;
+
+    ta.oninput = () => { A.text = ta.value; save(); };   // 원문 그대로 (자동 교정 없음)
+
+    function size(){
+      const w = cv.parentElement.clientWidth, dpr = Math.min(devicePixelRatio || 1, 2);
+      if (!w) return;
+      cv.width = w * dpr; cv.height = h * dpr; cv.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      redraw();
+    }
+    function redraw(){
+      const w = cv.clientWidth;
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      paint(ctx, A.strokes, w / LW, 1);
+      phEl.style.opacity = A.strokes.length ? 0 : 1;
+    }
+    const pos = e => {
+      const r = cv.getBoundingClientRect();
+      return [(e.clientX - r.left) / r.width * LW, (e.clientY - r.top) / r.height * h];
+    };
+
+    cv.addEventListener('pointerdown', e => {
+      if (e.pointerType === 'pen') penSeen = true;
+      if (e.pointerType === 'touch' && penSeen) return;                       // 펜 사용 중 손바닥·손가락 무시
+      if (e.pointerType === 'touch' && (e.width > 42 || e.height > 42)) return;
+      drawing = true; cv.setPointerCapture(e.pointerId);
+      cur = {e: erasing, p:[pos(e)]}; A.strokes.push(cur); el.classList.add('active'); redraw();
+    });
+    cv.addEventListener('pointermove', e => { if (drawing && cur){ cur.p.push(pos(e)); redraw(); } });
+    const end = () => {
+      if (!drawing) return;
+      drawing = false; cur = null; el.classList.remove('active'); save();
+    };
+    cv.addEventListener('pointerup', end);
+    cv.addEventListener('pointercancel', end);
+    cv.addEventListener('pointerleave', end);
+
+    el.querySelectorAll('.tool').forEach(b => b.onclick = () => {
+      const t = b.dataset.t;
+      if (t === 'pen' || t === 'era'){
+        erasing = (t === 'era');
+        el.querySelector('[data-t="pen"]').setAttribute('aria-pressed', String(!erasing));
+        el.querySelector('[data-t="era"]').setAttribute('aria-pressed', String(erasing));
+      }
+      if (t === 'undo'){ A.strokes.pop(); redraw(); save(); }
+      if (t === 'clear'){
+        if (el.classList.contains('keys')){ ta.value = ''; A.text = ''; }
+        else { A.strokes = []; redraw(); }
+        save();
+      }
+      if (t === 'key'){
+        const on = !el.classList.contains('keys');
+        setMode(on);
+        if (on) setTimeout(() => ta.focus(), 60); else setTimeout(size, 40);
+        save();
+      }
+    });
+
+    function setMode(on){
+      el.classList.toggle('keys', on);
+      const b = el.querySelector('[data-t="key"]');
+      b.setAttribute('aria-pressed', String(on));
+      b.querySelector('span').textContent = on ? '손글씨' : '키보드';
+      el.querySelectorAll('[data-t="pen"],[data-t="era"],[data-t="undo"]')
+        .forEach(x => x.style.display = on ? 'none' : '');
+      A.mode = on ? 'keyboard' : 'handwriting';
+    }
+
+    A.restore = () => { setMode(A.mode === 'keyboard'); ta.value = A.text || ''; size(); };
+    pads.push(size); size();
+  }
+  function sizeAll(){ pads.forEach(f => f()); }
+  syncQuestionText();
+  wireChoices();
+  $$('.pad[data-pad]').forEach(buildPad);
+  addEventListener('resize', () => setTimeout(sizeAll, 80));
+
+  /* ══ 임시 저장 ══════════════════════ */
+  let tSave = null;
+  function save(){
+    clearTimeout(tSave);
+    tSave = setTimeout(() => {
+      try{
+        const padsOut = {};
+        Object.keys(state.pads).forEach(k => {
+          const p = state.pads[k];
+          padsOut[k] = {mode:p.mode, strokes:p.strokes, text:p.text, h:p.h};
+        });
+        localStorage.setItem(STORE, JSON.stringify({
+          i, choices:state.choices, otherText:state.otherText, helpUsed:state.helpUsed,
+          pads:padsOut, startedAt:state.startedAt,
+          name:$('#f-name').value, grade:$('#f-grade').value, date:$('#f-date').value,
+          savedAt:new Date().toISOString()
+        }));
+      }catch(e){ /* 저장 실패해도 작성은 계속 */ }
+    }, 350);
+  }
+  function loadSaved(){
+    try{ return JSON.parse(localStorage.getItem(STORE) || 'null'); }catch(e){ return null; }
+  }
+  function applySaved(d){
+    $('#f-name').value = d.name || '';
+    $('#f-grade').value = d.grade || '';
+    $('#f-date').value = d.date || new Date().toISOString().slice(0,10);
+    state.choices = Object.assign({'3':null,'5-a':null,'5-b':null,'5-c':null}, d.choices || {});
+    state.otherText = d.otherText || '';
+    state.helpUsed = Object.assign({reason:false, final:false}, d.helpUsed || {});
+    state.startedAt = d.startedAt || new Date().toISOString();
+    Object.keys(d.pads || {}).forEach(k => {
+      if (!state.pads[k]) return;
+      const p = state.pads[k];
+      p.mode = d.pads[k].mode || 'handwriting';
+      p.strokes = d.pads[k].strokes || [];
+      p.text = d.pads[k].text || '';
+      if (p.restore) p.restore();
+    });
+    syncChoices();
+    $('#h-reason').classList.toggle('on', state.helpUsed.reason);
+    document.querySelector('[data-help="h-reason"]').setAttribute('aria-expanded', String(state.helpUsed.reason));
+    $('#h-final').classList.toggle('on', state.helpUsed.final);
+    document.querySelector('[data-help="h-final"]').setAttribute('aria-expanded', String(state.helpUsed.final));
+    i = Math.min(Math.max(d.i || 1, 1), DONE_INDEX);
+    render();
+  }
+  function clearSaved(){ try{ localStorage.removeItem(STORE); }catch(e){} }
+
+  /* ══ 모달 ═══════════════════════════ */
+  function modal(title, bodyHTML, actions){
+    $('#mTitle').textContent = title;
+    $('#mBody').innerHTML = bodyHTML;
+    const acts = $('#mActs'); acts.innerHTML = '';
+    actions.forEach(a => {
+      const b = document.createElement('button');
+      b.className = 'btn ' + (a.accent ? 'btn-accent' : a.primary ? 'btn-primary' : 'btn-quiet');
+      b.textContent = a.label;
+      b.onclick = () => { closeModal(); a.onClick && a.onClick(); };
+      acts.appendChild(b);
+    });
+    $('#scrim').classList.add('on');
+    setTimeout(() => acts.querySelector('button') && acts.querySelector('button').focus(), 60);
+  }
+  function closeModal(){ $('#scrim').classList.remove('on'); }
+
+  /* ══ 답변 수집 ══════════════════════ */
+  function padBlank(q){
+    const p = state.pads[q.id];
+    return p.mode === 'keyboard' ? !p.text.trim() : p.strokes.length === 0;
+  }
+  function isBlank(q){
+    if (q.type === 'choice'){
+      const v = state.choices[q.id];
+      if (!v) return true;
+      if (q.id === '3' && v === '다른 기준이 있다' && !state.otherText.trim()) return true;
+      return false;
+    }
+    if (q.type === 'apply'){
+      return !state.choices[q.id] || padBlank(q);      // 판단·이유 둘 다 있어야 완료 (하나라도 빠지면 blank)
+    }
+    return padBlank(q);
+  }
+
+  function buildData(){
+    const now = new Date();
+    const answers = QUESTIONS.map(q => {                 // 빈 답도 절대 제외하지 않음
+      const blank = isBlank(q);
+      const base = {
+        question_id: q.id,
+        display_number: q.display_number,
+        subgroup: q.subgroup || null,
+        section: q.section,
+        question: q.question,
+        item_type: q.type,
+        scenario: q.scenario || null,
+        input_type: q.type === 'choice' ? 'choice' : state.pads[q.id] ? state.pads[q.id].mode : null,
+        selected_answer: null,
+        verdict: null,
+        other_answer: null,
+        text_answer: '',
+        original_text: '',
+        handwriting_image: '',
+        recognized_text: '',
+        recognition_status: 'not_processed',
+        recognition_confidence: null,
+        help_used: q.help_id ? !!state.helpUsed[q.help_id] : false,
+        response_status: blank ? 'blank' : 'completed'
+      };
+      if (q.type === 'choice'){
+        base.selected_answer = state.choices[q.id] || '';
+        base.other_answer = state.choices[q.id] === '다른 기준이 있다' ? state.otherText : null;
+        base.recognition_status = 'not_applicable';
+      } else if (q.type === 'apply'){
+        base.verdict = state.choices[q.id] || '';
+        const p = state.pads[q.id];
+        if (p.mode === 'keyboard'){
+          base.text_answer = p.text; base.original_text = p.text;
+          base.recognition_status = 'not_applicable';
+        } else if (p.strokes.length){
+          base.handwriting_image = strokesToPNG(p.strokes, p.h, 2);
+        }
+      } else {
+        const p = state.pads[q.id];
+        if (p.mode === 'keyboard'){
+          base.text_answer = p.text;          // 원문 그대로 (자동 교정 없음)
+          base.original_text = p.text;
+          base.recognition_status = 'not_applicable';
+        } else if (p.strokes.length){
+          base.handwriting_image = strokesToPNG(p.strokes, p.h, 2);
+        }
+      }
+      return base;
+    });
+
+    return {
+      test:{
+        title:'JIPYO Thinking Check', stage:STAGE, version:VERSION,
+        domains:['사실 파악','핵심 문제 파악','사례 비교','기준 선택','이유의 구체성','기준 적용','조건 변화 추론','다른 관점 이해','질문 생성','구조화된 표현'],
+        passage_title:PASSAGE_TITLE
+      },
+      student:{
+        name: $('#f-name').value.trim(),
+        grade: $('#f-grade').value.trim(),
+        date: $('#f-date').value,
+        started_at: state.startedAt || '',
+        completed_at: now.toISOString()
+      },
+      environment:{ user_agent: navigator.userAgent },
+      answers,
+      summary:{
+        total: answers.length,
+        completed: answers.filter(a => a.response_status === 'completed').length,
+        blank: answers.filter(a => a.response_status === 'blank').length,
+        help_used: {reason: !!state.helpUsed.reason, final: !!state.helpUsed.final}
+      },
+      submission:{
+        submitted:true, submitted_at: now.toISOString(),
+        pdf_filename: fileName('pdf'), json_filename: fileName('json')
+      }
+    };
+  }
+
+  /* ── 파일명 ── */
+  function today(){ return new Date().toISOString().slice(0,10); }
+  function fileName(ext){
+    const n = ($('#f-name').value || '').replace(/[\\/:*?"<>|.\s]+/g, '') || '이름없음';
+    const d = $('#f-date').value || today();
+    return `${n}_JIPYO_Thinking_Check_2단계_${d}.${ext}`;
+  }
+
+  /* ══ 결과지(PDF) ════════════════════ */
+  const LABEL = {handwriting:'손글씨', keyboard:'키보드', choice:'선택형'};
+  function escapeHtml(s){ return String(s == null ? '' : s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+  const esc = escapeHtml;
+
+  function buildReport(data){
+    const p2 = n => String(n).padStart(2,'0');
+    const fmt = iso => {
+      if (!iso) return '-';
+      const x = new Date(iso);
+      return `${x.getFullYear()}-${p2(x.getMonth()+1)}-${p2(x.getDate())} ${p2(x.getHours())}:${p2(x.getMinutes())}`;
+    };
+    const byId = {};
+    data.answers.forEach(a => byId[a.question_id] = a);
+
+    let html = `
+      <div class="rp-head">
+        <h1>JIPYO Thinking Check</h1>
+        <div class="stg">2단계</div>
+        <div class="dom">읽기 · 이해 · 비교 · 기준 · 적용 · 질문 · 표현</div>
+      </div>
+      <table class="rp-meta">
+        <tr><th>이름</th><td>${esc(data.student.name || '미입력')}</td><th>학년</th><td>${esc(data.student.grade || '미입력')}</td></tr>
+        <tr><th>작성 날짜</th><td>${esc(data.student.date || '-')}</td><th>진단 버전</th><td>JIPYO Thinking Check v${VERSION}</td></tr>
+        <tr><th>작성 시작</th><td>${fmt(data.student.started_at)}</td><th>제출 완료</th><td>${fmt(data.submission.submitted_at)}</td></tr>
+        <tr><th>응답 현황</th><td>작성 ${data.summary.completed} · 미작성 ${data.summary.blank} (전체 ${data.summary.total})</td>
+            <th>도움 문장</th><td>이유: ${data.summary.help_used.reason ? '펼침' : '사용 안 함'} · 최종: ${data.summary.help_used.final ? '펼침' : '사용 안 함'}</td></tr>
+      </table>
+      <div class="rp-item">
+        <div class="rp-q"><div class="rp-id">1. 읽은 글 · ${esc(data.test.passage_title)}</div></div>
+        <div class="rp-b" style="font-size:9pt;line-height:1.55">${PASSAGE.map(p => `<p style="margin-bottom:4px">${esc(p)}</p>`).join('')}</div>
+      </div>`;
+
+    /* 모든 그룹을 조건 없이 순회 — 빈 답이어도 문항 카드를 생략하지 않는다 */
+    GROUPS.forEach(g => {
+      const rows = g.items.map(q => {
+        const a = byId[q.id];
+        const blank = a.response_status === 'blank';
+
+        if (q.type === 'apply'){
+          const head = `<div class="rp-sub">${esc(q.subgroup)}. ${esc(q.scenario)}</div>`;
+          const verdict = a.verdict ? esc(a.verdict) : '선택 없음';
+          const meta = `<div class="rp-f">선택한 판단: ${verdict} · 이유 입력: ${LABEL[a.input_type] || a.input_type} · 응답 상태: ${blank ? '응답 없음' : '작성 완료'}</div>`;
+          let body;
+          if (a.input_type === 'keyboard'){
+            body = a.original_text.trim() ? `<div class="rp-a">${esc(a.original_text)}</div>` : `<div class="rp-a blank">이유 없음</div>`;
+          } else if (a.handwriting_image){
+            body = `<div class="rp-a blank">텍스트 전사: 전사하지 않음 (손글씨 OCR 미연결)</div>
+                    <div class="rp-hw"><img src="${a.handwriting_image}" alt="문항 ${esc(a.question_id)} 이유 손글씨 원본"></div>
+                    <div class="rp-trans">답변 전사 (교사 기입):</div>`;
+          } else {
+            body = `<div class="rp-a blank">이유 없음 (손글씨 획 없음)</div>`;
+          }
+          return `<div class="rp-row">${head}${meta}${body}</div>`;
+        }
+
+        const head = q.subgroup ? `<div class="rp-sub">${esc(q.subgroup)}</div>` : '';
+        const meta = `<div class="rp-f">입력 방식: ${LABEL[a.input_type] || a.input_type} · 도움 문장 열람: ${a.help_used ? '예' : '아니오'} · 응답 상태: ${blank ? '응답 없음' : '작성 완료'}</div>`;
+        let body;
+        if (a.input_type === 'choice'){
+          body = blank
+            ? `<div class="rp-a blank">응답 없음</div>`
+            : `<div class="rp-a">선택한 답: ${esc(a.selected_answer)}${a.other_answer ? `\n추가 입력: ${esc(a.other_answer)}` : ''}</div>`;
+        } else if (a.input_type === 'keyboard'){
+          body = blank
+            ? `<div class="rp-a blank">응답 없음</div>`
+            : `<div class="rp-a">${esc(a.original_text)}</div>`;
+        } else {
+          body = blank
+            ? `<div class="rp-a blank">응답 없음 (손글씨 획 없음)</div>`
+            : `<div class="rp-a blank">텍스트 전사: 전사하지 않음 (손글씨 OCR 미연결)</div>
+               <div class="rp-hw"><img src="${a.handwriting_image}" alt="문항 ${esc(a.question_id)} 손글씨 원본"></div>
+               <div class="rp-trans">답변 전사 (교사 기입):</div>`;
+        }
+        return `<div class="rp-row">${head}${meta}${body}</div>`;
+      }).join('');
+
+      html += `
+        <div class="rp-item">
+          <div class="rp-q">
+            <div class="rp-id">문항 ${esc(g.display_number)} · ${esc(g.section)}</div>
+            <div class="rp-qt">${esc(g.question)}</div>
+          </div>
+          <div class="rp-b">${rows}</div>
+        </div>`;
+    });
+
+    html += `<div class="rp-foot">
+      이 결과지는 채점표가 아니라, 두 사례를 비교하고 기준을 세워 적용하며 질문하고 표현하는 현재 사고 경로를 관찰하기 위한 원자료입니다.<br>
+      손글씨 문항은 원본 이미지로 보존하며, 인식된 텍스트가 없는 경우 임의로 추측하지 않습니다 (recognition_status: not_processed).
+    </div>`;
+    $('#report').innerHTML = html;
+  }
+
+  async function makePDF(data){
+    buildReport(data);
+    const rp = $('#report');
+    if (!rp.querySelector('.rp-item')) throw new Error('결과지 생성 실패');
+
+    /* 폰트 + 손글씨 이미지 로딩이 끝난 뒤에 인쇄 (문항 잘림·이미지 누락 방지) */
+    if (document.fonts && document.fonts.ready) { try{ await document.fonts.ready; }catch(e){} }
+    const imgs = [...rp.querySelectorAll('img')];
+    await Promise.all(imgs.map(im => im.complete ? Promise.resolve()
+      : new Promise(r => { im.onload = im.onerror = r; })));
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+    const before = document.title;
+    document.title = fileName('pdf').replace(/\.pdf$/, '');   // 저장 대화상자 기본 파일명
+    const restore = () => { document.title = before; removeEventListener('afterprint', restore); };
+    addEventListener('afterprint', restore);
+    try{ window.print(); }
+    catch(err){ restore(); throw err; }
+  }
+
+  /* ── 다운로드 ── */
+  function download(name, blob){
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+  }
+  function downloadJSON(data){
+    download(fileName('json'), new Blob([JSON.stringify(data, null, 2)], {type:'application/json'}));
+  }
+
+  /* ══ 제출 흐름 ══════════════════════ */
+  let busy = false, lastData = null;
+
+  function onSubmit(){
+    if (busy) return;
+    const missing = QUESTIONS.filter(isBlank);
+    if (missing.length){
+      modal('아직 작성하지 않은 문항이 있습니다.',
+        `<p>그대로 제출하거나, 다시 돌아가 작성할 수 있습니다.</p>
+         <div class="miss">${missing.map(q => `· 문항 ${q.display_number}${q.subgroup ? ' (' + q.subgroup + ')' : ''} — ${q.section}`).join('<br>')}</div>`,
+        [
+          {label:'돌아가서 확인하기', onClick:() => {
+            const idx = FLOW.findIndex(f => f.id === missing[0].screen);
+            if (idx > 0){ i = idx; render(); }
+          }},
+          {label:'빈 답을 포함해 제출하기', primary:true, onClick:confirmSubmit}
+        ]);
+    } else {
+      confirmSubmit();
+    }
+  }
+
+  function confirmSubmit(){
+    modal('작성한 내용을 제출할까요?',
+      `<p>제출하기 전에 이전 화면으로 돌아가 답을 다시 확인할 수 있습니다.</p>`,
+      [
+        {label:'다시 확인하기', onClick:() => { i = FINAL_INDEX; render(); }},
+        {label:'제출하고 결과지 저장하기', accent:true, onClick:runSubmit}
+      ]);
+  }
+
+  async function runSubmit(){
+    if (busy) return;
+    busy = true;
+    const btn = $('#next');
+    btn.disabled = true; btn.textContent = '생각을 정리하고 있어요.';
+    $('#doneStatus').textContent = '';
+    try{
+      lastData = buildData();
+      downloadJSON(lastData);                       // 데이터를 먼저 안전하게 저장
+      await makePDF(lastData);
+      clearSaved();
+      i = SAVED_INDEX;
+      render();
+      $('#savedStatus').textContent = '인쇄 창에서 ‘PDF로 저장’을 선택하면 결과지 파일이 만들어집니다.';
+    }catch(err){
+      btn.disabled = false; btn.textContent = '제출하기';
+      modal('PDF를 만드는 중 문제가 발생했습니다.',
+        `<p>작성 내용은 화면에 남아 있습니다.<br>다시 시도해주세요.</p>`,
+        [
+          {label:'데이터만 저장하기', onClick:() => { try{ downloadJSON(lastData || buildData()); }catch(e){} }},
+          {label:'다시 시도하기', primary:true, onClick:runSubmit}
+        ]);
+    }finally{
+      busy = false;
+    }
+  }
+
+  /* ── 교사용 결과 저장 ── */
+  $('#dlPdf').onclick = async () => {
+    $('#savedStatus').textContent = '';
+    try{ await makePDF(lastData || buildData()); }
+    catch(e){ $('#savedStatus').textContent = 'PDF를 만들지 못했습니다. 다시 시도해주세요.'; }
+  };
+  $('#dlJson').onclick = () => {
+    downloadJSON(lastData || buildData());
+    $('#savedStatus').textContent = '데이터 파일을 저장했습니다.';
+  };
+  $('#finish').onclick = () => {
+    modal('활동을 마칠까요?', `<p>화면이 처음으로 돌아갑니다. 임시 저장된 내용은 지워집니다.</p>`, [
+      {label:'취소'},
+      {label:'완료하기', primary:true, onClick:() => { clearSaved(); location.reload(); }}
+    ]);
+  };
+
+  /* 새로고침 경고 */
+  addEventListener('beforeunload', e => {
+    if (i > 0 && i < SAVED_INDEX && !busy){ e.preventDefault(); e.returnValue = ''; }
+  });
+
+  /* ── 시작 ─────────────────────────── */
+  $('#f-date').value = today();
+  const saved = loadSaved();
+  if (saved && saved.i > 0){
+    render();
+    modal('작성 중이던 내용이 있습니다.', `<p>이어서 작성할까요?</p>`, [
+      {label:'처음부터 시작하기', onClick:() => {
+        modal('처음부터 시작할까요?', `<p>지금까지 작성한 내용은 모두 지워집니다. 되돌릴 수 없습니다.</p>`, [
+          {label:'취소', onClick:() => applySaved(saved)},
+          {label:'지우고 시작하기', primary:true, onClick:() => { clearSaved(); i = 0; render(); }}
+        ]);
+      }},
+      {label:'이어서 작성하기', primary:true, onClick:() => applySaved(saved)}
+    ]);
+  } else {
+    render();
+  }
+})();
+</script>
