@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>우리 아이의 생각을 만나는 시간 | JIPYO Thinking Check</title>
+  <meta name="description" content="같은 질문에도 아이들의 생각은 다릅니다. 지표 Thinking Check로 우리 아이의 생각 과정을 만나보세요." />
+  <style>
+    :root{
+      --navy:#0d1830;
+      --navy2:#162844;
+      --ink:#17233b;
+      --ivory:#fbf7ef;
+      --paper:#fffdf8;
+      --gold:#d1a74e;
+      --gold-soft:#ead69d;
+      --orange:#f2762e;
+      --orange2:#da5e20;
+      --muted:#717988;
+      --line:rgba(13,24,48,.12);
+      --shadow:0 24px 70px rgba(13,24,48,.14);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:#e8e0d1;
+      color:var(--ink);
+      word-break:keep-all;
+      overflow-x:hidden;
+    }
+    button,input,select,textarea{font:inherit}
+    .page{
+      width:min(100%,900px);
+      margin:0 auto;
+      background:var(--ivory);
+      box-shadow:0 0 80px rgba(13,24,48,.18);
+      overflow:hidden;
+    }
+    section{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:78px 24px;
+      position:relative;
+    }
+    .inner{width:min(100%,760px);margin:0 auto;position:relative;z-index:2}
+    .center{text-align:center}
+    .fade{
+      opacity:0;
+      transform:translateY(34px);
+      transition:opacity .85s ease,transform .85s ease;
+    }
+    .fade.show{opacity:1;transform:none}
+    .eyebrow{
+      color:var(--gold);
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.16em;
+      margin-bottom:16px;
+    }
+    .title{
+      margin:0;
+      color:var(--navy);
+      font-size:clamp(38px,7.2vw,68px);
+      line-height:1.12;
+      letter-spacing:-.025em;
+      font-weight:800;
+      letter-spacing:-0.02em;
+    }
+    .lead{
+      margin:24px auto 0;
+      color:var(--muted);
+      font-size:18px;
+      line-height:1.8;
+      max-width:650px;
+    }
+
+    /* Scene 1 */
+    .hero{
+      color:white;
+      background:
+        radial-gradient(circle at 80% 10%,rgba(209,167,78,.25),transparent 28%),
+        radial-gradient(circle at 5% 80%,rgba(242,118,46,.18),transparent 32%),
+        linear-gradient(145deg,var(--navy),var(--navy2));
+      overflow:hidden;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      width:480px;height:480px;border-radius:50%;
+      border:1px solid rgba(255,255,255,.08);
+      right:-180px;bottom:-220px;
+    }
+    .hero .title{color:white}
+    .hero .title span{color:var(--gold-soft)}
+    .hero .lead{color:rgba(255,255,255,.74)}
+    .question-mark{
+      position:absolute;
+      font-size:clamp(180px,34vw,380px);
+      color:rgba(255,255,255,.035);
+      font-weight:800;
+      right:2%;top:4%;
+      line-height:1;
+    }
+    .scroll{
+      margin-top:42px;
+      color:var(--gold-soft);
+      font-size:12px;
+      letter-spacing:.16em;
+      font-weight:900;
+    }
+
+    /* Scene 2 */
+    .question-scene{background:#fffdf8}
+    .question-card{
+      margin-top:34px;
+      border-radius:30px;
+      background:white;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      padding:32px 26px;
+    }
+    .question{
+      margin:0;
+      font-size:clamp(27px,5.2vw,44px);
+      line-height:1.34;
+      letter-spacing:-.035em;
+      color:var(--navy);
+      font-weight:800;
+    }
+    .answers{
+      display:grid;
+      gap:14px;
+      margin-top:26px;
+    }
+    .answer{
+      text-align:left;
+      padding:20px;
+      border-radius:20px;
+      background:#f8f3e9;
+      border:1px solid rgba(13,24,48,.08);
+      transition:.25s ease;
+    }
+    .answer:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(13,24,48,.08)}
+    .answer strong{
+      display:block;
+      color:var(--orange);
+      margin-bottom:6px;
+      font-size:14px;
+    }
+    .answer p{
+      margin:0;
+      color:var(--ink);
+      line-height:1.7;
+      font-size:15px;
+    }
+
+    /* Scene 3 */
+    .why{
+      background:linear-gradient(180deg,#fff,#f6efe3);
+    }
+    .why-word{
+      font-size:clamp(72px,16vw,190px);
+      line-height:.96;
+      font-weight:800;
+      letter-spacing:-.05em;
+      color:var(--navy);
+    }
+    .why-word span{color:var(--orange)}
+    .why-note{
+      margin-top:30px;
+      font-size:20px;
+      line-height:1.7;
+      color:var(--muted);
+    }
+
+    /* Scene 4 */
+    .cooking{
+      background:linear-gradient(180deg,#0e1a34,#142846);
+      color:white;
+    }
+    .cooking .title{color:white}
+    .cooking .lead{color:rgba(255,255,255,.7)}
+    .cook-grid{
+      margin-top:36px;
+      display:grid;
+      gap:16px;
+    }
+    .cook-step{
+      display:grid;
+      grid-template-columns:66px 1fr;
+      gap:16px;
+      align-items:start;
+      padding:22px;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.1);
+      background:rgba(255,255,255,.05);
+    }
+    .cook-step .num{
+      width:52px;height:52px;
+      border-radius:18px;
+      display:grid;place-items:center;
+      color:var(--gold-soft);
+      background:rgba(209,167,78,.14);
+      font-weight:800;
+      font-size:18px;
+    }
+    .cook-step h3{margin:0;font-size:22px;letter-spacing:-.045em}
+    .cook-step p{margin:7px 0 0;color:rgba(255,255,255,.68);font-size:14.5px;line-height:1.7}
+    .cook-step.focus{
+      background:linear-gradient(145deg,var(--orange),var(--orange2));
+      border:none;
+      box-shadow:0 24px 55px rgba(242,118,46,.28);
+      transform:scale(1.02);
+    }
+    .cook-step.focus .num{background:rgba(255,255,255,.18);color:white}
+    .cook-step.focus p{color:rgba(255,255,255,.9)}
+
+    /* Scene 5 */
+    .thinking-check{background:#fffdf8}
+    .definition{
+      margin-top:34px;
+      padding:30px 26px;
+      border-radius:28px;
+      background:linear-gradient(135deg,#fffdf8,#f1e3bf);
+      border:1px solid rgba(209,167,78,.38);
+      box-shadow:var(--shadow);
+    }
+    .definition strong{
+      display:block;
+      font-size:clamp(28px,5vw,42px);
+      line-height:1.35;
+      letter-spacing:-.035em;
+      color:var(--navy);
+    }
+    .definition p{
+      margin:14px 0 0;
+      color:var(--muted);
+      font-size:16px;
+      line-height:1.8;
+    }
+    .observe-grid{
+      margin-top:28px;
+      display:grid;
+      gap:14px;
+    }
+    .observe{
+      padding:20px;
+      border-radius:20px;
+      background:white;
+      border:1px solid var(--line);
+      box-shadow:0 12px 28px rgba(13,24,48,.08);
+      text-align:left;
+    }
+    .observe h3{margin:0;color:var(--navy);font-size:19px}
+    .observe p{margin:7px 0 0;color:var(--muted);font-size:14px;line-height:1.7}
+
+    /* Booking */
+    .booking{
+      background:
+        radial-gradient(circle at 86% 14%,rgba(209,167,78,.25),transparent 30%),
+        linear-gradient(145deg,#0d1830,#182945);
+      color:white;
+    }
+    .booking .title{color:white}
+    .booking .lead{color:rgba(255,255,255,.72)}
+    .form{
+      margin-top:32px;
+      padding:26px;
+      border-radius:28px;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.12);
+      text-align:left;
+    }
+    .field{margin-bottom:16px}
+    label{
+      display:block;
+      margin-bottom:7px;
+      color:rgba(255,255,255,.82);
+      font-size:13px;
+      font-weight:800;
+    }
+    input,select,textarea{
+      width:100%;
+      border:none;
+      outline:none;
+      border-radius:14px;
+      padding:14px 15px;
+      background:rgba(255,255,255,.95);
+      color:#111827;
+    }
+    textarea{min-height:110px;resize:vertical}
+    .grid2{display:grid;gap:14px}
+    .submit{
+      width:100%;
+      min-height:58px;
+      border:none;
+      border-radius:999px;
+      background:var(--gold);
+      color:#111827;
+      font-size:20px;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:0 18px 38px rgba(209,167,78,.25);
+      margin-top:8px;
+    }
+    .submit:hover{filter:brightness(1.05)}
+    .form-note{
+      margin-top:12px;
+      color:rgba(255,255,255,.56);
+      font-size:12px;
+      line-height:1.7;
+      text-align:center;
+    }
+    .success{
+      display:none;
+      margin-top:18px;
+      padding:18px;
+      border-radius:16px;
+      background:rgba(63,185,80,.14);
+      border:1px solid rgba(63,185,80,.35);
+      color:#d8ffe1;
+      text-align:center;
+      font-weight:800;
+    }
+    .footer{
+      background:#09111f;
+      text-align:center;
+      padding:46px 20px 28px;
+    }
+    .cal-signature .brand{
+      font-size:18px;
+      font-weight:700;
+      color:#ffffff;
+      letter-spacing:.03em;
+      margin-bottom:14px;
+    }
+    .cal-signature .designed{
+      font-size:10px;
+      font-weight:500;
+      color:rgba(255,255,255,.48);
+      line-height:1.2;
+      letter-spacing:.08em;
+      margin-bottom:2px;
+    }
+    .cal-signature .copyright{
+      font-size:10px;
+      font-weight:400;
+      color:rgba(255,255,255,.40);
+      line-height:1.2;
+      letter-spacing:.05em;
+    }
+
+    
+    .thumbnail-grid{
+      margin-top:32px;
+      display:grid;
+      gap:16px;
+    }
+    .thumb-card,.work-card{margin:0}
+    .thumb-card figcaption,.work-card figcaption{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:13px;
+      font-weight:800;
+      text-align:center;
+    }
+    .thumb-placeholder{
+      aspect-ratio:16/9;
+      border-radius:22px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      font-weight:800;
+      font-size:24px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .thumb-placeholder small{
+      margin-top:8px;
+      font-size:12px;
+      opacity:.75;
+      font-weight:700;
+    }
+    .stage1{background:linear-gradient(145deg,#c79a3e,#9e7427)}
+    .stage2{background:linear-gradient(145deg,#286a5d,#14493f)}
+    .stage3{background:linear-gradient(145deg,#293c70,#18264d)}
+    .gallery-kicker{margin-top:64px}
+    .gallery-title{
+      margin:0;
+      color:var(--navy);
+      font-size:clamp(28px,5vw,42px);
+      line-height:1.25;
+      letter-spacing:-.035em;
+      font-weight:800;
+    }
+    .gallery-copy{
+      margin-top:14px;
+      color:var(--muted);
+      font-size:16px;
+      line-height:1.8;
+    }
+    .work-grid{
+      margin-top:28px;
+      display:grid;
+      gap:16px;
+    }
+    .work-placeholder{
+      aspect-ratio:4/3;
+      border-radius:20px;
+      display:grid;
+      place-items:center;
+      background:
+        linear-gradient(135deg,rgba(255,255,255,.92),rgba(242,236,223,.92)),
+        #eee;
+      border:1px dashed rgba(13,24,48,.2);
+      color:var(--muted);
+      font-weight:850;
+      box-shadow:0 12px 28px rgba(13,24,48,.08);
+    }
+    .booking-button-wrap{
+      margin-top:32px;
+      padding:26px 22px;
+      border-radius:28px;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .booking-link{
+      display:flex;
+      text-decoration:none;
+      min-height:68px;
+      align-items:center;
+      justify-content:center;
+      border-radius:999px;
+      background:var(--gold);
+      color:#111827;
+      font-size:17px;
+      font-weight:800;
+      box-shadow:0 18px 38px rgba(209,167,78,.25);
+    }
+    .booking-note{
+      margin:12px 0 0;
+      color:rgba(255,255,255,.62);
+      font-size:12.5px;
+      line-height:1.7;
+    }
+
+
+    @media(max-width:560px){
+      section{padding:68px 20px;}
+      .title{
+        font-size:clamp(36px,10vw,50px);
+        line-height:1.16;
+        letter-spacing:-.035em;
+      }
+      .question{
+        font-size:clamp(26px,7.6vw,36px);
+        line-height:1.38;
+        letter-spacing:-.025em;
+      }
+      .why-word{
+        font-size:clamp(68px,19vw,118px);
+        line-height:1.02;
+        letter-spacing:-.04em;
+      }
+      .why-note{
+        font-size:17px;
+        line-height:1.85;
+      }
+      .lead{
+        font-size:16px;
+        line-height:1.85;
+      }
+      .gallery-title{
+        font-size:30px;
+        line-height:1.32;
+      }
+      .booking-button-wrap{
+        padding:18px 14px;
+      }
+      .booking-link{
+        min-height:58px;
+        font-size:18px;
+        font-weight:800;
+      }
+    }
+
+@media(min-width:720px){
+      .answers{grid-template-columns:repeat(3,1fr)}
+      .observe-grid{grid-template-columns:repeat(2,1fr)}
+      .thumbnail-grid{grid-template-columns:repeat(3,1fr)}
+      .work-grid{grid-template-columns:repeat(3,1fr)}
+      .grid2{grid-template-columns:1fr 1fr}
+      section{padding:92px 38px}
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+
+    <section class="hero">
+      <div class="question-mark">?</div>
+      <div class="inner center">
+        <div class="eyebrow fade">JIPYO THINKING CHECK</div>
+        <h1 class="title fade">우리 아이는<br /><span>어떻게 생각하고</span><br />있을까요?</h1>
+        <p class="lead fade">생각의 결과보다, 생각의 과정을 만나는 시간입니다.</p>
+        <div class="scroll fade">SCROLL TO DISCOVER ↓</div>
+      </div>
+    </section>
+
+    <section class="question-scene">
+      <div class="inner center">
+        <div class="eyebrow fade">SAME QUESTION, DIFFERENT THOUGHTS</div>
+        <h2 class="title fade">같은 질문.<br />전혀 다른 생각.</h2>
+        <p class="lead fade">아이들의 답을 잠깐 살펴보세요.</p>
+
+        <div class="question-card fade">
+          <p class="question">숙제를 AI에게 맡기는 것은 괜찮을까요?</p>
+
+          <div class="answers">
+            <div class="answer">
+              <strong>아이 A</strong>
+              <p>안 돼요. 숙제는 내가 해야 실력이 늘기 때문이에요.</p>
+            </div>
+            <div class="answer">
+              <strong>아이 B</strong>
+              <p>조금은 괜찮아요. 모르는 것을 물어보는 건 도움을 받는 거니까요.</p>
+            </div>
+            <div class="answer">
+              <strong>아이 C</strong>
+              <p>어떻게 쓰느냐에 따라 달라요. 베끼는 것과 참고하는 것은 다르니까요.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="why">
+      <div class="inner center">
+        <div class="why-word fade">왜<br /><span>다를까요?</span></div>
+        <div class="why-note fade">
+          같은 정보를 보고도 아이마다<br />
+          이해하고, 구분하고, 연결하고, 표현하는 방식이 다르기 때문입니다.
+        </div>
+      </div>
+    </section>
+
+    <section class="cooking">
+      <div class="inner">
+        <div class="eyebrow fade">THINKING IS COOKING</div>
+        <h2 class="title fade">생각도<br />요리와 같습니다.</h2>
+        <p class="lead fade">
+          재료만으로 요리가 완성되지는 않습니다.<br />
+          생각도 손질하고 조리하는 과정이 필요합니다.
+        </p>
+
+        <div class="cook-grid">
+          <div class="cook-step fade">
+            <div class="num">01</div>
+            <div>
+              <h3>재료를 만난다</h3>
+              <p>책, 신문, 시사 이슈와 경험을 통해 세상을 만납니다.</p>
+            </div>
+          </div>
+
+          <div class="cook-step focus fade">
+            <div class="num">02</div>
+            <div>
+              <h3>생각을 손질한다</h3>
+              <p>읽고, <strong>사실·의견·주장을 구분</strong>하고 질문합니다.<br />
+              서로 다른 <strong>관점을 이해하고 연결</strong>해 생각을 확장하고,
+              자기만의 기준을 세우는 <strong>생각의 구조</strong>를 만듭니다.</p>
+            </div>
+          </div>
+
+          <div class="cook-step fade">
+            <div class="num">03</div>
+            <div>
+              <h3>자기언어로 완성한다</h3>
+              <p>글, 말, 토론, 발표와 보고서로 생각을 표현합니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="thinking-check">
+      <div class="inner">
+        <div class="eyebrow fade">WHAT IS THINKING CHECK?</div>
+        <h2 class="title fade">Thinking Check는<br />무엇인가요?</h2>
+
+        <div class="definition fade">
+          <strong>아이가 생각을 어떻게 요리하는지 살펴보는 시간입니다.</strong>
+          <p>
+            잘하고 못하고를 단정하는 시험이 아니라,
+            아이가 정보를 어떻게 읽고, 질문하고, 연결하고,
+            자기언어로 표현하는지를 살펴보는 관찰형 진단입니다.
+          </p>
+        </div>
+
+        <div class="observe-grid">
+          <div class="observe fade">
+            <h3>읽고 이해하는 방식</h3>
+            <p>핵심과 조건을 정확히 찾고 구분하는지 살펴봅니다.</p>
+          </div>
+          <div class="observe fade">
+            <h3>질문하는 방식</h3>
+            <p>단순 확인을 넘어 생각을 확장하는 질문을 만드는지 봅니다.</p>
+          </div>
+          <div class="observe fade">
+            <h3>연결하고 구조화하는 방식</h3>
+            <p>지식과 경험을 연결하고, 순서와 근거를 세우는지 봅니다.</p>
+          </div>
+          <div class="observe fade">
+            <h3>자기언어로 표현하는 방식</h3>
+            <p>자신의 생각을 말과 글로 구체적이고 명료하게 표현하는지 봅니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="thinking-check">
+      <div class="inner">
+        <div class="eyebrow fade">STEP-BY-STEP THINKING CHECK</div>
+        <h2 class="title fade">아이의 학년과 발달 수준에 맞춰<br />단계별로 진단합니다.</h2>
+        <p class="lead fade">
+          Thinking Check는 1·2·3단계로 구성되어 있습니다.<br />
+          상담 후 아이에게 맞는 단계를 안내하고, 읽기부터 질문·연결·표현까지 현재의 생각 과정을 살펴봅니다.
+        </p>
+
+        <div class="thumbnail-grid fade">
+          <figure class="thumb-card">
+            <div class="thumb-placeholder stage1">
+              <span>1단계 썸네일</span>
+              <small>이미지 교체 예정</small>
+            </div>
+            <figcaption>JIPYO Thinking Check · 1단계</figcaption>
+          </figure>
+
+          <figure class="thumb-card">
+            <div class="thumb-placeholder stage2">
+              <span>2단계 썸네일</span>
+              <small>이미지 교체 예정</small>
+            </div>
+            <figcaption>JIPYO Thinking Check · 2단계</figcaption>
+          </figure>
+
+          <figure class="thumb-card">
+            <div class="thumb-placeholder stage3">
+              <span>3단계 썸네일</span>
+              <small>이미지 교체 예정</small>
+            </div>
+            <figcaption>JIPYO Thinking Check · 3단계</figcaption>
+          </figure>
+        </div>
+
+        <div class="eyebrow fade gallery-kicker">REAL RESPONSES</div>
+        <h3 class="gallery-title fade">아이들은 직접 읽고, 생각하고, 손으로 답합니다.</h3>
+        <p class="gallery-copy fade">
+          정답만 고르는 검사가 아니라, 아이가 어떤 근거로 판단하고 자신의 생각을 어떻게 표현하는지 살펴봅니다.
+        </p>
+
+        <div class="work-grid fade">
+          <figure class="work-card">
+            <div class="work-placeholder">실제 작성 사진 1</div>
+            <figcaption>읽고 핵심을 이해하는 과정</figcaption>
+          </figure>
+          <figure class="work-card">
+            <div class="work-placeholder">실제 작성 사진 2</div>
+            <figcaption>구분하고 질문하는 과정</figcaption>
+          </figure>
+          <figure class="work-card">
+            <div class="work-placeholder">실제 작성 사진 3</div>
+            <figcaption>자기언어로 표현하는 과정</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="booking">
+      <div class="inner center">
+        <div class="eyebrow fade">BOOK A THINKING CHECK</div>
+        <h2 class="title fade">우리 아이의 생각을<br />한번 만나보세요.</h2>
+        <p class="lead fade">
+          상담을 통해 아이의 학년과 현재 생각 수준을 확인한 후,<br />
+          가장 적합한 Thinking Check 단계를 안내해드립니다.
+        </p>
+
+        <div class="booking-button-wrap fade">
+          <a class="booking-link" href="https://forms.gle/QWAsmJTHotizecN87" target="_blank" rel="noopener noreferrer">
+            무료 상담·단계별 Thinking Check 예약하기
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer cal-signature">
+      <div class="brand">JIPYO Thinking Check™</div>
+      <div class="designed">Designed by CAL Institute</div>
+      <div class="copyright">© 2026 CAL Institute. All Rights Reserved.</div>
+    </footer>
+
+  </main>
+
+  <script>
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting) entry.target.classList.add('show');
+      });
+    },{threshold:.16});
+
+    document.querySelectorAll('.fade').forEach(el=>observer.observe(el));
+
+  </script>
+</body>
+</html>
