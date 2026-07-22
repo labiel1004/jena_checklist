@@ -459,7 +459,6 @@ canvas{display:block;width:100%;touch-action:none;cursor:crosshair;background:#f
           <button class="btn btn-primary" id="begin" style="min-width:220px">시작하기</button>
         </div>
 
-        <button class="sys-link" id="openDs">디자인 시스템 보기</button>
       </div>
     </section>
 
@@ -1042,8 +1041,10 @@ canvas{display:block;width:100%;touch-action:none;cursor:crosshair;background:#f
   });
 
   /* ── 디자인 시스템 ────────────────── */
-  $('#openDs').onclick  = () => $('#ds').classList.add('on');
-  $('#closeDs').onclick = () => $('#ds').classList.remove('on');
+  const openDsBtn = $('#openDs');
+  const closeDsBtn = $('#closeDs');
+  if (openDsBtn) openDsBtn.onclick = () => $('#ds').classList.add('on');
+  if (closeDsBtn) closeDsBtn.onclick = () => $('#ds').classList.remove('on');
 
   /* ── 선택·대상 카드 (문항 3, 6 공통) ── */
   function wireChoices(){
@@ -1552,7 +1553,7 @@ canvas{display:block;width:100%;touch-action:none;cursor:crosshair;background:#f
       `<p>제출하기 전에 이전 화면으로 돌아가 답을 다시 확인할 수 있습니다.</p>`,
       [
         {label:'다시 확인하기', onClick:() => { i = FINAL_INDEX; render(); }},
-        {label:'제출하고 결과지 저장하기', accent:true, onClick:runSubmit}
+        {label:'제출하기', accent:true, onClick:runSubmit}
       ]);
   }
 
