@@ -1,0 +1,518 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>JIPYO Thinking Check · 1단계 v1.4</title>
+<meta property="og:title" content="JIPYO Thinking Check | 1단계">
+<meta property="og:description" content="지표 생각 구조 진단">
+<meta property="og:image" content="https://labiel1004.github.io/jena_checklist/jipyo/images/thinking_check_1.png">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Pretendard';src:url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/woff2/PretendardVariable.woff2') format('woff2-variations');font-weight:45 920;font-display:swap;}
+
+:root{
+  /* ── Color ─────────────────────────── */
+  --bg:#FBFAF8;            /* 따뜻한 화이트 */
+  --surface:#FFFFFF;       /* 카드 */
+  --cream:#F6F3ED;         /* 안내·선택 영역 */
+  --cream-deep:#F1ECE3;
+  --ink:#23211E;           /* 본문 딥차콜 */
+  --ink-2:#6B655E;         /* 보조 텍스트 */
+  --ink-3:#9A938A;         /* 도움말 */
+  --line:#E9E5DE;          /* 아주 연한 구분선 */
+  --line-2:#DCD6CC;
+  --gold:#B4924F;          /* 절제된 웜골드 */
+  --gold-soft:#EFE6D2;
+  --gold-tint:#FBF7EF;
+
+  /* ── 단계별 보조 컬러 (저채도) ─────── */
+  --step-read:#F8F1D9;      --acc-read:#D9C384;
+  --step-check:#EAF2F7;     --acc-check:#A3C0D2;
+  --step-choice:#F1ECF7;    --acc-choice:#B5A8CB;
+  --step-reason:#F8EDE7;    --acc-reason:#DCB7A0;
+  --step-other:#EAF1E8;     --acc-other:#A8C0A1;
+  --step-question:#E8F3EF;  --acc-question:#98C4B5;
+  --step-final:#F5EBD7;     --acc-final:#C9A96A;
+
+  /* 현재 화면 컬러 (JS가 #app에 설정) */
+  --step:var(--gold-tint);
+  --acc:var(--gold);
+
+  /* ── Type scale ────────────────────── */
+  --f-display:38px;
+  --f-h1:26px;
+  --f-h2:21px;
+  --f-body:19px;
+  --f-read:20px;
+  --f-note:16px;
+  --f-cap:14px;
+
+  /* ── Space / shape ─────────────────── */
+  --r-card:14px;
+  --r-head:18px;
+  --r-btn:10px;
+  --pad:28px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:'Pretendard','Pretendard Variable',-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+  font-size:var(--f-body);line-height:1.72;letter-spacing:-.01em;
+  font-weight:400;-webkit-font-smoothing:antialiased;
+  overscroll-behavior:none;
+}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px;}
+
+/* ══ Frame ═════════════════════════════ */
+#app{min-height:100dvh;display:flex;flex-direction:column;
+     padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+     transition:none;}
+
+/* ── Top rail (progress) ── */
+.rail{position:sticky;top:0;z-index:30;background:rgba(251,250,248,.92);backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--line);}
+.rail-in{max-width:1180px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:22px;}
+.brand{font-size:var(--f-cap);letter-spacing:.14em;color:var(--ink-2);font-weight:600;white-space:nowrap;}
+.brand em{font-style:normal;color:var(--gold);}
+.steps{display:flex;align-items:center;gap:0;flex:1;min-width:0;overflow:hidden;}
+.step{display:flex;align-items:center;gap:8px;padding-right:8px;flex:0 0 auto;}
+.step .dot{width:7px;height:7px;border-radius:50%;background:var(--line-2);transition:.4s var(--ease);}
+.step .lbl{font-size:var(--f-cap);color:var(--ink-3);white-space:nowrap;transition:.4s var(--ease);}
+.step .bar{width:22px;height:1px;background:var(--line-2);margin-left:8px;}
+.step:last-child .bar{display:none;}
+.step.done .dot{background:var(--gold-soft);}
+.step.done .lbl{color:var(--ink-3);}
+.step.now .dot{width:22px;border-radius:4px;background:var(--tone,var(--gold));box-shadow:0 0 0 4px var(--tone-soft,var(--gold-tint));}
+.step.now .lbl{color:var(--ink);font-weight:600;}
+.count{font-size:var(--f-cap);color:var(--ink-3);white-space:nowrap;font-variant-numeric:tabular-nums;}
+.rail .ghost{font-size:var(--f-cap);color:var(--ink-2);border:1px solid var(--line-2);border-radius:999px;
+             padding:9px 16px;min-height:44px;display:inline-flex;align-items:center;white-space:nowrap;
+             transition:.25s var(--ease);}
+.rail .ghost:hover{background:var(--step);}
+
+/* ── Screen ── */
+main{flex:1;display:flex;flex-direction:column;}
+.screen{display:none;flex:1;max-width:1180px;width:100%;margin:0 auto;padding:36px 32px 140px;animation:in .5s var(--ease);}
+.screen.on{display:block;}
+@keyframes in{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+
+/* ── 질문 헤더 카드 ── */
+.step-header{position:relative;background:var(--step);border-radius:var(--r-head);
+             padding:26px 32px 24px 34px;margin-bottom:28px;overflow:hidden;
+             transition:background .45s var(--ease);}
+.step-header:before{content:"";position:absolute;left:0;top:22px;bottom:22px;width:4px;
+                    border-radius:0 4px 4px 0;background:var(--acc);}
+.eyebrow{font-size:var(--f-cap);letter-spacing:.12em;color:var(--ink-2);font-weight:600;margin-bottom:10px;
+         display:flex;align-items:center;gap:8px;}
+.eyebrow i{width:6px;height:6px;border-radius:50%;background:var(--acc);display:inline-block;flex:0 0 auto;}
+h1.q{font-size:var(--f-h1);font-weight:700;line-height:1.5;letter-spacing:-.02em;max-width:30em;
+     display:flex;align-items:flex-start;gap:16px;}
+h2.sub{font-size:var(--f-h2);font-weight:500;margin-top:6px;color:var(--ink-2);}
+.lede{color:var(--ink-2);font-size:var(--f-note);margin-top:10px;max-width:42em;}
+.step-header .lede{color:#5E594F;}
+.hair{height:1px;background:var(--line);margin:28px 0;}
+
+/* ── Cards ── */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);padding:var(--pad);}
+.soft{background:var(--cream);border-color:transparent;}
+.tint{background:var(--step);border-radius:var(--r-card);padding:18px 24px;color:#5E594F;font-size:var(--f-note);
+      margin-bottom:22px;}
+
+/* ══ Start screen ═════════════════════ */
+#s-start{display:none;}
+#s-start.on{display:flex;align-items:center;justify-content:center;padding-top:0;}
+.start-wrap{width:100%;max-width:760px;text-align:center;padding:20px 0 60px;}
+.mark-halo{width:104px;height:104px;margin:0 auto 26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+           background:radial-gradient(circle at 50% 46%, #FAF2E1 0%, #F7EEDC 54%, rgba(247,238,220,0) 72%);}
+.mark{width:34px;height:34px;position:relative;}
+.mark:before,.mark:after{content:"";position:absolute;inset:0;border-radius:50%;}
+.mark:before{border:1px solid var(--line-2);}
+.mark:after{border:1px solid var(--gold);clip-path:inset(0 0 50% 0);}
+.title-en{font-size:var(--f-display);font-weight:700;letter-spacing:-.02em;line-height:1.2;}
+.title-ko{font-size:var(--f-h2);color:var(--ink-2);margin-top:10px;font-weight:500;letter-spacing:.02em;}
+.stage{margin:30px auto 0;display:inline-flex;flex-direction:column;gap:4px;padding:16px 34px;
+       background:var(--surface);border:1px solid var(--gold-soft);border-radius:var(--r-head);
+       box-shadow:0 1px 2px rgba(35,33,30,.03),0 8px 22px rgba(35,33,30,.04);}
+.stage b{font-size:var(--f-h2);font-weight:700;}
+.stage span{font-size:var(--f-note);color:var(--ink-2);letter-spacing:.02em;}
+.notice{margin:32px auto 0;max-width:600px;background:var(--step-read);border-radius:var(--r-head);
+        padding:26px 32px;color:#4A463E;font-size:var(--f-note);line-height:2;text-align:left;}
+.notice b{color:var(--ink);font-weight:600;}
+.fields{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:16px;margin:34px auto 0;max-width:640px;text-align:left;}
+.field label{display:block;font-size:var(--f-cap);color:var(--ink-2);margin-bottom:8px;letter-spacing:.02em;}
+.field input{width:100%;min-height:52px;padding:12px 16px;background:var(--surface);
+             border:1px solid var(--line-2);border-radius:12px;font:inherit;font-size:var(--f-note);
+             color:var(--ink);transition:.25s var(--ease);}
+.field input:focus{border-color:var(--gold-soft);outline:none;box-shadow:0 0 0 5px var(--gold-tint);background:#FFFDF8;}
+#begin{border-radius:14px;}
+#begin:active{transform:scale(.985);}
+.sys-link{margin-top:40px;font-size:var(--f-cap);color:var(--ink-3);border-bottom:1px solid var(--line-2);padding-bottom:2px;}
+
+/* ══ Reading ══════════════════════════ */
+.read{display:grid;grid-template-columns:1fr 190px;gap:44px;align-items:start;}
+.read-body{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-head);padding:38px 44px;
+           box-shadow:0 1px 2px rgba(35,33,30,.03);}
+.read-body p{font-size:var(--f-read);line-height:2.05;margin-bottom:26px;max-width:36em;color:#2B2925;}
+.read-body p:last-child{margin-bottom:0;}
+.icons{display:flex;flex-direction:column;gap:26px;padding-top:8px;border-left:1px solid var(--line);padding-left:26px;}
+.icons figure{display:flex;flex-direction:column;gap:8px;align-items:flex-start;}
+.icons svg{width:26px;height:26px;stroke:#8C867C;fill:none;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round;}
+.icons figcaption{font-size:12px;color:var(--ink-3);letter-spacing:.02em;}
+
+/* ══ Answer blocks ════════════════════ */
+.qblock{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);
+        padding:24px 26px;box-shadow:0 1px 2px rgba(35,33,30,.03);}
+.qblock:first-of-type{margin-top:0;}
+.qnum{display:inline-flex;align-items:center;justify-content:center;min-width:48px;height:46px;padding:0 12px;
+      border:2px solid var(--gold);border-radius:13px;background:var(--gold);color:#fff;
+      font-size:19px;font-weight:700;line-height:1;letter-spacing:-.02em;
+      box-shadow:0 4px 12px rgba(180,146,79,.22);flex:0 0 auto;}
+.qtext{font-size:var(--f-h2);font-weight:600;line-height:1.6;display:flex;gap:15px;align-items:flex-start;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.grid3 > div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);padding:20px;}
+.who{display:inline-flex;align-items:center;justify-content:center;height:26px;padding:0 12px;border-radius:8px;
+     background:var(--step);font-size:var(--f-cap);font-weight:700;margin-bottom:12px;color:var(--ink-2);}
+
+/* ── Ink pad ── */
+.pad{margin-top:16px;background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-card);
+     position:relative;overflow:hidden;transition:.3s var(--ease);}
+.pad:focus-within,.pad.active{border-color:var(--acc);box-shadow:0 0 0 4px var(--step),0 0 0 5px var(--gold-tint);}
+.pad-tools{display:flex;align-items:center;gap:4px;padding:8px 10px;border-bottom:1px solid rgba(0,0,0,.05);
+           background:var(--step);transition:background .45s var(--ease);}
+.tool{min-width:44px;min-height:44px;padding:0 12px;border-radius:8px;display:inline-flex;align-items:center;
+      gap:7px;font-size:var(--f-cap);color:var(--ink-2);transition:.2s var(--ease);}
+.tool svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;}
+.tool:hover{background:rgba(255,255,255,.7);}
+.tool[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 0 rgba(0,0,0,.06);}
+.tool.right{margin-left:auto;}
+.canvas-wrap{position:relative;background:#fff;}
+canvas{display:block;width:100%;touch-action:none;cursor:crosshair;background:#fff;}
+.ph{position:absolute;left:26px;top:22px;color:var(--ink-3);font-size:var(--f-note);pointer-events:none;transition:opacity .3s;}
+.pad textarea{display:none;width:100%;border:none;resize:none;padding:22px 26px;font:inherit;font-size:var(--f-note);
+              line-height:2.1;color:var(--ink);background:
+              repeating-linear-gradient(to bottom,transparent 0 calc(2.1em - 1px),var(--line) calc(2.1em - 1px) 2.1em);}
+.pad textarea:focus{outline:none;}
+.pad.keys canvas,.pad.keys .ph{display:none;}
+.pad.keys textarea{display:block;}
+.pad .rule{position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,transparent 0 63px,var(--line) 63px 64px);opacity:.55;}
+.pad.keys .rule{display:none;}
+
+/* ── Choice cards ── */
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.choice{display:flex;align-items:center;gap:16px;text-align:left;min-height:78px;padding:20px 24px;
+        background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-card);
+        font-size:var(--f-body);color:var(--ink);transition:.24s var(--ease);width:100%;}
+.choice:hover{border-color:var(--line-2);background:#FCFBF9;}
+.choice:active{transform:scale(.995);}
+.choice .mk{width:22px;height:22px;border-radius:50%;border:1px solid var(--line-2);flex:0 0 auto;position:relative;
+            transition:.24s var(--ease);}
+.choice .mk:after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--gold);
+                  transform:scale(0);transition:.24s var(--ease);}
+.choice[aria-checked="true"]{background:var(--step);border-color:var(--gold-soft);
+                             box-shadow:inset 0 0 0 1px var(--gold-soft);font-weight:600;}
+.choice[aria-checked="true"] .mk{border-color:var(--gold);}
+.choice[aria-checked="true"] .mk:after{transform:scale(1);}
+.other-in{grid-column:1/-1;display:none;animation:in .4s var(--ease);background:var(--step);
+          border-radius:var(--r-card);padding:18px 22px;}
+.other-in.on{display:block;}
+.other-in label{display:block;font-size:var(--f-cap);color:var(--ink-2);margin-bottom:8px;}
+.other-in input{width:100%;min-height:60px;padding:16px 22px;background:var(--surface);border:1px solid var(--line-2);
+                border-radius:12px;font:inherit;font-size:var(--f-note);}
+.other-in input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 4px var(--gold-tint);}
+
+/* ── Echo of previous choice ── */
+.echo{display:inline-flex;flex-direction:column;gap:4px;padding:16px 24px;
+      background:linear-gradient(180deg,var(--step),#FFFDFB);
+      border:1px solid var(--line);border-left:3px solid var(--acc);
+      border-radius:0 12px 12px 0;margin-bottom:24px;}
+.echo small{font-size:var(--f-cap);color:var(--ink-2);letter-spacing:.02em;}
+.echo b{font-size:var(--f-note);font-weight:600;}
+
+/* ── Help (collapsed) ── */
+.help{margin-top:20px;}
+.help-btn{font-size:var(--f-cap);color:var(--ink-2);border:1px solid rgba(0,0,0,.06);border-radius:999px;
+          background:var(--step);padding:0 18px;min-height:44px;display:inline-flex;align-items:center;gap:8px;
+          transition:.25s var(--ease);}
+.help-btn:hover{filter:brightness(.985);}
+.help-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5;transition:.3s var(--ease);}
+.help-btn[aria-expanded="true"] svg{transform:rotate(180deg);}
+.help-body{display:none;margin-top:14px;padding:22px 26px;background:var(--step);border-radius:var(--r-card);
+           color:#5E594F;font-size:var(--f-note);line-height:2.1;animation:in .4s var(--ease);}
+.help-body.on{display:block;}
+.help-body p:first-child{color:var(--ink-3);font-size:var(--f-cap);margin-bottom:10px;}
+
+/* ── Footer nav ── */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:25;background:rgba(251,250,248,.94);
+     backdrop-filter:blur(10px);border-top:1px solid var(--line);
+     padding:0 0 env(safe-area-inset-bottom);}
+.nav-in{max-width:1180px;margin:0 auto;padding:16px 32px;display:flex;align-items:center;gap:12px;}
+.btn{min-height:54px;padding:0 30px;border-radius:12px;font-size:var(--f-note);font-weight:600;
+     display:inline-flex;align-items:center;justify-content:center;gap:9px;transition:.25s var(--ease);}
+.btn-primary{background:var(--ink);color:#FCFBF9;}
+.btn-primary:hover{background:#3A3630;}
+.btn:active{transform:scale(.985);}
+.btn:disabled{opacity:.45;cursor:default;transform:none;}
+.btn-quiet{color:var(--ink-2);border:1px solid var(--line-2);background:var(--surface);}
+.btn-quiet:hover{background:var(--cream);}
+.btn-gold{background:var(--gold);color:#fff;}
+.btn-gold:hover{background:#A5843F;}
+.btn-sm{min-height:44px;padding:0 18px;font-size:var(--f-cap);font-weight:500;border-radius:10px;}
+.spacer{flex:1;}
+.saved{font-size:var(--f-cap);color:var(--ink-3);}
+
+/* ── Text sheet (읽은 글 보기) ── */
+.sheet{position:fixed;inset:0;z-index:60;display:none;}
+.sheet.on{display:block;}
+.sheet .veil{position:absolute;inset:0;background:rgba(35,33,30,.28);animation:fade .35s var(--ease);}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.sheet .panel{position:absolute;top:0;right:0;bottom:0;width:min(620px,92vw);background:var(--bg);
+              border-left:1px solid var(--line);padding:34px 40px 44px;overflow-y:auto;
+              animation:slide .45s var(--ease);}
+@keyframes slide{from{transform:translateX(28px);opacity:.4}to{transform:none;opacity:1}}
+.sheet h3{font-size:var(--f-h2);font-weight:700;margin-bottom:6px;}
+.sheet .close{position:absolute;top:26px;right:30px;min-width:44px;min-height:44px;border-radius:8px;color:var(--ink-2);
+              display:inline-flex;align-items:center;justify-content:center;}
+.sheet .close:hover{background:var(--cream);}
+.sheet p{font-size:var(--f-note);line-height:2;color:#2B2925;margin-top:20px;}
+.sheet .eyebrow{color:var(--ink-2);}
+
+/* ══ Done ═════════════════════════════ */
+#s-done.on,#s-saved.on{display:flex;align-items:center;justify-content:center;}
+.done-wrap{text-align:center;max-width:620px;padding-bottom:60px;width:100%;}
+.tick{width:96px;height:96px;margin:0 auto 24px;border-radius:50%;
+      background:radial-gradient(circle at 50% 46%, #F5EBD7 0%, #F8F1E3 55%, rgba(248,241,227,0) 72%);
+      display:flex;align-items:center;justify-content:center;}
+.tick svg{width:30px;height:30px;stroke:var(--gold);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;
+          stroke-dasharray:30;stroke-dashoffset:30;animation:draw .9s .2s var(--ease) forwards;}
+@keyframes draw{to{stroke-dashoffset:0}}
+.done-wrap h1{font-size:var(--f-h1);font-weight:700;}
+.done-msg{margin-top:20px;background:var(--step-final);border-radius:var(--r-head);padding:24px 30px;
+          color:#4A463E;font-size:var(--f-note);line-height:2;text-align:left;}
+.done-wrap .status{margin-top:16px;font-size:var(--f-cap);color:var(--ink-2);min-height:22px;}
+
+/* 교사용 결과 저장 */
+.teacher{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);text-align:left;}
+.teacher h4{font-size:12px;letter-spacing:.12em;color:var(--ink-3);font-weight:600;margin-bottom:12px;}
+.teacher .row{display:flex;flex-wrap:wrap;gap:10px;}
+
+/* ── Modal ── */
+.scrim{position:fixed;inset:0;z-index:90;background:rgba(35,33,30,.32);backdrop-filter:blur(3px);
+       display:none;align-items:center;justify-content:center;padding:24px;}
+.scrim.on{display:flex;}
+.modal{width:min(560px,100%);background:var(--surface);border-radius:20px;padding:32px 34px;
+       box-shadow:0 24px 60px rgba(0,0,0,.2);animation:in .3s var(--ease);}
+.modal h3{font-size:var(--f-h2);font-weight:700;margin-bottom:12px;}
+.modal p{color:var(--ink-2);font-size:var(--f-note);line-height:1.9;}
+.modal .miss{margin-top:16px;padding:14px 18px;background:var(--cream);border-radius:10px;
+             font-size:var(--f-cap);color:var(--ink-2);line-height:1.9;max-height:170px;overflow:auto;}
+.modal .acts{display:flex;gap:12px;margin-top:26px;}
+.modal .acts .btn{flex:1;padding:0 16px;}
+
+/* ══ Design system sheet ══════════════ */
+#ds{position:fixed;inset:0;z-index:80;background:var(--bg);overflow-y:auto;display:none;}
+#ds.on{display:block;}
+.ds-in{max-width:980px;margin:0 auto;padding:56px 32px 90px;}
+.ds-in h2{font-size:var(--f-h1);font-weight:700;}
+.ds-in h4{font-size:var(--f-cap);letter-spacing:.12em;color:var(--gold);font-weight:600;margin:44px 0 16px;}
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;}
+.sw{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);}
+.sw .chip{height:60px;}
+.sw .meta{padding:10px 12px;font-size:12px;color:var(--ink-2);line-height:1.6;}
+.sw .meta b{display:block;color:var(--ink);font-size:var(--f-cap);font-weight:600;}
+.ds-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+.ds-list{font-size:var(--f-note);color:var(--ink-2);line-height:2;}
+.ds-list b{color:var(--ink);font-weight:600;}
+.ds-close{position:fixed;top:22px;right:28px;z-index:81;}
+
+/* ══ Portrait / narrow ════════════════ */
+@media (max-width:900px){
+  :root{--f-display:32px;--f-h1:23px;--f-h2:19px;--f-body:18px;--f-read:19px;--pad:22px;}
+  .rail-in{padding:12px 20px;gap:14px;}
+  .steps{display:none;}
+  .screen{padding:26px 20px 140px;}
+  .read{grid-template-columns:1fr;gap:28px;}
+  .read-body{padding:26px 24px;}
+  .icons{flex-direction:row;flex-wrap:wrap;gap:22px;border-left:none;border-top:1px solid var(--line);
+         padding-left:0;padding-top:22px;}
+  .grid3,.choices{grid-template-columns:1fr;}
+  .fields{grid-template-columns:1fr;}
+  .nav-in{padding:14px 20px;}
+  .btn{padding:0 22px;}
+  .step-header{padding:22px 22px 20px 24px;}
+  h1.q{gap:12px;}
+  .qnum{min-width:42px;height:42px;padding:0 10px;border-radius:11px;font-size:17px;}
+  .qtext{gap:12px;}
+}
+
+/* ══ 결과지 (PDF) ═════════════════════ */
+#report{display:none;}
+@media print{
+  @page{size:A4;margin:15mm 13mm;}
+  html,body{background:#fff;}
+  #app,.sheet,.scrim,#ds{display:none!important;}
+  #report{display:block!important;}
+}
+#report{color:#000;font-size:11pt;line-height:1.6;}
+.rp-head{border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:14px;}
+.rp-head h1{font-size:19pt;letter-spacing:-.01em;}
+.rp-head .stg{font-size:12pt;font-weight:700;}
+.rp-head .dom{font-size:10pt;color:#333;}
+.rp-meta{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:9.5pt;}
+.rp-meta th,.rp-meta td{border:1px solid #999;padding:5px 8px;text-align:left;}
+.rp-meta th{background:#F1F1F1;width:96px;font-weight:700;}
+.rp-item{border:1px solid #999;margin-bottom:11px;page-break-inside:avoid;break-inside:avoid;}
+.rp-q{background:#F1F1F1;border-bottom:1px solid #999;padding:7px 10px;
+      page-break-after:avoid;break-after:avoid;}
+.rp-row{page-break-inside:avoid;break-inside:avoid;padding-bottom:6px;margin-bottom:6px;
+        border-bottom:1px dotted #DDD;}
+.rp-row:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0;}
+.rp-sub{font-size:9.5pt;font-weight:700;margin-bottom:3px;}
+.rp-hw{page-break-inside:avoid;break-inside:avoid;}
+.rp-id{font-size:8.5pt;font-weight:700;letter-spacing:.04em;}
+.rp-qt{font-size:10.5pt;line-height:1.5;}
+.rp-b{padding:9px 10px;font-size:10pt;}
+.rp-f{font-size:8.5pt;color:#333;margin-bottom:5px;}
+.rp-a{white-space:pre-wrap;border-left:3px solid #000;padding-left:9px;margin:4px 0;line-height:1.6;}
+.rp-a.blank{border-left-color:#BBB;color:#777;}
+.rp-item img{max-width:100%;border:1px solid #DDD;display:block;margin-top:6px;}
+.rp-trans{border:1px dashed #AAA;min-height:32px;margin-top:6px;font-size:8pt;color:#888;padding:3px 6px;}
+.rp-foot{margin-top:12px;padding-top:8px;border-top:1px solid #999;font-size:8.5pt;color:#444;line-height:1.5;}
+
+
+/* 추가: 대주제 라벨 및 복합 선택 문항 */
+.section-label{font-size:var(--f-cap);letter-spacing:.08em;color:var(--ink-2);font-weight:700;margin-bottom:10px;}
+.choice-set{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px;}
+.choice-set .choice{min-height:68px;padding:16px 20px;}
+.choice-set.cols4{grid-template-columns:1fr 1fr;}
+.mini-note{font-size:var(--f-note);color:var(--ink-2);margin-top:10px;}
+.quote-box{margin:18px 0;padding:18px 22px;background:var(--gold-tint);border-left:3px solid var(--gold);border-radius:0 12px 12px 0;font-size:var(--f-note);}
+@media (max-width:700px){.choice-set,.choice-set.cols4{grid-template-columns:1fr;}}
+</style>
+
+<div id="app">
+<header class="rail" id="rail" hidden><div class="rail-in"><div class="brand">JIPYO <em>·</em> 1단계</div><div class="steps" id="steps"></div><div class="count" id="count"></div><button class="ghost" id="openSheet">읽은 글 보기</button></div></header>
+<main>
+<section class="screen on" id="s-start"><div class="start-wrap">
+<div class="mark-halo"><div class="mark"></div></div><div class="title-en">JIPYO Thinking Check</div><div class="title-ko">지표 생각 구조 진단</div>
+<div class="stage"><b>1단계</b><span>읽기에서 자기 생각 표현까지</span></div>
+<p class="notice"><b>이 활동은 시험이 아닙니다.</b><br>글을 정확히 읽은 뒤, 무엇이 중요하다고 느꼈는지 생각하고 질문하고 표현해 봅니다.<br>하나의 정답을 찾기보다 자신의 생각과 이유를 솔직하게 적어주세요.</p>
+<div class="fields"><div class="field"><label for="f-name">이름</label><input id="f-name" type="text" autocomplete="off"></div><div class="field"><label for="f-grade">학년</label><input id="f-grade" type="text" autocomplete="off"></div><div class="field"><label for="f-date">날짜</label><input id="f-date" type="date"></div></div>
+<div style="margin-top:34px"><button class="btn btn-primary" id="begin" style="min-width:220px">시작하기</button></div></div></section>
+
+<section class="screen" id="s-read"><div class="step-header"><div class="eyebrow"><i></i>[ 짧은 글 읽기 ]</div><h1 class="q"><span id="readTitle">모두가 “예” 하면 나도 “예” 하게 될까?</span></h1><p class="lede">천천히 읽어보세요. 다 읽은 뒤에도 언제든 다시 볼 수 있습니다.</p></div><div class="read"><div class="read-body"><p>선생님이 반 아이들에게 다음 달 체험 학습 장소를 어디로 정하면 좋을지 물었습니다. 첫 번째 친구가 놀이공원에 가고 싶다고 말했습니다. 이어서 몇 명의 친구가 놀이공원이 좋다고 말하자 교실 여기저기서 “저도요!”라는 목소리가 나왔습니다.</p><p>지우는 사실 과학관에 가고 싶었습니다. 전에 가족과 과학관에 갔을 때 직접 로봇을 움직여 본 일이 무척 재미있었기 때문입니다. 하지만 친구들이 모두 놀이공원을 고르는 모습을 보자 조금 망설여졌습니다.</p><p>“나 혼자 다른 곳을 말하면 친구들이 이상하게 생각하지 않을까?” 지우의 차례가 되자 지우는 잠시 망설이다가 놀이공원에 손을 들었습니다. 선생님은 놀이공원을 선택한 학생이 가장 많다며 그곳을 체험 학습 장소로 정했습니다.</p><p>사람은 여러 사람이 같은 행동을 하거나 같은 의견을 말하면 자신도 그들을 따라가는 경우가 있습니다. 이런 현상을 ‘동조’라고 합니다. 우리는 잘 모르는 상황에서 다른 사람의 행동을 보고 도움을 얻기도 합니다.</p><p>예를 들어 처음 가 본 건물에서 화재경보가 울렸는데 출구가 어디인지 모른다면, 사람들이 빠르게 이동하는 방향을 따라가는 것이 도움이 될 수 있습니다. 여러 사람이 같은 쪽으로 움직이는 데에는 이유가 있을 가능성이 있기 때문입니다.</p><p>하지만 여러 사람이 선택했다고 해서 그 선택이 언제나 옳은 것은 아닙니다. 친구들이 위험한 장난을 하자고 하거나 한 사람을 놀리는 데 모두가 참여한다고 생각해 봅시다. 이때 다른 사람을 그대로 따라가면 누군가가 다치거나 마음에 상처를 입을 수 있습니다.</p><p>사람들이 다른 의견을 말하지 못하면 모임 전체가 잘못된 결정을 내릴 수도 있습니다. 각자 속으로는 이상하다고 생각하면서도 모두가 찬성하는 것처럼 행동할 수 있기 때문입니다.</p><p>그렇다고 언제나 다른 사람과 반대로 행동해야 하는 것은 아닙니다. 다른 사람들의 의견을 듣는 것도 중요하고, 함께 결정해야 하는 상황에서는 서로 양보할 필요도 있습니다.</p><p>중요한 것은 사람이 많다는 이유만으로 무조건 따라가는 것이 아니라 왜 그런 선택을 했는지 생각해 보는 것입니다. 그리고 자신의 생각이 다르다면 이유를 설명하고 다른 사람의 생각도 함께 들어볼 수 있어야 합니다.</p><p>그렇다면 우리는 언제 다른 사람을 따라도 괜찮고, 언제 자신의 생각을 말해야 할까요?</p></div><div class="icons" aria-hidden="true"><figure><figcaption>다수의 의견</figcaption></figure><figure><figcaption>나의 생각</figcaption></figure><figure><figcaption>상황 판단</figcaption></figure></div></div></section>
+
+<section class="screen" id="s-q1"><div class="step-header"><div class="eyebrow"><i></i>[ 글의 내용 파악하기 ]</div><h1 class="q">글에 나온 사실과 개념을 확인해볼까요?</h1></div>
+<div class="qblock"><div class="qtext"><span class="qnum">1</span><span>지우가 처음 가고 싶었던 체험 학습 장소는 어디인가요?</span></div><div class="choice-set" data-group="1"><button class="choice" data-v="놀이공원"><span class="mk"></span><span>놀이공원</span></button><button class="choice" data-v="과학관"><span class="mk"></span><span>과학관</span></button><button class="choice" data-v="동물원"><span class="mk"></span><span>동물원</span></button><button class="choice" data-v="박물관"><span class="mk"></span><span>박물관</span></button></div></div>
+<div class="qblock"><div class="qtext"><span class="qnum">2</span><span>지우가 놀이공원에 손을 든 가장 큰 이유는 무엇인가요?</span></div><div class="choice-set" data-group="2"><button class="choice" data-v="놀이기구를 좋아해서"><span class="mk"></span><span>놀이기구를 좋아해서</span></button><button class="choice" data-v="과학관에 가 본 적이 없어서"><span class="mk"></span><span>과학관에 가 본 적이 없어서</span></button><button class="choice" data-v="친구들이 대부분 놀이공원을 골라서"><span class="mk"></span><span>친구들이 대부분 놀이공원을 골라서</span></button><button class="choice" data-v="선생님이 놀이공원을 추천해서"><span class="mk"></span><span>선생님이 놀이공원을 추천해서</span></button></div></div>
+<div class="qblock"><div class="qtext"><span class="qnum">3</span><span>글에서 설명한 ‘동조’와 가장 가까운 것은 무엇인가요?</span></div><div class="choice-set" data-group="3"><button class="choice" data-v="자신의 생각을 끝까지 바꾸지 않는 것"><span class="mk"></span><span>자신의 생각을 끝까지 바꾸지 않는 것</span></button><button class="choice" data-v="여러 사람의 행동이나 의견을 따라가는 것"><span class="mk"></span><span>여러 사람의 행동이나 의견을 따라가는 것</span></button><button class="choice" data-v="다른 사람에게 자신의 생각을 강요하는 것"><span class="mk"></span><span>다른 사람에게 자신의 생각을 강요하는 것</span></button><button class="choice" data-v="모든 일을 혼자 결정하는 것"><span class="mk"></span><span>모든 일을 혼자 결정하는 것</span></button></div></div></section>
+
+<section class="screen" id="s-q2"><div class="step-header"><div class="eyebrow"><i></i>[ 관계와 이유 파악하기 ]</div><h1 class="q">정보 사이의 관계를 생각해보세요.</h1></div>
+<div class="qblock"><div class="qtext"><span class="qnum">4</span><span>다른 사람을 따라가는 행동이 도움이 될 수 있는 경우를 글에서 찾아 간단히 써보세요.</span></div><div class="pad" data-pad="4" data-h="180" data-ph="글에 나온 사례를 바탕으로 써보세요."></div></div>
+<div class="qblock"><div class="qtext"><span class="qnum">5</span><span>다른 사람을 무조건 따라가면 문제가 생길 수 있는 이유는 무엇인가요?</span></div><div class="pad" data-pad="5" data-h="200" data-ph="이유와 결과를 연결해 써보세요."></div></div></section>
+
+<section class="screen" id="s-q3"><div class="step-header"><div class="eyebrow"><i></i>[ 관심 발견하기 ]</div><h1 class="q">내 시선이 머문 곳을 찾아보세요.</h1></div>
+<div class="qblock"><div class="qtext"><span class="qnum">6</span><span>이 글에서 가장 기억에 남거나 중요하다고 생각한 부분은 무엇인가요?</span></div><div class="pad" data-pad="6" data-h="190" data-ph="가장 눈에 들어온 내용이나 문장을 써보세요."></div></div>
+<div class="qblock"><div class="qtext"><span class="qnum">7</span><span>왜 그 부분이 중요하다고 생각했나요?</span></div><div class="pad" data-pad="7" data-h="220" data-ph="내가 중요하게 생각한 이유를 써보세요."></div></div></section>
+
+<section class="screen" id="s-q4"><div class="step-header"><div class="eyebrow"><i></i>[ 질문 만들기 ]</div><h1 class="q"><span class="qnum">8</span><span>이 글을 읽고 새롭게 궁금해진 것이 있나요? 한 가지 질문을 만들어보세요.</span></h1></div><div class="tint">왜 사람들은 ______? · 모두가 ______ 하면 정말 ______? · 다른 사람을 따라가는 것과 ______의 차이는 무엇일까?</div><div class="pad" data-pad="8" data-h="260" data-ph="궁금한 것을 질문으로 적어보세요."></div></section>
+
+<section class="screen" id="s-q5"><div class="step-header"><div class="eyebrow"><i></i>[ 경험과 연결하기 ]</div><h1 class="q"><span class="qnum">9</span><span>친구들이나 주변 사람들의 의견을 따라간 경험이 있나요?</span></h1><p class="lede">있다면 어떤 일이었는지, 그때 어떤 생각이 들었는지 써보세요. 없다면 비슷한 상황을 상상해도 됩니다.</p></div><div class="pad" data-pad="9" data-h="300" data-ph="경험이나 상상한 상황을 적어보세요."></div></section>
+
+<section class="screen" id="s-q6"><div class="step-header"><div class="eyebrow"><i></i>[ 상황에 따라 판단하기 ]</div><h1 class="q"><span class="qnum">10</span><span>처음 가 본 운동장에서 갑자기 비가 내렸습니다. 사람들이 모두 실내 체육관 쪽으로 뛰어갑니다.</span></h1></div><div class="choice-set" data-group="10"><button class="choice" data-v="괜찮다고 생각한다"><span class="mk"></span><span>사람들을 따라가는 것이 괜찮다고 생각한다</span></button><button class="choice" data-v="괜찮지 않다고 생각한다"><span class="mk"></span><span>괜찮지 않다고 생각한다</span></button><button class="choice" data-v="먼저 상황을 더 확인해야 한다"><span class="mk"></span><span>먼저 상황을 더 확인해야 한다</span></button></div><div class="qblock"><div class="qtext"><span>그 이유는 무엇인가요?</span></div><div class="pad" data-pad="10-reason" data-h="220" data-ph="선택한 이유를 써보세요."></div></div></section>
+
+<section class="screen" id="s-q7"><div class="step-header"><div class="eyebrow"><i></i>[ 상황에 따라 판단하기 ]</div><h1 class="q"><span class="qnum">11</span><span>반 친구들이 한 아이가 말을 잘못했다며 단체 채팅방에서 놀리고 있습니다. 친한 친구가 나에게도 웃는 표시를 보내라고 합니다.</span></h1></div><div class="choice-set" data-group="11"><button class="choice" data-v="괜찮다고 생각한다"><span class="mk"></span><span>친구들을 따라가는 것이 괜찮다고 생각한다</span></button><button class="choice" data-v="괜찮지 않다고 생각한다"><span class="mk"></span><span>괜찮지 않다고 생각한다</span></button><button class="choice" data-v="상황에 따라 다르다고 생각한다"><span class="mk"></span><span>상황에 따라 다르다고 생각한다</span></button></div><div class="qblock"><div class="qtext"><span>그 이유는 무엇인가요?</span></div><div class="pad" data-pad="11-reason" data-h="220" data-ph="선택한 이유를 써보세요."></div></div></section>
+
+<section class="screen" id="s-q8"><div class="step-header"><div class="eyebrow"><i></i>[ 관점과 기준 세우기 ]</div><h1 class="q"><span class="qnum">12</span><span>다른 사람의 의견을 따라갈지 말지 결정할 때 가장 먼저 생각해야 할 것은 무엇이라고 생각하나요?</span></h1></div><div class="choice-set" data-group="12"><button class="choice" data-v="사람이 얼마나 많은지"><span class="mk"></span><span>사람이 얼마나 많은지</span></button><button class="choice" data-v="나에게 이익이 되는지"><span class="mk"></span><span>나에게 이익이 되는지</span></button><button class="choice" data-v="안전한 행동인지"><span class="mk"></span><span>안전한 행동인지</span></button><button class="choice" data-v="다른 사람에게 피해를 주는지"><span class="mk"></span><span>다른 사람에게 피해를 주는지</span></button><button class="choice" data-v="충분한 이유가 있는지"><span class="mk"></span><span>충분한 이유가 있는지</span></button><button class="choice" data-v="기타"><span class="mk"></span><span>기타</span></button></div><div class="other-in" id="other12"><label for="other12Text">다른 기준이 있다면 적어주세요.</label><input id="other12Text" type="text"></div><div class="qblock"><div class="qtext"><span>선택한 이유를 써보세요.</span></div><div class="pad" data-pad="12-reason" data-h="220" data-ph="왜 이 기준이 중요하다고 생각하는지 써보세요."></div></div></section>
+
+<section class="screen" id="s-q9"><div class="step-header"><div class="eyebrow"><i></i>[ 새로운 생각 만들기 ]</div><h1 class="q">생각을 실제 말과 방법으로 만들어보세요.</h1></div>
+<div class="qblock"><div class="qtext"><span class="qnum">13</span><span>지우가 자신의 생각을 솔직하게 말했다면 친구들에게 어떻게 말할 수 있었을까요?</span></div><div class="quote-box">“나는 ________________________________.”</div><div class="pad" data-pad="13" data-h="200" data-ph="지우가 되어 한두 문장으로 말해보세요."></div></div>
+<div class="qblock"><div class="qtext"><span class="qnum">14</span><span>여러 사람이 함께 결정할 때 소수의 의견도 들을 수 있도록 어떤 방법을 사용하면 좋을까요?</span></div><div class="pad" data-pad="14" data-h="240" data-ph="한 가지 방법을 제안해보세요."></div></div></section>
+
+<section class="screen" id="s-q10"><div class="step-header"><div class="eyebrow"><i></i>[ 최종 생각 표현하기 ]</div><h1 class="q"><span class="qnum">15</span><span>이 글에 대한 자신의 생각을 정리해보세요.</span></h1></div><div class="quote-box">다른 사람의 의견을 따르는 것은 ______할 때 도움이 될 수 있다.<br>하지만 ______할 때는 자신의 생각을 말해야 한다.</div><div class="pad" data-pad="15" data-h="320" data-ph="두 문장을 완성하거나 자유롭게 써도 됩니다."></div><div class="help"><button class="help-btn" aria-expanded="false" data-help="h-final">생각이 잘 안 나면 눌러보세요 <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button><div class="help-body" id="h-final"><p>필요한 말만 참고하세요.</p>도움이 되는 경우: 잘 모르는 상황, 안전을 위해 함께 움직여야 하는 상황<br>자기 생각을 말해야 하는 경우: 위험하거나 누군가에게 피해를 주는 상황, 충분한 이유가 없는 상황</div></div></section>
+
+<section class="screen" id="s-done"><div class="done-wrap"><div class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div><h1>생각을 끝까지 표현했어요.</h1><div class="done-msg">글의 내용을 이해하고, 관심을 발견하고, 질문하고, 경험과 연결하고, 자기 기준으로 판단해 표현해보는 활동이었습니다.</div><div class="status" id="doneStatus"></div></div></section>
+<section class="screen" id="s-saved"><div class="done-wrap"><div class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div><h1>생각이 잘 저장되었습니다.</h1><p id="savedWho" style="color:var(--ink-3);font-size:var(--f-cap);margin-top:10px"></p><div class="status" id="savedStatus"></div><div class="teacher"><h4>교사용 결과 저장</h4><div class="row"><button class="btn btn-quiet btn-sm" id="dlPdf">PDF 다운로드</button><button class="btn btn-quiet btn-sm" id="finish">완료하기</button></div></div></div></section>
+</main>
+<nav class="nav" id="nav" hidden><div class="nav-in"><button class="btn btn-quiet" id="prev">이전</button><div class="spacer"></div><span class="saved" id="savedTag"></span><button class="btn btn-primary" id="next">다음</button></div></nav>
+</div>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="읽은 글 보기"><div class="veil" data-close></div><div class="panel"><button class="close" data-close aria-label="닫기"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div class="eyebrow">짧은 글</div><h3 id="sheetTitle">모두가 “예” 하면 나도 “예” 하게 될까?</h3><p>선생님이 반 아이들에게 다음 달 체험 학습 장소를 어디로 정하면 좋을지 물었습니다. 첫 번째 친구가 놀이공원에 가고 싶다고 말했습니다. 이어서 몇 명의 친구가 놀이공원이 좋다고 말하자 교실 여기저기서 “저도요!”라는 목소리가 나왔습니다.</p><p>지우는 사실 과학관에 가고 싶었습니다. 전에 가족과 과학관에 갔을 때 직접 로봇을 움직여 본 일이 무척 재미있었기 때문입니다. 하지만 친구들이 모두 놀이공원을 고르는 모습을 보자 조금 망설여졌습니다.</p><p>“나 혼자 다른 곳을 말하면 친구들이 이상하게 생각하지 않을까?” 지우의 차례가 되자 지우는 잠시 망설이다가 놀이공원에 손을 들었습니다. 선생님은 놀이공원을 선택한 학생이 가장 많다며 그곳을 체험 학습 장소로 정했습니다.</p><p>사람은 여러 사람이 같은 행동을 하거나 같은 의견을 말하면 자신도 그들을 따라가는 경우가 있습니다. 이런 현상을 ‘동조’라고 합니다. 우리는 잘 모르는 상황에서 다른 사람의 행동을 보고 도움을 얻기도 합니다.</p><p>예를 들어 처음 가 본 건물에서 화재경보가 울렸는데 출구가 어디인지 모른다면, 사람들이 빠르게 이동하는 방향을 따라가는 것이 도움이 될 수 있습니다. 여러 사람이 같은 쪽으로 움직이는 데에는 이유가 있을 가능성이 있기 때문입니다.</p><p>하지만 여러 사람이 선택했다고 해서 그 선택이 언제나 옳은 것은 아닙니다. 친구들이 위험한 장난을 하자고 하거나 한 사람을 놀리는 데 모두가 참여한다고 생각해 봅시다. 이때 다른 사람을 그대로 따라가면 누군가가 다치거나 마음에 상처를 입을 수 있습니다.</p><p>사람들이 다른 의견을 말하지 못하면 모임 전체가 잘못된 결정을 내릴 수도 있습니다. 각자 속으로는 이상하다고 생각하면서도 모두가 찬성하는 것처럼 행동할 수 있기 때문입니다.</p><p>그렇다고 언제나 다른 사람과 반대로 행동해야 하는 것은 아닙니다. 다른 사람들의 의견을 듣는 것도 중요하고, 함께 결정해야 하는 상황에서는 서로 양보할 필요도 있습니다.</p><p>중요한 것은 사람이 많다는 이유만으로 무조건 따라가는 것이 아니라 왜 그런 선택을 했는지 생각해 보는 것입니다. 그리고 자신의 생각이 다르다면 이유를 설명하고 다른 사람의 생각도 함께 들어볼 수 있어야 합니다.</p><p>그렇다면 우리는 언제 다른 사람을 따라도 괜찮고, 언제 자신의 생각을 말해야 할까요?</p></div></div>
+<div class="scrim" id="scrim" role="dialog" aria-modal="true"><div class="modal"><h3 id="mTitle"></h3><div id="mBody"></div><div class="acts" id="mActs"></div></div></div>
+<div id="report" aria-hidden="true"></div>
+
+
+<script>
+(() => {
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const VERSION='2.0';
+const PASSAGE_TITLE='모두가 “예” 하면 나도 “예” 하게 될까?';
+const STORE='jipyo_tc_s1_v2_0';
+const PASSAGE=[...document.querySelectorAll('#sheet .panel p')].map(p=>p.textContent);
+const FLOW=[
+{id:'s-start'}, {id:'s-read',step:0,tone:'read'}, {id:'s-q1',step:1,tone:'check'}, {id:'s-q2',step:2,tone:'check'},
+{id:'s-q3',step:3,tone:'choice'}, {id:'s-q4',step:4,tone:'question'}, {id:'s-q5',step:5,tone:'other'},
+{id:'s-q6',step:6,tone:'reason'}, {id:'s-q7',step:6,tone:'reason'}, {id:'s-q8',step:7,tone:'choice'},
+{id:'s-q9',step:8,tone:'final'}, {id:'s-q10',step:8,tone:'final',next:'다 썼어요'},
+{id:'s-done',step:8,tone:'final',next:'제출하기',gold:true}, {id:'s-saved',tone:'final'}];
+const STEPS=['읽기','내용 파악','관계','관심','질문','연결','판단','기준','표현'];
+const TONE={read:{step:'#F8F1D9',acc:'#D9C384'},check:{step:'#EAF2F7',acc:'#A3C0D2'},choice:{step:'#F1ECF7',acc:'#B5A8CB'},reason:{step:'#F8EDE7',acc:'#DCB7A0'},other:{step:'#EAF1E8',acc:'#A8C0A1'},question:{step:'#E8F3EF',acc:'#98C4B5'},final:{step:'#F5EBD7',acc:'#C9A96A'}};
+const QUESTIONS=[
+{id:'1',num:'1',section:'글의 내용 파악하기',type:'choice',screen:'s-q1',q:'지우가 처음 가고 싶었던 체험 학습 장소는 어디인가요?'},
+{id:'2',num:'2',section:'글의 내용 파악하기',type:'choice',screen:'s-q1',q:'지우가 놀이공원에 손을 든 가장 큰 이유는 무엇인가요?'},
+{id:'3',num:'3',section:'글의 내용 파악하기',type:'choice',screen:'s-q1',q:'글에서 설명한 동조와 가장 가까운 것은 무엇인가요?'},
+{id:'4',num:'4',section:'관계와 이유 파악하기',type:'pad',screen:'s-q2',q:'다른 사람을 따라가는 행동이 도움이 될 수 있는 경우를 글에서 찾아 간단히 써보세요.'},
+{id:'5',num:'5',section:'관계와 이유 파악하기',type:'pad',screen:'s-q2',q:'다른 사람을 무조건 따라가면 문제가 생길 수 있는 이유는 무엇인가요?'},
+{id:'6',num:'6',section:'관심 발견하기',type:'pad',screen:'s-q3',q:'이 글에서 가장 기억에 남거나 중요하다고 생각한 부분은 무엇인가요?'},
+{id:'7',num:'7',section:'관심 발견하기',type:'pad',screen:'s-q3',q:'왜 그 부분이 중요하다고 생각했나요?'},
+{id:'8',num:'8',section:'질문 만들기',type:'pad',screen:'s-q4',q:'이 글을 읽고 새롭게 궁금해진 것이 있나요? 한 가지 질문을 만들어보세요.'},
+{id:'9',num:'9',section:'경험과 연결하기',type:'pad',screen:'s-q5',q:'친구들이나 주변 사람들의 의견을 따라간 경험이 있나요?'},
+{id:'10',num:'10',section:'상황에 따라 판단하기',type:'choice_with_reason',screen:'s-q6',reason:'10-reason',q:'비가 올 때 사람들이 모두 실내 체육관 쪽으로 뛰어가는 상황에서 어떻게 판단하나요?'},
+{id:'11',num:'11',section:'상황에 따라 판단하기',type:'choice_with_reason',screen:'s-q7',reason:'11-reason',q:'단체 채팅방에서 한 아이를 놀리는 상황에서 어떻게 판단하나요?'},
+{id:'12',num:'12',section:'관점과 기준 세우기',type:'choice_with_reason',screen:'s-q8',reason:'12-reason',q:'다른 사람의 의견을 따라갈지 말지 결정할 때 가장 먼저 생각해야 할 것은 무엇인가요?'},
+{id:'13',num:'13',section:'새로운 생각 만들기',type:'pad',screen:'s-q9',q:'지우가 자신의 생각을 솔직하게 말했다면 친구들에게 어떻게 말할 수 있었을까요?'},
+{id:'14',num:'14',section:'새로운 생각 만들기',type:'pad',screen:'s-q9',q:'여러 사람이 함께 결정할 때 소수의 의견도 들을 수 있도록 어떤 방법을 사용하면 좋을까요?'},
+{id:'15',num:'15',section:'최종 생각 표현하기',type:'pad',screen:'s-q10',help:'final',q:'다른 사람의 의견을 따르는 경우와 자신의 생각을 말해야 하는 경우를 정리해보세요.'}
+];
+let i=0,busy=false,lastData=null;
+const state={choices:{},other12:'',helpUsed:{final:false},pads:{},startedAt:null};
+['4','5','6','7','8','9','10-reason','11-reason','12-reason','13','14','15'].forEach(id=>state.pads[id]={mode:'handwriting',strokes:[],text:'',h:180});
+const stepsEl=$('#steps'); STEPS.forEach(s=>{const e=document.createElement('div');e.className='step';e.innerHTML=`<span class="dot"></span><span class="lbl">${s}</span><span class="bar"></span>`;stepsEl.appendChild(e);});
+function render(){const cur=FLOW[i];$$('.screen').forEach(s=>s.classList.toggle('on',s.id===cur.id));const t=TONE[cur.tone||'final'];$('#app').style.setProperty('--step',t.step);$('#app').style.setProperty('--acc',t.acc);const chrome=i>0&&cur.id!=='s-saved';$('#rail').hidden=!chrome;$('#nav').hidden=i===0||cur.id==='s-saved';if(chrome&&cur.step!==undefined){$$('.step').forEach((el,n)=>{el.classList.toggle('now',n===cur.step);el.classList.toggle('done',n<cur.step)});$('#count').textContent=`${cur.step+1} / ${STEPS.length} · ${STEPS[cur.step]}`;}$('#openSheet').style.visibility=cur.id==='s-read'?'hidden':'visible';$('#prev').hidden=i<=1;$('#next').textContent=cur.next||'다음';$('#next').className='btn '+(cur.gold?'btn-gold':'btn-primary');$('#savedTag').textContent=(i>1&&i<FLOW.length-2)?'이전 화면으로 돌아가 답을 고쳐도 괜찮아요.':'';if(cur.id==='s-saved'){const n=$('#f-name').value.trim();$('#savedWho').textContent=n?`${n} · 1단계`:'1단계';}scrollTo({top:0,behavior:'instant'});setTimeout(sizeAll,30);save();}
+$('#begin').onclick=()=>{state.startedAt=new Date().toISOString();i=1;render();};
+$('#next').onclick=()=>{if(FLOW[i].id==='s-done'){onSubmit();return;}if(i<FLOW.length-1){i++;render();}};
+$('#prev').onclick=()=>{if(i>1){i--;render();}};
+$('#openSheet').onclick=()=>$('#sheet').classList.add('on');$$('#sheet [data-close]').forEach(b=>b.onclick=()=>$('#sheet').classList.remove('on'));
+$$('.choice-set').forEach(set=>{const g=set.dataset.group;set.querySelectorAll('.choice').forEach(c=>{c.onclick=()=>{set.querySelectorAll('.choice').forEach(x=>x.setAttribute('aria-checked','false'));c.setAttribute('aria-checked','true');state.choices[g]=c.dataset.v;if(g==='12'){$('#other12').classList.toggle('on',c.dataset.v==='기타');if(c.dataset.v!=='기타'){state.other12='';$('#other12Text').value='';}}save();};});});
+$('#other12Text').oninput=e=>{state.other12=e.target.value;save();};
+$$('.help-btn[data-help]').forEach(b=>b.onclick=()=>{const body=$('#'+b.dataset.help);const open=b.getAttribute('aria-expanded')==='true';b.setAttribute('aria-expanded',String(!open));body.classList.toggle('on',!open);if(!open)state.helpUsed.final=true;save();});
+const LW=1000,pads=[];const ICON={pen:'✎',era:'⌫',undo:'↶',clear:'×',key:'⌨'};
+function paint(ctx,strokes,kx,ky){ctx.lineCap='round';ctx.lineJoin='round';strokes.forEach(s=>{ctx.globalCompositeOperation=s.e?'destination-out':'source-over';ctx.strokeStyle='#23211E';ctx.lineWidth=(s.e?22:2.4)*kx;ctx.beginPath();s.p.forEach((pt,n)=>n?ctx.lineTo(pt[0]*kx,pt[1]*ky):ctx.moveTo(pt[0]*kx,pt[1]*ky));if(s.p.length===1)ctx.lineTo(s.p[0][0]*kx+.1,s.p[0][1]*ky+.1);ctx.stroke();});ctx.globalCompositeOperation='source-over';}
+function strokesToPNG(strokes,h,scale=2){const c=document.createElement('canvas');c.width=LW*scale;c.height=h*scale;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);paint(x,strokes,scale,scale);return c.toDataURL('image/png');}
+function buildPad(el){const key=el.dataset.pad,h=+el.dataset.h,A=state.pads[key];A.h=h;el.innerHTML=`<div class="pad-tools"><button class="tool" data-t="pen" aria-pressed="true">${ICON.pen}<span>펜</span></button><button class="tool" data-t="era" aria-pressed="false">${ICON.era}<span>지우개</span></button><button class="tool" data-t="undo">${ICON.undo}<span>되돌리기</span></button><button class="tool" data-t="clear">${ICON.clear}<span>전체 지우기</span></button><button class="tool right" data-t="key" aria-pressed="false">${ICON.key}<span>키보드</span></button></div><div class="canvas-wrap" style="height:${h}px"><div class="rule"></div><canvas></canvas><div class="ph">${el.dataset.ph||''}</div></div><textarea spellcheck="false" style="min-height:${h}px" placeholder="${el.dataset.ph||''}"></textarea>`;const cv=el.querySelector('canvas'),ctx=cv.getContext('2d'),ph=el.querySelector('.ph'),ta=el.querySelector('textarea');let cur=null,erasing=false,drawing=false;ta.oninput=()=>{A.text=ta.value;save();};function size(){const w=cv.parentElement.clientWidth,dpr=Math.min(devicePixelRatio||1,2);if(!w)return;cv.width=w*dpr;cv.height=h*dpr;cv.style.height=h+'px';ctx.setTransform(dpr,0,0,dpr,0,0);redraw();}function redraw(){const w=cv.clientWidth;ctx.clearRect(0,0,cv.width,cv.height);paint(ctx,A.strokes,w/LW,1);ph.style.opacity=A.strokes.length?0:1;}const pos=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)/r.width*LW,(e.clientY-r.top)/r.height*h];};cv.onpointerdown=e=>{drawing=true;cv.setPointerCapture(e.pointerId);cur={e:erasing,p:[pos(e)]};A.strokes.push(cur);redraw();};cv.onpointermove=e=>{if(drawing&&cur){cur.p.push(pos(e));redraw();}};const end=()=>{if(drawing){drawing=false;cur=null;save();}};cv.onpointerup=end;cv.onpointercancel=end;el.querySelectorAll('.tool').forEach(b=>b.onclick=()=>{const t=b.dataset.t;if(t==='pen'||t==='era'){erasing=t==='era';el.querySelector('[data-t="pen"]').setAttribute('aria-pressed',String(!erasing));el.querySelector('[data-t="era"]').setAttribute('aria-pressed',String(erasing));}if(t==='undo'){A.strokes.pop();redraw();save();}if(t==='clear'){if(el.classList.contains('keys')){ta.value='';A.text='';}else{A.strokes=[];redraw();}save();}if(t==='key'){const on=!el.classList.contains('keys');el.classList.toggle('keys',on);b.setAttribute('aria-pressed',String(on));b.querySelector('span').textContent=on?'손글씨':'키보드';el.querySelectorAll('[data-t="pen"],[data-t="era"],[data-t="undo"]').forEach(x=>x.style.display=on?'none':'');A.mode=on?'keyboard':'handwriting';if(on)setTimeout(()=>ta.focus(),50);else setTimeout(size,30);save();}});pads.push(size);size();}
+$$('.pad[data-pad]').forEach(buildPad);function sizeAll(){pads.forEach(f=>f());}addEventListener('resize',()=>setTimeout(sizeAll,80));
+let st=null;function save(){clearTimeout(st);st=setTimeout(()=>{try{const ps={};Object.keys(state.pads).forEach(k=>{const p=state.pads[k];ps[k]={mode:p.mode,strokes:p.strokes,text:p.text,h:p.h};});sessionStorage.setItem(STORE,JSON.stringify({i,choices:state.choices,other12:state.other12,helpUsed:state.helpUsed,pads:ps,startedAt:state.startedAt,name:$('#f-name').value,grade:$('#f-grade').value,date:$('#f-date').value}));}catch(e){}},250);}
+function clearSaved(){try{localStorage.removeItem(STORE);sessionStorage.removeItem(STORE);}catch(e){}}
+function modal(title,html,acts){$('#mTitle').textContent=title;$('#mBody').innerHTML=html;const a=$('#mActs');a.innerHTML='';acts.forEach(x=>{const b=document.createElement('button');b.className='btn '+(x.gold?'btn-gold':x.primary?'btn-primary':'btn-quiet');b.textContent=x.label;b.onclick=()=>{$('#scrim').classList.remove('on');x.onClick&&x.onClick();};a.appendChild(b);});$('#scrim').classList.add('on');}
+function blank(q){if(q.type.startsWith('choice')){if(!state.choices[q.id])return true;if(q.id==='12'&&state.choices[q.id]==='기타'&&!state.other12.trim())return true;if(q.reason){const p=state.pads[q.reason];return p.mode==='keyboard'?!p.text.trim():!p.strokes.length;}return false;}const p=state.pads[q.id];return p.mode==='keyboard'?!p.text.trim():!p.strokes.length;}
+function answerFor(q){const base={question_id:q.id,display_number:q.num,section:q.section,question:q.q,input_type:q.type,selected_answer:null,other_answer:null,text_answer:'',handwriting_image:'',help_used:q.help==='final'&&state.helpUsed.final,response_status:blank(q)?'blank':'completed'};if(q.type.startsWith('choice')){base.selected_answer=state.choices[q.id]||'';if(q.id==='12'&&base.selected_answer==='기타')base.other_answer=state.other12;if(q.reason){const p=state.pads[q.reason];base.reason_input_type=p.mode;base.reason_text=p.mode==='keyboard'?p.text:'';base.reason_handwriting=p.mode==='handwriting'&&p.strokes.length?strokesToPNG(p.strokes,p.h):'';}}else{const p=state.pads[q.id];base.input_type=p.mode;if(p.mode==='keyboard')base.text_answer=p.text;else if(p.strokes.length)base.handwriting_image=strokesToPNG(p.strokes,p.h);}return base;}
+function buildData(){const answers=QUESTIONS.map(answerFor);return{test:{title:'JIPYO Thinking Check',stage:1,version:VERSION,passage_title:PASSAGE_TITLE,domains:['내용 파악','관계·이유','관심','질문','연결','상황 판단','기준','생성','표현']},student:{name:$('#f-name').value.trim(),grade:$('#f-grade').value.trim(),date:$('#f-date').value,started_at:state.startedAt||'',completed_at:new Date().toISOString()},answers,summary:{total:answers.length,completed:answers.filter(a=>a.response_status==='completed').length,blank:answers.filter(a=>a.response_status==='blank').length,help_used:{final:state.helpUsed.final}},submission:{submitted:true,submitted_at:new Date().toISOString(),pdf_filename:fileName('pdf'),json_filename:fileName('json')}};}
+function today(){return new Date().toISOString().slice(0,10);}function fileName(ext){const n=($('#f-name').value||'').replace(/[\\/:*?"<>|.\s]+/g,'')||'이름없음';return`${n}_JIPYO_Thinking_Check_1단계_${$('#f-date').value||today()}.${ext}`;}function esc(s){return String(s??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+function buildReport(data){let html=`<div class="rp-head"><h1>JIPYO Thinking Check</h1><div class="stg">1단계 · ${esc(PASSAGE_TITLE)}</div><div class="dom">내용 파악 · 관심 · 질문 · 연결 · 판단 · 표현</div></div><table class="rp-meta"><tr><th>이름</th><td>${esc(data.student.name||'미입력')}</td><th>학년</th><td>${esc(data.student.grade||'미입력')}</td></tr><tr><th>작성 날짜</th><td>${esc(data.student.date||'-')}</td><th>진단 버전</th><td>v${VERSION}</td></tr><tr><th>응답 현황</th><td colspan="3">작성 ${data.summary.completed} · 미작성 ${data.summary.blank} · 전체 ${data.summary.total}</td></tr></table><div class="rp-item"><div class="rp-q"><div class="rp-id">읽은 글</div></div><div class="rp-b">${PASSAGE.map(p=>`<p>${esc(p)}</p>`).join('')}</div></div>`;data.answers.forEach(a=>{let body='';if(a.input_type.startsWith('choice')){body=`<div class="rp-a">선택: ${esc(a.selected_answer||'응답 없음')}${a.other_answer?'<br>기타: '+esc(a.other_answer):''}</div>`;if(a.reason_input_type==='keyboard')body+=`<div class="rp-a">이유: ${esc(a.reason_text||'응답 없음')}</div>`;else if(a.reason_handwriting)body+=`<img src="${a.reason_handwriting}" alt="이유 손글씨">`;else if(a.reason_input_type)body+=`<div class="rp-a blank">이유 응답 없음</div>`;}else if(a.input_type==='keyboard')body=`<div class="rp-a ${a.text_answer?'':'blank'}">${esc(a.text_answer||'응답 없음')}</div>`;else body=a.handwriting_image?`<img src="${a.handwriting_image}" alt="손글씨 답안">`:`<div class="rp-a blank">응답 없음</div>`;html+=`<div class="rp-item"><div class="rp-q"><div class="rp-id">문항 ${a.display_number} · [ ${esc(a.section)} ]</div><div class="rp-qt">${esc(a.question)}</div></div><div class="rp-b">${body}</div></div>`;});html+=`<div class="rp-foot">이 결과지는 정답 점수만이 아니라, 아이가 정보를 이해하고 관심을 발견하며 질문·연결·판단·표현하는 사고 과정을 살펴보기 위한 원자료입니다.</div>`;$('#report').innerHTML=html;}
+async function makePDF(data){buildReport(data);if(document.fonts?.ready)try{await document.fonts.ready;}catch(e){}await Promise.all([...$('#report').querySelectorAll('img')].map(im=>im.complete?Promise.resolve():new Promise(r=>im.onload=im.onerror=r)));const old=document.title;document.title=fileName('pdf').replace(/\.pdf$/,'');addEventListener('afterprint',()=>document.title=old,{once:true});print();}
+function download(name,blob){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);}function downloadJSON(data){download(fileName('json'),new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));}
+function onSubmit(){const m=QUESTIONS.filter(blank);if(m.length)modal('아직 작성하지 않은 문항이 있습니다.',`<p>그대로 제출하거나 돌아가 작성할 수 있습니다.</p><div class="miss">${m.map(q=>'· 문항 '+q.num+' — '+q.section).join('<br>')}</div>`,[{label:'돌아가서 확인하기',onClick:()=>{i=FLOW.findIndex(f=>f.id===m[0].screen);render();}},{label:'빈 답을 포함해 제출하기',primary:true,onClick:confirmSubmit}]);else confirmSubmit();}
+function confirmSubmit(){modal('작성한 내용을 제출할까요?','<p>제출하면 PDF 인쇄 창과 데이터 파일이 만들어집니다.</p>',[{label:'다시 확인하기',onClick:()=>{i=FLOW.findIndex(f=>f.id==='s-q10');render();}},{label:'제출하기',gold:true,onClick:runSubmit}]);}
+async function runSubmit(){if(busy)return;busy=true;try{lastData=buildData();downloadJSON(lastData);await makePDF(lastData);clearSaved();i=FLOW.findIndex(f=>f.id==='s-saved');render();$('#savedStatus').textContent='인쇄 창에서 “PDF로 저장”을 선택하면 결과지가 만들어집니다.';}catch(e){modal('PDF를 만드는 중 문제가 발생했습니다.','<p>작성 내용은 화면에 남아 있습니다.</p>',[{label:'닫기'}]);}finally{busy=false;}}
+$('#dlPdf').onclick=()=>makePDF(lastData||buildData());$('#finish').onclick=()=>{clearSaved();location.reload();};
+addEventListener('beforeunload',e=>{if(i>0&&i<FLOW.findIndex(f=>f.id==='s-saved')&&!busy){e.preventDefault();e.returnValue='';}});
+/* 항상 처음 화면에서 시작: 이전 기기의 localStorage/sessionStorage를 읽지 않으며, 남아 있는 동일 버전 데이터도 제거 */
+clearSaved();$('#f-date').value=today();render();
+})();
+</script>
