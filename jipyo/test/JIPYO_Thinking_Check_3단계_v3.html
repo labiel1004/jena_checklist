@@ -1,6 +1,6 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>JIPYO Thinking Check · 3단계 v2.2</title>
+<title>JIPYO Thinking Check · 3단계 v2.4</title>
 <meta property="og:title" content="JIPYO Thinking Check | 3단계">
 <meta property="og:description" content="지표 생각 구조 진단">
 <meta property="og:image" content="https://labiel1004.github.io/jena_checklist/jipyo/images/thinking_check_3.png">
@@ -1527,7 +1527,7 @@ canvas{display:block;width:100%;touch-action:none;cursor:crosshair;background:#f
   }
 
   /* ══ 제출 흐름 ══════════════════════ */
-  let busy = false, lastData = null;
+  let busy = false, lastData = null, pdfButtonArmedAt = 0;
 
   function onSubmit(){
     if (busy) return;
@@ -1568,7 +1568,15 @@ canvas{display:block;width:100%;touch-action:none;cursor:crosshair;background:#f
       clearSaved();
       i = SAVED_INDEX;
       render();
-      $('#savedStatus').textContent = '아래의 ‘결과지 PDF로 저장’ 버튼을 누르면 결과지를 저장할 수 있습니다.';
+
+      /* PC에서 제출 클릭이 PDF 버튼으로 이어지는 클릭 관통 방지 */
+      const pdfBtn = $('#dlPdf');
+      pdfBtn.disabled = true;
+      pdfButtonArmedAt = Date.now() + 1200;
+      setTimeout(() => {
+        pdfBtn.disabled = false;
+        $('#savedStatus').textContent = '아래의 ‘결과지 PDF로 저장’ 버튼을 직접 누르면 결과지를 저장할 수 있습니다.';
+      }, 1200);
     }catch(err){
       btn.disabled = false; btn.textContent = '제출하기';
       modal('PDF를 만드는 중 문제가 발생했습니다.',
@@ -1583,7 +1591,13 @@ canvas{display:block;width:100%;touch-action:none;cursor:crosshair;background:#f
   }
 
   /* ── 교사용 결과 저장 ── */
-  $('#dlPdf').onclick = async () => {
+  $('#dlPdf').onclick = async (e) => {
+    /* 저장 완료 화면이 열린 직후 발생한 잔여 클릭은 무시 */
+    if (!e.isTrusted || Date.now() < pdfButtonArmedAt) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
     $('#savedStatus').textContent = '';
     try{ await makePDF(lastData || buildData()); }
     catch(e){ $('#savedStatus').textContent = 'PDF를 만들지 못했습니다. 다시 시도해주세요.'; }
