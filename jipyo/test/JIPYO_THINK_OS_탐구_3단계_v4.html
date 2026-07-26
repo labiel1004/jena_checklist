@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JIPYO THINK OS 탐구 · 3단계</title>
+<style>
+:root{
+  --bg:#FAF9FB; --surface:#fff; --ink:#1F2124; --muted:#666872; --line:#E3E1E7;
+  --purple:#5A357A; --purple2:#76529A; --tint:#F4EEF8; --soft:#F8F4FA;
+  --radius:16px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Pretendard,"Noto Sans KR",Arial,sans-serif;color:var(--ink);background:var(--bg)}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.top{position:sticky;top:0;z-index:20;background:rgba(250,249,251,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topin{max-width:1040px;margin:auto;padding:14px 24px;display:flex;align-items:center;gap:18px}
+.brand{font-size:13px;font-weight:700;letter-spacing:.13em}.brand b{color:var(--purple)}
+.progress{flex:1;height:6px;border-radius:99px;background:#E7E2EB;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--purple);transition:.3s}
+.counter{font-size:13px;color:var(--muted);white-space:nowrap}
+main{max-width:1040px;margin:auto;padding:34px 24px 130px}
+.screen{display:none}.screen.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:.25;transform:translateY(6px)}}
+.hero{text-align:center;max-width:760px;margin:40px auto}
+.mark{width:86px;height:86px;margin:0 auto 22px;border-radius:50%;background:radial-gradient(circle,#E8DDF0,#F5EFF9 65%,transparent 67%);display:grid;place-items:center}
+.mark:before{content:"J";display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:#1F2124;color:#D8B96E;font-weight:800;font-size:24px}
+.hero h1{font-size:40px;margin:0 0 8px}.hero h2{font-size:22px;color:var(--muted);font-weight:600;margin:0}
+.stage{display:inline-block;margin-top:22px;padding:12px 22px;border:1px solid #D6C4E3;border-radius:12px;background:#fff;font-weight:700;color:var(--purple)}
+.notice{margin:28px auto 0;max-width:660px;text-align:left;background:var(--tint);border:1px solid #E1D4EA;border-radius:16px;padding:22px 26px;line-height:1.85;color:#504A55}
+.fields{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:14px;max-width:650px;margin:26px auto 0;text-align:left}
+label{font-size:13px;color:var(--muted);display:block;margin-bottom:7px}
+input[type=text],input[type=date],textarea,select{width:100%;border:1px solid #D5D0DA;border-radius:12px;background:#fff;padding:14px 16px;color:var(--ink)}
+textarea{min-height:180px;resize:vertical;line-height:1.8}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--purple);box-shadow:0 0 0 4px var(--tint)}
+.head{background:var(--tint);border-radius:18px;padding:24px 28px;margin-bottom:22px;border-left:5px solid var(--purple)}
+.eyebrow{font-size:13px;letter-spacing:.1em;color:var(--purple);font-weight:700;margin-bottom:8px}
+.head h2{font-size:25px;line-height:1.45;margin:0}
+.head p{color:var(--muted);margin:8px 0 0;line-height:1.7}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin-top:16px}
+.reading{font-size:18px;line-height:2.02;padding:32px}
+.reading p{margin:0 0 22px}
+.qtitle{font-size:20px;font-weight:700;line-height:1.55;margin-bottom:16px}
+.num{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:11px;background:var(--purple);color:#fff;margin-right:10px;font-size:16px}
+.choicegrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.choice{position:relative;display:flex;align-items:flex-start;gap:11px;padding:16px;border:1px solid #D6D0DB;border-radius:12px;background:#fff;line-height:1.55}
+.choice input{margin-top:4px;accent-color:var(--purple)}
+.choice:has(input:checked){background:var(--tint);border-color:#BFA4D2;font-weight:600}
+.materials{display:grid;gap:12px}
+.material{display:grid;grid-template-columns:1fr 140px;gap:12px;align-items:center;padding:14px 16px;border:1px solid var(--line);border-radius:12px}
+.tint{padding:16px 18px;border-left:4px solid var(--purple);background:var(--tint);border-radius:0 12px 12px 0;line-height:1.8;margin:14px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.two textarea,.three textarea{min-height:145px}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:25;background:rgba(250,249,251,.96);border-top:1px solid var(--line);backdrop-filter:blur(8px)}
+.navin{max-width:1040px;margin:auto;padding:15px 24px;display:flex;gap:12px}
+.btn{border:0;border-radius:12px;min-height:52px;padding:0 26px;font-weight:700}
+.primary{background:#1F2124;color:#fff}.accent{background:var(--purple);color:#fff}.quiet{background:#fff;color:var(--muted);border:1px solid #D5D0DA}.spacer{flex:1}
+.done{text-align:center;max-width:650px;margin:80px auto}.done .tick{font-size:46px;color:var(--purple)}
+.donebox{text-align:left;margin-top:25px;padding:22px;background:var(--tint);border-radius:16px;line-height:1.8}
+.teacher{margin-top:28px;border-top:1px solid var(--line);padding-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+#report{display:none}
+@media(max-width:720px){
+ .fields,.choicegrid,.two,.three{grid-template-columns:1fr}.material{grid-template-columns:1fr}
+ .hero h1{font-size:32px}.reading{padding:24px;font-size:17px}main{padding-left:18px;padding-right:18px}
+}
+@media print{
+ @page{size:A4;margin:13mm}
+ body{background:#fff}
+ .top,main,.nav{display:none!important}
+ #report{display:block!important;color:#111;font-size:10.5pt;line-height:1.55}
+ .rp-head{border-bottom:2px solid #5A357A;padding-bottom:10px;margin-bottom:14px}
+ .rp-head h1{font-size:20pt;margin:0}.rp-head p{margin:4px 0 0;color:#555}
+ .meta{width:100%;border-collapse:collapse;margin:12px 0}
+ .meta th,.meta td{border:1px solid #bbb;padding:6px 8px;text-align:left}.meta th{background:#F4EEF8;width:85px}
+ .rp{border:1px solid #bbb;margin:0 0 10px;break-inside:avoid}
+ .rp h3{font-size:11pt;margin:0;padding:7px 9px;background:#F4EEF8;border-bottom:1px solid #bbb}
+ .rp .body{padding:9px}.ans{white-space:pre-wrap;border-left:3px solid #5A357A;padding-left:9px}.blank{color:#888;border-left-color:#aaa}
+}
+</style>
+</head>
+<body>
+<header class="top" id="top" hidden>
+  <div class="topin"><div class="brand">JIPYO <b>·</b> THINK OS 탐구 3단계</div><div class="progress"><i id="bar"></i></div><div class="counter" id="count"></div></div>
+</header>
+
+<main>
+<section class="screen on" data-id="start">
+ <div class="hero">
+  <div class="mark"></div><h1>JIPYO THINK OS 탐구</h1><h2>여러 정보를 연결하고 자기 관점을 구조화하는 3단계</h2>
+  <div class="stage">3단계 · 추천 알고리즘은 내가 원하는 것을 보여줄까, 내가 원하게 만들까?</div>
+  <div class="notice"><b>이 활동은 시험이 아닙니다.</b><br>여러 정보와 관점을 살피며 내 생각이 어떤 순서로 움직이는지 확인합니다. 정답보다 생각의 이유와 흐름이 중요합니다. 모르는 문항은 빈칸으로 두어도 괜찮습니다.</div>
+  <div class="fields">
+   <div><label>이름</label><input id="name" type="text"></div>
+   <div><label>학년</label><input id="grade" type="text"></div>
+   <div><label>탐구일</label><input id="date" type="date"></div>
+  </div>
+  <button class="btn primary" style="margin-top:28px;min-width:220px" id="begin">시작하기</button>
+ </div>
+</section>
+
+<section class="screen" data-id="read">
+ <div class="head"><div class="eyebrow">[ 읽기 ]</div><h2>추천 알고리즘은 내가 원하는 것을 보여줄까, 내가 원하게 만들까?</h2><p>천천히 읽어보세요. 문항을 풀 때 다시 떠올려도 됩니다.</p></div>
+ <div class="card reading">
+  <p>동영상 플랫폼이나 사회관계망 서비스를 이용하다 보면 내가 좋아할 만한 영상과 게시물이 끊임없이 나타납니다. 운동 영상을 몇 번 보았더니 비슷한 운동법이 계속 추천되고, 어떤 가수의 노래를 들은 뒤에는 그 가수의 공연 영상과 인터뷰가 화면을 채웁니다.</p>
+  <p>추천 알고리즘은 사용자가 무엇을 보았는지, 얼마나 오래 머물렀는지, 어떤 게시물에 반응했는지 등의 기록을 분석합니다. 비슷한 행동을 한 다른 사용자들이 무엇을 좋아했는지도 참고합니다.</p>
+  <p>이런 추천은 많은 정보 가운데 관심과 가까운 것을 빠르게 찾도록 도와줍니다. 잘 알려지지 않은 창작자의 작품이 관심을 가질 만한 사람에게 소개되는 데에도 도움이 됩니다.</p>
+  <p>하지만 한 종류의 콘텐츠를 오래 볼수록 비슷한 내용이 더 자주 나타납니다. 그러면 다른 생각이나 새로운 분야를 만날 기회가 줄어들 수 있습니다. 비슷한 정보만 반복해서 접하며 자신의 생각이 더 옳다고 믿게 되는 환경을 ‘필터 버블’이라고 부릅니다.</p>
+  <p>알고리즘은 사용자가 정말 좋아해서 오래 본 것인지, 놀랍거나 화가 나서 계속 본 것인지 정확히 구분하기 어렵습니다. 플랫폼이 머무는 시간을 중요하게 본다면 강한 감정을 일으키는 콘텐츠가 더 많이 추천될 수도 있습니다.</p>
+  <p>추천이 사용자의 선택을 완전히 결정하는 것은 아닙니다. 사용자는 영상을 넘기거나 새로운 주제를 직접 검색하고, 관심 없는 콘텐츠를 표시하거나 추천 기록을 지울 수 있습니다.</p>
+  <p>그러나 모든 책임을 사용자에게만 돌리기도 어렵습니다. 추천 기준은 자세히 공개되지 않는 경우가 많고, 어린이나 청소년은 자신의 행동이 다음 추천에 어떤 영향을 주는지 알기 어렵습니다. 플랫폼도 사용자가 오래 머물수록 광고 수익을 얻는 이해관계를 가집니다.</p>
+  <p>추천 알고리즘이 선택을 돕는 도구로 남기 위해서는 플랫폼과 사용자에게 각각 어떤 책임과 기준이 필요할까요?</p>
+ </div>
+</section>
+
+<section class="screen" data-id="q1">
+ <div class="head"><div class="eyebrow">[ 생각의 재료 구분 ]</div><h2>글 속 문장을 사실·해석·의견·주장으로 구분해보세요.</h2></div>
+ <div class="card"><div class="materials">
+  <div class="material"><span>추천 알고리즘은 사용자의 이용 기록을 분석한다.</span><select data-a="m1"><option value="">선택</option><option>사실</option><option>해석</option><option>의견</option><option>주장</option></select></div>
+  <div class="material"><span>플랫폼은 사용자가 오래 머물기를 바라는 것 같다.</span><select data-a="m2"><option value="">선택</option><option>사실</option><option>해석</option><option>의견</option><option>주장</option></select></div>
+  <div class="material"><span>사용자는 추천된 영상을 그대로 볼 필요는 없다.</span><select data-a="m3"><option value="">선택</option><option>사실</option><option>해석</option><option>의견</option><option>주장</option></select></div>
+  <div class="material"><span>플랫폼은 청소년에게 추천 기준을 더 분명히 알려야 한다.</span><select data-a="m4"><option value="">선택</option><option>사실</option><option>해석</option><option>의견</option><option>주장</option></select></div>
+ </div></div>
+</section>
+
+<section class="screen" data-id="q2">
+ <div class="head"><div class="eyebrow">[ 내용 이해 ]</div><h2>글의 중심 내용과 핵심 개념을 확인해보세요.</h2></div>
+ <div class="card"><div class="qtitle"><span class="num">2</span>‘필터 버블’과 가장 가까운 설명은 무엇인가요?</div>
+  <div class="choicegrid">
+   <label class="choice"><input type="radio" name="q2" value="비슷한 정보만 반복해서 접해 관점이 좁아지는 현상">비슷한 정보만 반복해서 접해 관점이 좁아지는 현상</label>
+   <label class="choice"><input type="radio" name="q2" value="인터넷 속도가 느려지는 현상">인터넷 속도가 느려지는 현상</label>
+   <label class="choice"><input type="radio" name="q2" value="사용자의 정보가 모두 공개되는 현상">사용자의 정보가 모두 공개되는 현상</label>
+   <label class="choice"><input type="radio" name="q2" value="인기 콘텐츠가 갑자기 사라지는 현상">인기 콘텐츠가 갑자기 사라지는 현상</label>
+  </div>
+ </div>
+ <div class="card"><div class="qtitle"><span class="num">3</span>추천 알고리즘의 장점과 위험을 각각 한 가지씩 써보세요.</div>
+  <div class="two"><div><label>장점</label><textarea data-a="q3a"></textarea></div><div><label>위험</label><textarea data-a="q3b"></textarea></div></div>
+ </div>
+</section>
+
+<section class="screen" data-id="q3">
+ <div class="head"><div class="eyebrow">[ 정보의 관계 ]</div><h2>정보가 어떤 원인과 결과로 이어지는지 살펴보세요.</h2></div>
+ <div class="card"><div class="tint">특정 콘텐츠에 오래 머문다 → 비슷한 콘텐츠가 더 많이 추천된다 → ________</div>
+  <div class="qtitle"><span class="num">4</span>그다음에는 어떤 결과가 나타날 수 있나요?</div>
+  <textarea data-a="q4" placeholder="생각이나 선택의 변화와 연결해 써보세요."></textarea>
+ </div>
+</section>
+
+<section class="screen" data-id="q4">
+ <div class="head"><div class="eyebrow">[ 관점 비교 ]</div><h2>개인의 책임과 플랫폼의 책임을 비교해보세요.</h2></div>
+ <div class="card">
+  <div class="tint"><b>관점 A</b> 사용자가 스스로 검색하고 추천을 조절할 수 있으므로 개인의 책임이 중요하다.<br><b>관점 B</b> 플랫폼이 추천 기준과 이용 구조를 설계하므로 기업의 책임이 더 크다.</div>
+  <div class="two"><div><label>관점 A가 중요하게 보는 것</label><textarea data-a="q5a"></textarea></div><div><label>관점 B가 중요하게 보는 것</label><textarea data-a="q5b"></textarea></div></div>
+  <textarea data-a="q5c" style="margin-top:14px" placeholder="한쪽 관점만으로는 충분하지 않은 이유가 있다면 써보세요."></textarea>
+ </div>
+</section>
+
+<section class="screen" data-id="q5">
+ <div class="head"><div class="eyebrow">[ 빠진 정보 찾기 ]</div><h2>정확히 판단하려면 무엇을 더 확인해야 할까요?</h2></div>
+ <div class="card"><div class="qtitle"><span class="num">6</span>추천 알고리즘이 사람의 선택에 얼마나 영향을 주는지 판단하기 위해 필요한 정보를 두 가지 써보세요.</div>
+  <div class="two"><div><label>필요한 정보 1</label><textarea data-a="q6a"></textarea></div><div><label>필요한 정보 2</label><textarea data-a="q6b"></textarea></div></div>
+ </div>
+</section>
+
+<section class="screen" data-id="q6">
+ <div class="head"><div class="eyebrow">[ 질문 ]</div><h2>글을 읽고 더 알아보고 싶은 것을 질문으로 만들어보세요.</h2></div>
+ <div class="card"><div class="tint">조건, 책임, 영향, 해결 방법 가운데 내가 더 궁금한 것을 생각해보세요.</div>
+  <textarea data-a="q7" placeholder="더 알아보거나 토론하고 싶은 질문 한 가지"></textarea>
+ </div>
+</section>
+
+<section class="screen" data-id="q7">
+ <div class="head"><div class="eyebrow">[ 연결 ]</div><h2>내가 실제로 겪었던 추천 경험과 연결해보세요.</h2></div>
+ <div class="card"><div class="qtitle"><span class="num">8</span>비슷한 영상이나 게시물이 반복해서 추천된 경험이 있나요?</div>
+  <p style="color:var(--muted)">무엇을 보았고, 그 추천이 내 관심이나 선택에 어떤 영향을 주었는지 써보세요. 경험이 없다면 가상의 상황을 써도 됩니다.</p>
+  <textarea data-a="q8"></textarea>
+ </div>
+</section>
+
+<section class="screen" data-id="q8">
+ <div class="head"><div class="eyebrow">[ 해석 ]</div><h2>왜 자극적인 콘텐츠가 더 자주 추천될 수 있을까요?</h2></div>
+ <div class="card"><div class="qtitle"><span class="num">9</span>플랫폼의 운영 방식과 사용자의 반응을 함께 생각해 설명해보세요.</div>
+  <textarea data-a="q9"></textarea>
+ </div>
+</section>
+
+<section class="screen" data-id="q9">
+ <div class="head"><div class="eyebrow">[ 판단 ]</div><h2>다음 정책을 판단하고 필요한 조건을 써보세요.</h2></div>
+ <div class="card">
+  <div class="tint">한 동영상 플랫폼이 청소년에게 자극적인 영상이 반복 추천되는 것을 줄이기 위해 이용 기록 일부를 자동으로 초기화하고 다양한 주제를 섞어 보여주기로 했다. 일부 사용자는 좋아하지 않는 영상이 나타나 불편하다고 말한다.</div>
+  <div class="choicegrid">
+   <label class="choice"><input type="radio" name="q10" value="찬성한다">찬성한다</label>
+   <label class="choice"><input type="radio" name="q10" value="반대한다">반대한다</label>
+   <label class="choice"><input type="radio" name="q10" value="조건에 따라 찬성한다">조건에 따라 찬성한다</label>
+  </div>
+  <textarea data-a="q10r" style="margin-top:14px" placeholder="판단 이유와 필요한 조건을 함께 써보세요."></textarea>
+ </div>
+</section>
+
+<section class="screen" data-id="q10">
+ <div class="head"><div class="eyebrow">[ 기준 세우기 ]</div><h2>플랫폼과 사용자가 지켜야 할 기준을 정해보세요.</h2></div>
+ <div class="two">
+  <div><label>플랫폼이 지켜야 할 기준</label><textarea data-a="q11a" placeholder="두 가지 이내로 써보세요."></textarea></div>
+  <div><label>사용자가 지켜야 할 기준</label><textarea data-a="q11b" placeholder="두 가지 이내로 써보세요."></textarea></div>
+ </div>
+ <div class="card"><div class="qtitle">그중 가장 중요하다고 생각하는 기준은 무엇이며, 왜 중요한가요?</div><textarea data-a="q11c"></textarea></div>
+</section>
+
+<section class="screen" data-id="q11">
+ <div class="head"><div class="eyebrow">[ 생각 정리하기 ]</div><h2>지금까지 읽고 생각한 내용을 자신의 말로 자유롭게 정리해보세요.</h2></div>
+ <div class="card">
+  <div class="tint">
+   <b>참고 예시</b> · 그대로 따라 쓸 필요는 없습니다.<br>
+   처음에는 ______라고 생각했습니다.<br>
+   글을 읽으면서 ______도 중요하다는 것을 알게 되었습니다.<br>
+   그래서 지금은 ______가 가장 중요하다고 생각합니다.
+  </div>
+  <textarea data-a="q12" style="min-height:260px" placeholder="예시를 참고해도 되고, 자신의 방식대로 자유롭게 써도 됩니다."></textarea>
+ </div>
+</section>
+
+<section class="screen" data-id="q12">
+ <div class="head"><div class="eyebrow">[ 자기 언어 표현 ]</div><h2>추천 알고리즘은 내가 원하는 것을 보여주는 걸까요, 내가 원하게 만드는 걸까요?</h2><p>자신의 주장, 이유, 글 속 정보나 경험, 반대 의견 또는 예외, 필요한 기준을 4~6문장으로 써보세요.</p></div>
+ <div class="card"><textarea data-a="q13" style="min-height:290px"></textarea></div>
+</section>
+
+<section class="screen" data-id="done">
+ <div class="done"><div class="tick">✓</div><h1>생각을 끝까지 표현했어요.</h1>
+  <div class="donebox">여러 정보의 관계를 살피고, 빠진 정보를 찾고, 서로 다른 관점과 책임을 비교한 뒤 자신의 기준으로 생각을 구조화해 표현하는 활동이었습니다.</div>
+  <div class="teacher"><button class="btn accent" id="savePdf">학생 결과지 PDF로 저장</button><button class="btn quiet" id="restart">처음으로</button></div>
+ </div>
+</section>
+</main>
+
+<nav class="nav" id="nav" hidden><div class="navin"><button class="btn quiet" id="prev">이전</button><div class="spacer"></div><button class="btn primary" id="next">다음</button></div></nav>
+<div id="report"></div>
+
+<script>
+(()=>{
+ const screens=[...document.querySelectorAll('.screen')], flow=screens.map(x=>x.dataset.id);
+ let idx=0;
+ const $=s=>document.querySelector(s);
+ const KEY='jipyo_think_os_stage3_v1';
+ const questions=[
+  ['생각의 재료 구분','m1,m2,m3,m4'],['내용 이해 · 핵심 개념','q2'],['내용 이해 · 장점과 위험','q3a,q3b'],
+  ['정보의 관계','q4'],['관점 비교','q5a,q5b,q5c'],['빠진 정보 찾기','q6a,q6b'],['질문','q7'],
+  ['연결','q8'],['해석','q9'],['판단','q10,q10r'],['기준 세우기','q11a,q11b,q11c'],
+  ['생각 정리하기','q12'],['자기 언어 표현','q13']
+ ];
+ function today(){return new Date().toISOString().slice(0,10)}
+ $('#date').value=today();
+ function value(id){
+   const el=document.querySelector(`[data-a="${id}"]`);
+   if(el) return el.value||'';
+   const r=document.querySelector(`input[name="${id}"]:checked`);
+   return r?r.value:'';
+ }
+ function snapshot(){
+  const a={}; questions.forEach(([,ids])=>ids.split(',').forEach(id=>a[id]=value(id)));
+  return {name:$('#name').value,grade:$('#grade').value,date:$('#date').value,answers:a,idx};
+ }
+ function save(){localStorage.setItem(KEY,JSON.stringify(snapshot()))}
+ function restore(){
+  try{
+   const d=JSON.parse(localStorage.getItem(KEY)||'null'); if(!d)return;
+   $('#name').value=d.name||'';$('#grade').value=d.grade||'';$('#date').value=d.date||today();
+   Object.entries(d.answers||{}).forEach(([id,v])=>{
+    const el=document.querySelector(`[data-a="${id}"]`); if(el)el.value=v;
+    const r=document.querySelector(`input[name="${id}"][value="${CSS.escape(v)}"]`);if(r)r.checked=true;
+   });
+  }catch(e){}
+ }
+ function render(){
+  screens.forEach((s,i)=>s.classList.toggle('on',i===idx));
+  const start=flow[idx]==='start', done=flow[idx]==='done';
+  $('#top').hidden=start; $('#nav').hidden=start||done;
+  const total=flow.length-2, current=Math.max(0,idx-1);
+  $('#bar').style.width=(Math.min(current,total)/total*100)+'%';
+  $('#count').textContent=start?'':done?'완료':`${current+1} / ${total}`;
+  $('#prev').style.visibility=idx<=1?'hidden':'visible';
+  $('#next').textContent=idx===flow.length-2?'제출하기':'다음';
+  window.scrollTo({top:0,behavior:'smooth'});
+ }
+ $('#begin').onclick=()=>{if(!$('#name').value.trim()){alert('이름을 입력해주세요.');return} idx=1;save();render()};
+ $('#next').onclick=()=>{
+  if(idx===flow.length-2){ if(confirm('작성한 내용을 제출할까요?')){idx++;save();render()} }
+  else {idx++;save();render()}
+ };
+ $('#prev').onclick=()=>{idx=Math.max(1,idx-1);save();render()};
+ document.addEventListener('input',save);document.addEventListener('change',save);
+ function esc(s){return String(s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+ function buildReport(){
+  const d=snapshot(); let rows='';
+  questions.forEach(([title,ids],i)=>{
+   const vals=ids.split(',').map(id=>d.answers[id]).filter(Boolean);
+   const text=vals.length?vals.join('\n'):'미응답';
+   rows+=`<section class="rp"><h3>${i+1}. ${esc(title)}</h3><div class="body"><div class="ans ${vals.length?'':'blank'}">${esc(text)}</div></div></section>`;
+  });
+  $('#report').innerHTML=`<div class="rp-head"><h1>THINK OS 탐구 결과지</h1><p>3단계 · 추천 알고리즘은 내가 원하는 것을 보여줄까, 내가 원하게 만들까?</p></div>
+   <table class="meta"><tr><th>이름</th><td>${esc(d.name)}</td><th>학년</th><td>${esc(d.grade)}</td></tr><tr><th>탐구일</th><td colspan="3">${esc(d.date)}</td></tr></table>${rows}
+   <div style="margin-top:12px;border-top:1px solid #aaa;padding-top:8px;font-size:8.5pt;color:#555">JIPYO THINK OS · 3단계 학생 결과지</div>`;
+ }
+ $('#savePdf').onclick=()=>{
+  buildReport();
+  const old=document.title;
+  const date=($('#date').value||today()).replace(/\./g,'-');
+  document.title=`${($('#name').value||'학생').trim()}_JIPYO_THINK_OS_탐구_3단계_${date}`;
+  setTimeout(()=>window.print(),250);
+  window.addEventListener('afterprint',()=>{document.title=old},{once:true});
+ };
+ $('#restart').onclick=()=>{if(confirm('처음 화면으로 돌아갈까요? 작성 내용은 지워집니다.')){localStorage.removeItem(KEY);location.reload()}};
+ restore();render();
+})();
+</script>
+</body>
+</html>
