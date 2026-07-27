@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JIPYO THINK OS 탐구 · 1단계</title>
+<meta name="description" content="글을 읽고 생각이 만들어지는 과정을 탐구합니다.">
+<meta property="og:title" content="JIPYO THINK OS 탐구 | 1단계">
+<meta property="og:description" content="생각이 만들어지는 과정을 탐구합니다.">
+<meta property="og:image" content="https://labiel1004.github.io/jena_checklist/jipyo/images/thinking_check_1.png">
+<meta property="og:type" content="website">
+<style>
+:root{
+  --bg:#f7f4ee; --paper:#fffdf9; --ink:#1f1e1b; --muted:#726d64;
+  --line:#e7e0d5; --gold:#b08b43; --gold2:#d8bf86; --soft:#f1e9d8;
+  --shadow:0 18px 60px rgba(70,57,34,.09);
+  --radius:24px; --accent:#b08b43; --accent-soft:#f4ecd9;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);
+font-family:Pretendard,"Noto Sans KR","Apple SD Gothic Neo",sans-serif}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;
+background:
+radial-gradient(circle at 12% 10%,rgba(216,191,134,.22),transparent 30%),
+radial-gradient(circle at 88% 86%,rgba(176,139,67,.11),transparent 28%)}
+.app{min-height:100vh;position:relative}
+.top{position:sticky;top:0;z-index:20;background:rgba(247,244,238,.88);
+backdrop-filter:blur(15px);border-bottom:1px solid rgba(231,224,213,.9);display:none}
+.top.show{display:block}
+.topin{max-width:1120px;margin:auto;padding:15px 24px;display:flex;align-items:center;gap:18px}
+.brand{font-size:13px;font-weight:800;letter-spacing:.12em;white-space:nowrap}
+.brand b{color:var(--gold)}
+.progress{flex:1;height:6px;background:#e8e1d7;border-radius:99px;overflow:hidden}
+.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold2),var(--gold));transition:.35s}
+.counter{font-size:13px;color:var(--muted);white-space:nowrap}
+.read-again{border:1px solid var(--line);background:var(--paper);padding:10px 14px;border-radius:999px;color:var(--muted)}
+.screen{display:none;max-width:1120px;margin:auto;padding:44px 24px 130px}
+.screen.on{display:block;animation:rise .35s ease}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.start{min-height:100vh;display:none;place-items:center;padding:32px}
+.start.on{display:grid}
+.hero{width:min(860px,100%);background:rgba(255,253,249,.92);border:1px solid rgba(231,224,213,.95);
+border-radius:34px;box-shadow:var(--shadow);padding:64px 62px;text-align:center;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:360px;height:360px;border:1px solid rgba(176,139,67,.17);
+border-radius:50%;right:-180px;top:-180px}
+.kicker{font-size:13px;letter-spacing:.2em;color:var(--gold);font-weight:800}
+.hero h1{font-size:52px;letter-spacing:-.04em;margin:18px 0 8px}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero .sub{font-size:20px;color:var(--muted)}
+.stage{display:inline-flex;gap:10px;align-items:center;margin:28px 0 0;padding:12px 18px;
+border-radius:999px;background:var(--soft);font-size:15px}
+.notice{max-width:650px;margin:28px auto 0;padding:21px 24px;background:#f8f3e8;border-radius:18px;text-align:left;
+color:#5f594f;line-height:1.9}
+.fields{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:14px;margin:30px auto 0;max-width:690px;text-align:left}
+.field label{display:block;font-size:13px;color:var(--muted);margin:0 0 7px}
+.field input{width:100%;height:54px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:0 16px;outline:none}
+.field input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(176,139,67,.12)}
+.start-btn{margin-top:28px;border:0;border-radius:16px;background:var(--ink);color:white;
+padding:16px 44px;font-weight:800;min-width:220px;box-shadow:0 12px 28px rgba(31,30,27,.16)}
+.error{min-height:22px;margin-top:10px;color:#9b3f35;font-size:14px}
+.chapter{background:linear-gradient(135deg,var(--accent-soft),#fffaf0);border:1px solid rgba(176,139,67,.1);
+border-radius:28px;padding:30px 34px;margin-bottom:24px;position:relative;overflow:hidden}
+.chapter:before{content:"";position:absolute;left:0;top:24px;bottom:24px;width:5px;background:var(--accent);border-radius:0 5px 5px 0}
+.eyebrow{font-size:13px;letter-spacing:.12em;color:var(--muted);font-weight:800}
+.chapter h2{font-size:31px;line-height:1.35;letter-spacing:-.03em;margin:10px 0 0}
+.chapter p{color:var(--muted);line-height:1.8;margin:10px 0 0}
+.card{background:rgba(255,253,249,.95);border:1px solid var(--line);border-radius:22px;padding:28px;margin-top:18px;box-shadow:0 8px 28px rgba(70,57,34,.045)}
+.qtitle{font-size:21px;font-weight:800;line-height:1.55;display:flex;gap:14px;align-items:flex-start}
+.num{display:inline-grid;place-items:center;flex:0 0 42px;height:42px;border-radius:13px;background:var(--gold);color:#fff;font-size:16px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:20px}
+.choice{border:1px solid var(--line);border-radius:16px;background:#fff;padding:17px 18px;text-align:left;
+display:flex;gap:12px;align-items:flex-start;line-height:1.55}
+.choice .dot{width:20px;height:20px;border:1px solid #cfc6b8;border-radius:50%;margin-top:2px;flex:0 0 auto}
+.choice.selected{background:var(--accent-soft);border-color:var(--accent);font-weight:700}
+.choice.selected .dot{border:6px solid var(--accent)}
+.readbox{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:30px}
+.passage{background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:38px 42px;box-shadow:var(--shadow)}
+.passage p{font-size:19px;line-height:2.05;margin:0 0 22px}
+.passage p:last-child{margin-bottom:0}
+.side{border-left:1px solid var(--line);padding-left:24px;color:var(--muted);display:flex;flex-direction:column;gap:22px}
+.side div{font-size:14px}
+.hint{font-size:14px;color:var(--muted);line-height:1.8;margin-top:12px}
+.matrixwrap{overflow:auto;margin-top:18px}
+.matrix{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;min-width:760px}
+.matrix th,.matrix td{padding:14px 11px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center}
+.matrix th:last-child,.matrix td:last-child{border-right:0}
+.matrix tr:last-child td{border-bottom:0}
+.matrix th{background:#f3eee5;font-size:13px;color:var(--muted)}
+.matrix td:first-child{text-align:left;line-height:1.6}
+.matrix input{width:19px;height:19px;accent-color:var(--gold)}
+textarea{width:100%;min-height:150px;border:1px solid var(--line);border-radius:16px;background:#fff;padding:18px 20px;
+font-size:17px;line-height:1.9;resize:vertical;outline:none;margin-top:16px}
+textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 14%, transparent)}
+/* ── 손글씨 · 키보드 입력 패드 ── */
+.pad{margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:16px;position:relative;overflow:hidden;transition:.25s}
+.pad:focus-within,.pad.active{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 14%, transparent)}
+.pad-tools{display:flex;align-items:center;gap:4px;padding:8px 10px;border-bottom:1px solid var(--line);background:var(--accent-soft);transition:background .3s}
+.tool{min-width:44px;min-height:44px;padding:0 12px;border:0;border-radius:10px;display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);background:transparent;transition:.2s}
+.tool:hover{background:rgba(255,255,255,.7)}
+.tool[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 0 rgba(0,0,0,.06)}
+.tool.right{margin-left:auto}
+.canvas-wrap{position:relative;background:#fff}
+.pad canvas{display:block;width:100%;touch-action:none;cursor:crosshair;background:#fff}
+.pad .ph{position:absolute;left:20px;top:18px;color:var(--muted);opacity:.7;font-size:16px;pointer-events:none;transition:opacity .3s}
+.pad .rule{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 47px,var(--line) 47px 48px);opacity:.5}
+.pad.keys .rule{display:none}
+.pad textarea{display:none;width:100%;border:0;resize:none;padding:18px 20px;font:inherit;font-size:17px;line-height:1.9;color:var(--ink);background:#fff;outline:none;margin:0;border-radius:0}
+.pad textarea:focus{outline:none;border:0;box-shadow:none}
+.pad.keys canvas,.pad.keys .ph{display:none}
+.pad.keys textarea{display:block}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:18px}
+.check{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:17px}
+.check input{width:20px;height:20px;margin-top:2px;accent-color:var(--gold)}
+.check:has(input:checked){background:var(--accent-soft);border-color:var(--accent)}
+.check b{display:block;margin-bottom:5px}
+.check small{color:var(--muted);line-height:1.5}
+.other{display:none;margin-top:14px}
+.other.show{display:block}
+.other input{width:100%;height:54px;border:1px solid var(--line);border-radius:14px;padding:0 16px}
+.sequence{display:grid;gap:14px;margin-top:18px}
+.seq{display:grid;grid-template-columns:92px 1fr;gap:14px;align-items:start}
+.seq b{background:var(--accent-soft);border-radius:14px;padding:15px 10px;text-align:center}
+.seq textarea{margin-top:0;min-height:100px}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(247,244,238,.9);
+backdrop-filter:blur(14px);border-top:1px solid var(--line);display:none}
+.nav.show{display:block}
+.navin{max-width:1120px;margin:auto;padding:15px 24px;display:flex;gap:12px;align-items:center}
+.nav button{min-height:52px;padding:0 25px;border-radius:14px;font-weight:800}
+.prev{background:var(--paper);border:1px solid var(--line)}
+.next{margin-left:auto;background:var(--ink);color:#fff;border:0}
+.done{text-align:center;max-width:720px;margin:auto}
+.done .orb{width:110px;height:110px;margin:20px auto;border-radius:50%;display:grid;place-items:center;
+background:radial-gradient(circle,#f7ebce 0 52%,transparent 54%);font-size:40px;color:var(--gold)}
+.done h2{font-size:33px}
+.done p{background:var(--paper);border-radius:20px;padding:24px;text-align:left;line-height:1.9;color:var(--muted)}
+.actions{display:flex;justify-content:center;gap:12px;margin-top:20px}
+.actions button{padding:14px 20px;border-radius:14px;border:1px solid var(--line);background:var(--paper);font-weight:700}
+.sheet{position:fixed;inset:0;z-index:80;display:none}
+.sheet.show{display:block}
+.veil{position:absolute;inset:0;background:rgba(31,30,27,.32)}
+.panel{position:absolute;right:0;top:0;bottom:0;width:min(650px,94vw);background:var(--bg);padding:34px 38px;overflow:auto}
+.panel .close{position:absolute;right:24px;top:24px;border:0;background:transparent;font-size:24px}
+.panel p{font-size:17px;line-height:2}
+#report{display:none}
+@media print{
+ @page{size:A4;margin:14mm}
+ body{background:#fff}
+ .app,.sheet{display:none!important}
+ #report{display:block!important;font-family:"Noto Sans KR",sans-serif;color:#111;font-size:10.5pt;line-height:1.55}
+ .rhead{border-bottom:2px solid #111;padding-bottom:9px;margin-bottom:12px}
+ .rhead h1{margin:0;font-size:19pt}
+ .meta{width:100%;border-collapse:collapse;margin-bottom:12px}
+ .meta th,.meta td{border:1px solid #999;padding:5px 7px;text-align:left}
+ .meta th{background:#eee}
+ .ritem{border:1px solid #aaa;margin-bottom:9px;page-break-inside:avoid}
+ .ritem h3{font-size:10pt;background:#eee;margin:0;padding:6px 8px}
+ .ritem div{padding:8px 9px;white-space:pre-wrap}
+ #report img{max-width:100%;display:block;border:1px solid #ccc;margin-top:4px}
+}
+@media(max-width:800px){
+ .hero{padding:44px 24px}.hero h1{font-size:39px}.fields,.choices,.checks{grid-template-columns:1fr}
+ .readbox{grid-template-columns:1fr}.side{border-left:0;border-top:1px solid var(--line);padding:20px 0 0;flex-direction:row;flex-wrap:wrap}
+ .chapter h2{font-size:25px}.screen{padding:28px 18px 120px}.topin,.navin{padding-left:16px;padding-right:16px}
+ .brand{display:none}.seq{grid-template-columns:72px 1fr}.passage{padding:26px 22px}.passage p{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top" id="top"><div class="topin">
+<div class="brand">JIPYO <b>·</b> THINK OS 탐구 1단계</div>
+<div class="progress"><span id="bar"></span></div>
+<div class="counter" id="counter"></div>
+<button class="read-again" id="readAgain">읽은 글 보기</button>
+</div></header>
+
+<main>
+<section class="screen start on" data-screen="start">
+<div class="hero">
+<div class="kicker">JIPYO THINKING SYSTEM</div>
+<h1>THINK OS <em>탐구</em></h1>
+<div class="sub">생각이 만들어지는 과정을 살펴봅니다</div>
+<div class="stage"><b>1단계</b><span>읽기에서 자기 언어 표현까지</span></div>
+<div class="notice"><b>이 활동은 시험이 아닙니다.</b><br>
+글을 읽고 무엇을 이해했는지, 어떤 질문이 생겼는지, 무엇과 연결했는지 살펴봅니다.
+정답을 빨리 찾기보다 자신의 생각을 솔직하게 표현해 주세요.</div>
+<div class="fields">
+<div class="field"><label>이름</label><input id="name" autocomplete="off"></div>
+<div class="field"><label>학년</label><input id="grade" autocomplete="off"></div>
+<div class="field"><label>날짜</label><input id="date" type="date"></div>
+</div>
+<button class="start-btn" id="startBtn" type="button">탐구 시작하기</button>
+<div class="error" id="startError"></div>
+</div>
+</section>
+
+<section class="screen" data-screen="read" data-accent="#b08b43" data-soft="#f4ecd9">
+<div class="chapter"><div class="eyebrow">READING · 읽기</div>
+<h2>모두가 “예” 하면 나도 “예” 하게 될까?</h2>
+<p>천천히 읽어보세요. 다음 화면에서도 언제든 다시 볼 수 있습니다.</p></div>
+<div class="readbox"><article class="passage" id="passage">
+<p>선생님이 반 아이들에게 다음 달 체험 학습 장소를 어디로 정하면 좋을지 물었습니다. 첫 번째 친구가 놀이공원에 가고 싶다고 말했습니다. 이어서 몇 명의 친구가 놀이공원이 좋다고 말하자 교실 여기저기서 “저도요!”라는 목소리가 나왔습니다.</p>
+<p>지우는 사실 과학관에 가고 싶었습니다. 전에 가족과 과학관에 갔을 때 직접 로봇을 움직여 본 일이 무척 재미있었기 때문입니다. 하지만 친구들이 모두 놀이공원을 고르는 모습을 보자 조금 망설여졌습니다.</p>
+<p>“나 혼자 다른 곳을 말하면 친구들이 이상하게 생각하지 않을까?” 지우의 차례가 되자 지우는 잠시 망설이다가 놀이공원에 손을 들었습니다. 선생님은 놀이공원을 선택한 학생이 가장 많다며 그곳을 체험 학습 장소로 정했습니다.</p>
+<p>사람은 여러 사람이 같은 행동을 하거나 같은 의견을 말하면 자신도 그들을 따라가는 경우가 있습니다. 이런 현상을 ‘동조’라고 합니다. 우리는 잘 모르는 상황에서 다른 사람의 행동을 보고 도움을 얻기도 합니다.</p>
+<p>예를 들어 처음 가 본 건물에서 화재경보가 울렸는데 출구가 어디인지 모른다면, 사람들이 빠르게 이동하는 방향을 따라가는 것이 도움이 될 수 있습니다. 여러 사람이 같은 쪽으로 움직이는 데에는 이유가 있을 가능성이 있기 때문입니다.</p>
+<p>하지만 여러 사람이 선택했다고 해서 그 선택이 언제나 옳은 것은 아닙니다. 친구들이 위험한 장난을 하자고 하거나 한 사람을 놀리는 데 모두가 참여한다고 생각해 봅시다. 이때 다른 사람을 그대로 따라가면 누군가가 다치거나 마음에 상처를 입을 수 있습니다.</p>
+<p>사람들이 다른 의견을 말하지 못하면 모임 전체가 잘못된 결정을 내릴 수도 있습니다. 각자 속으로는 이상하다고 생각하면서도 모두가 찬성하는 것처럼 행동할 수 있기 때문입니다.</p>
+<p>그렇다고 언제나 다른 사람과 반대로 행동해야 하는 것은 아닙니다. 다른 사람들의 의견을 듣는 것도 중요하고, 함께 결정해야 하는 상황에서는 서로 양보할 필요도 있습니다.</p>
+<p>중요한 것은 사람이 많다는 이유만으로 무조건 따라가는 것이 아니라 왜 그런 선택을 했는지 생각해 보는 것입니다. 그리고 자신의 생각이 다르다면 이유를 설명하고 다른 사람의 생각도 함께 들어볼 수 있어야 합니다.</p>
+<p>그렇다면 우리는 언제 다른 사람을 따라도 괜찮고, 언제 자신의 생각을 말해야 할까요?</p>
+</article>
+<aside class="side"><div>다수의 의견</div><div>나의 생각</div><div>상황과 기준</div></aside>
+</div></section>
+
+<section class="screen" data-screen="understand" data-accent="#c1a45c" data-soft="#f5eedc">
+<div class="chapter"><div class="eyebrow">01 · 내용 이해</div><h2>재료를 정확히 살펴봅니다.</h2>
+<p>핵심 주제와 개념을 이해하고, 사실·해석·의견·주장을 구분합니다.</p></div>
+<div class="card"><div class="qtitle"><span class="num">1</span><span>이 글의 중심 내용으로 가장 알맞은 것은 무엇인가요?</span></div>
+<div class="choices" data-choice="q1">
+<button class="choice" data-value="체험 학습 장소는 놀이공원이 가장 좋다"><span class="dot"></span><span>체험 학습 장소는 놀이공원이 가장 좋다.</span></button>
+<button class="choice" data-value="다른 사람을 따라가는 행동은 언제나 나쁘다"><span class="dot"></span><span>다른 사람을 따라가는 행동은 언제나 나쁘다.</span></button>
+<button class="choice" data-value="다른 사람의 의견을 듣되 상황과 이유를 생각해 선택해야 한다"><span class="dot"></span><span>다른 사람의 의견을 듣되 상황과 이유를 생각해 선택해야 한다.</span></button>
+<button class="choice" data-value="여러 사람이 선택한 의견은 항상 옳다"><span class="dot"></span><span>여러 사람이 선택한 의견은 항상 옳다.</span></button>
+</div></div>
+<div class="card"><div class="qtitle"><span class="num">2</span><span>글에서 말하는 ‘동조’의 뜻과 가장 가까운 것은 무엇인가요?</span></div>
+<div class="choices" data-choice="q2">
+<button class="choice" data-value="다른 사람의 행동이나 의견에 영향을 받아 따라가는 것"><span class="dot"></span><span>다른 사람의 행동이나 의견에 영향을 받아 따라가는 것</span></button>
+<button class="choice" data-value="자신의 생각을 끝까지 바꾸지 않는 것"><span class="dot"></span><span>자신의 생각을 끝까지 바꾸지 않는 것</span></button>
+<button class="choice" data-value="다른 사람에게 내 생각을 강요하는 것"><span class="dot"></span><span>다른 사람에게 내 생각을 강요하는 것</span></button>
+<button class="choice" data-value="모든 일을 혼자 결정하는 것"><span class="dot"></span><span>모든 일을 혼자 결정하는 것</span></button>
+</div></div>
+<div class="card"><div class="qtitle"><span class="num">3</span><span>각 문장이 무엇에 가장 가까운지 하나씩 체크하세요.</span></div>
+<div class="hint">사실: 확인할 수 있는 정보 · 해석: 사실에 의미를 붙인 설명 · 의견: 개인의 생각이나 평가 · 주장: 다른 사람이 받아들이기를 바라는 생각</div>
+<div class="matrixwrap"><table class="matrix">
+<thead><tr><th>문장</th><th>사실</th><th>해석</th><th>의견</th><th>주장</th></tr></thead>
+<tbody>
+<tr><td>지우는 처음에는 과학관에 가고 싶었다.</td><td><input type="radio" name="m1" value="사실"></td><td><input type="radio" name="m1" value="해석"></td><td><input type="radio" name="m1" value="의견"></td><td><input type="radio" name="m1" value="주장"></td></tr>
+<tr><td>지우는 혼자 다른 의견을 말하면 친구들이 이상하게 볼까 봐 걱정한 것 같다.</td><td><input type="radio" name="m2" value="사실"></td><td><input type="radio" name="m2" value="해석"></td><td><input type="radio" name="m2" value="의견"></td><td><input type="radio" name="m2" value="주장"></td></tr>
+<tr><td>친구들의 의견도 들어보는 것이 중요하다.</td><td><input type="radio" name="m3" value="사실"></td><td><input type="radio" name="m3" value="해석"></td><td><input type="radio" name="m3" value="의견"></td><td><input type="radio" name="m3" value="주장"></td></tr>
+<tr><td>여러 사람이 선택했더라도 이유를 먼저 생각해야 한다.</td><td><input type="radio" name="m4" value="사실"></td><td><input type="radio" name="m4" value="해석"></td><td><input type="radio" name="m4" value="의견"></td><td><input type="radio" name="m4" value="주장"></td></tr>
+</tbody></table></div></div>
+</section>
+
+<section class="screen" data-screen="question" data-accent="#5b9f8c" data-soft="#e7f2ed">
+<div class="chapter"><div class="eyebrow">02 · 질문</div><h2>무엇이 궁금해졌나요?</h2>
+<p>읽은 내용을 그대로 받아들이지 않고 생각을 움직이는 질문을 만듭니다.</p></div>
+<div class="card"><div class="qtitle"><span class="num">4</span><span>이 글을 읽고 새롭게 궁금해진 것을 질문으로 만들어 보세요.</span></div>
+<div class="hint">예: 왜 사람들은 여러 사람의 선택을 따라갈까? · 모두가 선택하면 정말 더 좋은 결정일까?</div>
+<div class="pad" data-pad="q4" data-h="150" data-ph="궁금해진 것을 한 가지 질문으로 적어보세요."></div></div>
+</section>
+
+<section class="screen" data-screen="connect" data-accent="#78946d" data-soft="#e9f0e5">
+<div class="chapter"><div class="eyebrow">03 · 연결</div><h2>이 생각은 무엇과 이어지나요?</h2>
+<p>지문 속 정보와 경험, 사람, 사회, 원인과 결과를 연결합니다.</p></div>
+<div class="card"><div class="qtitle"><span class="num">5</span><span>이 글을 읽으며 떠오른 연결을 모두 골라보세요.</span></div>
+<div class="checks" id="connections">
+<label class="check"><input type="checkbox" value="내가 겪은 경험"><span><b>내가 겪은 경험</b><small>나도 비슷한 선택을 해 본 적이 있다.</small></span></label>
+<label class="check"><input type="checkbox" value="친구나 가족의 경험"><span><b>친구나 가족의 경험</b><small>주변 사람에게서 비슷한 모습을 본 적이 있다.</small></span></label>
+<label class="check"><input type="checkbox" value="학교나 모둠 활동"><span><b>학교나 모둠 활동</b><small>함께 결정하는 상황이 떠올랐다.</small></span></label>
+<label class="check"><input type="checkbox" value="뉴스·영상·책"><span><b>뉴스·영상·책</b><small>다른 자료에서 본 일이 떠올랐다.</small></span></label>
+<label class="check"><input type="checkbox" value="다른 사람의 입장"><span><b>다른 사람의 입장</b><small>지우나 친구들의 마음을 생각해 보았다.</small></span></label>
+<label class="check"><input type="checkbox" value="원인과 결과"><span><b>원인과 결과</b><small>왜 그런 선택을 했고 어떤 결과가 생기는지 연결했다.</small></span></label>
+</div>
+<div class="pad" data-pad="q5" data-h="150" data-ph="선택한 내용과 비슷했던 나의 경험이나 상황을 써보세요."></div></div>
+</section>
+
+<section class="screen" data-screen="view" data-accent="#8d78a6" data-soft="#eee8f4">
+<div class="chapter"><div class="eyebrow">04 · 관점과 기준</div><h2>무엇을 중요하게 바라볼까요?</h2>
+<p>선택을 결정하는 나의 기준을 세웁니다.</p></div>
+<div class="card"><div class="qtitle"><span class="num">6</span><span>다른 사람의 의견을 따라갈지 결정할 때 가장 중요하게 생각해야 할 기준은 무엇인가요?</span></div>
+<div class="choices" data-choice="q6">
+<button class="choice" data-value="안전한 행동인지"><span class="dot"></span><span>안전한 행동인지</span></button>
+<button class="choice" data-value="다른 사람에게 피해를 주는지"><span class="dot"></span><span>다른 사람에게 피해를 주는지</span></button>
+<button class="choice" data-value="충분한 이유와 근거가 있는지"><span class="dot"></span><span>충분한 이유와 근거가 있는지</span></button>
+<button class="choice" data-value="각자의 의견이 공정하게 반영되는지"><span class="dot"></span><span>각자의 의견이 공정하게 반영되는지</span></button>
+<button class="choice" data-value="함께 결정한 약속을 지킬 수 있는지"><span class="dot"></span><span>함께 결정한 약속을 지킬 수 있는지</span></button>
+<button class="choice" data-value="기타"><span class="dot"></span><span>내가 생각한 다른 기준</span></button>
+</div>
+<div class="other" id="otherBox"><input id="other6" placeholder="다른 기준을 적어주세요."></div>
+<div class="pad" data-pad="q6r" data-h="150" data-ph="왜 이 기준이 중요하다고 생각하는지 써보세요."></div></div>
+</section>
+
+<section class="screen" data-screen="interpret" data-accent="#bc8061" data-soft="#f6e9e2">
+<div class="chapter"><div class="eyebrow">05 · 해석</div><h2>왜 그런 마음과 행동이 생겼을까요?</h2>
+<p>사실에 자신의 이해를 더해 의미를 만듭니다.</p></div>
+<div class="card"><div class="qtitle"><span class="num">7</span><span>지우는 과학관에 가고 싶었지만 놀이공원에 손을 들었습니다. 지우의 마음과 행동을 어떻게 이해했나요?</span></div>
+<div class="pad" data-pad="q7" data-h="150" data-ph="지우가 왜 망설였고, 왜 친구들을 따라갔다고 생각하는지 써보세요."></div></div>
+</section>
+
+<section class="screen" data-screen="judge" data-accent="#6f99ad" data-soft="#e7f0f4">
+<div class="chapter"><div class="eyebrow">06 · 판단</div><h2>그래서 어떤 선택이 더 적절할까요?</h2>
+<p>앞에서 세운 기준을 적용해 자신의 판단과 이유를 밝힙니다.</p></div>
+<div class="card"><div class="qtitle"><span class="num">8</span><span>지우가 자신의 생각을 말하지 않고 친구들을 따라간 선택에 대해 어떻게 생각하나요?</span></div>
+<div class="choices" data-choice="q8">
+<button class="choice" data-value="괜찮은 선택이었다"><span class="dot"></span><span>괜찮은 선택이었다.</span></button>
+<button class="choice" data-value="괜찮지 않은 선택이었다"><span class="dot"></span><span>괜찮지 않은 선택이었다.</span></button>
+<button class="choice" data-value="상황에 따라 다르게 볼 수 있다"><span class="dot"></span><span>상황에 따라 다르게 볼 수 있다.</span></button>
+</div>
+<div class="pad" data-pad="q8r" data-h="150" data-ph="앞에서 고른 기준과 연결해 판단한 이유를 써보세요."></div></div>
+</section>
+
+<section class="screen" data-screen="structure" data-accent="#b18b46" data-soft="#f4ead6">
+<div class="chapter"><div class="eyebrow">07 · 생각 구조화</div><h2>생각을 실제 방법으로 설계합니다.</h2>
+<p>무엇을 어떤 순서로 할지 구체적으로 정리합니다.</p></div>
+<div class="card"><div class="qtitle"><span class="num">9</span><span>여러 사람이 함께 결정할 때 소수의 의견도 들을 수 있도록 어떤 방법을 사용하면 좋을까요?</span></div>
+<div class="hint" style="margin-top:18px;padding:18px 20px;background:var(--accent-soft);border-radius:16px;line-height:1.9">
+<b>예를 들어</b><br>
+· 한 사람씩 돌아가며 의견을 말한다.<br>
+· 왜 그렇게 생각했는지 이유도 함께 이야기한다.<br>
+· 서로 질문하며 의견을 더 들어본다.<br>
+· 바로 다수결을 하지 않고 충분히 이야기한 뒤 결정한다.<br>
+· 다른 좋은 방법이 있다면 자유롭게 적어도 됩니다.
+</div>
+<div class="qtitle" style="margin-top:22px;font-size:18px">
+<span>그럼 당신이라면 어떻게 하겠나요?</span>
+</div>
+<div class="pad" data-pad="q9" data-h="240" data-ph="내가 생각한 방법을 자유롭게 써보세요."></div></div>
+</section>
+
+<section class="screen" data-screen="express" data-accent="#b08b43" data-soft="#f5ecd8">
+<div class="chapter"><div class="eyebrow">08 · 자기 언어 표현</div><h2>나만의 생각을 완성합니다.</h2>
+<p>이해·질문·연결·기준·해석·판단을 하나의 글로 표현합니다.</p></div>
+<div class="card"><div class="qtitle"><span class="num">10</span><span>이 글을 읽고 내가 이해하고 생각한 것을 친구에게 설명하듯 정리해 보세요.</span></div>
+<div class="hint">다른 사람의 의견을 따르는 것은 ______할 때 도움이 될 수 있다. 하지만 ______할 때는 내 생각을 말해야 한다. 나는 함께 결정할 때 ______이 중요하다고 생각한다.</div>
+<div class="pad" data-pad="q10" data-h="280" data-ph="문장 틀을 참고하거나 자유롭게 4~6문장으로 써보세요."></div></div>
+</section>
+
+<section class="screen" data-screen="done">
+<div class="done"><div class="orb">✓</div><h2>생각의 여정을 끝까지 탐구했어요.</h2>
+<p>글의 핵심을 이해하고, 생각의 재료를 구분하고, 질문하고, 연결하고, 자신의 관점과 기준으로 해석·판단한 뒤 자기 언어로 표현해 보았습니다.</p></div>
+</section>
+
+<section class="screen" data-screen="saved">
+<div class="done"><div class="orb">✓</div><h2>THINK OS 탐구가 저장되었습니다.</h2>
+<p id="savedWho"></p>
+<div class="actions"><button id="printBtn">학생 결과지 PDF 저장</button><button id="restartBtn">처음으로</button></div></div>
+</section>
+</main>
+
+<nav class="nav" id="nav"><div class="navin">
+<button class="prev" id="prevBtn" type="button">이전</button>
+<button class="next" id="nextBtn" type="button">다음</button>
+</div></nav>
+</div>
+
+<div class="sheet" id="sheet"><div class="veil" id="veil"></div><div class="panel">
+<button class="close" id="closeSheet">×</button><div class="eyebrow">읽은 글</div>
+<h2>모두가 “예” 하면 나도 “예” 하게 될까?</h2><div id="sheetText"></div></div></div>
+<div id="report"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  const screens=[...document.querySelectorAll('[data-screen]')];
+  const order=['start','read','understand','question','connect','view','interpret','judge','structure','express','done','saved'];
+  const labels=['읽기','내용 이해','질문','연결','관점·기준','해석','판단','구조화','표현','완료'];
+  const state={index:0,choices:{},pads:{}};
+  const $=s=>document.querySelector(s);
+  const top=$('#top'),nav=$('#nav'),bar=$('#bar'),counter=$('#counter');
+  $('#date').value=new Date().toISOString().slice(0,10);
+  $('#sheetText').innerHTML=$('#passage').innerHTML;
+
+  /* ===== 손글씨 · 키보드 입력 패드 ===== */
+  const LW=1000, padSizers=[], padRefreshers={};
+  const ICON={pen:'✎',era:'⌫',undo:'↶',clear:'×',key:'⌨'};
+  document.querySelectorAll('.pad[data-pad]').forEach(el=>{
+    state.pads[el.dataset.pad]={mode:'handwriting',strokes:[],text:'',h:+el.dataset.h||150};
+  });
+  function paint(ctx,strokes,kx,ky){
+    ctx.lineCap='round';ctx.lineJoin='round';
+    strokes.forEach(s=>{
+      ctx.globalCompositeOperation=s.e?'destination-out':'source-over';
+      ctx.strokeStyle='#23211E';ctx.lineWidth=(s.e?22:2.4)*kx;
+      ctx.beginPath();
+      s.p.forEach((pt,n)=>n?ctx.lineTo(pt[0]*kx,pt[1]*ky):ctx.moveTo(pt[0]*kx,pt[1]*ky));
+      if(s.p.length===1)ctx.lineTo(s.p[0][0]*kx+.1,s.p[0][1]*ky+.1);
+      ctx.stroke();
+    });
+    ctx.globalCompositeOperation='source-over';
+  }
+  function strokesToPNG(strokes,h,scale){
+    scale=scale||2;
+    const c=document.createElement('canvas');c.width=LW*scale;c.height=h*scale;
+    const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);
+    paint(x,strokes,scale,scale);
+    return c.toDataURL('image/png');
+  }
+  function buildPad(el){
+    const key=el.dataset.pad,h=+el.dataset.h||150,A=state.pads[key];A.h=h;
+    el.innerHTML='<div class="pad-tools">'+
+      '<button type="button" class="tool" data-t="pen" aria-pressed="true">'+ICON.pen+'<span>펜</span></button>'+
+      '<button type="button" class="tool" data-t="era" aria-pressed="false">'+ICON.era+'<span>지우개</span></button>'+
+      '<button type="button" class="tool" data-t="undo">'+ICON.undo+'<span>되돌리기</span></button>'+
+      '<button type="button" class="tool" data-t="clear">'+ICON.clear+'<span>전체 지우기</span></button>'+
+      '<button type="button" class="tool right" data-t="key" aria-pressed="false">'+ICON.key+'<span>키보드</span></button>'+
+      '</div>'+
+      '<div class="canvas-wrap" style="height:'+h+'px"><div class="rule"></div><canvas></canvas><div class="ph">'+(el.dataset.ph||'')+'</div></div>'+
+      '<textarea spellcheck="false" style="min-height:'+h+'px" placeholder="'+(el.dataset.ph||'')+'"></textarea>';
+    const cv=el.querySelector('canvas'),ctx=cv.getContext('2d'),ph=el.querySelector('.ph'),ta=el.querySelector('textarea');
+    let cur=null,erasing=false,drawing=false;
+    ta.addEventListener('input',()=>{A.text=ta.value;save();});
+    function size(){
+      const w=cv.parentElement.clientWidth,dpr=Math.min(window.devicePixelRatio||1,2);
+      if(!w)return;
+      cv.width=w*dpr;cv.height=h*dpr;cv.style.height=h+'px';
+      ctx.setTransform(dpr,0,0,dpr,0,0);redraw();
+    }
+    function redraw(){
+      const w=cv.clientWidth;
+      ctx.clearRect(0,0,cv.width,cv.height);
+      paint(ctx,A.strokes,w/LW,1);
+      ph.style.opacity=A.strokes.length?0:1;
+    }
+    const pos=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)/r.width*LW,(e.clientY-r.top)/r.height*h];};
+    cv.addEventListener('pointerdown',e=>{drawing=true;cv.setPointerCapture(e.pointerId);cur={e:erasing,p:[pos(e)]};A.strokes.push(cur);redraw();});
+    cv.addEventListener('pointermove',e=>{if(drawing&&cur){cur.p.push(pos(e));redraw();}});
+    const end=()=>{if(drawing){drawing=false;cur=null;save();}};
+    cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+    el.querySelectorAll('.tool').forEach(b=>b.addEventListener('click',()=>{
+      const t=b.dataset.t;
+      if(t==='pen'||t==='era'){erasing=t==='era';el.querySelector('[data-t="pen"]').setAttribute('aria-pressed',String(!erasing));el.querySelector('[data-t="era"]').setAttribute('aria-pressed',String(erasing));}
+      if(t==='undo'){A.strokes.pop();redraw();save();}
+      if(t==='clear'){if(el.classList.contains('keys')){ta.value='';A.text='';}else{A.strokes=[];redraw();}save();}
+      if(t==='key'){
+        const on=!el.classList.contains('keys');
+        el.classList.toggle('keys',on);
+        b.setAttribute('aria-pressed',String(on));
+        b.querySelector('span').textContent=on?'손글씨':'키보드';
+        el.querySelectorAll('[data-t="pen"],[data-t="era"],[data-t="undo"]').forEach(x=>x.style.display=on?'none':'');
+        A.mode=on?'keyboard':'handwriting';
+        if(on)setTimeout(()=>ta.focus(),50);else setTimeout(size,30);
+        save();
+      }
+    }));
+    padSizers.push(size);
+    padRefreshers[key]=function(){
+      const on=A.mode==='keyboard';
+      el.classList.toggle('keys',on);
+      const kb=el.querySelector('[data-t="key"]');
+      kb.setAttribute('aria-pressed',String(on));
+      kb.querySelector('span').textContent=on?'손글씨':'키보드';
+      el.querySelectorAll('[data-t="pen"],[data-t="era"],[data-t="undo"]').forEach(x=>x.style.display=on?'none':'');
+      ta.value=A.text||'';
+      if(!on)size();
+    };
+    size();
+  }
+  document.querySelectorAll('.pad[data-pad]').forEach(buildPad);
+  window.addEventListener('resize',()=>setTimeout(()=>padSizers.forEach(f=>f()),80));
+
+  function show(index){
+    state.index=index;
+    screens.forEach(s=>s.classList.toggle('on',s.dataset.screen===order[index]));
+    const current=screens.find(s=>s.dataset.screen===order[index]);
+    const accent=current?.dataset.accent||'#b08b43';
+    const soft=current?.dataset.soft||'#f4ecd9';
+    document.documentElement.style.setProperty('--accent',accent);
+    document.documentElement.style.setProperty('--accent-soft',soft);
+    const active=index>0 && order[index]!=='saved';
+    top.classList.toggle('show',active);
+    nav.classList.toggle('show',index>0 && order[index]!=='saved');
+    $('#prevBtn').style.visibility=index<=1?'hidden':'visible';
+    $('#nextBtn').textContent=order[index]==='express'?'다 썼어요':order[index]==='done'?'제출하기':'다음';
+    if(active){
+      const logical=Math.min(Math.max(index-1,0),9);
+      bar.style.width=((logical+1)/10*100)+'%';
+      counter.textContent=(labels[logical]||'완료')+' · '+(logical+1)+'/10';
+    }
+    window.scrollTo({top:0,behavior:'smooth'});
+    setTimeout(()=>padSizers.forEach(f=>f()),40);
+    save();
+  }
+
+  function serializePads(){
+    const o={};
+    Object.keys(state.pads).forEach(k=>{const p=state.pads[k];o[k]={mode:p.mode,strokes:p.strokes,text:p.text,h:p.h};});
+    return o;
+  }
+  function getData(){
+    const matrix=[1,2,3,4].map(n=>document.querySelector('input[name="m'+n+'"]:checked')?.value||'');
+    return {
+      meta:{name:$('#name').value.trim(),grade:$('#grade').value.trim(),date:$('#date').value},
+      choices:{...state.choices},
+      matrix,
+      connections:[...document.querySelectorAll('#connections input:checked')].map(x=>x.value),
+      text:{other6:$('#other6')?.value.trim()||''},
+      pads:serializePads()
+    };
+  }
+  function save(){localStorage.setItem('jipyo_thinkos_stage1_v13',JSON.stringify(getData()))}
+  function load(){
+    try{
+      const d=JSON.parse(localStorage.getItem('jipyo_thinkos_stage1_v13')||'null'); if(!d)return;
+      $('#name').value=d.meta?.name||''; $('#grade').value=d.meta?.grade||''; $('#date').value=d.meta?.date||$('#date').value;
+      Object.entries(d.choices||{}).forEach(([k,v])=>selectChoice(k,v,false));
+      (d.matrix||[]).forEach((v,i)=>{const x=document.querySelector('input[name="m'+(i+1)+'"][value="'+v+'"]');if(x)x.checked=true});
+      (d.connections||[]).forEach(v=>{const x=[...document.querySelectorAll('#connections input')].find(e=>e.value===v);if(x)x.checked=true});
+      if(d.text&&$('#other6'))$('#other6').value=d.text.other6||'';
+      if(d.pads){Object.entries(d.pads).forEach(([k,v])=>{if(state.pads[k]){state.pads[k].mode=v.mode||'handwriting';state.pads[k].strokes=Array.isArray(v.strokes)?v.strokes:[];state.pads[k].text=v.text||'';}});}
+      ['q4','q5','q6r','q7','q8r','q9','q10'].forEach(k=>{
+        if(state.pads[k]&&(!d.pads||!d.pads[k])&&d.text&&d.text[k]){state.pads[k].mode='keyboard';state.pads[k].text=d.text[k];}
+      });
+      Object.values(padRefreshers).forEach(f=>f());
+    }catch(e){console.warn(e)}
+  }
+  function selectChoice(group,value,doSave=true){
+    const wrap=document.querySelector('[data-choice="'+group+'"]'); if(!wrap)return;
+    wrap.querySelectorAll('.choice').forEach(b=>b.classList.toggle('selected',b.dataset.value===value));
+    state.choices[group]=value;
+    if(group==='q6')$('#otherBox').classList.toggle('show',value==='기타');
+    if(doSave)save();
+  }
+  document.querySelectorAll('[data-choice]').forEach(wrap=>{
+    wrap.querySelectorAll('.choice').forEach(btn=>btn.addEventListener('click',()=>selectChoice(wrap.dataset.choice,btn.dataset.value)));
+  });
+  document.querySelectorAll('input,textarea').forEach(el=>el.addEventListener('input',save));
+  document.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(el=>el.addEventListener('change',save));
+
+  $('#startBtn').addEventListener('click',function(){
+    const name=$('#name').value.trim();
+    if(!name){$('#startError').textContent='이름을 입력해 주세요.';$('#name').focus();return}
+    $('#startError').textContent='';show(1);
+  });
+  $('#nextBtn').addEventListener('click',function(){
+    const current=order[state.index];
+    if(current==='done'){
+      $('#savedWho').textContent=($('#name').value.trim()||'학생')+' · 1단계 · '+($('#date').value||'');
+      show(order.indexOf('saved'));return;
+    }
+    if(state.index<order.length-1)show(state.index+1);
+  });
+  $('#prevBtn').addEventListener('click',function(){if(state.index>1)show(state.index-1)});
+  $('#readAgain').addEventListener('click',()=>$('#sheet').classList.add('show'));
+  $('#closeSheet').addEventListener('click',()=>$('#sheet').classList.remove('show'));
+  $('#veil').addEventListener('click',()=>$('#sheet').classList.remove('show'));
+
+  function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+  function padHTML(key){
+    const p=state.pads[key];
+    if(!p)return '미응답';
+    if(p.mode==='keyboard')return p.text.trim()?esc(p.text):'미응답';
+    return p.strokes.length?'<img src="'+strokesToPNG(p.strokes,p.h)+'" alt="손글씨 답안">':'미응답';
+  }
+  function makeReport(){
+    const d=getData();
+    const rows=[
+      ['내용 이해 · 중심 주제',esc(d.choices.q1||'미응답')],['내용 이해 · 핵심 개념',esc(d.choices.q2||'미응답')],
+      ['질문',padHTML('q4')],['연결 유형',esc(d.connections.join(', ')||'미선택')],['연결 설명',padHTML('q5')],
+      ['관점과 기준',esc(d.choices.q6==='기타'?(d.text.other6||'기타'):(d.choices.q6||'미응답'))],['기준 선택 이유',padHTML('q6r')],
+      ['해석',padHTML('q7')],['판단',esc(d.choices.q8||'미응답')],['판단 이유',padHTML('q8r')],
+      ['생각 구조화',padHTML('q9')],
+      ['자기 언어 표현',padHTML('q10')]
+    ];
+    const sentences=['지우는 처음에는 과학관에 가고 싶었다.','지우는 혼자 다른 의견을 말하면 친구들이 이상하게 볼까 봐 걱정한 것 같다.','친구들의 의견도 들어보는 것이 중요하다.','여러 사람이 선택했더라도 이유를 먼저 생각해야 한다.'];
+    $('#report').innerHTML='<div class="rhead"><h1>THINK OS 탐구 결과지</h1><div>1단계 · 모두가 “예” 하면 나도 “예” 하게 될까?</div></div>'+
+      '<table class="meta"><tr><th>이름</th><td>'+esc(d.meta.name)+'</td><th>학년</th><td>'+esc(d.meta.grade)+'</td><th>날짜</th><td>'+esc(d.meta.date)+'</td></tr></table>'+
+      '<div class="ritem"><h3>생각의 재료 구분</h3><div>'+sentences.map((s,i)=>esc(s)+' → <b>'+esc(d.matrix[i]||'미응답')+'</b>').join('<br>')+'</div></div>'+
+      rows.map(r=>'<div class="ritem"><h3>'+esc(r[0])+'</h3><div>'+r[1]+'</div></div>').join('');
+  }
+  $('#printBtn').addEventListener('click',async function(){makeReport();const d=getData();
+document.title=((d.meta.name||'학생')+'_THINK_OS_탐구_1단계_학생결과지');
+const imgs=[...document.querySelectorAll('#report img')];
+await Promise.all(imgs.map(im=>im.complete?Promise.resolve():new Promise(r=>{im.onload=im.onerror=r;})));
+window.print();
+setTimeout(()=>{document.title='JIPYO THINK OS 탐구 · 1단계';},300);
+});
+  $('#restartBtn').addEventListener('click',function(){
+    if(confirm('처음으로 돌아갈까요? 저장된 답은 지워집니다.')){localStorage.removeItem('jipyo_thinkos_stage1_v13');location.reload()}
+  });
+  load();show(0);
+});
+</script>
+</body>
+</html>
