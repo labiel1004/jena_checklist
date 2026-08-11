@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JIPYO THINK OS CHECK</title>
+<meta property="og:title" content="JIPYO THINK OS CHECK">
+<meta property="og:description" content="생각이 만들어지는 과정을 탐구합니다.">
+<meta property="og:image" content="https://labiel1004.github.io/jena_checklist/jipyo/images/thinking_check_3.png">
+<meta property="og:type" content="website">
+<style>
+:root{
+  --bg:#FAF9FB; --surface:#fff; --ink:#1F2124; --muted:#666872; --line:#E3E1E7;
+  --purple:#5A357A; --purple2:#76529A; --tint:#F4EEF8; --soft:#F8F4FA;
+  --radius:16px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Pretendard,"Noto Sans KR",Arial,sans-serif;color:var(--ink);background:var(--bg)}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.top{position:sticky;top:0;z-index:20;background:rgba(250,249,251,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topin{max-width:1040px;margin:auto;padding:14px 24px;display:flex;align-items:center;gap:18px}
+.brand{font-size:13px;font-weight:700;letter-spacing:.13em}.brand b{color:var(--purple)}
+.progress{flex:1;height:6px;border-radius:99px;background:#E7E2EB;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--purple);transition:.3s}
+.counter{font-size:13px;color:var(--muted);white-space:nowrap}
+.read-again{border:1px solid var(--purple);background:var(--purple);padding:0 18px;min-height:40px;border-radius:999px;color:#fff;font-size:13px;font-weight:700;white-space:nowrap;transition:.2s;box-shadow:0 2px 8px rgba(90,53,122,.25)}
+.read-again:hover{background:var(--purple2);border-color:var(--purple2)}
+.sheet{position:fixed;inset:0;z-index:80;display:none}
+.sheet.show{display:block}
+.veil{position:absolute;inset:0;background:rgba(31,33,36,.32)}
+.panel{position:absolute;right:0;top:0;bottom:0;width:min(650px,94vw);background:var(--bg);padding:34px 38px 44px;overflow:auto;box-shadow:-8px 0 30px rgba(31,33,36,.08)}
+.panel .close{position:absolute;right:22px;top:20px;border:0;background:transparent;font-size:26px;color:var(--muted);min-width:44px;min-height:44px;border-radius:10px}
+.panel .close:hover{background:var(--tint)}
+.panel .eyebrow{margin-bottom:6px}
+.panel h3{font-size:22px;line-height:1.45;margin:0 0 4px}
+.panel p{font-size:17px;line-height:2;margin:0 0 18px;color:#2E2A33}
+main{max-width:1040px;margin:auto;padding:34px 24px 130px}
+.screen{display:none}.screen.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:.25;transform:translateY(6px)}}
+.hero{text-align:center;max-width:760px;margin:40px auto}
+.mark{width:86px;height:86px;margin:0 auto 22px;border-radius:50%;background:radial-gradient(circle,#E8DDF0,#F5EFF9 65%,transparent 67%);display:grid;place-items:center}
+.mark:before{content:"J";display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:#1F2124;color:#D8B96E;font-weight:800;font-size:24px}
+.hero h1{font-size:40px;margin:0 0 8px}.hero h2{font-size:22px;color:var(--muted);font-weight:600;margin:0}
+.stage{display:inline-block;margin-top:22px;padding:12px 22px;border:1px solid #D6C4E3;border-radius:12px;background:#fff;font-weight:700;color:var(--purple)}
+.notice{margin:28px auto 0;max-width:660px;text-align:left;background:var(--tint);border:1px solid #E1D4EA;border-radius:16px;padding:22px 26px;line-height:1.85;color:#504A55}
+.fields{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:14px;max-width:650px;margin:26px auto 0;text-align:left}
+label{font-size:13px;color:var(--muted);display:block;margin-bottom:7px}
+input[type=text],input[type=date],textarea,select{width:100%;border:1px solid #D5D0DA;border-radius:12px;background:#fff;padding:14px 16px;color:var(--ink)}
+textarea{min-height:180px;resize:vertical;line-height:1.8}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--purple);box-shadow:0 0 0 4px var(--tint)}
+/* ── 손글씨 · 키보드 입력 패드 ── */
+.pad{margin-top:0;background:#fff;border:1px solid #D5D0DA;border-radius:12px;position:relative;overflow:hidden;transition:.25s}
+.pad:focus-within,.pad.active{border-color:var(--purple);box-shadow:0 0 0 4px var(--tint)}
+.pad-tools{display:flex;align-items:center;gap:4px;padding:8px 10px;border-bottom:1px solid var(--line);background:var(--tint);transition:background .3s}
+.tool{min-width:44px;min-height:44px;padding:0 12px;border:0;border-radius:10px;display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);background:transparent;transition:.2s}
+.tool:hover{background:rgba(255,255,255,.7)}
+.tool[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 0 rgba(0,0,0,.06)}
+.tool.right{margin-left:auto}
+.canvas-wrap{position:relative;background:#fff}
+.pad canvas{display:block;width:100%;touch-action:none;cursor:crosshair;background:#fff}
+.pad .ph{position:absolute;left:18px;top:16px;color:var(--muted);opacity:.7;font-size:16px;pointer-events:none;transition:opacity .3s}
+.pad .rule{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 45px,var(--line) 45px 46px);opacity:.5}
+.pad.keys .rule{display:none}
+.pad textarea{display:none;width:100%;border:0;resize:none;padding:16px 18px;font:inherit;font-size:16px;line-height:1.8;color:var(--ink);background:#fff;outline:none;margin:0;border-radius:0;min-height:0}
+.pad textarea:focus{outline:none;border:0;box-shadow:none}
+.pad.keys canvas,.pad.keys .ph{display:none}
+.pad.keys textarea{display:block}
+.two .pad,.three .pad{margin-top:0}
+.head{background:var(--tint);border-radius:18px;padding:24px 28px;margin-bottom:22px;border-left:5px solid var(--purple)}
+.eyebrow{font-size:13px;letter-spacing:.1em;color:var(--purple);font-weight:700;margin-bottom:8px}
+.head h2{font-size:25px;line-height:1.45;margin:0}
+.head p{color:var(--muted);margin:8px 0 0;line-height:1.7}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin-top:16px}
+.reading{font-size:18px;line-height:2.02;padding:32px}
+.reading p{margin:0 0 22px}
+.qtitle{font-size:20px;font-weight:700;line-height:1.55;margin-bottom:16px}
+.num{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:11px;background:var(--purple);color:#fff;margin-right:10px;font-size:16px}
+.choicegrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.choice{position:relative;display:flex;align-items:flex-start;gap:15px;padding:20px 22px;border:1px solid #D6D0DB;border-radius:12px;background:#fff;line-height:1.6;font-size:17.5px}
+.choice input{width:23px;height:23px;margin-top:1px;accent-color:var(--purple);flex:0 0 auto}
+.choice:has(input:checked){background:var(--tint);border-color:#BFA4D2;font-weight:600}
+.materials{display:grid;gap:12px}
+.material{display:grid;grid-template-columns:1fr 140px;gap:12px;align-items:center;padding:14px 16px;border:1px solid var(--line);border-radius:12px}
+.tint{padding:16px 18px;border-left:4px solid var(--purple);background:var(--tint);border-radius:0 12px 12px 0;line-height:1.8;margin:14px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.two textarea,.three textarea{min-height:145px}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:25;background:rgba(250,249,251,.96);border-top:1px solid var(--line);backdrop-filter:blur(8px)}
+.navin{max-width:1040px;margin:auto;padding:15px 24px;display:flex;gap:12px}
+.btn{border:0;border-radius:12px;min-height:52px;padding:0 26px;font-weight:700}
+.primary{background:#1F2124;color:#fff}.accent{background:var(--purple);color:#fff}.quiet{background:#fff;color:var(--muted);border:1px solid #D5D0DA}.spacer{flex:1}
+.done{text-align:center;max-width:650px;margin:80px auto}.done .tick{font-size:46px;color:var(--purple)}
+.donebox{text-align:left;margin-top:25px;padding:22px;background:var(--tint);border-radius:16px;line-height:1.8}
+.teacher{margin-top:28px;border-top:1px solid var(--line);padding-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+#report{display:none}
+@media(max-width:720px){
+ .fields,.choicegrid,.two,.three{grid-template-columns:1fr}.material{grid-template-columns:1fr}
+ .hero h1{font-size:32px}.reading{padding:24px;font-size:17px}main{padding-left:18px;padding-right:18px}
+}
+@media print{
+ @page{size:A4;margin:13mm}
+ body{background:#fff}
+ .top,main,.nav,.sheet{display:none!important}
+ #report{display:block!important;color:#111;font-size:10.5pt;line-height:1.55}
+ .rp-head{border-bottom:2px solid #5A357A;padding-bottom:10px;margin-bottom:14px}
+ .rp-head h1{font-size:20pt;margin:0}.rp-head p{margin:4px 0 0;color:#555}
+ .meta{width:100%;border-collapse:collapse;margin:12px 0}
+ .meta th,.meta td{border:1px solid #bbb;padding:6px 8px;text-align:left}.meta th{background:#F4EEF8;width:85px}
+ .rp{border:1px solid #bbb;margin:0 0 10px;break-inside:avoid}
+ .rp h3{font-size:11pt;margin:0;padding:7px 9px;background:#F4EEF8;border-bottom:1px solid #bbb}
+ .rp .body{padding:9px}.ans{white-space:pre-wrap;border-left:3px solid #5A357A;padding-left:9px}.blank{color:#888;border-left-color:#aaa}
+ #report img{max-width:100%;display:block;border:1px solid #ccc;margin-top:4px}
+}
+</style>
+</head>
+<body>
+<header class="top" id="top" hidden>
+  <div class="topin"><div class="brand">JIPYO <b>·</b> THINK OS CHECK</div><div class="progress"><i id="bar"></i></div><div class="counter" id="count"></div><button class="read-again" id="readAgain" type="button">읽은 글 보기</button></div>
+</header>
+
+<main>
+<section class="screen on" data-id="start">
+ <div class="hero">
+  <div class="mark"></div><h1>JIPYO THINK OS CHECK</h1><h2>내 생각은 어떤 길로 만들어질까?</h2>
+  <div class="stage">친구의 사진, 지워야 할까?</div>
+  <div class="notice"><b>이 활동은 시험이 아닙니다.</b><br>주어진 상황을 읽고 무엇을 이해하고, 서로 다른 생각을 어떻게 보고, 자신의 경험이나 가치와 어떻게 연결하며, 어떤 판단을 내리는지 살펴봅니다.<br><br><b>필수 질문</b>은 모두 답해 주세요. <b>선택 질문</b>은 더 생각해보고 싶을 때만 답해도 괜찮습니다.</div>
+  <div class="fields">
+   <div><label>이름</label><input id="name" type="text"></div>
+   <div><label>학년</label><input id="grade" type="text"></div>
+   <div><label>체크일</label><input id="date" type="date"></div>
+  </div>
+  <button class="btn primary" style="margin-top:28px;min-width:220px" id="begin">시작하기</button>
+ </div>
+</section>
+
+<section class="screen" data-id="read">
+ <div class="head"><div class="eyebrow">[ 읽기 ]</div><h2>친구의 사진, 지워야 할까?</h2><p>천천히 읽어보세요. 문항을 풀 때 언제든 다시 볼 수 있습니다.</p></div>
+ <div class="card reading" id="passage">
+  <p>민서는 학교 축제 날 친구들과 함께 찍은 사진 여러 장을 자신의 SNS에 올렸습니다. 사진은 친구들에게 좋은 반응을 얻었고, 몇몇 친구들은 댓글을 달거나 자신의 계정에 사진을 다시 공유했습니다.</p>
+  <p>그런데 사진에 함께 나온 수아가 민서에게 메시지를 보냈습니다.</p>
+  <p><b>“나는 이 사진이 마음에 들지 않아. 사람들이 보는 게 싫으니까 내려줬으면 좋겠어.”</b></p>
+  <p>민서는 조금 당황했습니다. 사진은 여러 사람이 함께 웃으며 찍은 평범한 사진이었고, 수아만 특별히 이상하게 나온 것도 아니었습니다. 게다가 이미 많은 친구들이 사진을 보거나 공유한 뒤였습니다.</p>
+  <p>민서는 말했습니다.</p>
+  <p><b>“내가 찍은 사진이고 내 계정에 올린 건데 꼭 내려야 해? 학교 축제에서 다 같이 찍은 사진이고, 다른 친구들은 아무 말도 하지 않았잖아.”</b></p>
+  <p>옆에서 이야기를 들은 준호는 다르게 생각했습니다.</p>
+  <p><b>“사진을 올린 사람이 민서라고 해도 사진 속에는 수아의 모습도 있잖아. 자기 모습이 공개되는 게 싫다고 하면 그 의견도 존중해야 하는 것 같아.”</b></p>
+  <p>그러자 지민은 이렇게 말했습니다.</p>
+  <p><b>“그렇지만 여러 사람이 함께 찍은 사진은 한 사람만의 사진이라고 하기도 어렵잖아. 사진에 나온 사람 한 명이 싫다고 할 때마다 모두 지워야 한다면 다른 사람들의 기록이나 사진을 올릴 자유는 어떻게 되는 거야?”</b></p>
+  <p>민서는 사진을 그대로 둘지, 수아의 요청대로 삭제할지 고민하기 시작했습니다. 얼굴만 가려서 다시 올리는 방법도 떠올랐지만, 이미 다른 친구들이 공유한 사진까지 모두 없앨 수 있는지는 알 수 없었습니다.</p>
+  <p>사진을 올린 사람에게는 자신의 기록을 공유하고 싶은 마음이 있습니다. 하지만 사진에 찍힌 사람에게도 자신의 모습이 어디에 공개될지 중요할 수 있습니다.</p>
+  <p><b>민서는 이 사진을 어떻게 하는 것이 좋을까요?</b></p>
+ </div>
+</section>
+
+<section class="screen" data-id="q1">
+ <div class="head"><div class="eyebrow">[ 필수 · 이해 ]</div><h2>이 상황에서 가장 중요한 일은 무엇이라고 생각하나요?</h2><p>자신의 말로 설명해보세요.</p></div>
+ <div class="card"><div class="pad" data-pad="q1" data-h="190" data-ph=""></div></div>
+</section>
+
+<section class="screen" data-id="o1">
+ <div class="head"><div class="eyebrow">[ 선택 · 더 생각해보기 ]</div><h2>바로 판단하기 전에 더 알아야 할 것이 있다면 무엇인가요?</h2><p>떠오르는 것이 없다면 건너뛰어도 괜찮습니다.</p></div>
+ <div class="card"><div class="pad" data-pad="o1" data-h="180" data-ph=""></div></div>
+</section>
+
+<section class="screen" data-id="q2">
+ <div class="head"><div class="eyebrow">[ 필수 · 구분 ]</div><h2>준호와 지민은 이 문제를 어떻게 다르게 보고 있나요?</h2></div>
+ <div class="two"><div><label>준호의 생각</label><div class="pad" data-pad="q2a" data-h="160" data-ph=""></div></div><div><label>지민의 생각</label><div class="pad" data-pad="q2b" data-h="160" data-ph=""></div></div></div>
+</section>
+
+<section class="screen" data-id="o2">
+ <div class="head"><div class="eyebrow">[ 선택 · 더 생각해보기 ]</div><h2>두 사람은 각각 무엇을 더 중요하게 생각하고 있는 것 같나요?</h2><p>떠오르는 것이 없다면 건너뛰어도 괜찮습니다.</p></div>
+ <div class="two"><div><label>준호가 중요하게 보는 것</label><div class="pad" data-pad="o2a" data-h="150" data-ph=""></div></div><div><label>지민이 중요하게 보는 것</label><div class="pad" data-pad="o2b" data-h="150" data-ph=""></div></div></div>
+</section>
+
+<section class="screen" data-id="q3">
+ <div class="head"><div class="eyebrow">[ 필수 · 연결 ]</div><h2>이 이야기를 읽으며 자신의 경험이나 평소 중요하게 생각하는 것과 연결되는 부분이 있나요?</h2><p>경험이 없다면 떠오른 생각을 써도 됩니다.</p></div>
+ <div class="card"><div class="pad" data-pad="q3" data-h="220" data-ph=""></div></div>
+</section>
+
+<section class="screen" data-id="o3">
+ <div class="head"><div class="eyebrow">[ 선택 · 더 생각해보기 ]</div><h2>이 문제와 비슷하다고 느껴지는 다른 상황이 있나요?</h2><p>떠오르는 것이 없다면 건너뛰어도 괜찮습니다.</p></div>
+ <div class="card"><div class="pad" data-pad="o3" data-h="180" data-ph=""></div></div>
+</section>
+
+<section class="screen" data-id="q4">
+ <div class="head"><div class="eyebrow">[ 필수 · 판단 ]</div><h2>민서는 이 사진을 어떻게 하는 것이 좋다고 생각하나요?</h2><p>자신의 생각과 그 이유를 써보세요.</p></div>
+ <div class="card"><label>나의 생각</label><div class="pad" data-pad="q4a" data-h="130" data-ph=""></div></div>
+ <div class="card"><label>그렇게 생각한 이유</label><div class="pad" data-pad="q4b" data-h="190" data-ph=""></div></div>
+</section>
+
+<section class="screen" data-id="o4">
+ <div class="head"><div class="eyebrow">[ 선택 · 더 생각해보기 ]</div><h2>나와 반대로 생각하는 사람은 왜 그렇게 생각할까요?</h2><p>떠오르는 것이 없다면 건너뛰어도 괜찮습니다.</p></div>
+ <div class="card"><div class="pad" data-pad="o4" data-h="190" data-ph=""></div></div>
+</section>
+
+<section class="screen" data-id="q5">
+ <div class="head"><div class="eyebrow">[ 필수 · 표현 ]</div><h2>여러 사람이 함께 찍힌 사진을 SNS에 올릴 때 무엇이 가장 중요할까요?</h2><p>지금까지 생각한 내용을 바탕으로 자신의 생각을 자유롭게 써보세요.</p></div>
+ <div class="card"><div class="pad" data-pad="q5" data-h="300" data-ph=""></div></div>
+</section>
+
+<section class="screen" data-id="done">
+ <div class="done"><div class="tick">✓</div><h1>생각의 길을 끝까지 따라가 보았어요.</h1>
+  <div class="donebox">이번 활동에서는 하나의 상황을 읽고, 무엇이 중요한지 이해하고, 서로 다른 생각을 구분하고, 자신의 경험과 가치에 연결하고, 자신의 판단을 자기 언어로 표현해보았습니다.<br><br>선택 질문은 얼마나 많이 했는가보다 <b>어떻게 더 생각해 보았는가</b>가 중요합니다.</div>
+  <div class="teacher"><button class="btn accent" id="savePdf">학생 결과지 PDF로 저장</button><button class="btn quiet" id="restart">처음으로</button></div>
+ </div>
+</section>
+</main>
+
+<nav class="nav" id="nav" hidden><div class="navin"><button class="btn quiet" id="prev">이전</button><div class="spacer"></div><button class="btn primary" id="next">다음</button></div></nav>
+<div class="sheet" id="sheet"><div class="veil" id="veil"></div><div class="panel"><button class="close" id="closeSheet" type="button">×</button><div class="eyebrow">읽은 글</div><h3>친구의 사진, 지워야 할까?</h3><div id="sheetText"></div></div></div>
+<div id="report"></div>
+
+<script>
+(()=>{
+ const screens=[...document.querySelectorAll('.screen')], flow=screens.map(x=>x.dataset.id);
+ let idx=0;
+ const $=s=>document.querySelector(s);
+ const KEY='jipyo_think_os_check_common_v1';
+ const questions=[
+   ['필수 · 이해','q1'],['선택 · 더 알아보기','o1'],['필수 · 구분','q2a,q2b'],['선택 · 가치 보기','o2a,o2b'],['필수 · 연결','q3'],['선택 · 다른 상황 연결','o3'],['필수 · 판단','q4a,q4b'],['선택 · 반대 관점','o4'],['필수 · 표현','q5']
+ ];
+ function today(){return new Date().toISOString().slice(0,10)}
+ $('#date').value=today();
+
+ /* ===== 읽은 글 보기 (지문 패널) ===== */
+ $('#sheetText').innerHTML=$('#passage').innerHTML;
+ $('#readAgain').addEventListener('click',()=>$('#sheet').classList.add('show'));
+ $('#closeSheet').addEventListener('click',()=>$('#sheet').classList.remove('show'));
+ $('#veil').addEventListener('click',()=>$('#sheet').classList.remove('show'));
+
+ /* ===== 손글씨 · 키보드 입력 패드 ===== */
+ const pads={}, LW=1000, padSizers=[], padRefreshers={};
+ const ICON={pen:'✎',era:'⌫',undo:'↶',clear:'×',key:'⌨'};
+ document.querySelectorAll('.pad[data-pad]').forEach(el=>{
+   pads[el.dataset.pad]={mode:'handwriting',strokes:[],text:'',h:+el.dataset.h||150};
+ });
+ function paint(ctx,strokes,kx,ky){
+   ctx.lineCap='round';ctx.lineJoin='round';
+   strokes.forEach(s=>{
+     ctx.globalCompositeOperation=s.e?'destination-out':'source-over';
+     ctx.strokeStyle='#23211E';ctx.lineWidth=(s.e?22:2.4)*kx;
+     ctx.beginPath();
+     s.p.forEach((pt,n)=>n?ctx.lineTo(pt[0]*kx,pt[1]*ky):ctx.moveTo(pt[0]*kx,pt[1]*ky));
+     if(s.p.length===1)ctx.lineTo(s.p[0][0]*kx+.1,s.p[0][1]*ky+.1);
+     ctx.stroke();
+   });
+   ctx.globalCompositeOperation='source-over';
+ }
+ function strokesToPNG(strokes,h,scale){
+   scale=scale||2;
+   const c=document.createElement('canvas');c.width=LW*scale;c.height=h*scale;
+   const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);
+   paint(x,strokes,scale,scale);
+   return c.toDataURL('image/png');
+ }
+ function buildPad(el){
+   const key=el.dataset.pad,h=+el.dataset.h||150,A=pads[key];A.h=h;
+   el.innerHTML='<div class="pad-tools">'+
+     '<button type="button" class="tool" data-t="pen" aria-pressed="true">'+ICON.pen+'<span>펜</span></button>'+
+     '<button type="button" class="tool" data-t="era" aria-pressed="false">'+ICON.era+'<span>지우개</span></button>'+
+     '<button type="button" class="tool" data-t="undo">'+ICON.undo+'<span>되돌리기</span></button>'+
+     '<button type="button" class="tool" data-t="clear">'+ICON.clear+'<span>전체 지우기</span></button>'+
+     '<button type="button" class="tool right" data-t="key" aria-pressed="false">'+ICON.key+'<span>키보드</span></button>'+
+     '</div>'+
+     '<div class="canvas-wrap" style="height:'+h+'px"><div class="rule"></div><canvas></canvas><div class="ph">'+(el.dataset.ph||'')+'</div></div>'+
+     '<textarea spellcheck="false" style="min-height:'+h+'px" placeholder="'+(el.dataset.ph||'')+'"></textarea>';
+   const cv=el.querySelector('canvas'),ctx=cv.getContext('2d'),ph=el.querySelector('.ph'),ta=el.querySelector('textarea');
+   let cur=null,erasing=false,drawing=false;
+   ta.addEventListener('input',()=>{A.text=ta.value;save();});
+   function size(){
+     const w=cv.parentElement.clientWidth,dpr=Math.min(window.devicePixelRatio||1,2);
+     if(!w)return;
+     cv.width=w*dpr;cv.height=h*dpr;cv.style.height=h+'px';
+     ctx.setTransform(dpr,0,0,dpr,0,0);redraw();
+   }
+   function redraw(){
+     const w=cv.clientWidth;
+     ctx.clearRect(0,0,cv.width,cv.height);
+     paint(ctx,A.strokes,w/LW,1);
+     ph.style.opacity=A.strokes.length?0:1;
+   }
+   const pos=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)/r.width*LW,(e.clientY-r.top)/r.height*h];};
+   cv.addEventListener('pointerdown',e=>{drawing=true;cv.setPointerCapture(e.pointerId);cur={e:erasing,p:[pos(e)]};A.strokes.push(cur);redraw();});
+   cv.addEventListener('pointermove',e=>{if(drawing&&cur){cur.p.push(pos(e));redraw();}});
+   const end=()=>{if(drawing){drawing=false;cur=null;save();}};
+   cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+   el.querySelectorAll('.tool').forEach(b=>b.addEventListener('click',()=>{
+     const t=b.dataset.t;
+     if(t==='pen'||t==='era'){erasing=t==='era';el.querySelector('[data-t="pen"]').setAttribute('aria-pressed',String(!erasing));el.querySelector('[data-t="era"]').setAttribute('aria-pressed',String(erasing));}
+     if(t==='undo'){A.strokes.pop();redraw();save();}
+     if(t==='clear'){if(el.classList.contains('keys')){ta.value='';A.text='';}else{A.strokes=[];redraw();}save();}
+     if(t==='key'){
+       const on=!el.classList.contains('keys');
+       el.classList.toggle('keys',on);
+       b.setAttribute('aria-pressed',String(on));
+       b.querySelector('span').textContent=on?'손글씨':'키보드';
+       el.querySelectorAll('[data-t="pen"],[data-t="era"],[data-t="undo"]').forEach(x=>x.style.display=on?'none':'');
+       A.mode=on?'keyboard':'handwriting';
+       if(on)setTimeout(()=>ta.focus(),50);else setTimeout(size,30);
+       save();
+     }
+   }));
+   padSizers.push(size);
+   padRefreshers[key]=function(){
+     const on=A.mode==='keyboard';
+     el.classList.toggle('keys',on);
+     const kb=el.querySelector('[data-t="key"]');
+     kb.setAttribute('aria-pressed',String(on));
+     kb.querySelector('span').textContent=on?'손글씨':'키보드';
+     el.querySelectorAll('[data-t="pen"],[data-t="era"],[data-t="undo"]').forEach(x=>x.style.display=on?'none':'');
+     ta.value=A.text||'';
+     redraw();
+     if(!on)size();
+   };
+   size();
+ }
+ document.querySelectorAll('.pad[data-pad]').forEach(buildPad);
+ window.addEventListener('resize',()=>setTimeout(()=>padSizers.forEach(f=>f()),80));
+ function serializePads(){const o={};Object.keys(pads).forEach(k=>{const p=pads[k];o[k]={mode:p.mode,strokes:p.strokes,text:p.text,h:p.h};});return o;}
+
+ function value(id){
+   if(pads[id]) return pads[id].mode==='keyboard'?pads[id].text:'';
+   const el=document.querySelector(`[data-a="${id}"]`);
+   if(el) return el.value||'';
+   const r=document.querySelector(`input[name="${id}"]:checked`);
+   return r?r.value:'';
+ }
+ function snapshot(){
+  const a={}; questions.forEach(([,ids])=>ids.split(',').forEach(id=>a[id]=value(id)));
+  return {name:$('#name').value,grade:$('#grade').value,date:$('#date').value,answers:a,pads:serializePads(),idx};
+ }
+ function save(){localStorage.setItem(KEY,JSON.stringify(snapshot()))}
+ function restore(){
+  try{
+   const d=JSON.parse(localStorage.getItem(KEY)||'null'); if(!d)return;
+   $('#name').value=d.name||'';$('#grade').value=d.grade||'';$('#date').value=d.date||today();
+   Object.entries(d.answers||{}).forEach(([id,v])=>{
+    const el=document.querySelector(`[data-a="${id}"]`); if(el)el.value=v;
+    const r=document.querySelector(`input[name="${id}"][value="${CSS.escape(v)}"]`);if(r)r.checked=true;
+   });
+   if(d.pads)Object.keys(d.pads).forEach(k=>{if(pads[k])Object.assign(pads[k],d.pads[k]);});
+   Object.entries(d.answers||{}).forEach(([id,v])=>{
+    if(pads[id]&&v&&!pads[id].text&&!pads[id].strokes.length){pads[id].mode='keyboard';pads[id].text=v;}
+   });
+   Object.values(padRefreshers).forEach(f=>f());
+  }catch(e){}
+ }
+ function render(){
+  screens.forEach((s,i)=>s.classList.toggle('on',i===idx));
+  const start=flow[idx]==='start', done=flow[idx]==='done';
+  $('#top').hidden=start; $('#nav').hidden=start||done;
+  const total=flow.length-2, current=Math.max(0,idx-1);
+  $('#bar').style.width=(Math.min(current,total)/total*100)+'%';
+  $('#count').textContent=start?'':done?'완료':`${current+1} / ${total}`;
+  $('#prev').style.visibility=idx<=1?'hidden':'visible';
+  $('#next').textContent=idx===flow.length-2?'제출하기':'다음';
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(()=>padSizers.forEach(f=>f()),40);
+ }
+ $('#begin').onclick=()=>{if(!$('#name').value.trim()){alert('이름을 입력해주세요.');return} idx=1;save();render()};
+ $('#next').onclick=()=>{
+  if(idx<flow.length-1){idx++;save();render();}
+ };
+ $('#prev').onclick=()=>{idx=Math.max(1,idx-1);save();render()};
+ document.addEventListener('input',save);document.addEventListener('change',save);
+ function esc(s){return String(s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+ function buildReport(){
+  const d=snapshot(); let rows='';
+  const cellHTML=id=>{
+   if(pads[id]){
+    const p=pads[id];
+    if(p.mode==='keyboard') return p.text?`<div class="ans">${esc(p.text)}</div>`:'';
+    return p.strokes.length?`<img src="${strokesToPNG(p.strokes,p.h)}" alt="손글씨 답안">`:'';
+   }
+   const v=d.answers[id];
+   return v?`<div class="ans">${esc(v)}</div>`:'';
+  };
+  questions.forEach(([title,ids],i)=>{
+   const parts=ids.split(',').map(cellHTML).filter(Boolean);
+   const body=parts.length?parts.join(''):'<div class="ans blank">미응답</div>';
+   rows+=`<section class="rp"><h3>${i+1}. ${esc(title)}</h3><div class="body">${body}</div></section>`;
+  });
+  $('#report').innerHTML=`<div class="rp-head"><h1>THINK OS CHECK 결과지</h1><p>친구의 사진, 지워야 할까?</p></div>
+   <table class="meta"><tr><th>이름</th><td>${esc(d.name)}</td><th>학년</th><td>${esc(d.grade)}</td></tr><tr><th>탐구일</th><td colspan="3">${esc(d.date)}</td></tr></table>${rows}
+   <div style="margin-top:12px;border-top:1px solid #aaa;padding-top:8px;font-size:8.5pt;color:#555">JIPYO THINK OS CHECK · 학생 결과지</div>`;
+ }
+ $('#savePdf').onclick=async()=>{
+  buildReport();
+  const imgs=[...document.querySelectorAll('#report img')];
+  await Promise.all(imgs.map(im=>im.complete?Promise.resolve():new Promise(r=>{im.onload=im.onerror=r;})));
+  const old=document.title;
+  const date=($('#date').value||today()).replace(/\./g,'-');
+  document.title=`${($('#name').value||'학생').trim()}_JIPYO_THINK_OS_CHECK_${date}`;
+  setTimeout(()=>window.print(),150);
+  window.addEventListener('afterprint',()=>{document.title=old},{once:true});
+ };
+ $('#restart').onclick=()=>{if(confirm('처음 화면으로 돌아갈까요? 작성 내용은 지워집니다.')){localStorage.removeItem(KEY);location.reload()}};
+ restore();render();
+})();
+</script>
+</body>
+</html>
