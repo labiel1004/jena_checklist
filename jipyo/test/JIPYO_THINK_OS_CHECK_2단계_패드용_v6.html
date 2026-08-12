@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JIPYO THINK OS CHECK · 2단계</title>
+<meta property="og:title" content="JIPYO THINK OS CHECK | 2단계">
+<meta property="og:description" content="생각이 어떤 길을 따라 흐르는지 살펴봅니다.">
+<meta property="og:image" content="https://labiel1004.github.io/jena_checklist/jipyo/images/thinking_check_2.png">
+<meta property="og:type" content="website">
+<style>
+:root{
+  --bg:#F6FAF8; --surface:#fff; --ink:#17221E; --muted:#607069; --line:#DCE7E2;
+  --green:#1F5B4D; --green2:#2F7564; --tint:#EAF5F0; --soft:#F0F6F3;
+  --radius:16px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Pretendard,"Noto Sans KR",Arial,sans-serif;color:var(--ink);background:var(--bg)}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.top{position:sticky;top:0;z-index:20;background:rgba(246,250,248,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topin{max-width:1040px;margin:auto;padding:14px 24px;display:flex;align-items:center;gap:18px}
+.brand{font-size:13px;font-weight:700;letter-spacing:.13em}.brand b{color:var(--green)}
+.progress{flex:1;height:6px;border-radius:99px;background:#DFE9E4;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--green);transition:.3s}
+.counter{font-size:13px;color:var(--muted);white-space:nowrap}
+.read-again{border:1px solid var(--green);background:var(--green);padding:0 18px;min-height:40px;border-radius:999px;color:#fff;font-size:13px;font-weight:700;white-space:nowrap;transition:.2s;box-shadow:0 2px 8px rgba(31,91,77,.26)}
+.read-again:hover{background:var(--green2);border-color:var(--green2)}
+.sheet{position:fixed;inset:0;z-index:80;display:none}
+.sheet.show{display:block}
+.veil{position:absolute;inset:0;background:rgba(23,34,30,.32)}
+.panel{position:absolute;right:0;top:0;bottom:0;width:min(650px,94vw);background:var(--bg);padding:34px 38px 44px;overflow:auto;box-shadow:-8px 0 30px rgba(23,34,30,.08)}
+.panel .close{position:absolute;right:22px;top:20px;border:0;background:transparent;font-size:26px;color:var(--muted);min-width:44px;min-height:44px;border-radius:10px}
+.panel .close:hover{background:var(--tint)}
+.panel .eyebrow{margin-bottom:6px}
+.panel h3{font-size:22px;line-height:1.45;margin:0 0 4px}
+.panel p{font-size:17px;line-height:2;margin:0 0 18px;color:#2B3A34}
+main{max-width:1040px;margin:auto;padding:34px 24px 130px}
+.screen{display:none}.screen.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:.25;transform:translateY(6px)}}
+.hero{text-align:center;max-width:760px;margin:40px auto}
+.mark{width:86px;height:86px;margin:0 auto 22px;border-radius:50%;background:radial-gradient(circle,#DCEFE7,#EDF7F3 65%,transparent 67%);display:grid;place-items:center}
+.mark:before{content:"J";display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:#17221E;color:#D9B86F;font-weight:800;font-size:24px}
+.hero h1{font-size:40px;margin:0 0 8px}.hero h2{font-size:22px;color:var(--muted);font-weight:600;margin:0}
+.stage{display:inline-block;margin-top:22px;padding:12px 22px;border:1px solid #BFD9CF;border-radius:12px;background:#fff;font-weight:700;color:var(--green)}
+.notice{margin:28px auto 0;max-width:650px;text-align:left;background:#E6F1ED;border:1px solid #C9DFD6;border-radius:16px;padding:22px 26px;line-height:1.85;color:#415149}
+.fields{display:grid;grid-template-columns:1fr 1.25fr .8fr 1.1fr;gap:14px;max-width:650px;margin:26px auto 0;text-align:left}
+label{font-size:13px;color:var(--muted);display:block;margin-bottom:7px}
+input[type=text],input[type=date],textarea{width:100%;border:1px solid #C9D8D1;border-radius:12px;background:#fff;padding:14px 16px;color:var(--ink)}
+textarea{min-height:180px;resize:vertical;line-height:1.8}
+input:focus,textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 4px var(--tint)}
+/* ── 손글씨 · 키보드 입력 패드 ── */
+.pad{margin-top:0;background:#fff;border:1px solid #C9D8D1;border-radius:12px;position:relative;overflow:hidden;transition:.25s}
+.pad:focus-within,.pad.active{border-color:var(--green);box-shadow:0 0 0 4px var(--tint)}
+.pad-tools{display:flex;align-items:center;gap:4px;padding:8px 10px;border-bottom:1px solid var(--line);background:var(--tint);transition:background .3s}
+.tool{min-width:44px;min-height:44px;padding:0 12px;border:0;border-radius:10px;display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);background:transparent;transition:.2s}
+.tool:hover{background:rgba(255,255,255,.7)}
+.tool[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 0 rgba(0,0,0,.06)}
+.tool.right{margin-left:auto}
+.canvas-wrap{position:relative;background:#fff}
+.pad canvas{display:block;width:100%;touch-action:none;cursor:crosshair;background:#fff}
+.pad .ph{position:absolute;left:18px;top:16px;color:var(--muted);opacity:.7;font-size:16px;pointer-events:none;transition:opacity .3s}
+.pad .rule{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 45px,var(--line) 45px 46px);opacity:.5}
+.pad.keys .rule{display:none}
+.pad textarea{display:none;width:100%;border:0;resize:none;padding:16px 18px;font:inherit;font-size:16px;line-height:1.8;color:var(--ink);background:#fff;outline:none;margin:0;border-radius:0;min-height:0}
+.pad textarea:focus{outline:none;border:0;box-shadow:none}
+.pad.keys canvas,.pad.keys .ph{display:none}
+.pad.keys textarea{display:block}
+.three .pad{margin-top:0}
+.head{background:var(--tint);border-radius:18px;padding:24px 28px;margin-bottom:22px;border-left:5px solid var(--green)}
+.eyebrow{font-size:13px;letter-spacing:.1em;color:var(--green);font-weight:700;margin-bottom:8px}
+.head h2{font-size:25px;line-height:1.45;margin:0}
+.head p{color:var(--muted);margin:8px 0 0;line-height:1.7}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin-top:16px}
+.reading{font-size:18px;line-height:2.02;padding:32px}
+.reading p{margin:0 0 22px}
+.qtitle{font-size:20px;font-weight:700;line-height:1.55;margin-bottom:16px}
+.num{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:11px;background:var(--green);color:#fff;margin-right:10px;font-size:16px}
+.choicegrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.choice{position:relative;display:flex;align-items:flex-start;gap:15px;padding:20px 22px;border:1px solid #CBDAD3;border-radius:12px;background:#fff;line-height:1.6;font-size:17.5px}
+.choice input{width:23px;height:23px;margin-top:1px;accent-color:var(--green);flex:0 0 auto}
+.choice:has(input:checked){background:var(--tint);border-color:#8EB9A9;font-weight:600}
+.materials{display:grid;gap:12px}
+.material{display:grid;grid-template-columns:1fr 140px;gap:12px;align-items:center;padding:14px 16px;border:1px solid var(--line);border-radius:12px}
+.material select{padding:12px;border:1px solid #C9D8D1;border-radius:10px;background:#fff}
+.tint{padding:16px 18px;border-left:4px solid var(--green);background:var(--tint);border-radius:0 12px 12px 0;line-height:1.8;margin:14px 0}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.three textarea{min-height:130px}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:25;background:rgba(246,250,248,.96);border-top:1px solid var(--line);backdrop-filter:blur(8px)}
+.navin{max-width:1040px;margin:auto;padding:15px 24px;display:flex;gap:12px}
+.btn{border:0;border-radius:12px;min-height:52px;padding:0 26px;font-weight:700}
+.primary{background:#17221E;color:#fff}.accent{background:var(--green);color:#fff}.quiet{background:#fff;color:var(--muted);border:1px solid #C9D8D1}.spacer{flex:1}
+.done{text-align:center;max-width:650px;margin:80px auto}.done .tick{font-size:46px;color:var(--green)}
+.donebox{text-align:left;margin-top:25px;padding:22px;background:var(--tint);border-radius:16px;line-height:1.8}
+.teacher{margin-top:28px;border-top:1px solid var(--line);padding-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+#report{display:none}
+@media(max-width:720px){
+ .fields,.choicegrid,.three{grid-template-columns:1fr}.material{grid-template-columns:1fr}
+ .hero h1{font-size:32px}.reading{padding:24px;font-size:17px}main{padding-left:18px;padding-right:18px}
+}
+@media print{
+ @page{size:A4;margin:13mm}
+ body{background:#fff}
+ .top,main,.nav,.sheet{display:none!important}
+ #report{display:block!important;color:#111;font-size:10.5pt;line-height:1.55}
+ .rp-head{border-bottom:2px solid #1F5B4D;padding-bottom:10px;margin-bottom:14px}
+ .rp-head h1{font-size:20pt;margin:0}.rp-head p{margin:4px 0 0;color:#555}
+ .meta{width:100%;border-collapse:collapse;margin:12px 0}
+ .meta th,.meta td{border:1px solid #bbb;padding:6px 8px;text-align:left}.meta th{background:#EEF5F2;width:85px}
+ .rp{border:1px solid #bbb;margin:0 0 10px;break-inside:avoid}
+ .rp h3{font-size:11pt;margin:0;padding:7px 9px;background:#EEF5F2;border-bottom:1px solid #bbb}
+ .rp .body{padding:9px}.ans{white-space:pre-wrap;border-left:3px solid #1F5B4D;padding-left:9px}.blank{color:#888;border-left-color:#aaa}
+ #report img{max-width:100%;display:block;border:1px solid #ccc;margin-top:4px}
+}
+</style>
+</head>
+<body>
+<header class="top" id="top" hidden>
+  <div class="topin"><div class="brand">JIPYO <b>·</b> THINK OS CHECK · 2단계</div><div class="progress"><i id="bar"></i></div><div class="counter" id="count"></div><button class="read-again" id="readAgain" type="button">읽은 글 보기</button></div>
+</header>
+
+<main>
+<section class="screen on" data-id="start">
+ <div class="hero">
+  <div class="mark"></div><h1>JIPYO THINK OS CHECK</h1><h2>생각이 어떤 길을 따라 흐르는지 살펴봅니다</h2>
+  <div class="stage">2단계</div>
+  <div class="notice"><b>이 활동은 시험이 아닙니다.</b><br>글을 읽고 생각이 어떻게 흐르는지 살펴봅니다. 정답을 맞히는 것보다, 지금 떠오르는 생각을 자신의 말로 편안하게 표현해 주세요.</div>
+  <div class="fields">
+   <div><label>이름</label><input id="name" type="text"></div>
+   <div><label>학교</label><input id="school" type="text" placeholder="학교명을 입력해 주세요"></div>
+   <div><label>학년</label><input id="grade" type="text"></div>
+   <div><label>날짜</label><input id="date" type="date"></div>
+  </div>
+  <button class="btn primary" style="margin-top:28px;min-width:220px" id="begin">시작하기</button>
+ </div>
+</section>
+
+<section class="screen" data-id="read">
+ <div class="head"><div class="eyebrow">[ 읽기 ]</div><h2>친구의 사진, 지워야 할까?</h2><p>천천히 읽어보세요. 문항을 풀 때 다시 볼 수 있습니다.</p></div>
+ <div class="card reading" id="passage">
+  <p>민서는 학교 축제 날 친구들과 함께 찍은 사진 여러 장을 자신의 SNS에 올렸습니다. 사진은 친구들에게 좋은 반응을 얻었고, 몇몇 친구들은 댓글을 달거나 자신의 계정에 사진을 다시 공유했습니다.</p>
+  <p>그런데 사진에 함께 나온 수아가 민서에게 메시지를 보냈습니다.</p>
+  <p>“나는 이 사진이 마음에 들지 않아. 사람들이 보는 게 싫으니까 내려줬으면 좋겠어.”</p>
+  <p>민서는 조금 당황했습니다. 사진은 여러 사람이 함께 웃으며 찍은 평범한 사진이었고, 수아만 특별히 이상하게 나온 것도 아니었습니다. 게다가 이미 많은 친구들이 사진을 보거나 공유한 뒤였습니다.</p>
+  <p>민서는 말했습니다.</p>
+  <p>“내가 찍은 사진이고 내 계정에 올린 건데 꼭 내려야 해? 학교 축제에서 다 같이 찍은 사진이고, 다른 친구들은 아무 말도 하지 않았잖아.”</p>
+  <p>옆에서 이야기를 들은 준호는 다르게 생각했습니다.</p>
+  <p>“사진을 올린 사람이 민서라고 해도 사진 속에는 수아의 모습도 있잖아. 자기 모습이 공개되는 게 싫다고 하면 그 의견도 존중해야 하는 것 같아.”</p>
+  <p>그러자 지민은 이렇게 말했습니다.</p>
+  <p>“그렇지만 여러 사람이 함께 찍은 사진은 한 사람만의 사진이라고 하기도 어렵잖아. 사진에 나온 사람 한 명이 싫다고 할 때마다 모두 지워야 한다면 다른 사람들의 기록이나 사진을 올릴 자유는 어떻게 되는 거야?”</p>
+  <p>민서는 사진을 그대로 둘지, 수아의 요청대로 삭제할지 고민하기 시작했습니다. 얼굴만 가려서 다시 올리는 방법도 떠올랐지만, 이미 다른 친구들이 공유한 사진까지 모두 없앨 수 있는지는 알 수 없었습니다.</p>
+  <p>사진을 올린 사람에게는 자신의 기록을 공유하고 싶은 마음이 있습니다. 하지만 사진에 찍힌 사람에게도 자신의 모습이 어디에 공개될지 중요할 수 있습니다.</p>
+  <p>민서는 이 사진을 어떻게 하는 것이 좋을까요?</p>
+ </div>
+</section>
+
+<section class="screen" data-id="q1">
+ <div class="head"><div class="eyebrow">[ 01 · 이해 ]</div><h2>실제로 무슨 일이 있었나요?</h2><p>먼저 내 생각을 보태기 전에, 글에 나온 사실을 정확히 살펴봅니다.</p></div>
+ <div class="card"><div class="qtitle"><span class="num">1</span>이 상황에서 실제로 일어난 일은 무엇인가요?</div>
+  <p style="color:var(--muted)">지문에 나온 내용을 바탕으로 두세 문장으로 설명해보세요.</p>
+  <div class="pad" data-pad="q1" data-h="200" data-ph="글에 실제로 나온 일을 자신의 말로 써보세요."></div>
+ </div>
+</section>
+
+<section class="screen" data-id="q2">
+ <div class="head"><div class="eyebrow">[ 02 · 구분 ]</div><h2>사실과 생각·마음을 나누어 봅니다.</h2><p>확인할 수 있는 사실과 인물의 생각이나 마음이 섞이지 않는지 살펴봅니다.</p></div>
+ <div class="card"><div class="qtitle"><span class="num">2</span>이 이야기에서 ‘확인할 수 있는 사실’과 ‘인물의 생각이나 마음’을 나누어 써보세요.</div>
+  <div class="three" style="grid-template-columns:1fr 1fr">
+   <div><label>확인할 수 있는 사실</label><div class="pad" data-pad="q2_fact" data-h="160" data-ph="글에서 확인할 수 있는 사실을 써보세요."></div></div>
+   <div><label>인물의 생각이나 마음</label><div class="pad" data-pad="q2_thought" data-h="160" data-ph="인물의 생각이나 마음을 써보세요."></div></div>
+  </div>
+ </div>
+</section>
+
+<section class="screen" data-id="q3">
+ <div class="head"><div class="eyebrow">[ 03 · 연결 ]</div><h2>서로 다른 입장과 그 이유를 이어봅니다.</h2><p>겉으로 드러난 말과 그 밑의 이유·가치가 어떻게 연결되는지 살펴봅니다.</p></div>
+ <div class="card"><div class="qtitle"><span class="num">3</span>준호와 지민은 서로 다르게 생각합니다. 두 사람은 각각 어떻게 생각하고 있나요?</div>
+  <p style="color:var(--muted)">그 생각은 각각 무엇을 중요하게 여기는 마음과 연결되어 있다고 보나요?</p>
+  <div class="pad" data-pad="q3" data-h="240" data-ph="준호와 지민의 생각과, 그 생각이 무엇을 중요하게 여기는 마음과 연결되는지 써보세요."></div>
+ </div>
+</section>
+
+<section class="screen" data-id="q4">
+ <div class="head"><div class="eyebrow">[ 04 · 판단 ]</div><h2>나라면 어떻게 할까요?</h2><p>결론의 방향보다, 내가 어떤 이유와 기준으로 판단하는지 살펴봅니다.</p></div>
+ <div class="card"><div class="qtitle"><span class="num">4</span>네가 민서라면 어떻게 할 건가요?</div>
+  <p style="color:var(--muted)">그렇게 판단한 이유도 함께 써보세요.</p>
+  <div class="pad" data-pad="q4" data-h="230" data-ph="내가 민서라면 어떻게 할지, 그리고 그 이유를 써보세요."></div>
+ </div>
+</section>
+
+<section class="screen" data-id="q5">
+ <div class="head"><div class="eyebrow">[ 선택 · 더 생각해보기 ]</div><h2>조건이 달라지면 판단도 달라질까요?</h2><p>떠오르는 것이 없다면 건너뛰어도 괜찮습니다. 이 문항은 필수가 아닙니다.</p></div>
+ <div class="card"><div class="qtitle"><span class="num">+</span>만약 이미 많은 친구들이 그 사진을 보거나 공유했다면, 처음 판단과 같을까요 달라질까요?</div>
+  <p style="color:var(--muted)">그 이유를 써보세요.</p>
+  <div class="pad" data-pad="q5" data-h="200" data-ph="생각이 그대로인지 달라지는지, 그리고 그 이유를 써보세요."></div>
+ </div>
+</section>
+
+<section class="screen" data-id="q6">
+ <div class="head"><div class="eyebrow">[ 05 · 표현 ]</div><h2>내 생각을 실제 말로 꺼내봅니다.</h2><p>앞에서 만든 판단과 이유가 다른 사람에게 이해되도록 표현해 봅니다.</p></div>
+ <div class="card"><div class="qtitle"><span class="num">5</span>네가 민서라면 수아에게 뭐라고 말할까요?</div>
+  <p style="color:var(--muted)">네 생각과 그 이유가 잘 드러나게 써보세요.</p>
+  <div class="pad" data-pad="q6" data-h="280" data-ph="수아에게 실제로 말하듯 자연스럽게 써보세요."></div>
+ </div>
+</section>
+
+<section class="screen" data-id="done">
+ <div class="done"><div class="tick">✓</div><h1>THINK OS CHECK를 끝까지 마쳤어요.</h1>
+  <div class="donebox">글을 읽고 이해 → 구분 → 연결 → 판단 → 표현의 흐름을 따라 자신의 생각을 꺼내 보았습니다.</div>
+ </div>
+</section>
+
+<section class="screen" data-id="saved">
+ <div class="done"><div class="tick">✓</div><h1>THINK OS CHECK가 저장되었습니다.</h1>
+  <div class="donebox" id="savedWho"></div>
+  <div class="teacher">
+   <button class="btn accent" id="savePdf">응답지 PDF 저장</button>
+   <button class="btn quiet" id="restart">처음으로</button>
+  </div>
+ </div>
+</section>
+</main>
+
+<nav class="nav" id="nav" hidden><div class="navin"><button class="btn quiet" id="prev">이전</button><div class="spacer"></div><button class="btn primary" id="next">다음</button></div></nav>
+<div class="sheet" id="sheet"><div class="veil" id="veil"></div><div class="panel"><button class="close" id="closeSheet" type="button">×</button><div class="eyebrow">읽은 글</div><h3>친구의 사진, 지워야 할까?</h3><div id="sheetText"></div></div></div>
+<div id="report"></div>
+
+<script>
+(()=>{
+ const screens=[...document.querySelectorAll('.screen')], flow=screens.map(x=>x.dataset.id);
+ let idx=0;
+ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+ const KEY='jipyo_think_os_check_stage2_v1';
+ const questions=[
+  ['이해','q1'],
+  ['구분 · 확인할 수 있는 사실','q2_fact'],
+  ['구분 · 인물의 생각이나 마음','q2_thought'],
+  ['연결','q3'],
+  ['판단','q4'],
+  ['선택 · 더 생각해보기','q5'],
+  ['표현','q6']
+ ];
+ function today(){return new Date().toISOString().slice(0,10)}
+ $('#date').value=today();
+
+ /* ===== 읽은 글 보기 (지문 패널) ===== */
+ $('#sheetText').innerHTML=$('#passage').innerHTML;
+ $('#readAgain').addEventListener('click',()=>$('#sheet').classList.add('show'));
+ $('#closeSheet').addEventListener('click',()=>$('#sheet').classList.remove('show'));
+ $('#veil').addEventListener('click',()=>$('#sheet').classList.remove('show'));
+
+ /* ===== 손글씨 · 키보드 입력 패드 ===== */
+ const pads={}, LW=1000, padSizers=[], padRefreshers={};
+ const ICON={pen:'✎',era:'⌫',undo:'↶',clear:'×',key:'⌨'};
+ document.querySelectorAll('.pad[data-pad]').forEach(el=>{
+   pads[el.dataset.pad]={mode:'handwriting',strokes:[],text:'',h:+el.dataset.h||150};
+ });
+ function paint(ctx,strokes,kx,ky){
+   ctx.lineCap='round';ctx.lineJoin='round';
+   strokes.forEach(s=>{
+     ctx.globalCompositeOperation=s.e?'destination-out':'source-over';
+     ctx.strokeStyle='#23211E';ctx.lineWidth=(s.e?22:2.4)*kx;
+     ctx.beginPath();
+     s.p.forEach((pt,n)=>n?ctx.lineTo(pt[0]*kx,pt[1]*ky):ctx.moveTo(pt[0]*kx,pt[1]*ky));
+     if(s.p.length===1)ctx.lineTo(s.p[0][0]*kx+.1,s.p[0][1]*ky+.1);
+     ctx.stroke();
+   });
+   ctx.globalCompositeOperation='source-over';
+ }
+ function strokesToPNG(strokes,h,scale){
+   scale=scale||2;
+   const c=document.createElement('canvas');c.width=LW*scale;c.height=h*scale;
+   const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);
+   paint(x,strokes,scale,scale);
+   return c.toDataURL('image/png');
+ }
+ function buildPad(el){
+   const key=el.dataset.pad,h=+el.dataset.h||150,A=pads[key];A.h=h;
+   el.innerHTML='<div class="pad-tools">'+
+     '<button type="button" class="tool" data-t="pen" aria-pressed="true">'+ICON.pen+'<span>펜</span></button>'+
+     '<button type="button" class="tool" data-t="era" aria-pressed="false">'+ICON.era+'<span>지우개</span></button>'+
+     '<button type="button" class="tool" data-t="undo">'+ICON.undo+'<span>되돌리기</span></button>'+
+     '<button type="button" class="tool" data-t="clear">'+ICON.clear+'<span>전체 지우기</span></button>'+
+     '<button type="button" class="tool right" data-t="key" aria-pressed="false">'+ICON.key+'<span>키보드</span></button>'+
+     '</div>'+
+     '<div class="canvas-wrap" style="height:'+h+'px"><div class="rule"></div><canvas></canvas><div class="ph">'+(el.dataset.ph||'')+'</div></div>'+
+     '<textarea spellcheck="false" style="min-height:'+h+'px" placeholder="'+(el.dataset.ph||'')+'"></textarea>';
+   const cv=el.querySelector('canvas'),ctx=cv.getContext('2d'),ph=el.querySelector('.ph'),ta=el.querySelector('textarea');
+   let cur=null,erasing=false,drawing=false;
+   ta.addEventListener('input',()=>{A.text=ta.value;save();});
+   function size(){
+     const w=cv.parentElement.clientWidth,dpr=Math.min(window.devicePixelRatio||1,2);
+     if(!w)return;
+     cv.width=w*dpr;cv.height=h*dpr;cv.style.height=h+'px';
+     ctx.setTransform(dpr,0,0,dpr,0,0);redraw();
+   }
+   function redraw(){
+     const w=cv.clientWidth;
+     ctx.clearRect(0,0,cv.width,cv.height);
+     paint(ctx,A.strokes,w/LW,1);
+     ph.style.opacity=A.strokes.length?0:1;
+   }
+   const pos=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)/r.width*LW,(e.clientY-r.top)/r.height*h];};
+   cv.addEventListener('pointerdown',e=>{drawing=true;cv.setPointerCapture(e.pointerId);cur={e:erasing,p:[pos(e)]};A.strokes.push(cur);redraw();});
+   cv.addEventListener('pointermove',e=>{if(drawing&&cur){cur.p.push(pos(e));redraw();}});
+   const end=()=>{if(drawing){drawing=false;cur=null;save();}};
+   cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+   el.querySelectorAll('.tool').forEach(b=>b.addEventListener('click',()=>{
+     const t=b.dataset.t;
+     if(t==='pen'||t==='era'){erasing=t==='era';el.querySelector('[data-t="pen"]').setAttribute('aria-pressed',String(!erasing));el.querySelector('[data-t="era"]').setAttribute('aria-pressed',String(erasing));}
+     if(t==='undo'){A.strokes.pop();redraw();save();}
+     if(t==='clear'){if(el.classList.contains('keys')){ta.value='';A.text='';}else{A.strokes=[];redraw();}save();}
+     if(t==='key'){
+       const on=!el.classList.contains('keys');
+       el.classList.toggle('keys',on);
+       b.setAttribute('aria-pressed',String(on));
+       b.querySelector('span').textContent=on?'손글씨':'키보드';
+       el.querySelectorAll('[data-t="pen"],[data-t="era"],[data-t="undo"]').forEach(x=>x.style.display=on?'none':'');
+       A.mode=on?'keyboard':'handwriting';
+       if(on)setTimeout(()=>ta.focus(),50);else setTimeout(size,30);
+       save();
+     }
+   }));
+   padSizers.push(size);
+   padRefreshers[key]=function(){
+     const on=A.mode==='keyboard';
+     el.classList.toggle('keys',on);
+     const kb=el.querySelector('[data-t="key"]');
+     kb.setAttribute('aria-pressed',String(on));
+     kb.querySelector('span').textContent=on?'손글씨':'키보드';
+     el.querySelectorAll('[data-t="pen"],[data-t="era"],[data-t="undo"]').forEach(x=>x.style.display=on?'none':'');
+     ta.value=A.text||'';
+     redraw();
+     if(!on)size();
+   };
+   size();
+ }
+ document.querySelectorAll('.pad[data-pad]').forEach(buildPad);
+ window.addEventListener('resize',()=>setTimeout(()=>padSizers.forEach(f=>f()),80));
+ function serializePads(){const o={};Object.keys(pads).forEach(k=>{const p=pads[k];o[k]={mode:p.mode,strokes:p.strokes,text:p.text,h:p.h};});return o;}
+
+ function value(id){
+   if(pads[id]) return pads[id].mode==='keyboard'?pads[id].text:'';
+   const el=document.querySelector(`[data-a="${id}"]`);
+   if(el) return el.value||'';
+   const r=document.querySelector(`input[name="${id}"]:checked`);
+   return r?r.value:'';
+ }
+ function snapshot(){
+  const a={}; questions.forEach(([,ids])=>ids.split(',').forEach(id=>a[id]=value(id)));
+  return {name:$('#name').value,school:$('#school').value,grade:$('#grade').value,date:$('#date').value,answers:a,pads:serializePads(),idx};
+ }
+ function save(){localStorage.setItem(KEY,JSON.stringify(snapshot()))}
+ function restore(){
+  try{
+   const d=JSON.parse(localStorage.getItem(KEY)||'null'); if(!d)return;
+   $('#name').value=d.name||'';$('#school').value=d.school||'';$('#grade').value=d.grade||'';$('#date').value=d.date||today();
+   Object.entries(d.answers||{}).forEach(([id,v])=>{
+    const el=document.querySelector(`[data-a="${id}"]`); if(el)el.value=v;
+    const r=document.querySelector(`input[name="${id}"][value="${CSS.escape(v)}"]`);if(r)r.checked=true;
+   });
+   if(d.pads)Object.keys(d.pads).forEach(k=>{if(pads[k])Object.assign(pads[k],d.pads[k]);});
+   Object.entries(d.answers||{}).forEach(([id,v])=>{
+    if(pads[id]&&v&&!pads[id].text&&!pads[id].strokes.length){pads[id].mode='keyboard';pads[id].text=v;}
+   });
+   Object.values(padRefreshers).forEach(f=>f());
+  }catch(e){}
+ }
+ function render(){
+  screens.forEach((s,i)=>s.classList.toggle('on',i===idx));
+  const start=flow[idx]==='start', done=flow[idx]==='done', saved=flow[idx]==='saved';
+  $('#top').hidden=start||saved;
+  $('#nav').hidden=start||saved;
+  const total=flow.length-3, current=Math.max(0,idx-1);
+  $('#bar').style.width=(Math.min(current,total)/total*100)+'%';
+  $('#count').textContent=start?'':done?'완료':saved?'':`${current+1} / ${total}`;
+  $('#prev').style.visibility=idx<=1?'hidden':'visible';
+  $('#next').textContent=done?'제출하기':'다음';
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(()=>padSizers.forEach(f=>f()),40);
+ }
+ $('#begin').onclick=()=>{if(!$('#name').value.trim()){alert('이름을 입력해주세요.');return} idx=1;save();render()};
+ $('#next').onclick=()=>{
+  if(flow[idx]==='done'){
+   $('#savedWho').textContent=($('#name').value.trim()||'학생')+' · 2단계 · '+($('#date').value||today());
+   idx=flow.indexOf('saved');
+   save();
+   render();
+   return;
+  }
+  if(idx<flow.length-1){idx++;save();render();}
+ };
+ $('#prev').onclick=()=>{idx=Math.max(1,idx-1);save();render()};
+ document.addEventListener('input',save);document.addEventListener('change',save);
+ function esc(s){return String(s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+ function buildReport(){
+  const d=snapshot(); let rows='';
+  const cellHTML=id=>{
+   if(pads[id]){
+    const p=pads[id];
+    if(p.mode==='keyboard') return p.text?`<div class="ans">${esc(p.text)}</div>`:'';
+    return p.strokes.length?`<img src="${strokesToPNG(p.strokes,p.h)}" alt="손글씨 답안">`:'';
+   }
+   const v=d.answers[id];
+   return v?`<div class="ans">${esc(v)}</div>`:'';
+  };
+  questions.forEach(([title,ids],i)=>{
+   const parts=ids.split(',').map(cellHTML).filter(Boolean);
+   const body=parts.length?parts.join(''):'<div class="ans blank">미응답</div>';
+   rows+=`<section class="rp"><h3>${i+1}. ${esc(title)}</h3><div class="body">${body}</div></section>`;
+  });
+  $('#report').innerHTML=`<div class="rp-head"><h1>THINK OS CHECK · 학생 응답지</h1><p>2단계 · 친구의 사진, 지워야 할까?</p></div>
+    <table class="meta"><tr><th>이름</th><td>${esc(d.name)}</td><th>학교</th><td>${esc(d.school)}</td></tr><tr><th>학년</th><td>${esc(d.grade)}</td><th>날짜</th><td>${esc(d.date)}</td></tr></table>${rows}
+    <div style="margin-top:12px;border-top:1px solid #aaa;padding-top:8px;font-size:8.5pt;color:#555">JIPYO THINK OS CHECK · 2단계 학생 응답지</div>`;
+ }
+ $('#savePdf').onclick=async()=>{
+  buildReport();
+  const imgs=[...document.querySelectorAll('#report img')];
+  await Promise.all(imgs.map(im=>im.complete?Promise.resolve():new Promise(r=>{im.onload=im.onerror=r;})));
+  const old=document.title;
+  const date=($('#date').value||today()).replace(/\./g,'-');
+  document.title=`${($('#name').value||'학생').trim()}_JIPYO_THINK_OS_CHECK_2단계_${date}`;
+  setTimeout(()=>window.print(),150);
+  window.addEventListener('afterprint',()=>{document.title=old},{once:true});
+ };
+ $('#restart').onclick=()=>{if(confirm('처음 화면으로 돌아갈까요? 작성 내용은 지워집니다.')){localStorage.removeItem(KEY);$('#name').value='';$('#school').value='';$('#grade').value='';$('#date').value=today();location.reload()}};
+ localStorage.removeItem(KEY);$('#name').value='';$('#school').value='';$('#grade').value='';$('#date').value=today();render();
+})();
+</script>
+</body>
+</html>

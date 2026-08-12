@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JIPYO THINK OS CHECK · 1단계</title>
+<meta name="description" content="글을 읽고 생각이 만들어지는 과정을 탐구합니다.">
+<meta property="og:title" content="JIPYO THINK OS CHECK | 1단계">
+<meta property="og:description" content="생각이 만들어지는 과정을 탐구합니다.">
+<meta property="og:image" content="https://labiel1004.github.io/jena_checklist/jipyo/images/thinking_check_1.png">
+<meta property="og:type" content="website">
+<style>
+:root{
+  --bg:#f7f4ee; --paper:#fffdf9; --ink:#1f1e1b; --muted:#726d64;
+  --line:#e7e0d5; --gold:#b08b43; --gold2:#d8bf86; --soft:#f1e9d8;
+  --shadow:0 18px 60px rgba(70,57,34,.09);
+  --radius:24px; --accent:#b08b43; --accent-soft:#f4ecd9;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);
+font-family:Pretendard,"Noto Sans KR","Apple SD Gothic Neo",sans-serif}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;
+background:
+radial-gradient(circle at 12% 10%,rgba(216,191,134,.22),transparent 30%),
+radial-gradient(circle at 88% 86%,rgba(176,139,67,.11),transparent 28%)}
+.app{min-height:100vh;position:relative}
+.top{position:sticky;top:0;z-index:20;background:rgba(247,244,238,.88);
+backdrop-filter:blur(15px);border-bottom:1px solid rgba(231,224,213,.9);display:none}
+.top.show{display:block}
+.topin{max-width:1120px;margin:auto;padding:15px 24px;display:flex;align-items:center;gap:18px}
+.brand{font-size:13px;font-weight:800;letter-spacing:.12em;white-space:nowrap}
+.brand b{color:var(--gold)}
+.progress{flex:1;height:6px;background:#e8e1d7;border-radius:99px;overflow:hidden}
+.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold2),var(--gold));transition:.35s}
+.counter{font-size:13px;color:var(--muted);white-space:nowrap}
+.read-again{border:1px solid var(--gold);background:var(--gold);padding:0 18px;min-height:40px;border-radius:999px;color:#fff;font-size:13px;font-weight:800;white-space:nowrap;transition:.2s;box-shadow:0 2px 8px rgba(176,139,67,.28)}
+.read-again:hover{background:#9a7838;border-color:#9a7838}
+.screen{display:none;max-width:1120px;margin:auto;padding:44px 24px 130px}
+.screen.on{display:block;animation:rise .35s ease}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.start{min-height:100vh;display:none;place-items:center;padding:32px}
+.start.on{display:grid}
+.hero{width:min(860px,100%);background:rgba(255,253,249,.92);border:1px solid rgba(231,224,213,.95);
+border-radius:34px;box-shadow:var(--shadow);padding:64px 62px;text-align:center;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:360px;height:360px;border:1px solid rgba(176,139,67,.17);
+border-radius:50%;right:-180px;top:-180px}
+.kicker{font-size:13px;letter-spacing:.2em;color:var(--gold);font-weight:800}
+.hero h1{font-size:52px;letter-spacing:-.04em;margin:18px 0 8px}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero .sub{font-size:20px;color:var(--muted)}
+.stage{display:inline-flex;gap:10px;align-items:center;margin:28px 0 0;padding:12px 18px;
+border-radius:999px;background:var(--soft);font-size:15px}
+.notice{max-width:650px;margin:28px auto 0;padding:21px 24px;background:#f8f3e8;border-radius:18px;text-align:left;
+color:#5f594f;line-height:1.9}
+.fields{display:grid;grid-template-columns:1fr 1.25fr .8fr 1.1fr;gap:14px;margin:30px auto 0;max-width:690px;text-align:left}
+.field label{display:block;font-size:13px;color:var(--muted);margin:0 0 7px}
+.field input{width:100%;height:54px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:0 16px;outline:none}
+.field input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(176,139,67,.12)}
+.start-btn{margin-top:28px;border:0;border-radius:16px;background:var(--ink);color:white;
+padding:16px 44px;font-weight:800;min-width:220px;box-shadow:0 12px 28px rgba(31,30,27,.16)}
+.error{min-height:22px;margin-top:10px;color:#9b3f35;font-size:14px}
+.chapter{background:linear-gradient(135deg,var(--accent-soft),#fffaf0);border:1px solid rgba(176,139,67,.1);
+border-radius:28px;padding:30px 34px;margin-bottom:24px;position:relative;overflow:hidden}
+.chapter:before{content:"";position:absolute;left:0;top:24px;bottom:24px;width:5px;background:var(--accent);border-radius:0 5px 5px 0}
+.eyebrow{font-size:13px;letter-spacing:.12em;color:var(--muted);font-weight:800}
+.chapter h2{font-size:31px;line-height:1.35;letter-spacing:-.03em;margin:10px 0 0}
+.chapter p{color:var(--muted);line-height:1.8;margin:10px 0 0}
+.card{background:rgba(255,253,249,.95);border:1px solid var(--line);border-radius:22px;padding:28px;margin-top:18px;box-shadow:0 8px 28px rgba(70,57,34,.045)}
+.qtitle{font-size:21px;font-weight:800;line-height:1.55;display:flex;gap:14px;align-items:flex-start}
+.num{display:inline-grid;place-items:center;flex:0 0 42px;height:42px;border-radius:13px;background:var(--gold);color:#fff;font-size:16px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:20px}
+.choice{border:1px solid var(--line);border-radius:16px;background:#fff;padding:17px 18px;text-align:left;
+display:flex;gap:12px;align-items:flex-start;line-height:1.55}
+.choice .dot{width:20px;height:20px;border:1px solid #cfc6b8;border-radius:50%;margin-top:2px;flex:0 0 auto}
+.choice.selected{background:var(--accent-soft);border-color:var(--accent);font-weight:700}
+.choice.selected .dot{border:6px solid var(--accent)}
+.readbox{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:30px}
+.passage{background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:38px 42px;box-shadow:var(--shadow)}
+.passage p{font-size:19px;line-height:2.05;margin:0 0 22px}
+.passage p:last-child{margin-bottom:0}
+.side{border-left:1px solid var(--line);padding-left:24px;color:var(--muted);display:flex;flex-direction:column;gap:22px}
+.side div{font-size:14px}
+.hint{font-size:14px;color:var(--muted);line-height:1.8;margin-top:12px}
+.matrixwrap{overflow:auto;margin-top:18px}
+.matrix{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;min-width:760px}
+.matrix th,.matrix td{padding:14px 11px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center}
+.matrix th:last-child,.matrix td:last-child{border-right:0}
+.matrix tr:last-child td{border-bottom:0}
+.matrix th{background:#f3eee5;font-size:13px;color:var(--muted)}
+.matrix td:first-child{text-align:left;line-height:1.6}
+.matrix input{width:19px;height:19px;accent-color:var(--gold)}
+textarea{width:100%;min-height:150px;border:1px solid var(--line);border-radius:16px;background:#fff;padding:18px 20px;
+font-size:17px;line-height:1.9;resize:vertical;outline:none;margin-top:16px}
+textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 14%, transparent)}
+/* ── 손글씨 · 키보드 입력 패드 ── */
+.pad{margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:16px;position:relative;overflow:hidden;transition:.25s}
+.pad:focus-within,.pad.active{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 14%, transparent)}
+.pad-tools{display:flex;align-items:center;gap:4px;padding:8px 10px;border-bottom:1px solid var(--line);background:var(--accent-soft);transition:background .3s}
+.tool{min-width:44px;min-height:44px;padding:0 12px;border:0;border-radius:10px;display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);background:transparent;transition:.2s}
+.tool:hover{background:rgba(255,255,255,.7)}
+.tool[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 0 rgba(0,0,0,.06)}
+.tool.right{margin-left:auto}
+.canvas-wrap{position:relative;background:#fff}
+.pad canvas{display:block;width:100%;touch-action:none;cursor:crosshair;background:#fff}
+.pad .ph{position:absolute;left:20px;top:18px;color:var(--muted);opacity:.7;font-size:16px;pointer-events:none;transition:opacity .3s}
+.pad .rule{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 47px,var(--line) 47px 48px);opacity:.5}
+.pad.keys .rule{display:none}
+.pad textarea{display:none;width:100%;border:0;resize:none;padding:18px 20px;font:inherit;font-size:17px;line-height:1.9;color:var(--ink);background:#fff;outline:none;margin:0;border-radius:0}
+.pad textarea:focus{outline:none;border:0;box-shadow:none}
+.pad.keys canvas,.pad.keys .ph{display:none}
+.pad.keys textarea{display:block}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:18px}
+.check{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:17px}
+.check input{width:20px;height:20px;margin-top:2px;accent-color:var(--gold)}
+.check:has(input:checked){background:var(--accent-soft);border-color:var(--accent)}
+.check b{display:block;margin-bottom:5px}
+.check small{color:var(--muted);line-height:1.5}
+.other{display:none;margin-top:14px}
+.other.show{display:block}
+.other input{width:100%;height:54px;border:1px solid var(--line);border-radius:14px;padding:0 16px}
+.sequence{display:grid;gap:14px;margin-top:18px}
+.seq{display:grid;grid-template-columns:92px 1fr;gap:14px;align-items:start}
+.seq b{background:var(--accent-soft);border-radius:14px;padding:15px 10px;text-align:center}
+.seq textarea{margin-top:0;min-height:100px}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(247,244,238,.9);
+backdrop-filter:blur(14px);border-top:1px solid var(--line);display:none}
+.nav.show{display:block}
+.navin{max-width:1120px;margin:auto;padding:15px 24px;display:flex;gap:12px;align-items:center}
+.nav button{min-height:52px;padding:0 25px;border-radius:14px;font-weight:800}
+.prev{background:var(--paper);border:1px solid var(--line)}
+.next{margin-left:auto;background:var(--ink);color:#fff;border:0}
+.done{text-align:center;max-width:720px;margin:auto}
+.done .orb{width:110px;height:110px;margin:20px auto;border-radius:50%;display:grid;place-items:center;
+background:radial-gradient(circle,#f7ebce 0 52%,transparent 54%);font-size:40px;color:var(--gold)}
+.done h2{font-size:33px}
+.done p{background:var(--paper);border-radius:20px;padding:24px;text-align:left;line-height:1.9;color:var(--muted)}
+.actions{display:flex;justify-content:center;gap:12px;margin-top:20px}
+.actions button{padding:14px 20px;border-radius:14px;border:1px solid var(--line);background:var(--paper);font-weight:700}
+.sheet{position:fixed;inset:0;z-index:80;display:none}
+.sheet.show{display:block}
+.veil{position:absolute;inset:0;background:rgba(31,30,27,.32)}
+.panel{position:absolute;right:0;top:0;bottom:0;width:min(650px,94vw);background:var(--bg);padding:34px 38px;overflow:auto}
+.panel .close{position:absolute;right:24px;top:24px;border:0;background:transparent;font-size:24px}
+.panel p{font-size:17px;line-height:2}
+#report{display:none}
+@media print{
+ @page{size:A4;margin:14mm}
+ body{background:#fff}
+ .app,.sheet{display:none!important}
+ #report{display:block!important;font-family:"Noto Sans KR",sans-serif;color:#111;font-size:10.5pt;line-height:1.55}
+ .rhead{border-bottom:2px solid #111;padding-bottom:9px;margin-bottom:12px}
+ .rhead h1{margin:0;font-size:19pt}
+ .meta{width:100%;border-collapse:collapse;margin-bottom:12px}
+ .meta th,.meta td{border:1px solid #999;padding:5px 7px;text-align:left}
+ .meta th{background:#eee}
+ .ritem{border:1px solid #aaa;margin-bottom:9px;page-break-inside:avoid}
+ .ritem h3{font-size:10pt;background:#eee;margin:0;padding:6px 8px}
+ .ritem div{padding:8px 9px;white-space:pre-wrap}
+ #report img{max-width:100%;display:block;border:1px solid #ccc;margin-top:4px}
+}
+@media(max-width:800px){
+ .hero{padding:44px 24px}.hero h1{font-size:39px}.fields,.choices,.checks{grid-template-columns:1fr}
+ .readbox{grid-template-columns:1fr}.side{border-left:0;border-top:1px solid var(--line);padding:20px 0 0;flex-direction:row;flex-wrap:wrap}
+ .chapter h2{font-size:25px}.screen{padding:28px 18px 120px}.topin,.navin{padding-left:16px;padding-right:16px}
+ .brand{display:none}.seq{grid-template-columns:72px 1fr}.passage{padding:26px 22px}.passage p{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top" id="top"><div class="topin">
+<div class="brand">JIPYO <b>·</b> THINK OS CHECK</div>
+<div class="progress"><span id="bar"></span></div>
+<div class="counter" id="counter"></div>
+<button class="read-again" id="readAgain">읽은 글 보기</button>
+</div></header>
+
+<main>
+<section class="screen start on" data-screen="start">
+<div class="hero">
+<div class="kicker">JIPYO THINKING SYSTEM</div>
+<h1>THINK OS <em>CHECK</em></h1>
+<div class="sub">생각이 어떤 길을 따라 흐르는지 살펴봅니다</div>
+<div class="stage"><b>1단계</b><span>이해 → 구분 → 연결 → 판단 → 표현</span></div>
+<div class="notice"><b>이 활동은 시험이 아닙니다.</b><br>
+글을 읽고 생각이 어떻게 흐르는지 살펴봅니다. 정답을 맞히는 것보다, 지금 떠오르는 생각을 자신의 말로 편안하게 표현해 주세요.</div>
+<div class="fields">
+<div class="field"><label>이름</label><input id="name" autocomplete="off"></div>
+<div class="field"><label>학교</label><input id="school" autocomplete="off" placeholder="학교명을 입력해 주세요"></div>
+<div class="field"><label>학년</label><input id="grade" autocomplete="off"></div>
+<div class="field"><label>날짜</label><input id="date" type="date"></div>
+</div>
+<button class="start-btn" id="startBtn" type="button">시작하기</button>
+<div class="error" id="startError"></div>
+</div>
+</section>
+
+<section class="screen" data-screen="read" data-accent="#b08b43" data-soft="#f4ecd9">
+<div class="chapter"><div class="eyebrow">READING · 읽기</div>
+<h2>보드게임, 누구 규칙대로?</h2>
+<p>천천히 읽어보세요. 다음 화면에서도 언제든 다시 볼 수 있습니다.</p></div>
+<div class="readbox"><article class="passage" id="passage">
+<p>지호는 집에 있던 새 보드게임을 학교에 가져왔습니다. 쉬는 시간에 친구들과 같이 하려고 가져온 거예요. 친구들은 게임을 보고 반가워하며 다 같이 둘러앉았습니다.</p>
+<p>그런데 게임을 시작하려고 하자 지호가 말했습니다. “이건 내가 가져온 거니까, 규칙은 내가 정할게. 설명서 말고 내가 만든 규칙대로 하자.”</p>
+<p>몇몇 친구들은 조금 이상하다고 느꼈습니다. 설명서에 적힌 규칙이 더 재미있어 보였거든요. 게다가 지호가 만든 규칙은 지호에게만 유리한 것 같기도 했습니다.</p>
+<p>민재가 말했습니다. “그래도 지호가 가져온 게임이잖아. 가져온 사람이 규칙을 정할 수 있는 거 아니야?”</p>
+<p>옆에 있던 수빈이는 다르게 생각했습니다. “하지만 같이 하는 게임인데, 한 사람만 규칙을 정하는 건 좀 이상해. 다 같이 정해야 재미있지 않을까?”</p>
+<p>지호는 고민이 되었습니다. 자기가 가져온 게임이니 자기 마음대로 하고 싶은 마음도 있고, 친구들과 재미있게 놀고 싶은 마음도 있었어요. 규칙을 양보하면 게임이 더 재미있어질 것 같기도 하고, 그러면 왠지 손해 보는 것 같기도 했습니다.</p>
+<p>내가 가진 것을 내 마음대로 하고 싶은 마음이 있습니다. 하지만 여럿이 함께할 때는 다 같이 정하는 것이 더 즐거울 수도 있습니다.</p>
+<p>지호는 어떻게 하면 좋을까요?</p>
+</article>
+<aside class="side"><div>내 것과 내 선택</div><div>함께하는 규칙</div><div>서로 다른 생각</div></aside>
+</div></section>
+
+<section class="screen" data-screen="understand" data-accent="#c1a45c" data-soft="#f5eedc">
+<div class="chapter"><div class="eyebrow">01 · 이해</div><h2>실제로 무슨 일이 있었나요?</h2>
+<p>먼저 내 생각을 보태기 전에, 글에 나온 사실을 정확히 살펴봅니다.</p></div>
+<div class="card"><div class="qtitle"><span class="num">1</span><span>이 이야기에서 실제로 무슨 일이 있었나요?</span></div>
+<div class="hint">글에 나온 일을 생각해서 간단히 써보세요.</div>
+<div class="pad" data-pad="q1" data-h="190" data-ph="글에 실제로 나온 일을 자신의 말로 써보세요."></div></div>
+</section>
+
+<section class="screen" data-screen="distinguish" data-accent="#5b9f8c" data-soft="#e7f2ed">
+<div class="chapter"><div class="eyebrow">02 · 구분</div><h2>있었던 일과 생각·기분을 나누어 봅니다.</h2>
+<p>사실과 사람의 생각이나 기분이 한 덩어리로 섞이지 않는지 살펴봅니다.</p></div>
+<div class="card"><div class="qtitle"><span class="num">2</span><span>이 이야기에서 ‘진짜로 있었던 일’과 ‘누군가의 생각이나 기분’을 하나씩 찾아 써보세요.</span></div>
+<div class="hint">정답 예시는 주지 않습니다. 글에서 직접 찾아 나누어 보세요.</div>
+<div class="sequence">
+  <div class="seq"><b>있었던 일</b><div class="pad" data-pad="q2_fact" data-h="140" data-ph="글에서 실제로 있었던 일을 써보세요."></div></div>
+  <div class="seq"><b>생각·기분</b><div class="pad" data-pad="q2_thought" data-h="140" data-ph="누군가의 생각이나 기분을 써보세요."></div></div>
+</div></div>
+</section>
+
+<section class="screen" data-screen="connect" data-accent="#78946d" data-soft="#e9f0e5">
+<div class="chapter"><div class="eyebrow">03 · 연결</div><h2>사람의 말과 그 이유를 이어봅니다.</h2>
+<p>겉으로 드러난 입장과 그 아래의 이유가 어떻게 연결되는지 살펴봅니다.</p></div>
+<div class="card"><div class="qtitle"><span class="num">3</span><span>민재와 수빈이는 생각이 달라요. 두 사람은 각각 어떻게 하자고 했나요?</span></div>
+<div class="hint">그리고 왜 그렇게 생각했을까요?</div>
+<div class="pad" data-pad="q3" data-h="220" data-ph="민재와 수빈이의 생각과, 그렇게 생각한 이유를 써보세요."></div></div>
+</section>
+
+<section class="screen" data-screen="judge" data-accent="#6f99ad" data-soft="#e7f0f4">
+<div class="chapter"><div class="eyebrow">04 · 판단</div><h2>나라면 어떻게 할까요?</h2>
+<p>결론의 방향보다, 내가 어떤 이유와 기준으로 판단하는지 살펴봅니다.</p></div>
+<div class="card"><div class="qtitle"><span class="num">4</span><span>네가 지호라면 어떻게 할래요?</span></div>
+<div class="hint">왜 그렇게 하고 싶은지도 써보세요.</div>
+<div class="pad" data-pad="q4" data-h="220" data-ph="내가 지호라면 어떻게 할지, 그리고 그 이유를 써보세요."></div></div>
+</section>
+
+<section class="screen" data-screen="deeper" data-accent="#8d78a6" data-soft="#eee8f4">
+<div class="chapter"><div class="eyebrow">선택 · 더 생각해보기</div><h2>상황이 달라지면 생각도 달라질까요?</h2>
+<p>떠오르는 것이 없다면 건너뛰어도 괜찮습니다. 이 문항은 필수가 아닙니다.</p></div>
+<div class="card"><div class="qtitle"><span class="num">+</span><span>만약 다른 친구들이 모두 지호가 만든 규칙대로 하자고 한다면, 네 생각은 그대로일까요, 달라질까요?</span></div>
+<div class="hint">왜 그런지도 써보세요.</div>
+<div class="pad" data-pad="q5" data-h="190" data-ph="생각이 그대로인지 달라지는지, 그리고 그 이유를 써보세요."></div></div>
+</section>
+
+<section class="screen" data-screen="express" data-accent="#b08b43" data-soft="#f5ecd8">
+<div class="chapter"><div class="eyebrow">05 · 표현</div><h2>내 생각을 실제 말로 꺼내봅니다.</h2>
+<p>앞에서 만든 판단과 이유가 다른 사람에게 이해되도록 표현해 봅니다.</p></div>
+<div class="card"><div class="qtitle"><span class="num">5</span><span>네가 지호라면 친구들에게 뭐라고 말할래요?</span></div>
+<div class="hint">네 생각과 왜 그렇게 생각하는지도 같이 써보세요.</div>
+<div class="pad" data-pad="q6" data-h="260" data-ph="친구들에게 말하듯 자연스럽게 써보세요."></div></div>
+</section>
+
+<section class="screen" data-screen="done">
+<div class="done"><div class="orb">✓</div><h2>THINK OS CHECK를 끝까지 마쳤어요.</h2>
+<p>글을 읽고 이해 → 구분 → 연결 → 판단 → 표현의 흐름을 따라 자신의 생각을 꺼내 보았습니다.</p></div>
+</section>
+
+<section class="screen" data-screen="saved">
+<div class="done"><div class="orb">✓</div><h2>THINK OS CHECK가 저장되었습니다.</h2>
+<p id="savedWho"></p>
+<div class="actions"><button id="printBtn">응답지 PDF 저장</button><button id="restartBtn">처음으로</button></div></div>
+</section>
+</main>
+
+<nav class="nav" id="nav"><div class="navin">
+<button class="prev" id="prevBtn" type="button">이전</button>
+<button class="next" id="nextBtn" type="button">다음</button>
+</div></nav>
+</div>
+
+<div class="sheet" id="sheet"><div class="veil" id="veil"></div><div class="panel">
+<button class="close" id="closeSheet">×</button><div class="eyebrow">읽은 글</div>
+<h2>보드게임, 누구 규칙대로?</h2><div id="sheetText"></div></div></div>
+<div id="report"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  const screens=[...document.querySelectorAll('[data-screen]')];
+  const order=['start','read','understand','distinguish','connect','judge','deeper','express','done','saved'];
+  const labels=['읽기','이해','구분','연결','판단','선택','표현','완료'];
+  const state={index:0,choices:{},pads:{}};
+  const $=s=>document.querySelector(s);
+  const top=$('#top'),nav=$('#nav'),bar=$('#bar'),counter=$('#counter');
+  $('#date').value=new Date().toISOString().slice(0,10);
+  $('#sheetText').innerHTML=$('#passage').innerHTML;
+
+  /* ===== 손글씨 · 키보드 입력 패드 ===== */
+  const LW=1000, padSizers=[], padRefreshers={};
+  const ICON={pen:'✎',era:'⌫',undo:'↶',clear:'×',key:'⌨'};
+  document.querySelectorAll('.pad[data-pad]').forEach(el=>{
+    state.pads[el.dataset.pad]={mode:'handwriting',strokes:[],text:'',h:+el.dataset.h||150};
+  });
+  function paint(ctx,strokes,kx,ky){
+    ctx.lineCap='round';ctx.lineJoin='round';
+    strokes.forEach(s=>{
+      ctx.globalCompositeOperation=s.e?'destination-out':'source-over';
+      ctx.strokeStyle='#23211E';ctx.lineWidth=(s.e?22:2.4)*kx;
+      ctx.beginPath();
+      s.p.forEach((pt,n)=>n?ctx.lineTo(pt[0]*kx,pt[1]*ky):ctx.moveTo(pt[0]*kx,pt[1]*ky));
+      if(s.p.length===1)ctx.lineTo(s.p[0][0]*kx+.1,s.p[0][1]*ky+.1);
+      ctx.stroke();
+    });
+    ctx.globalCompositeOperation='source-over';
+  }
+  function strokesToPNG(strokes,h,scale){
+    scale=scale||2;
+    const c=document.createElement('canvas');c.width=LW*scale;c.height=h*scale;
+    const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);
+    paint(x,strokes,scale,scale);
+    return c.toDataURL('image/png');
+  }
+  function buildPad(el){
+    const key=el.dataset.pad,h=+el.dataset.h||150,A=state.pads[key];A.h=h;
+    el.innerHTML='<div class="pad-tools">'+
+      '<button type="button" class="tool" data-t="pen" aria-pressed="true">'+ICON.pen+'<span>펜</span></button>'+
+      '<button type="button" class="tool" data-t="era" aria-pressed="false">'+ICON.era+'<span>지우개</span></button>'+
+      '<button type="button" class="tool" data-t="undo">'+ICON.undo+'<span>되돌리기</span></button>'+
+      '<button type="button" class="tool" data-t="clear">'+ICON.clear+'<span>전체 지우기</span></button>'+
+      '<button type="button" class="tool right" data-t="key" aria-pressed="false">'+ICON.key+'<span>키보드</span></button>'+
+      '</div>'+
+      '<div class="canvas-wrap" style="height:'+h+'px"><div class="rule"></div><canvas></canvas><div class="ph">'+(el.dataset.ph||'')+'</div></div>'+
+      '<textarea spellcheck="false" style="min-height:'+h+'px" placeholder="'+(el.dataset.ph||'')+'"></textarea>';
+    const cv=el.querySelector('canvas'),ctx=cv.getContext('2d'),ph=el.querySelector('.ph'),ta=el.querySelector('textarea');
+    let cur=null,erasing=false,drawing=false;
+    ta.addEventListener('input',()=>{A.text=ta.value;save();});
+    function size(){
+      const w=cv.parentElement.clientWidth,dpr=Math.min(window.devicePixelRatio||1,2);
+      if(!w)return;
+      cv.width=w*dpr;cv.height=h*dpr;cv.style.height=h+'px';
+      ctx.setTransform(dpr,0,0,dpr,0,0);redraw();
+    }
+    function redraw(){
+      const w=cv.clientWidth;
+      ctx.clearRect(0,0,cv.width,cv.height);
+      paint(ctx,A.strokes,w/LW,1);
+      ph.style.opacity=A.strokes.length?0:1;
+    }
+    const pos=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)/r.width*LW,(e.clientY-r.top)/r.height*h];};
+    cv.addEventListener('pointerdown',e=>{drawing=true;cv.setPointerCapture(e.pointerId);cur={e:erasing,p:[pos(e)]};A.strokes.push(cur);redraw();});
+    cv.addEventListener('pointermove',e=>{if(drawing&&cur){cur.p.push(pos(e));redraw();}});
+    const end=()=>{if(drawing){drawing=false;cur=null;save();}};
+    cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+    el.querySelectorAll('.tool').forEach(b=>b.addEventListener('click',()=>{
+      const t=b.dataset.t;
+      if(t==='pen'||t==='era'){erasing=t==='era';el.querySelector('[data-t="pen"]').setAttribute('aria-pressed',String(!erasing));el.querySelector('[data-t="era"]').setAttribute('aria-pressed',String(erasing));}
+      if(t==='undo'){A.strokes.pop();redraw();save();}
+      if(t==='clear'){if(el.classList.contains('keys')){ta.value='';A.text='';}else{A.strokes=[];redraw();}save();}
+      if(t==='key'){
+        const on=!el.classList.contains('keys');
+        el.classList.toggle('keys',on);
+        b.setAttribute('aria-pressed',String(on));
+        b.querySelector('span').textContent=on?'손글씨':'키보드';
+        el.querySelectorAll('[data-t="pen"],[data-t="era"],[data-t="undo"]').forEach(x=>x.style.display=on?'none':'');
+        A.mode=on?'keyboard':'handwriting';
+        if(on)setTimeout(()=>ta.focus(),50);else setTimeout(size,30);
+        save();
+      }
+    }));
+    padSizers.push(size);
+    padRefreshers[key]=function(){
+      const on=A.mode==='keyboard';
+      el.classList.toggle('keys',on);
+      const kb=el.querySelector('[data-t="key"]');
+      kb.setAttribute('aria-pressed',String(on));
+      kb.querySelector('span').textContent=on?'손글씨':'키보드';
+      el.querySelectorAll('[data-t="pen"],[data-t="era"],[data-t="undo"]').forEach(x=>x.style.display=on?'none':'');
+      ta.value=A.text||'';
+      if(!on)size();
+    };
+    size();
+  }
+  document.querySelectorAll('.pad[data-pad]').forEach(buildPad);
+  window.addEventListener('resize',()=>setTimeout(()=>padSizers.forEach(f=>f()),80));
+
+  function show(index){
+    state.index=index;
+    screens.forEach(s=>s.classList.toggle('on',s.dataset.screen===order[index]));
+    const current=screens.find(s=>s.dataset.screen===order[index]);
+    const accent=current?.dataset.accent||'#b08b43';
+    const soft=current?.dataset.soft||'#f4ecd9';
+    document.documentElement.style.setProperty('--accent',accent);
+    document.documentElement.style.setProperty('--accent-soft',soft);
+    const active=index>0 && order[index]!=='saved';
+    top.classList.toggle('show',active);
+    nav.classList.toggle('show',index>0 && order[index]!=='saved');
+    $('#prevBtn').style.visibility=index<=1?'hidden':'visible';
+    $('#nextBtn').textContent=order[index]==='express'?'다 썼어요':order[index]==='done'?'제출하기':'다음';
+    if(active){
+      const logical=Math.min(Math.max(index-1,0),7);
+      bar.style.width=((logical+1)/8*100)+'%';
+      counter.textContent=(labels[logical]||'완료')+' · '+(logical+1)+'/8';
+    }
+    window.scrollTo({top:0,behavior:'smooth'});
+    setTimeout(()=>padSizers.forEach(f=>f()),40);
+    save();
+  }
+
+  function serializePads(){
+    const o={};
+    Object.keys(state.pads).forEach(k=>{const p=state.pads[k];o[k]={mode:p.mode,strokes:p.strokes,text:p.text,h:p.h};});
+    return o;
+  }
+  function getData(){
+    return {
+      meta:{name:$('#name').value.trim(),school:$('#school').value.trim(),grade:$('#grade').value.trim(),date:$('#date').value},
+      pads:serializePads()
+    };
+  }
+  function save(){localStorage.setItem('jipyo_thinkos_check_mid_v1',JSON.stringify(getData()))}
+  function load(){
+    try{
+      const d=JSON.parse(localStorage.getItem('jipyo_thinkos_check_mid_v1')||'null'); if(!d)return;
+      $('#name').value=d.meta?.name||''; $('#school').value=d.meta?.school||''; $('#grade').value=d.meta?.grade||''; $('#date').value=d.meta?.date||$('#date').value;
+      if(d.pads){
+        Object.entries(d.pads).forEach(([k,v])=>{
+          if(state.pads[k]){
+            state.pads[k].mode=v.mode||'handwriting';
+            state.pads[k].strokes=Array.isArray(v.strokes)?v.strokes:[];
+            state.pads[k].text=v.text||'';
+          }
+        });
+      }
+      Object.values(padRefreshers).forEach(f=>f());
+    }catch(e){console.warn(e)}
+  }
+  document.querySelectorAll('input,textarea').forEach(el=>el.addEventListener('input',save));
+  document.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(el=>el.addEventListener('change',save));
+
+  $('#startBtn').addEventListener('click',function(){
+    const name=$('#name').value.trim();
+    if(!name){$('#startError').textContent='이름을 입력해 주세요.';$('#name').focus();return}
+    $('#startError').textContent='';show(1);
+  });
+  $('#nextBtn').addEventListener('click',function(){
+    const current=order[state.index];
+    if(current==='done'){
+      $('#savedWho').textContent=($('#name').value.trim()||'학생')+' · 1단계 · '+($('#date').value||'');
+      show(order.indexOf('saved'));return;
+    }
+    if(state.index<order.length-1)show(state.index+1);
+  });
+  $('#prevBtn').addEventListener('click',function(){if(state.index>1)show(state.index-1)});
+  $('#readAgain').addEventListener('click',()=>$('#sheet').classList.add('show'));
+  $('#closeSheet').addEventListener('click',()=>$('#sheet').classList.remove('show'));
+  $('#veil').addEventListener('click',()=>$('#sheet').classList.remove('show'));
+
+  function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+  function padHTML(key){
+    const p=state.pads[key];
+    if(!p)return '미응답';
+    if(p.mode==='keyboard')return p.text.trim()?esc(p.text):'미응답';
+    return p.strokes.length?'<img src="'+strokesToPNG(p.strokes,p.h)+'" alt="손글씨 답안">':'미응답';
+  }
+  function makeReport(){
+    const d=getData();
+    const rows=[
+      ['이해',padHTML('q1')],
+      ['구분 · 실제 있었던 일',padHTML('q2_fact')],
+      ['구분 · 생각이나 기분',padHTML('q2_thought')],
+      ['연결',padHTML('q3')],
+      ['판단',padHTML('q4')],
+      ['선택 · 더 생각해보기',padHTML('q5')],
+      ['표현',padHTML('q6')]
+    ];
+    $('#report').innerHTML='<div class="rhead"><h1>THINK OS CHECK · 학생 응답지</h1><div>1단계 · 보드게임, 누구 규칙대로?</div></div>'+
+      '<table class="meta"><tr><th>이름</th><td>'+esc(d.meta.name)+'</td><th>학교</th><td>'+esc(d.meta.school||'')+'</td><th>학년</th><td>'+esc(d.meta.grade)+'</td><th>날짜</th><td>'+esc(d.meta.date)+'</td></tr></table>'+
+      rows.map(r=>'<div class="ritem"><h3>'+esc(r[0])+'</h3><div>'+r[1]+'</div></div>').join('');
+  }
+  $('#printBtn').addEventListener('click',async function(){makeReport();const d=getData();
+document.title=((d.meta.name||'학생')+'_THINK_OS_CHECK_1단계_응답지');
+const imgs=[...document.querySelectorAll('#report img')];
+await Promise.all(imgs.map(im=>im.complete?Promise.resolve():new Promise(r=>{im.onload=im.onerror=r;})));
+window.print();
+setTimeout(()=>{document.title='JIPYO THINK OS CHECK · 1단계';},300);
+});
+  $('#restartBtn').addEventListener('click',function(){
+    if(confirm('처음으로 돌아갈까요? 저장된 답은 지워집니다.')){
+      localStorage.removeItem('jipyo_thinkos_check_mid_v1');
+      $('#name').value='';
+      $('#school').value='';
+      $('#grade').value='';
+      $('#date').value=new Date().toISOString().slice(0,10);
+      location.reload();
+    }
+  });
+  localStorage.removeItem('jipyo_thinkos_check_mid_v1');
+  $('#name').value='';
+  $('#school').value='';
+  $('#grade').value='';
+  $('#date').value=new Date().toISOString().slice(0,10);
+  show(0);
+});
+</script>
+</body>
+</html>
