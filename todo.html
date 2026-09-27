@@ -5,42 +5,51 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
 <title>매일 할 일</title>
 <meta name="theme-color" content="#111827">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="할일">
 <style>
-html,body{margin:0;padding:0;overflow-x:hidden;max-width:100vw;background:#f5f3ff;color:#111827;font-family:-apple-system,BlinkMacSystemFont,'Pretendard','Apple SD Gothic Neo',sans-serif;-webkit-tap-highlight-color:transparent;}
+:root{--bg:#f5f3ff;--card:#ffffff;--text:#111827;--muted:#64748b;--border:#e2e8f0;--accent:#111827;--badge:#f1f5f9;}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#0f0f12;--card:#1a1a1e;--text:#f1f5f9;--muted:#94a3b8;--border:#2a2a32;--accent:#f1f5f9;--badge:#2a2a32;}
+}
+html.dark{--bg:#0f0f12;--card:#1a1a1e;--text:#f1f5f9;--muted:#94a3b8;--border:#2a2a32;--accent:#f1f5f9;--badge:#2a2a32;}
+html.light{--bg:#f5f3ff;--card:#ffffff;--text:#111827;--muted:#64748b;--border:#e2e8f0;--accent:#111827;--badge:#f1f5f9;}
+html,body{margin:0;padding:0;overflow-x:hidden;max-width:100vw;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Pretendard',sans-serif;-webkit-tap-highlight-color:transparent;transition:background .2s,color .2s;}
 .wrap{width:100%;max-width:520px;margin:0 auto;padding:20px 16px 120px;box-sizing:border-box;}
-.card{background:white;border-radius:24px;padding:20px;box-shadow:0 10px 30px -18px rgba(0,0,0,.2);border:1px solid #e2e8f0;margin-bottom:16px;}
+.card{background:var(--card);border-radius:24px;padding:20px;box-shadow:0 10px 30px -18px rgba(0,0,0,.3);border:1px solid var(--border);margin-bottom:16px;transition:background .2s,border-color .2s;}
 .header h1{font-size:32px;margin:0 0 6px;letter-spacing:-1px;}
-.muted{color:#64748b;font-size:13px;}
+.muted{color:var(--muted);font-size:13px;}
 .progress{display:flex;gap:16px;align-items:center;}
-.ring{width:96px;height:96px;border-radius:50%;background:conic-gradient(#111827 var(--pct),#f1f5f9 0);display:grid;place-items:center;flex-shrink:0;}
-.ring span{background:white;width:72px;height:72px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:18px;}
+.ring{width:96px;height:96px;border-radius:50%;background:conic-gradient(var(--accent) var(--pct),var(--badge) 0);display:grid;place-items:center;flex-shrink:0;}
+.ring span{background:var(--card);width:72px;height:72px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:18px;color:var(--text);}
 .stats{display:flex;gap:8px;flex:1;}
-.stat{flex:1;background:#f8fafc;border-radius:16px;padding:12px;text-align:center;}
-.stat b{display:block;font-size:20px;margin-top:4px;}
+.stat{flex:1;background:var(--badge);border-radius:16px;padding:12px;text-align:center;}
+.stat b{display:block;font-size:20px;margin-top:4px;color:var(--text);}
 .input-row{display:flex;gap:10px;}
-.input-row input{flex:1;border:2px solid #e2e8f0;border-radius:14px;padding:14px 14px;font-size:16px;outline:none;background:white;-webkit-appearance:none;}
-.input-row input:focus{border-color:#111827;}
-.btn{background:#111827;color:white;border:0;border-radius:14px;padding:0 20px;font-weight:700;cursor:pointer;font-size:15px;min-height:50px;min-width:64px;}
+.input-row input{flex:1;border:2px solid var(--border);border-radius:14px;padding:14px;font-size:16px;outline:none;background:var(--card);color:var(--text);-webkit-appearance:none;}
+.input-row input:focus{border-color:var(--accent);}
+.btn{background:var(--accent);color:var(--bg);border:0;border-radius:14px;padding:0 20px;font-weight:700;cursor:pointer;font-size:15px;min-height:50px;min-width:64px;}
+.btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--text);border-radius:12px;padding:10px 14px;font-size:13px;cursor:pointer;font-weight:600;}
 .cats{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
-.cat{border:1.5px solid #e2e8f0;padding:8px 14px;border-radius:999px;font-size:13px;cursor:pointer;background:white;user-select:none;}
-.cat.on{background:#111827;color:white;border-color:#111827;}
-.task{display:flex;gap:12px;align-items:flex-start;padding:14px 14px;border:1.5px solid #e2e8f0;border-radius:16px;margin-bottom:10px;background:white;}
-.task.done{opacity:.55;background:#f8fafc;}
-.check{width:28px;height:28px;border-radius:50%;border:2px solid #cbd5e1;display:grid;place-items:center;cursor:pointer;flex-shrink:0;background:white;font-size:14px;}
-.check.on{background:#111827;border-color:#111827;color:white;}
-.task-text{flex:1;font-size:15px;line-height:1.5;word-break:break-word;}
-.badge{font-size:11px;padding:4px 9px;border-radius:999px;background:#f1f5f9;display:inline-block;margin-top:6px;color:#475569;}
-.del{cursor:pointer;color:#94a3b8;padding:4px 8px;font-size:18px;flex-shrink:0;}
+.cat{border:1.5px solid var(--border);padding:8px 14px;border-radius:999px;font-size:13px;cursor:pointer;background:var(--card);color:var(--text);user-select:none;}
+.cat.on{background:var(--accent);color:var(--bg);border-color:var(--accent);}
+.task{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1.5px solid var(--border);border-radius:16px;margin-bottom:10px;background:var(--card);}
+.task.done{opacity:.55;}
+.check{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);display:grid;place-items:center;cursor:pointer;flex-shrink:0;background:var(--card);font-size:14px;color:var(--text);}
+.check.on{background:var(--accent);border-color:var(--accent);color:var(--bg);}
+.task-text{flex:1;font-size:15px;line-height:1.5;word-break:break-word;color:var(--text);}
+.badge{font-size:11px;padding:4px 9px;border-radius:999px;background:var(--badge);display:inline-block;margin-top:6px;color:var(--muted);}
+.del{cursor:pointer;color:var(--muted);padding:4px 8px;font-size:18px;}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="header" style="padding:10px 4px 16px;">
-    <h1>매일 할 일</h1>
-    <div class="muted" id="dateStr"></div>
-    <div class="muted" style="margin-top:4px;">집중하는 하루가 되길 바라요</div>
+  <div class="topbar">
+    <div class="header" style="padding:10px 4px 0;">
+      <h1>매일 할 일</h1>
+      <div class="muted" id="dateStr"></div>
+    </div>
+    <button id="themeBtn" class="btn-outline" title="다크모드 전환">🌙</button>
   </div>
 
   <div class="card">
@@ -56,140 +65,157 @@ html,body{margin:0;padding:0;overflow-x:hidden;max-width:100vw;background:#f5f3f
 
   <div class="card">
     <form id="todoForm" class="input-row" onsubmit="return false;">
-      <input id="taskInput" type="text" inputmode="text" enterkeyhint="done" autocomplete="off" placeholder="할 일을 입력하세요..." />
+      <input id="taskInput" type="text" enterkeyhint="done" autocomplete="off" placeholder="할 일을 입력하세요..." />
       <button class="btn" id="addBtn" type="submit">추가</button>
     </form>
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <input id="timeInput" type="time" style="border:1.5px solid var(--border);border-radius:10px;padding:8px 10px;background:var(--card);color:var(--text);font-size:13px;">
+      <span class="muted" style="align-self:center;">⏰ 알림 시간 (선택)</span>
+    </div>
     <div class="cats" id="cats"></div>
+    <div class="row">
+      <button id="notifBtn" class="btn-outline">🔔 알림 권한 허용</button>
+      <button id="gcalBtn" class="btn-outline">📅 구글 캘린더 가져오기</button>
+    </div>
+    <div id="gcalStatus" class="muted" style="margin-top:8px;font-size:11px;"></div>
   </div>
 
   <div id="list"></div>
 
   <div class="card" style="text-align:center;">
-    <button id="archiveBtn" style="border:1.5px solid #e2e8f0;background:white;padding:12px 18px;border-radius:12px;cursor:pointer;font-size:13px;width:100%;font-weight:600;">✅ 완료한 일 보관하기</button>
-    <div style="margin-top:12px;font-size:11px;color:#94a3b8;">더블클릭: 수정 / 길게 누르기: 삭제</div>
+    <button id="archiveBtn" style="border:1.5px solid var(--border);background:var(--card);color:var(--text);padding:12px 18px;border-radius:12px;cursor:pointer;font-size:13px;width:100%;font-weight:600;">✅ 완료한 일 보관하기</button>
   </div>
 </div>
 
 <script>
 (function(){
-  const CATS = ["업무","개인","공부","건강","기타"];
-  let selCat = "개인";
-  let tasks = [];
-  try {
-    tasks = JSON.parse(localStorage.getItem('daily-todo-v3') || '[]');
-  } catch(e){ tasks = []; }
+  const CATS=["업무","개인","공부","건강","기타"];
+  let selCat="개인";
+  let tasks=[];
+  try{ tasks=JSON.parse(localStorage.getItem('daily-todo-v3')||'[]'); }catch(e){ tasks=[]; }
+  
+  // Theme
+  const savedTheme = localStorage.getItem('todo-theme');
+  if(savedTheme) document.documentElement.className = savedTheme;
+  else if(window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.className='dark';
+  function updateThemeIcon(){
+    const isDark = document.documentElement.classList.contains('dark') || (!document.documentElement.classList.contains('light') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    document.getElementById('themeBtn').textContent = isDark ? '☀️' : '🌙';
+  }
+  updateThemeIcon();
+  document.getElementById('themeBtn').addEventListener('click', ()=>{
+    const cur = document.documentElement.className;
+    const next = cur==='dark'?'light':'dark';
+    document.documentElement.className = next;
+    localStorage.setItem('todo-theme', next);
+    updateThemeIcon();
+  });
 
-  const dateEl = document.getElementById('dateStr');
-  dateEl.textContent = new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'}).format(new Date());
+  document.getElementById('dateStr').textContent = new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'}).format(new Date());
 
-  const catsEl = document.getElementById('cats');
+  const catsEl=document.getElementById('cats');
   function renderCats(){
-    catsEl.innerHTML = '';
+    catsEl.innerHTML='';
     CATS.forEach(c=>{
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'cat' + (selCat===c?' on':'');
-      b.textContent = c;
-      b.addEventListener('click', ()=>{ selCat=c; renderCats(); });
+      const b=document.createElement('button');
+      b.type='button'; b.className='cat'+(selCat===c?' on':''); b.textContent=c;
+      b.addEventListener('click',()=>{ selCat=c; renderCats(); });
       catsEl.appendChild(b);
     });
   }
-
-  function save(){
-    try{ localStorage.setItem('daily-todo-v3', JSON.stringify(tasks)); } catch(e){ console.log(e); }
-  }
-
+  function save(){ try{ localStorage.setItem('daily-todo-v3', JSON.stringify(tasks)); }catch(e){} }
   function render(){
-    const total = tasks.length;
-    const done = tasks.filter(t=>t.done).length;
-    const left = total - done;
-    const pct = total ? Math.round(done/total*100) : 0;
-    document.getElementById('total').textContent = total;
-    document.getElementById('done').textContent = done;
-    document.getElementById('left').textContent = left;
-    document.getElementById('pctTxt').textContent = pct + '%';
-    document.getElementById('ring').style.setProperty('--pct', pct + '%');
-
-    const list = document.getElementById('list');
-    list.innerHTML = '';
+    const total=tasks.length, done=tasks.filter(t=>t.done).length, left=total-done, pct=total?Math.round(done/total*100):0;
+    document.getElementById('total').textContent=total;
+    document.getElementById('done').textContent=done;
+    document.getElementById('left').textContent=left;
+    document.getElementById('pctTxt').textContent=pct+'%';
+    document.getElementById('ring').style.setProperty('--pct',pct+'%');
+    const list=document.getElementById('list'); list.innerHTML='';
     tasks.forEach(t=>{
-      const div = document.createElement('div');
-      div.className = 'task' + (t.done?' done':'');
-      const safeText = (t.text||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-      div.innerHTML = '<div class="check ' + (t.done?'on':'') + '">' + (t.done?'✓':'') + '</div>' +
-        '<div class="task-text"><div style="' + (t.done?'text-decoration:line-through;color:#94a3b8;':'') + '">' + safeText + '</div><span class="badge">' + t.cat + '</span></div>' +
-        '<div class="del">✕</div>';
-      
-      div.querySelector('.check').addEventListener('click', ()=>{
-        t.done = !t.done;
-        save(); render();
-      });
-      div.querySelector('.del').addEventListener('click', ()=>{
-        if(confirm('삭제할까요?')){ tasks = tasks.filter(x=>x.id!==t.id); save(); render(); }
-      });
-      div.addEventListener('dblclick', ()=>{
-        const nt = prompt('수정할 내용', t.text);
-        if(nt && nt.trim()){ t.text = nt.trim(); save(); render(); }
-      });
+      const div=document.createElement('div'); div.className='task'+(t.done?' done':'');
+      const safe=t.text.replace(/</g,'&lt;');
+      const timeBadge=t.time ? `<span class="badge">⏰ ${t.time}</span> ` : '';
+      div.innerHTML=`<div class="check ${t.done?'on':''}">${t.done?'✓':''}</div><div class="task-text"><div style="${t.done?'text-decoration:line-through;':''}">${safe}</div>${timeBadge}<span class="badge">${t.cat}</span></div><div class="del">✕</div>`;
+      div.querySelector('.check').addEventListener('click',()=>{ t.done=!t.done; save(); render(); });
+      div.querySelector('.del').addEventListener('click',()=>{ if(confirm('삭제?')){ tasks=tasks.filter(x=>x.id!==t.id); save(); render(); }});
       list.appendChild(div);
     });
   }
-
   function addTask(){
-    const inp = document.getElementById('taskInput');
-    const v = (inp.value||'').trim();
-    if(!v){
-      inp.focus();
-      return;
-    }
-    tasks.unshift({id:Date.now().toString(), text:v, cat:selCat, done:false});
-    inp.value = '';
-    save();
-    render();
-    // 모바일에서 키보드 유지하면서 포커스 다시
-    setTimeout(()=>{ inp.focus(); }, 100);
-  }
-
-  // 이벤트 바인딩 - 가장 확실한 방법
-  document.getElementById('todoForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    addTask();
-  });
-  document.getElementById('addBtn').addEventListener('click', function(e){
-    e.preventDefault();
-    addTask();
-  });
-
-  document.getElementById('archiveBtn').addEventListener('click', ()=>{
-    if(!confirm('완료된 일을 보관(삭제)할까요?')) return;
-    tasks = tasks.filter(t=>!t.done);
+    const inp=document.getElementById('taskInput');
+    const timeInp=document.getElementById('timeInput');
+    const v=(inp.value||'').trim(); if(!v){ inp.focus(); return; }
+    const newTask={id:Date.now().toString(), text:v, cat:selCat, done:false, time:timeInp.value||null};
+    tasks.unshift(newTask); inp.value=''; timeInp.value='';
     save(); render();
+    if(newTask.time) scheduleNotif(newTask);
+  }
+  document.getElementById('todoForm').addEventListener('submit', e=>{ e.preventDefault(); addTask(); });
+  document.getElementById('addBtn').addEventListener('click', e=>{ e.preventDefault(); addTask(); });
+  document.getElementById('archiveBtn').addEventListener('click',()=>{ if(!confirm('완료 보관?'))return; tasks=tasks.filter(t=>!t.done); save(); render(); });
+
+  // Notifications
+  function scheduleNotif(task){
+    if(Notification.permission!=='granted') return;
+    const [h,m]=task.time.split(':').map(Number);
+    const now=new Date(); const target=new Date(); target.setHours(h,m,0,0);
+    if(target<=now) target.setDate(target.getDate()+1);
+    const delay=target-now;
+    setTimeout(()=>{
+      new Notification('할 일 알림', {body: task.text, icon:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="30" fill="black"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="60" fill="white">✓</text></svg>'});
+    }, delay);
+  }
+  document.getElementById('notifBtn').addEventListener('click', async()=>{
+    const p=await Notification.requestPermission();
+    document.getElementById('gcalStatus').textContent = p==='granted' ? '✅ 알림 허용됨 - 시간 설정한 할일은 해당 시간에 울려요' : '❌ 알림 거부됨';
+  });
+  // 초기 권한 상태 표시
+  if(Notification.permission==='granted') document.getElementById('notifBtn').textContent='🔔 알림 ON';
+  
+  // 기존 작업들의 알림도 다시 스케줄
+  tasks.forEach(t=>{ if(t.time && !t.done) scheduleNotif(t); });
+
+  // Google Calendar
+  document.getElementById('gcalBtn').addEventListener('click', ()=>{
+    const status=document.getElementById('gcalStatus');
+    status.innerHTML=`구글 캘린더 연동을 하려면<br>1. <a href='https://console.cloud.google.com/' target='_blank' style='color:var(--accent);'>Google Cloud Console</a>에서 OAuth 클라이언트 ID 만들기<br>2. 승인된 자바스크립트 원본에 https://labiel1004.github.io 추가<br>3. 이 파일의 CLIENT_ID 부분에 붙여넣기<br><br>지금은 테스트로 ICS 파일 가져오기도 가능해요. 캘린더 설정 > 내보내기 > ICS 파일을 이 앱에 드래그하면 할일로 변환돼요.`;
   });
 
-  // 초기 렌더
-  renderCats();
-  render();
+  // ICS 드래그앤드롭으로 구글 캘린더 대체
+  document.addEventListener('dragover', e=>e.preventDefault());
+  document.addEventListener('drop', e=>{
+    e.preventDefault();
+    const file=e.dataTransfer.files[0];
+    if(!file || !file.name.endsWith('.ics')) return;
+    const reader=new FileReader();
+    reader.onload=()=>{
+      const text=reader.result;
+      const events=text.split('BEGIN:VEVENT');
+      let added=0;
+      events.forEach(ev=>{
+        const sum=(ev.match(/SUMMARY:(.*)/)||[])[1];
+        const dt=(ev.match(/DTSTART[^:]*:(\d{8}T\d{6})/)||[])[1];
+        if(sum){
+          tasks.unshift({id:Date.now()+Math.random(), text: sum.trim(), cat:'개인', done:false, time:null});
+          added++;
+        }
+      });
+      save(); render();
+      alert(added+'개 일정 가져옴!');
+    };
+    reader.readAsText(file);
+  });
 
-  // PWA manifest
-  const iconSvg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='140' fill='#111827'/><text x='50%' y='54%' dominant-baseline='middle' text-anchor='middle' font-size='300' fill='white' font-weight='800'>✓</text></svg>";
-  const iconUrl = 'data:image/svg+xml,' + encodeURIComponent(iconSvg);
-  const manifest = {
-    name:'매일 할 일',
-    short_name:'할일',
-    description:'매일 확인하는 투두리스트',
-    display:'standalone',
-    background_color:'#f5f3ff',
-    theme_color:'#111827',
-    start_url:'./todo.html',
-    scope:'./',
-    icons:[{src:iconUrl,sizes:'512x512',type:'image/svg+xml',purpose:'any maskable'}]
-  };
-  const blob = new Blob([JSON.stringify(manifest)],{type:'application/json'});
-  const mUrl = URL.createObjectURL(blob);
-  const link = document.createElement('link');
-  link.rel = 'manifest';
-  link.href = mUrl;
-  document.head.appendChild(link);
+  renderCats(); render();
+
+  // Manifest
+  const iconSvg="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='140' fill='#111827'/><text x='50%' y='54%' dominant-baseline='middle' text-anchor='middle' font-size='300' fill='white' font-weight='800'>✓</text></svg>";
+  const iconUrl='data:image/svg+xml,'+encodeURIComponent(iconSvg);
+  const manifest={name:'매일 할 일', short_name:'할일', start_url:'./todo.html', scope:'./', display:'standalone', background_color:'#f5f3ff', theme_color:'#111827', icons:[{src:iconUrl,sizes:'512x512',type:'image/svg+xml',purpose:'any maskable'}]};
+  const blob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
+  const mUrl=URL.createObjectURL(blob);
+  const link=document.createElement('link'); link.rel='manifest'; link.href=mUrl; document.head.appendChild(link);
 })();
 </script>
 </body>
