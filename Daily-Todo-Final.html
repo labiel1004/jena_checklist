@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>매일 할 일</title>
+<meta name="theme-color" content="#6366f1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%236366f1'/><text x='50%' y='58%' dominant-baseline='middle' text-anchor='middle' font-size='60' fill='white'>✓</text></svg>">
+<style>
+*{box-sizing:border-box;font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', sans-serif;}
+body{margin:0;background:#f5f3ff;color:#111827;min-height:100vh;}
+.wrap{max-width:520px;margin:0 auto;padding:20px 16px 40px;}
+.card{background:white;border-radius:24px;padding:20px;box-shadow:0 10px 30px -18px rgba(0,0,0,.2);border:1px solid #e2e8f0;margin-bottom:16px;}
+.header h1{font-size:32px;margin:0 0 6px;letter-spacing:-1px;}
+.muted{color:#64748b;font-size:13px;}
+.progress{display:flex;gap:16px;align-items:center;}
+.ring{width:96px;height:96px;border-radius:50%;background:conic-gradient(#6366f1 var(--pct),#f1f5f9 0);display:grid;place-items:center;flex-shrink:0;}
+.ring span{background:white;width:72px;height:72px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:18px;}
+.stats{display:flex;gap:8px;flex:1;}
+.stat{flex:1;background:#f8fafc;border-radius:16px;padding:12px;text-align:center;}
+.stat b{display:block;font-size:20px;margin-top:4px;}
+.input-row{display:flex;gap:10px;margin-bottom:12px;}
+.input-row input{flex:1;border:1.5px solid #e2e8f0;border-radius:14px;padding:14px 14px;font-size:15px;outline:none;}
+.input-row input:focus{border-color:#6366f1;}
+.btn{background:#111827;color:white;border:0;border-radius:14px;padding:0 20px;font-weight:700;cursor:pointer;}
+.cats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.cat{border:1px solid #e2e8f0;padding:7px 12px;border-radius:999px;font-size:13px;cursor:pointer;background:white;}
+.cat.on{background:#111827;color:white;border-color:#111827;}
+.task{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid #e2e8f0;border-radius:16px;margin-bottom:10px;background:white;}
+.task.done{opacity:.6;background:#f8fafc;}
+.check{width:26px;height:26px;border-radius:50%;border:2px solid #cbd5e1;display:grid;place-items:center;cursor:pointer;flex-shrink:0;background:white;}
+.check.on{background:#6366f1;border-color:#6366f1;color:white;}
+.task-text{flex:1;font-size:14px;line-height:1.4;word-break:break-all;}
+.badge{font-size:11px;padding:3px 8px;border-radius:999px;background:#f1f5f9;display:inline-block;margin-top:6px;}
+.install-banner{background:#111827;color:white;border-radius:18px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.install-banner button{background:white;color:#111827;border:0;border-radius:10px;padding:8px 14px;font-weight:700;cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header" style="padding:10px 4px 16px;">
+    <h1>매일 할 일</h1>
+    <div class="muted" id="dateStr"></div>
+    <div class="muted" style="margin-top:4px;">집중하는 하루가 되길 바라요</div>
+  </div>
+
+  <div id="installBanner" class="install-banner" style="display:none;">
+    <div><b>📲 바탕화면에 설치하기</b><div style="font-size:12px;opacity:.8;margin-top:2px;">앱처럼 바로 열려요</div></div>
+    <button id="installBtn">설치</button>
+  </div>
+
+  <div class="card">
+    <div class="progress">
+      <div class="ring" id="ring" style="--pct:0%"><span id="pctTxt">0%</span></div>
+      <div class="stats">
+        <div class="stat"><span class="muted">오늘</span><b id="total">0</b></div>
+        <div class="stat"><span class="muted">완료</span><b id="done">0</b></div>
+        <div class="stat"><span class="muted">남은</span><b id="left">0</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="input-row">
+      <input id="taskInput" placeholder="할 일을 입력하세요..." />
+      <button class="btn" id="addBtn">추가</button>
+    </div>
+    <div class="cats" id="cats"></div>
+    <div style="font-size:12px;color:#64748b;margin-top:8px;">💡 팁: 체크하면 완료, 더블클릭하면 수정, 보관 버튼으로 하루 마무리</div>
+  </div>
+
+  <div id="list"></div>
+
+  <div class="card" style="text-align:center;">
+    <button id="archiveBtn" style="border:1px solid #e2e8f0;background:white;padding:10px 16px;border-radius:12px;cursor:pointer;font-size:13px;">✅ 오늘 완료한 일 보관하기</button>
+  </div>
+</div>
+
+<script>
+const CATS=["업무","개인","공부","건강","기타"];
+let selCat="개인";
+let tasks=JSON.parse(localStorage.getItem('daily-todo-v2')||'[]');
+if(tasks.length===0){
+ tasks=[
+  {id:'1',text:'아침 루틴 정리하기',cat:'개인',done:true},
+  {id:'2',text:'프로젝트 기획안 작성',cat:'업무',done:false},
+  {id:'3',text:'30분 산책하기',cat:'건강',done:false},
+ ];
+}
+const dateStr=document.getElementById('dateStr');
+dateStr.textContent=new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'}).format(new Date());
+
+const catsEl=document.getElementById('cats');
+function renderCats(){
+ catsEl.innerHTML='';
+ CATS.forEach(c=>{
+  const b=document.createElement('button');
+  b.className='cat'+(selCat===c?' on':'');
+  b.textContent=c;
+  b.onclick=()=>{selCat=c;renderCats();};
+  catsEl.appendChild(b);
+ });
+}
+renderCats();
+
+function save(){localStorage.setItem('daily-todo-v2',JSON.stringify(tasks));}
+function render(){
+ const total=tasks.length;
+ const done=tasks.filter(t=>t.done).length;
+ const left=total-done;
+ const pct=total?Math.round(done/total*100):0;
+ document.getElementById('total').textContent=total;
+ document.getElementById('done').textContent=done;
+ document.getElementById('left').textContent=left;
+ document.getElementById('pctTxt').textContent=pct+'%';
+ document.getElementById('ring').style.setProperty('--pct',pct+'%');
+
+ const list=document.getElementById('list');
+ list.innerHTML='';
+ tasks.forEach(t=>{
+  const div=document.createElement('div');
+  div.className='task'+(t.done?' done':'');
+  div.innerHTML=`<div class="check ${t.done?'on':''}">${t.done?'✓':''}</div>
+  <div class="task-text"><div style="${t.done?'text-decoration:line-through':''}">${t.text}</div><span class="badge">${t.cat}</span></div>
+  <div style="cursor:pointer;color:#94a3b8;" class="del">✕</div>`;
+  div.querySelector('.check').onclick=()=>{t.done=!t.done;save();render();};
+  div.querySelector('.del').onclick=()=>{tasks=tasks.filter(x=>x.id!==t.id);save();render();};
+  div.ondblclick=()=>{
+    const nt=prompt('수정할 내용',t.text);
+    if(nt){t.text=nt;save();render();}
+  };
+  list.appendChild(div);
+ });
+}
+document.getElementById('addBtn').onclick=()=>{
+ const inp=document.getElementById('taskInput');
+ const v=inp.value.trim();
+ if(!v) return;
+ tasks.unshift({id:Date.now()+'',text:v,cat:selCat,done:false});
+ inp.value='';
+ save();render();
+};
+document.getElementById('taskInput').addEventListener('keydown',e=>{if(e.key==='Enter') document.getElementById('addBtn').click();});
+document.getElementById('archiveBtn').onclick=()=>{
+ if(!confirm('완료된 일을 보관(삭제)할까요?')) return;
+ tasks=tasks.filter(t=>!t.done);
+ save();render();
+};
+render();
+
+// PWA manifest via blob
+const iconSvg=`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='120' fill='%236366f1'/><text x='50%' y='54%' dominant-baseline='middle' text-anchor='middle' font-size='280' fill='white' font-weight='700'>✓</text></svg>`;
+const iconUrl='data:image/svg+xml,'+encodeURIComponent(iconSvg);
+const manifest={
+ name:'매일 할 일',
+ short_name:'할일',
+ description:'매일 확인하는 투두리스트',
+ display:'standalone',
+ background_color:'#f5f3ff',
+ theme_color:'#6366f1',
+ start_url:'./매일할일_설치파일.html',
+ scope:'./',
+ icons:[{src:iconUrl,sizes:'512x512',type:'image/svg+xml',purpose:'any maskable'}]
+};
+const blob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
+const mUrl=URL.createObjectURL(blob);
+let link=document.createElement('link');link.rel='manifest';link.href=mUrl;document.head.appendChild(link);
+
+// service worker
+if('serviceWorker' in navigator){
+ const sw=`self.addEventListener('install',e=>{self.skipWaiting();});self.addEventListener('activate',e=>{self.clients.claim();});self.addEventListener('fetch',e=>{e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)));});`;
+ const swBlob=new Blob([sw],{type:'text/javascript'});
+ const swUrl=URL.createObjectURL(swBlob);
+ navigator.serviceWorker.register(swUrl).catch(()=>{});
+}
+
+// install prompt
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt',e=>{
+ e.preventDefault();deferredPrompt=e;
+ document.getElementById('installBanner').style.display='flex';
+});
+document.getElementById('installBtn').onclick=async()=>{
+ if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;document.getElementById('installBanner').style.display='none';}
+ else{alert('크롬 메뉴(⋮) → 앱 설치 또는 홈 화면에 추가를 눌러주세요');}
+};
+</script>
+</body>
+</html>
